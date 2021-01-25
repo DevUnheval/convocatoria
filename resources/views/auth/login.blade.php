@@ -62,8 +62,8 @@
                         <br>
                         <div class="form-group ">
                             <div class="col-xs-12">
-                                <input id="dni" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" placeholder="Usuario" autofocus>
-                                @error('username')
+                                <input id="dni" type="text" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" placeholder="Usuario/DNI" autofocus>
+                                @error('dni')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -105,7 +105,7 @@
                             <!-- email -->
                             <div class="form-group row">
                                 <div class="col-12">
-                                    <input class="form-control" type="email" required="" placeholder="Username">
+                                    <input class="form-control" type="email" required="" placeholder="dni">
                                 </div>
                             </div>
                             <!-- pwd -->

@@ -26,7 +26,7 @@ class AjustesTableSeeder extends Seeder
         
             DB::table('users')->insert([
               [
-                  'username' => 'Administrador',
+                  'dni' => 'Administrador',
                   'nombres' => 'Administrador',
                   'apellido_paterno' => 'paterno',
                   'apellido_materno' => 'materno',

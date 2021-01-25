@@ -32,7 +32,7 @@ class LoginController extends Controller
     }
 
     public function username(){
-        return "username";
+        return "dni";
     }
     public function logout()
     {

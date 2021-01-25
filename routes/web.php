@@ -37,3 +37,4 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
     });
 });
+
