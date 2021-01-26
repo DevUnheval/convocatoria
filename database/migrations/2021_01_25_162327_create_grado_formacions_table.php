@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTipoProcesosTable extends Migration
+class CreateGradoFormacionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTipoProcesosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_procesos', function (Blueprint $table) {
+        Schema::create('grado_formacions', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
             $table->string('descripcion')->nullable();
@@ -28,6 +28,6 @@ class CreateTipoProcesosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_procesos');
+        Schema::dropIfExists('grado_formacions');
     }
 }

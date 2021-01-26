@@ -59,11 +59,55 @@ class AjustesTableSeeder extends Seeder
                   'user_id' => '1',
                   'rol_id' => '1',
               ],
-              // [
-              //     'user_id' => '2',
-              //     'rol_id' => '2',
-              // ]
            ]);
+
+           DB::table('tipo_procesos')->insert([
+            [
+                'nombre' => 'C.A.S',
+                'descripcion' => 'desc',
+            ],
+            [
+                'nombre' => '728',
+                'descripcion' => 'desc 728',
+            ],
+            [
+                'nombre' => 'Servir',
+                'descripcion' => 'servir',
+            ],
+            [
+                'nombre' => 'Practicas pre Profesionales',
+                'descripcion' => 'descripcion',
+            ],
+            [
+                'nombre' => 'Practicas Profesionales',
+                'descripcion' => 'descripcion',
+            ],            
+         ]);
+
+         DB::table('grado_formacions')->insert([
+            [
+                'nombre' => 'Tecnico Profesional',
+                'descripcion' => 'desc',
+            ],
+            [
+                'nombre' => 'Bachiller',
+                'descripcion' => 'desc',
+            ],
+            [
+                'nombre' => 'Título Profesional',
+                'descripcion' => 'desc',
+            ],
+            [
+                'nombre' => 'Posgrado Maestria',
+                'descripcion' => 'descripcion',
+            ],
+            [
+                'nombre' => 'Posgrado Doctorado',
+                'descripcion' => 'descripcion',
+            ],            
+         ]);
+         
+
   
     }
 }
