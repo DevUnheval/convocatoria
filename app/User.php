@@ -55,7 +55,23 @@ class User extends Authenticatable
         }
         return false;
     }
-   
-
+    public function postulantes() {
+		return $this->hasMany(Postulante::class);
+	}
+    public function experiencialabusers() {
+		return $this->hasMany(ExperienciaLabUser::class);
+    }
+    public function experiencialabpostulantes() {
+		return $this->hasMany(ExperienciaLabPostulante::class);
+    }
+    public function capacitacionusers() {
+		return $this->hasMany(CapacitacionUser::class);
+    }
+    public function datosusers() {
+		return $this->hasMany(DatosUser::class);
+    }
+    public function formacionusers() {
+		return $this->hasMany(FormacionUser::class);
+	}
 
 }
