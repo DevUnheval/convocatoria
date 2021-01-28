@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Ruta Admin    
+Route::get('/admin',function(){
+    return view('modulo_admi.nuevo');   
+});
+
 Route::get('/', function () {
     return view('convocatorias.vigentes.index');
 })->name('index');
@@ -35,6 +40,6 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index');  
         Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update');  
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
-    });
+    });    
 });
 
