@@ -32,7 +32,7 @@ File: css
     position: absolute;
     left: -99999px
 }
-.wizard-content  .wizard > .steps .current a, .wizard-content .wizard > .actions a,.wizard-content .wizard > .actions a:hover, 
+.wizard-content  .wizard > .steps .current a, .wizard-content .wizard > .actions a, 
 .wizard-content .wizard > .steps .disabled a, .wizard-content .wizard > .steps .disabled a:hover, .wizard-content .wizard > .steps .disabled a:active,
 .wizard-content .wizard > .content,.wizard-content .wizard > .steps .done a, .wizard-content .wizard > .steps .done a:hover, .wizard-content .wizard > .steps .done a:active{
     background: transparent;
@@ -107,7 +107,6 @@ File: css
     border-color: #2962FF ;
     color: #fff
 }
-
 .wizard-content .wizard>.steps>ul>li.error .step {
     border-color: #f62d51;
     color: #f62d51
@@ -176,7 +175,7 @@ File: css
 }
 
 .wizard-content .wizard>.actions>ul>li>a {
-    background: #2962FF ;
+    background: #009efb ;
     color: #fff;
     display: block;
     padding: 7px 12px;

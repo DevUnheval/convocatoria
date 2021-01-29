@@ -20,7 +20,9 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
+    <link href="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/material-pro/dist/css/style.min.css')}}" rel="stylesheet">
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -205,10 +207,10 @@
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('index')}}" aria-expanded="false"><i class="ti-folder"></i><span class="hide-menu">Vigentes</span></a>
                         </li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="ti-time"></i><span class="hide-menu">En curso</span></a>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('convocatoria.en_curso')}}" aria-expanded="false"><i class="ti-time"></i><span class="hide-menu">En curso</span></a>
                         </li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="{{route('convocatoria.historico')}}" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
                                 <span class="hide-menu">Histórico</span>
                             </a>
                             <ul aria-expanded="false" class="collapse first-level">
@@ -274,8 +276,8 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
+                <div class="row" id="app">
+                    <div class="col-12" >
                     @yield('content')
                         <!-- <div class="card">
                             <div class="card-body">
@@ -564,10 +566,15 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{ asset('/material-pro/src/assets/libs/popper.js/dist/umd/popper.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    
     <!-- apps -->
     <script src="{{ asset('/material-pro/dist/js/app.min.js')}}"></script>
+
+    
+    
     <script src="{{ asset('/material-pro/dist/js/app.init.horizontal.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/app-style-switcher.horizontal.js')}}"></script>
+    
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{ asset('/material-pro/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/extra-libs/sparkline/sparkline.js')}}"></script>
@@ -577,6 +584,9 @@
     <script src="{{ asset('/material-pro/dist/js/sidebarmenu.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('/material-pro/dist/js/custom.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
+    
+    
     @yield('js')
 </body>
 

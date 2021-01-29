@@ -1,47 +1,12 @@
-@extends('layouts.material')
-
-@section('css')
-<!-- This page plugin CSS -->
-<link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
-
-<link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet">
-    <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
-@endsection
-
-@section('title','Ajustes')
-
-@section('menu_title_1','Convocatorias vigentes')
-@section('menu_title_2','Vigentes')
-
-@section('content')
-
-
-@if(auth()->check())
-    @php $rol=auth()->user()->roles[0]->nombre; @endphp
-@else
-    @php $rol='Visitante'; @endphp
-@endif
-{{$rol}}
-
-
-                        <div class="card">
-                            
+<template>
+    <div class="card">
                             <div class="card-body">
-                            {{-- modal --}}
-                            @include('convocatorias.vigentes.nuevo')
-                            @include('convocatorias.vigentes.editar')
-                            {{--Fin modal --}}
-
-                            <h4 class="card-title">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo" wfd-id="181">
-                                <i class="fa fa-plus"></i> Nuevo</button>
-                            </h4>
+                                
                                 
                                 <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Configurar</th>
                                                 <th>Código</th>
                                                 <th>Convocatoria</th>
                                                 <th>Nº plazas</th>
@@ -49,10 +14,18 @@
                                                 <th>Comunicados</th>
                                                 <th>Bases</th>
                                                 <th>Postular</th>
+                                                <th>Configurar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
+                                                <td>Código</td>
+                                                <td>Convocatoria</td>
+                                                <td>Nº plazas</td>
+                                                <td>Inscripción (inicio - fin)</td>
+                                                <td>Comunicados</td>
+                                                <td>Bases</td>
+                                                <td>Postular</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-dark dropdown-toggle"
@@ -74,21 +47,11 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>Código</td>
-                                                <td>Convocatoria</td>
-                                                <td>Nº plazas</td>
-                                                <td>Inscripción (inicio - fin)</td>
-                                                <td>Comunicados</td>
-                                                <td>Bases</td>
-                                                <td>Postular</td>
-                                                
                                             </tr>
                                            
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                
-                                                <th>Configurar</th>
                                                 <th>Código</th>
                                                 <th>Convocatoria</th>
                                                 <th>Nº plazas</th>
@@ -96,32 +59,103 @@
                                                 <th>Comunicados</th>
                                                 <th>Bases</th>
                                                 <th>Postular</th>
+                                                <th>Configurar</th>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
                         </div>
+</template>
 
-@endsection
-@section('js')
-<!--This page plugins -->
-    <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
+<script>
 
-    <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
-    <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/convocatorias.js')}}"></script>
+ import axios from 'axios'
 
-    <script>
-		$(document).ready(function() {
-			//TableManageDefault.init();
-			$('#zero_config').DataTable( {
+  export default {
+  
+    props:['roles'],
+    data() {
+        return {
+           datos:[],
+           rutas:[],
+           datatable:[],
+           modal_seleccionado:{"nombre":""},
+        }
+    },  
+
+  async created () {
+    //...
+  },
+  async mounted () {
+    await this.setRutas();
+    await this.data();
+    this.setDatatable(); 
+  },
+  
+  computed: {
+    // a computed getter
+    raiz: function () {
+      if (location.hostname === "localhost"){
+          return "/quipu/public/";
+      }else if(location.hostname === "127.0.0.1"){
+        return "/";
+      } else{
+        return "/";
+      }
+    }
+  },
+
+  methods: {
+    async showNewModal(){
+     
+      $("#modal-maestro-nuevo").modal('show');
+    },
+   
+    async data(){
+      //axios.get('candidato/'+proceso+'/').catch(e => { console.log(e)});
+      await axios.get(this.rutas["listar"])
+        .then(async response => {
+           this.datos=await response.data; 
+           
+        })
+        .catch(e => {
+            // Capturamos los errores
+      })
+    },
+
+    async setDatatable(){
+      this.datatable = await $('#data-table2').DataTable( {
 					autoFill: true,
-					language:{"url":"{{ asset('js/table-latino.json') }}"},
+          language:{"url":"//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"},
+          
 					iDisplayLength: 10,
 					order: [], //para que no se ordene solito
 				} );
-		});
-	</script>
-@endsection
+    },
+    setRutas(){
+    //   switch(this.maestro){
+    //     case "usuarios":
+    //        this.rutas["listar"]=this.raiz+"maestro/users/listar";
+    //       break;
+    //     case "postulantes": 
+    //     case "asociacion":
+    //     case "procesos": 
+    //     case "candidatos":
+    //       this.rutas["listar"]=this.raiz+this.maestro+"/listar";
+    //       this.rutas["nuevo"]=this.raiz+this.maestro+"/nuevo";
+    //       this.rutas["editar"]=this.raiz+this.maestro+"/editar";
+    //       this.rutas["eliminar"]=this.raiz+this.maestro+"/eliminar";
+    //       this.rutas["plantilla"]=this.raiz+"plantillas_excel/"+this.maestro+".xlsx";
+    //       this.rutas["importar"]=this.raiz+this.maestro+"/importar";
+    //       break;
+    //   }
+    },
+    
+  }
+}
+</script >
+
+<style scoped>
+
+</style>

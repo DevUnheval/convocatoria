@@ -43,3 +43,15 @@ Route::group(['prefix' => 'maestro'], function(){
     });    
 });
 
+//CONVOCATORIAS
+Route::group(['prefix' => 'convocatorias'], function(){
+    // Vistas
+    Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
+    Route::get('en_curso', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso');
+    Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
+    //CRUD
+    Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
+    Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
+    Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+});
+
