@@ -41,61 +41,45 @@
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Configurar</th>
+                                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                                <th>Conf.</th>
+                                                @endif
                                                 <th>Código</th>
                                                 <th>Convocatoria</th>
                                                 <th>Nº plazas</th>
-                                                <th>Inscripción (inicio - fin)</th>
+                                                <th>Inscripción<br> (inicio - fin)</th>
                                                 <th>Comunicados</th>
                                                 <th>Bases</th>
-                                                <th>Postular</th>
+                                                <th>
+                                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                                        Postulantes
+                                                    @else
+                                                        Postular
+                                                    @endif
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-dark dropdown-toggle"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
-                                                            <i class="ti-settings"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu animated slideInUp"
-                                                            x-placement="bottom-start"
-                                                            style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                                                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                                                    class="ti-eye"></i> Open</a>
-                                                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                                                    class="ti-pencil-alt"></i> Edit</a>
-                                                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                                                    class="ti-trash"></i> Delete</a>
-                                                            <a class="dropdown-item" href="javascript:void(0)"><i
-                                                                    class="ti-comment-alt"></i> Comments</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>Código</td>
-                                                <td>Convocatoria</td>
-                                                <td>Nº plazas</td>
-                                                <td>Inscripción (inicio - fin)</td>
-                                                <td>Comunicados</td>
-                                                <td>Bases</td>
-                                                <td>Postular</td>
-                                                
-                                            </tr>
-                                           
+                                                                                       
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                
-                                                <th>Configurar</th>
+                                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                                <th>Conf.</th>
+                                                @endif
                                                 <th>Código</th>
                                                 <th>Convocatoria</th>
                                                 <th>Nº plazas</th>
-                                                <th>Inscripción (inicio - fin)</th>
+                                                <th>Inscripción <br>(inicio - fin)</th>
                                                 <th>Comunicados</th>
                                                 <th>Bases</th>
-                                                <th>Postular</th>
+                                                <th>
+                                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                                        Postulantes
+                                                    @else
+                                                        Postular
+                                                    @endif
+                                                </th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -113,15 +97,5 @@
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/convocatorias.js')}}"></script>
 
-    <script>
-		$(document).ready(function() {
-			//TableManageDefault.init();
-			$('#zero_config').DataTable( {
-					autoFill: true,
-					language:{"url":"{{ asset('js/table-latino.json') }}"},
-					iDisplayLength: 10,
-					order: [], //para que no se ordene solito
-				} );
-		});
-	</script>
+   
 @endsection

@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    var myTable=$('#zero_config').DataTable( {
+        bProcessing: true,
+        sAjaxSource: '/convocatorias/vigentes/data',
+        "language" : {'url':'/js/table-latino.json'},
+        iDisplayLength: 15,
+         aLengthMenu: [15, 25,50, 100],
+         bAutoWidth: true,
+          order: []
+    }) 
+
+
     var form = $(".tab-wizard").show();
     $(".tab-wizard").steps({
         headerTag: "h6",

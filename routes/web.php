@@ -45,13 +45,24 @@ Route::group(['prefix' => 'maestro'], function(){
 
 //CONVOCATORIAS
 Route::group(['prefix' => 'convocatorias'], function(){
-    // Vistas
+    // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso');
     Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
     //CRUD
+    Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
+    Route::get('en_curso/data', 'ConvocatoriaController@vigentes')->name('convocatoria.en_curso.data'); 
+    Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
 });
+
+//MAESTRO
+Route::group(['prefix' => 'postulantes'], function(){
+        Route::get('/{cas?}/{etapa?}/listar', 'PostulantesController@index')
+                ->where(['cas' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
+        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
+        
+   });
 

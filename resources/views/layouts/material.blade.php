@@ -15,14 +15,14 @@
                                     :asset(\App\Ajuste::find(1)->elemento('icono'))}}">
     <title>{{\App\Ajuste::find(1)->elemento('título')}} | yield('title')</title>
     <link rel="canonical" href="{{ route('index') }}"/>
-    @yield('css')
+
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
     <link href="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/material-pro/dist/css/style.min.css')}}" rel="stylesheet">
-    
+    @yield('css')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -585,7 +585,7 @@
     <!--Custom JavaScript -->
     <script src="{{ asset('/material-pro/dist/js/custom.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
-    
+
     
     @yield('js')
 </body>
