@@ -15,121 +15,98 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body wizard-content">
-                                <h4 class="card-title">Step wizard with validation</h4>
+                                <!--<h4 class="card-title">Step wizard with validation</h4>
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
+                                -->
                                 <form action="#" class="tab-wizard wizard-circle mt-5" id="nueva_convocatoria">
                                     <!-- Step 1 -->
-                                    <h6>Paso1: Datos generales</h6>
+                                    <h6><strong>Datos generales</strong></h6>
                                     <section>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="wfirstName2"> First Name : <span class="danger">*</span> </label>
-                                                    <input type="text" class="form-control required" id="wfirstName2" name="firstName"> </div>
+                                                    <label for="wfirstName2">Código de la convocatoria:<span class="danger">*</span> </label>
+                                                    <input type="text" class="form-control required" id="wfirstName2" name="firstName">
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="wlastName2"> Last Name : <span class="danger">*</span> </label>
-                                                    <input type="text" class="form-control required" id="wlastName2" name="lastName"> </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="wemailAddress2"> Email Address : <span class="danger">*</span> </label>
-                                                    <input type="email" class="form-control required" id="wemailAddress2" name="emailAddress"> </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="wphoneNumber2">Phone Number :</label>
-                                                    <input type="tel" class="form-control" id="wphoneNumber2"> </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="wlocation2"> Select City : <span class="danger">*</span> </label>
-                                                    <select class="custom-select form-control required" id="wlocation2" name="location">
-                                                        <option value="">Select City</option>
-                                                        <option value="India">India</option>
-                                                        <option value="USA">USA</option>
-                                                        <option value="Dubai">Dubai</option>
+                                                    <label for="wlastName2">Tipo de Proceso: <span class="danger">*</span> </label>
+                                                    <select class="custom-select form-control" id="location1" name="location">
+                                                        <option value="">*Seleccione*</option>
+                                                        <option value="Amsterdam">CAS/1057</option>
+                                                        <option value="Frankfurt">Prácticas</option>
+                                                        <option value="Berlin">276</option>
+                                                        <option value="Frankfurt">728</option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="wfirstName2">Cantidad de plazas:<span class="danger">*</span> </label>
+                                                    <input type="number" class="form-control required" id="wfirstName2" name="firstName">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="wemailAddress2">Nombre de la convocatoria: <span class="danger">*</span> </label>
+                                                    <input type="text" class="form-control required" id="wemailAddress2" name="emailAddress" placeholder="Cargo al que postula"> 
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="wdate2">Date of Birth :</label>
-                                                    <input type="date" class="form-control" id="wdate2"> </div>
+                                                    <label for="wphoneNumber2">Puesto de la convocatoria :<span class="danger">*</span> </label>
+                                                    <input type="text" class="form-control required" id="wphoneNumber2" placeholder="Area/Unidad al que postula">
+                                                </div>
                                             </div>
                                         </div>
                                     </section>
                                     <!-- Step 2 -->
-                                    <h6>Paso 2: Cronográma</h6>
+                                    <h6><strong>Cronográma</strong></h6>
                                     <section>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <label for="jobTitle2">Company Name :</label>
-                                                    <input type="text" class="form-control required" id="jobTitle2">
+                                                    <label for="jobTitle2">Fecha Publicación:</label>
+                                                    <input type="date" class="form-control required" id="" disabled>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="webUrl3">Company URL :</label>
-                                                    <input type="url" class="form-control required" id="webUrl3" name="webUrl3"> </div>
+                                                    <label >Fecha y Hora de Inicio Inscripción:</label>
+                                                    <input type="datetime-local" class="form-control required" id="" value="2021-01-29T07:30:00">
+                                                    <!--<div class="col-md-5">Hora inicio:<input class="form-control" type="time" value="18:00:00"></div>-->
+                                                </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="shortDescription3">Short Description :</label>
-                                                    <textarea name="shortDescription" id="shortDescription3" rows="6" class="form-control"></textarea>
+                                                    <label >Fecha y Hora de Fin Inscripción:</label>
+                                                    <input type="datetime-local" class="form-control" id="" value="2021-01-31T22:00:00"> 
                                                 </div>
                                             </div>
                                         </div>
                                     </section>
                                     <!-- Step 3 -->
-                                    <h6>Paso 3: Configuraciones</h6>
+                                    <h6><strong>Configuraciones</strong></h6>
                                     <section>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="wint1">Interview For :</label>
-                                                    <input type="text" class="form-control required" id="wint1"> </div>
-                                                <div class="form-group">
-                                                    <label for="wintType1">Interview Type :</label>
-                                                    <select class="custom-select form-control required" id="wintType1" data-placeholder="Type to search cities" name="wintType1">
-                                                        <option value="Banquet">Normal</option>
-                                                        <option value="Fund Raiser">Difficult</option>
-                                                        <option value="Dinner Party">Hard</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="wLocation1">Location :</label>
-                                                    <select class="custom-select form-control required" id="wLocation1" name="wlocation">
-                                                        <option value="">Select City</option>
-                                                        <option value="India">India</option>
-                                                        <option value="USA">USA</option>
-                                                        <option value="Dubai">Dubai</option>
-                                                    </select>
+                                                    <label for="jobTitle2">Bases</label>
+                                                    <input type="date" class="form-control required" id="" >
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="wjobTitle2">Interview Date :</label>
-                                                    <input type="date" class="form-control required" id="wjobTitle2">
-                                                </div>
+                                                    <label >Anexos:</label>
+                                                    <input type="date" class="form-control required" id=""></div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label>Requirements :</label>
-                                                    <div class="c-inputs-stacked">
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="customRadio16" name="customRadio" class="custom-control-input">
-                                                            <label class="custom-control-label" for="customRadio16">Employee</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id="customRadio17" name="customRadio" class="custom-control-input">
-                                                            <label class="custom-control-label" for="customRadio17">Contract</label>
-                                                        </div>
-                                                    </div>
+                                                    <label >Comunicados:</label>
+                                                    <input type="date" class="form-control" id="">
                                                 </div>
                                             </div>
                                         </div>
