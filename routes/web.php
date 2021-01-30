@@ -30,6 +30,7 @@ Route::get('login', function(){
  })->name('login');
  Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
  Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+ //JOSE AQUI TUS RUTAS
  //Fin Auth
 
 

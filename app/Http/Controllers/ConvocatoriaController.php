@@ -49,7 +49,7 @@ class ConvocatoriaController extends Controller
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
-            
+                $convocatoria_all = 'TIPO:____  <br>'.$dato->descripcion.'<br> Oficina';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[0,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
@@ -59,10 +59,10 @@ class ConvocatoriaController extends Controller
             }
 
             if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
-                $data['aaData'][] = [$config, $dato->cod, $dato->descripcion, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
             }
             else{
-                $data['aaData'][] = [$dato->cod, $dato->descripcion, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
             }
             
         }

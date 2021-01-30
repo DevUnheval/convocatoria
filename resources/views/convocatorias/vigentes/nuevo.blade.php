@@ -1,6 +1,6 @@
 <!-- Full width modal content -->
 <div id="modal_nuevo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-full-width">
+      <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
                <h4 class="modal-title" id="fullWidthModalLabel">Nuevo registro</h4>
