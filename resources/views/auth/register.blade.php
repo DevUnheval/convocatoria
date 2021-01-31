@@ -73,36 +73,36 @@
                                             @csrf
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="dni" name="dni" placeholder="DNI" required>
+                                                    <input class="form-control" type="text" required="" id="dni" name="dni" placeholder="DNI" value="{{old('dni')}}" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="nombres" name="nombres" placeholder="Nombres" required>
+                                                    <input class="form-control" type="text" required="" id="nombres" name="nombres" placeholder="Nombres" value="{{old('nombres')}}" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido Paterno" required>
+                                                    <input class="form-control" type="text" required="" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido Paterno" value="{{old('apellido_paterno')}}" required>
                                                 </div>
                                             </div><div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="apellido_materno" name="apellido_materno" placeholder="Apellido Materno" required>
+                                                    <input class="form-control" type="text" required="" id="apellido_materno" name="apellido_materno" placeholder="Apellido Materno" value="{{old('apellido_materno')}}" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="email" name="email" placeholder="Email" required>
+                                                    <input class="form-control" type="text" required="" id="email" name="email" placeholder="Email" required value="{{old('email')}}">
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required="" id="password" name="password" placeholder="Password" required>
+                                                    <input class="form-control" type="password" required="" id="password" name="password" placeholder="Contraseña" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required="" id="password_confirmar" name="password_confirmar" placeholder="Confirm Password" required>
+                                                    <input class="form-control" type="password" required="" id="password-confirm" name="password_confirmation" placeholder="Confirmar contraseña" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
@@ -187,6 +187,7 @@
         $("#recoverform").fadeIn();
     });
     </script>
+    <script src="{{ asset('/js/buscar_dni_api.js')}}"></script>
 </body>
 
 </html>

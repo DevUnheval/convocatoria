@@ -28,7 +28,7 @@ Auth::routes(['verify' => true]);//FRANZ
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
 Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
-//Route::get('/prueba/{dni}/dni','postulante\BuscarEstudianteController@buscardni');
+Route::get('/prueba/{dni}/dni','postulante\BuscarEstudianteController@buscardni');
 
 Route::get('login', function(){
     // When user is already logged redirect to home
