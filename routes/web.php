@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,12 +24,20 @@ Route::get('/', function () {
 
 
 //Rutas AUTH
+Auth::routes(['verify' => true]);//FRANZ
+Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
+Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
+Route::get('/prueba/{dni}/dni','postulante\BuscarEstudianteController@buscardni');
+
 Route::get('login', function(){
     // When user is already logged redirect to home
-    return Illuminate\Support\Facades\Auth::check() ? redirect()->route('index') : view('auth.login');
+    return Auth::check() ? redirect()->route('index') : view('auth.login');
  })->name('login');
  Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
  Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+ //JOSE AQUI TUS RUTAS
  //Fin Auth
 
 

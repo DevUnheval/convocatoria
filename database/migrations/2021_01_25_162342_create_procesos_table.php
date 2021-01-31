@@ -54,8 +54,8 @@ class CreateProcesosTable extends Migration
             //Cronograma
             $table->date('fecha_aprobacion')->nullable();
             $table->date('fecha_publicacion')->nullable();
-            $table->date('fecha_inscripcion_inicio')->nullable();
-            $table->date('fecha_inscripcion_fin')->nullable();
+            $table->dateTimeTz('fecha_inscripcion_inicio')->nullable();
+            $table->dateTimeTz('fecha_inscripcion_fin')->nullable();
             $table->date('fecha_resultados')->nullable();
 
 

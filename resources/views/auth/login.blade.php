@@ -60,14 +60,31 @@
                             </a>
                         </div>
                         <br>
+
+                        <!-- Mensaje de error en caso las credenciales sean incorrectos -->
+                        @if($errors->any())
+                            <div class="alert alert-danger alert alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{$error}}</li> 
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="form-group ">
                             <div class="col-xs-12">
+
+
+
                                 <input id="dni" type="text" class="form-control @error('dni') is-invalid @enderror" name="dni" value="{{ old('dni') }}" required autocomplete="dni" placeholder="Usuario/DNI" autofocus>
-                                @error('dni')
+                               <!-- @error('dni')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                                 -->
                             </div>
                         </div>
                         <div class="form-group">
@@ -85,7 +102,7 @@
                                 <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Ingresar</button>
                             </div><br>
                             <div class="col-xs-12">
-                                <a href="#" class="col-xs-6"><u>Crear una cuenta</u></a> &nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="{{route('registro_usuario')}}" class="col-xs-6"><u>Crear una cuenta</u></a> &nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="#" class="col-xs-6">Olvidé la contraseña</a>
                             </div>
                         </div>
