@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+//use App\Http\Controllers\OrderShipped;
 
 class UsuarioController extends Controller
 {
@@ -83,7 +85,10 @@ class UsuarioController extends Controller
         $rol->save();
 
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
-        return redirect()->route('postulante_inicio');
+        //Mail::to($request->user())->send();
+        $correo=$request->email;
+        $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
+        return redirect('/email/verify')->with('correo',$correo);
         //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
         }
     }

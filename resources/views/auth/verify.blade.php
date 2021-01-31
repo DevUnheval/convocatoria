@@ -15,8 +15,8 @@
                             {{ __('A fresh verification link has been sent to your email address.') }}
                         </div>
                     @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
+                    
+                    {{ __('Antes de continuar, consulte su correo electrónico ')}} {{session('correo')}} {{(' para ver si hay un enlace de verificación.') }}
                     {{ __('If you did not receive the email') }},
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
