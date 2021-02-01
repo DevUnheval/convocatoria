@@ -50,9 +50,21 @@
                             <div>
                                 
                                 <!-- Mensaje de error en caso las credenciales sean incorrectos -->
-                                @if(session('mensaje'))
-                                     
-                                @endif
+                               
+                                   
+                            <div class="navbar-header" alingn="center">
+                                <a class="navbar-brand" href="{{ route('index') }}" title="Ir al buscador">
+                                    <img src="{{substr(\App\Ajuste::find(1)->elemento('logo'), 0,6)=='public'
+                                        ?Storage::url(\App\Ajuste::find(1)->elemento('logo'))
+                                        :asset(\App\Ajuste::find(1)->elemento('logo'))}}"  alt="homepage" class="light-logo" height="45px" /> 
+                                    <img src="{{substr(\App\Ajuste::find(1)->elemento('logo texto 2'), 0,6)=='public'
+                                        ?Storage::url(\App\Ajuste::find(1)->elemento('logo texto 2'))
+                                        :asset(\App\Ajuste::find(1)->elemento('logo texto 2'))}}" class="logo" alt="Logo-oscuro" 
+                                        style="max-width: 198px; max-height: 45px" />
+                                </a>
+                                <h1 style="font-size:20px;">Crear una cuenta</h1>
+                            </div>
+
                                 @if($errors->any())
                                 <div class="alert alert-danger alert alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
@@ -69,6 +81,7 @@
                                 <!-- Form -->
                                 <div class="row">
                                     <div class="col-12">
+                                        
                                         <form class="form-horizontal mt-3 form-material" method="POST" action="{{route('registro_usuario_post')}}">
                                             @csrf
                                             <div class="form-group mb-3">
@@ -92,23 +105,23 @@
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="email" name="email" placeholder="Email" required value="{{old('email')}}">
+                                                    <input class="form-control" type="email" required id="email" name="email" placeholder="Correo electrónico" value="{{old('email')}}">
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required="" id="password" name="password" placeholder="Contraseña" required>
+                                                    <input class="form-control" type="password" required id="password" name="password" placeholder="Contraseña" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required="" id="password-confirm" name="password_confirmation" placeholder="Confirmar contraseña" required>
+                                                    <input class="form-control" type="password" required id="password-confirm" name="password_confirmation" placeholder="Confirmar contraseña" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="">
                                                     <div class="checkbox checkbox-success pt-0">
-                                                        <input id="checkbox-signup" type="checkbox" class="chk-col-indigo material-inputs">
+                                                        <input id="checkbox-signup" type="checkbox" required class="chk-col-indigo material-inputs">
                                                         <label for="checkbox-signup"> Estoy deacuerdo con los <a href="#">terminos</a></label>
                                                     </div>
                                                 </div>
@@ -188,6 +201,7 @@
     });
     </script>
     <script src="{{ asset('/js/buscar_dni_api.js')}}"></script>
+    
 </body>
 
 </html>

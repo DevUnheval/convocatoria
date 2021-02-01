@@ -8,65 +8,30 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class UsuarioController extends Controller
 {
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    //protected $redirectTo = RouteServiceProvider::HOME;
-
-     public function index()
+    public function index()
     {
         return view('auth.register');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function registrar(Request $request)
     {
+        $v = \Validator::make($request->all(), [
         
-
-        if (DB::table('users')->where('dni',$request->dni)->exists()) {
-            $validatedData = $request->validate([
             'dni' =>'required|unique:users',
             'email' =>'required|unique:users',
-            'password' =>'required|confirmed',
-            
-            ]);
-            
-            return redirect('/registro')->with('mensaje','El DNI ya existe!');
-        }if((DB::table('users')->where('email',$request->email)->exists())){
-            $validatedData = $request->validate([
-                'dni' =>'required|unique:users',
-                'email' =>'required|unique:users',
-                'password' =>'required|confirmed',
-                
-                ]);
-                
-                return redirect('/registro')->with('mensaje','Este correo ya existe!');
-        } else {
-        
+            'password' =>'required|confirmed|min:8',
+        ]);
+
+
+        if ($v->fails()){
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }        
         $Usuario = new User();
         $Usuario->dni = $request->dni;
         $Usuario->nombres = $request->nombres;
@@ -76,60 +41,24 @@ class UsuarioController extends Controller
         $Usuario->password = Hash::make($request->password);
         $Usuario->save();
         
-        $dnibuscado = DB::table('users')->where('dni', $request->dni)->value('id');
         $rol = new UserRol();
-        $rol->user_id =$dnibuscado;
+        $rol->user_id =$Usuario->id;
         $rol->rol_id = 3;
         $rol->save();
 
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
         return redirect()->route('postulante_inicio');
-        //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
-        }
+        
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function api_reniec($dni)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        //var_dump (openssl_get_cert_locations ());
+         $respuesta = Http::get('https://api.reniec.cloud/dni/'.$dni);
+         //$respuesta->throw();
+         if (array_key_exists('dni',  $respuesta->json() )) {
+            return $respuesta->json();
+         }
+         return "error";
+        
     }
 }
