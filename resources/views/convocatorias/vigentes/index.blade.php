@@ -20,6 +20,7 @@
                             @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 @include('convocatorias.vigentes.m_nuevo')
                                 @include('convocatorias.vigentes.m_editar')
+                                @include('convocatorias.vigentes.m_ver')
                            
                             {{--Fin modal --}}
 

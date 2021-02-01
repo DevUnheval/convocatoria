@@ -66,19 +66,19 @@
                                         <div class="form-group row">
                                             <label class="col-sm-4 text-left control-label col-form-label">Bases:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp">
+                                                <input type="file" class="form-control-file" >
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-4 text-left control-label col-form-label">Resolución de Aprobación:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp">
+                                                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-4 text-left control-label col-form-label">Anexos:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp">
+                                                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                                             </div>
                                         </div>                                       
                                         
@@ -129,26 +129,42 @@
                                     <!-- Step 3 -->
                                     <h6><strong>Configuraciones</strong></h6>
                                     <section>    
-                                    <h4 class="card-title">Factores de Evaluación </h4>
-                                    <h6 class="card-subtitle"><h6>El proceso de selección tendrán un máximo y un mínimo de puntos, distribuyéndose de esta manera:</h6></h6>                                 
-                                    <!-- E. Curricular -->                                    
-                                        <div class="row form-group mb-0 py-2 bg-light">                                                                                                                            
-                                            <div class="col-md-4">
+                                    <h4 class="card-title">Seleccione las etapas de evaluación:</h4>
+                                                                     
+                                    <!-- E. Curricular -->    
+                                        <div class="row form-group mb-0 py-2 bg-light">
+                                            <div class="col-md-3 " >
+                                            </div>
+                                            <div class="col-md-3 " >
                                                 <h4 class="card-title">Puntaje Mínimo</h4>
+                                            </div>
+                                            <div class="col-md-3" >
+                                                <h5 class="card-title">Puntaje Máximo</h5>
+                                            </div>
+                                            <div class="col-md-3" >
+                                                <h4 class="card-title">Peso (%)</h4>
+                                            </div>
+                                        </div>                               
+                                        <div class="row form-group mb-0 py-2 bg-light"> 
+                                            <div class="form-group col-md-3 row justify-content-center align-items-center">
+                                                <label class="custom-control custom-checkbox" >
+                                                    <input type="checkbox" class="custom-control-input" checked>
+                                                    <span class="custom-control-label"> <small>Curricular</small></span>                                                   
+                                                </label>
+                                            </div>                                                                                                                            
+                                            <div class="col-md-3 border-left" >
                                                 <div class="form-group">
                                                     <b><small for="wfirstName2">Evaluación Curricular:<span class="text-danger"> *</span> </small></b>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="14">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <h4 class="card-title">Puntaje Máximo</h4>
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="wfirstName2">Evaluación Curricular:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="20">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <h4 class="card-title">Peso (%)</h4>
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="wfirstName2">Evaluación Curricular:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="30">
@@ -156,42 +172,54 @@
                                             </div>
                                         </div> 
                                     <!-- E. Conocimientos -->
-                                        <div class="row form-group mb-0 py-1 bg-light">                                                                                                                            
-                                            <div class="col-md-4">
-                                                    <b><small for="wfirstName2">Evaluación Conocimientos:<span class="text-danger"> *</span> </small></b>
+                                        <div class="row form-group mb-0 py-1 bg-light"> 
+                                            <div class="col-md-3 row justify-content-center align-items-center">
+                                                <label class="custom-control custom-checkbox" >
+                                                    <input type="checkbox" class="custom-control-input" >
+                                                    <span class="custom-control-label"> <small>Conocimientos</small></span>                                                   
+                                                </label>
+                                            </div>                                                                                                                           
+                                            <div class="col-md-3 border-left">
+                                                    <b><small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small></b>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="14">
                                                 
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="wfirstName2">Evaluación Conocimientos:<span class="text-danger"> *</span> </small>
+                                                    <small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="20">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="wfirstName2">Evaluación Conocimientos:<span class="text-danger"> *</span> </small>
+                                                    <small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="30">
                                                 </div>
                                             </div>
                                         </div>
                                     <!-- E. Entrevista Personal -->
-                                        <div class="row form-group border-bottom mb-0 bg-light">                                                                                                                            
-                                            <div class="col-md-4">
+                                        <div class="row form-group border-bottom mb-0 bg-light">  
+                                             <div class="col-md-3 row justify-content-center align-items-center">
+                                                <label class="custom-control custom-checkbox" >
+                                                    <input type="checkbox" class="custom-control-input" checked>
+                                                    <span class="custom-control-label"> <small>Entrevista Personal</small></span>                                                   
+                                                </label>
+                                            </div>                                                                                                                           
+                                            <div class="col-md-3 border-left">
                                                 <div class="form-group">
-                                                    <b><small for="wfirstName2">Evaluación Entrevista Personal:<span class="text-danger"> *</span> </small></b>
+                                                    <b><small for="wfirstName2">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small></b>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="14">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="wfirstName2">Evaluación Entrevista Personal:<span class="text-danger"> *</span> </small>
+                                                    <small for="wfirstName2">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="20">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="wfirstName2">Evaluación Entrevista Personal:<span class="text-danger"> *</span> </small>
+                                                    <small for="wfirstName2">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="40">
                                                 </div>
                                             </div>
@@ -258,7 +286,65 @@
                                                     <label for="6" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
-                                        </div>                                  
+                                        </div>  
+                                    <!--tabla editable -->
+                                        <hr>
+                                        <h4 class="card-title">Tabla Editable</h4>
+                                        <h6 class="card-subtitle">Just click on word which you want to change and enter</h6>
+                                        <div class="table-responsive">
+                                            <table id="mainTable"
+                                                class="table editable-table table-bordered table-striped m-b-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Cost</th>
+                                                        <th>Profit</th>
+                                                        <th>Fun</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Car</td>
+                                                        <td>100</td>
+                                                        <td>200</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bike</td>
+                                                        <td>330</td>
+                                                        <td>240</td>
+                                                        <td>1</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Plane</td>
+                                                        <td>430</td>
+                                                        <td>540</td>
+                                                        <td>3</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Yacht</td>
+                                                        <td>100</td>
+                                                        <td>200</td>
+                                                        <td>0</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Segway</td>
+                                                        <td>330</td>
+                                                        <td>240</td>
+                                                        <td>1</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th><strong>TOTAL</strong></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    <!-- fin tabla editable-->                                
                                     </section>                                   
                                 </form>
                             </div>

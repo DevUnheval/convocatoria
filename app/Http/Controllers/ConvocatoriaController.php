@@ -50,7 +50,7 @@ class ConvocatoriaController extends Controller
                                 </div>
                             </div>';
 
-                $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs"><i class="fa fa-info"></i> </button> ';
+                $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i> Tipo: </b>'.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i> Cargo: </b>'.$dato->nombre.'<br><b><i class="fa fa-home"></i> Oficina: </b><small>'.$dato->oficina.'<small>';
