@@ -95,7 +95,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label for="jobTitle2">Bases</label>
-                                                    <input type="date" class="form-control required" id="" >
+                                                    <fieldset class="form-group">
+                                                        <input type="file" class="form-control-file" id="exampleInputFile">
+                                                    </fieldset>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
