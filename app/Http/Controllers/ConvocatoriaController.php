@@ -45,7 +45,7 @@ class ConvocatoriaController extends Controller
                             </button>';
                 $config.= ' <div class="dropdown-menu animated slideInUp" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
                                     <a class="dropdown-item" href="javascript:void(0)"><i class="ti-eye"></i> Abrir </a>
-                                    <a class="dropdown-item" href="javascript:void(0)" ><i class="ti-pencil-alt"></i> Editar</a>
+                                    <a class="dropdown-item type="button" class="btn" data-toggle="modal" data-target="#modal_editar"><i class="ti-pencil-alt"></i> Editar</a>
                                     <a class="dropdown-item" href="javascript:void(0)"><i class="ti-comment-alt"></i> Comunicar</a>
                                 </div>
                             </div>';
@@ -53,7 +53,7 @@ class ConvocatoriaController extends Controller
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
-                $convocatoria_all = $dato->tipoproceso->nombre.'<br><b>'.$dato->nombre.'<br> Oficina </b><br><small>'.$dato->oficina.'<small>';
+                $convocatoria_all = '<b><i class="fa fa-address-book"></i> Tipo: </b>'.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i> Cargo: </b>'.$dato->nombre.'<br><b><i class="fa fa-home"></i> Oficina: </b><small>'.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[0,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
