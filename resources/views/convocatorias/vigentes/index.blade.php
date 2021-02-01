@@ -89,5 +89,20 @@
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/convocatorias.js')}}"></script>
 
+    <script>
+    $(document).ready(function(){
+        $("#check_conocimientos").change(function() {
+            if(this.checked) {
+                $(".fila_conocimiento").prop("disabled", false);
+                $(".fila_conocimiento").prop('required',true);
+            }else{
+                $(".fila_conocimiento").prop("disabled", true);
+                $(".fila_conocimiento").prop('required',false);
+                //$(".fila_conocimiento").removeAttr( "required" );
+            }
+        });
+    });
+    </script>
+
    
 @endsection
