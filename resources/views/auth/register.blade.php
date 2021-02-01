@@ -11,10 +11,13 @@
     <!-- Favicon icon -->
     
     <title>Registro</title>
-	<link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
-    <!-- Custom CSS -->
     <!-- Custom CSS -->
     <link href="{{ asset('/material-pro/dist/css/style.min.css') }}" rel="stylesheet">
+    <style>
+        .mayuscula{
+            text-transform: uppercase;
+        }
+    </style>
 
 </head>
 
@@ -91,7 +94,7 @@
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="nombres" name="nombres" placeholder="Nombres" value="{{old('nombres')}}" required>
+                                                    <input class="form-control mayuscula" type="text" required="" id="nombres" name="nombres" placeholder="Nombres" value="{{old('nombres')}}" required>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">

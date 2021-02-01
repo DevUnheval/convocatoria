@@ -15,8 +15,8 @@ class CreateExperienciaLabPostulantesTable extends Migration
     {
         Schema::create('experiencia_lab_postulantes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('postulante_id');
+            $table->foreign('postulante_id')->references('id')->on('postulantes')->onDelete('cascade');
             //tipo--> solo puede ser ambos
             $table->boolean('es_exp_gen')->default(true);
             $table->boolean('es_exp_esp')->default(false);

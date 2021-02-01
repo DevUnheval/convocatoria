@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class UsuarioController extends Controller
 {
@@ -22,7 +23,6 @@ class UsuarioController extends Controller
     public function registrar(Request $request)
     {
         $v = \Validator::make($request->all(), [
-        
             'dni' =>'required|unique:users',
             'email' =>'required|unique:users',
             'password' =>'required|confirmed|min:8',
@@ -47,7 +47,16 @@ class UsuarioController extends Controller
         $rol->save();
 
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
+
+        //Mail::to($request->user())->send();
+        $correo=$request->email; 
+        $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
+        //return redirect('/email/verify')->with('correo',$correo);
+        //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
+        
+
         return redirect()->route('postulante_inicio');
+
         
     }
     public function api_reniec($dni)
@@ -56,7 +65,11 @@ class UsuarioController extends Controller
          $respuesta = Http::get('https://api.reniec.cloud/dni/'.$dni);
          //$respuesta->throw();
          if (array_key_exists('dni',  $respuesta->json() )) {
-            return $respuesta->json();
+            return [
+                'nombres'           => html_entity_decode($respuesta->json()['nombres']),
+                'apellido_paterno'  => html_entity_decode($respuesta->json()['apellido_paterno']),
+                'apellido_materno'  => html_entity_decode($respuesta->json()['apellido_materno']),
+            ];
          }
          return "error";
         
