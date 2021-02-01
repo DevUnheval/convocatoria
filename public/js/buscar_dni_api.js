@@ -11,7 +11,7 @@
                 $("#email").focus();
                 if (data != "error") {
                     console.log(dni,data);
-                    $('#apellido_paterno').val(data.apellido_paterno);
+                    $('#apellido_paterno').val(decodeURI(data.apellido_paterno));
                     $('#apellido_materno').val(data.apellido_materno);
                     $('#nombres').val(data.nombres);
                                         
