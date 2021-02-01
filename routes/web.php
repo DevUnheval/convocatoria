@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,24 +12,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Ruta Admin    
-Route::get('/admin',function(){
-    return view('modulo_admi.nuevo');   
-});
-
-Route::get('/', function () {
-    return view('convocatorias.vigentes.index');
-})->name('index');
-
+Route::get('/', function () { return view('convocatorias.vigentes.index'); })->name('index');
 
 //Rutas AUTH
-Route::get('login', function(){
-    // When user is already logged redirect to home
-    return Illuminate\Support\Facades\Auth::check() ? redirect()->route('index') : view('auth.login');
- })->name('login');
- Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
- Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Auth::routes(['verify' => true]);//FRANZ
+Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
+Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
+Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a post
+
+Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
+Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+ //JOSE AQUI TUS RUTAS
  //Fin Auth
 
 

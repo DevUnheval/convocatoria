@@ -38,7 +38,7 @@ class CreateProcesosTable extends Migration
             $table->decimal('bon_otros1', 3, 2)->default(0);
             $table->decimal('bon_otros2', 3, 2)->default(0);
 
-            $table->decimal('pje_otro', 3, 2)->default(0);
+            //$table->decimal('pje_otro', 3, 2)->default(0);
             $table->decimal('pje_max_cv', 4, 2)->default(60.00);
             $table->decimal('pje_min_cv', 4, 2)->default(40.00);
             $table->decimal('pje_max_conoc', 5, 2)->default(0);
@@ -54,8 +54,8 @@ class CreateProcesosTable extends Migration
             //Cronograma
             $table->date('fecha_aprobacion')->nullable();
             $table->date('fecha_publicacion')->nullable();
-            $table->date('fecha_inscripcion_inicio')->nullable();
-            $table->date('fecha_inscripcion_fin')->nullable();
+            $table->dateTimeTz('fecha_inscripcion_inicio')->nullable();
+            $table->dateTimeTz('fecha_inscripcion_fin')->nullable();
             $table->date('fecha_resultados')->nullable();
 
 

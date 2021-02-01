@@ -28,7 +28,26 @@ $(document).ready(function() {
               return $(this).validate().settings.ignore = ":disabled", $(this).valid()
             },
         onFinished: function(event, currentIndex) {//cuando se termina todos los pasos
-            Swal.fire("Aquí escribir el AJAX para que mande el formulario, y sweet alert para que avise que se registró")
+            //Swal.fire("Aquí escribir el AJAX para que mande el formulario, y sweet alert para que avise que se registró")
+            Swal.fire({
+                //title: '',
+                text: "¿Está seguro de crear el registro?",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#d33',  
+                cancelButtonText: 'Cancelar',              
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Crear'
+            }).then((result) => {
+                if (result.value) {
+                    Swal.fire(
+                        'Guardado!',
+                        'El registro fue creado con éxito!',
+                        'success'
+                    )
+                }
+            })
+
         }
         // =========> ejemplito
     //     onFinished: function (event, currentIndex) {

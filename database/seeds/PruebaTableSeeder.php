@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\User;
+use App\UserRol;
+use App\Proceso;
+use App\Postulante;
 class PruebaTableSeeder extends Seeder
 {
     /**
@@ -11,125 +14,103 @@ class PruebaTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('procesos')->insert([
+        $users=[
             [
-                'cod' => '002',
-                'tipo_id' => '1',
-                'nombre' => 'juan',
-                'descripcion' => 'Ingeniero de sistemas',
-                'n_plazas' => 20,
-                'oficina' => '',
-                'archivo_bases' => 'no detectado',
-                'archivo_bases_tipo' => 'cv',
-                'archivo_resolucion' => 'link',
-                'archivo_resolucion_tipo' => 'link',
-                'contrato_inicio' => '2019-03-13',
-                'evaluar_conocimientos' => '5',
-                'bon_ffaa' => '0.1',
-                'bon_pers_disc' => '0.5',
-                'bon_deport' => '0.5',
-                'bon_otros1' => '0.5',
-                'bon_otros2' => '0.5',
-                'pje_otro' => '0.5',
-                'pje_max_cv' => '0.5',
-                'pje_min_cv' => '0.5',
-                'pje_max_conoc' => '0.5',
-                'pje_min_conoc' => '0.5',
-                'pje_max_entrev' => '0.5',
-                'pje_min_entrev' => '0.5',
-                'anios_exp_lab_gen' => '0.5',
-                'anios_exp_lab_esp' => '0.5',
-                'horas_cap_ind' => '0.5',
-                'fecha_aprobacion' => '2021-05-11',
-                'fecha_publicacion' => '2021-06-12',
-                'fecha_inscripcion_inicio' => '2021-06-13',
-                'fecha_inscripcion_fin' => '2021-06-25',
-                'fecha_resultados' => '2021-06-29',
-                'archivo_preliminar' => 'dt',
-                'archivo_preliminar_tipo' => 'th',
-                'archivo_resultado' => 'fg',
-                'archivo_resultado_tipo' => 'gh',                
+                'dni'=>'12121236',
+                'nombres'=>"Pepito Postulante",
+                'apellido_paterno'=>'Cardenas',
+                'apellido_materno'=>'Educardo',
+                'email'=>'12121236@mail.com',
             ],
-         ]);
-         DB::table('procesos')->insert([
             [
-                'cod' => '002',
-                'tipo_id' => '2',
-                'nombre' => 'pedro ',
-                'n_plazas' => 10,
-                'descripcion' => 'prueba procesos 2',
-                'oficina' => '',
-                'archivo_bases' => 'no detectado',
-                'archivo_bases_tipo' => 'cv',
-                'archivo_resolucion' => 'liphpnk',
-                'archivo_resolucion_tipo' => 'link',
-                'contrato_inicio' => '2019-03-13',
-                'evaluar_conocimientos' => '5',
-                'bon_ffaa' => '0.1',
-                'bon_pers_disc' => '0.5',
-                'bon_deport' => '0.5',
-                'bon_otros1' => '0.5',
-                'bon_otros2' => '0.5',
-                'pje_otro' => '0.5',
-                'pje_max_cv' => '0.5',
-                'pje_min_cv' => '0.5',
-                'pje_max_conoc' => '0.5',
-                'pje_min_conoc' => '0.5',
-                'pje_max_entrev' => '0.5',
-                'pje_min_entrev' => '0.5',
-                'anios_exp_lab_gen' => '0.5',
-                'anios_exp_lab_esp' => '0.5',
-                'horas_cap_ind' => '0.5',
-                'fecha_aprobacion' => '2021-05-11',
-                'fecha_publicacion' => '2021-06-12',
-                'fecha_inscripcion_inicio' => '2021-06-13',
-                'fecha_inscripcion_fin' => '2021-06-28',
-                'fecha_resultados' => '2021-06-29',
-                'archivo_preliminar' => 'dt',
-                'archivo_preliminar_tipo' => 'th',
-                'archivo_resultado' => 'fg',
-                'archivo_resultado_tipo' => 'gh',                
+                'dni'=>'12121555',
+                'nombres'=>"Lucio Ponce",
+                'apellido_paterno'=>'Wilson',
+                'apellido_materno'=>'Chavez',
+                'email'=>'12121555@mail.com',
             ],
-         ]);
-         DB::table('procesos')->insert([
             [
-                'cod' => '003',
-                'tipo_id' => '3',
-                'n_plazas' => 6,
-                'nombre' => 'jonathan ',
-                'descripcion' => 'Tecnico para el Aula virtual',
-                'oficina' => '',
-                'archivo_bases' => 'no detectado',
-                'archivo_bases_tipo' => 'cv',
-                'archivo_resolucion' => 'liphpnk',
-                'archivo_resolucion_tipo' => 'link',
-                'contrato_inicio' => '2019-03-13',
-                'evaluar_conocimientos' => '5',
-                'bon_ffaa' => '0.1',
-                'bon_pers_disc' => '0.5',
-                'bon_deport' => '0.5',
-                'bon_otros1' => '0.5',
-                'bon_otros2' => '0.5',
-                'pje_otro' => '0.5',
-                'pje_max_cv' => '0.5',
-                'pje_min_cv' => '0.5',
-                'pje_max_conoc' => '0.5',
-                'pje_min_conoc' => '0.5',
-                'pje_max_entrev' => '0.5',
-                'pje_min_entrev' => '0.5',
-                'anios_exp_lab_gen' => '0.5',
-                'anios_exp_lab_esp' => '0.5',
-                'horas_cap_ind' => '0.5',
-                'fecha_aprobacion' => '2021-05-11',
-                'fecha_publicacion' => '2021-06-12',
-                'fecha_inscripcion_inicio' => '2021-06-10',
-                'fecha_inscripcion_fin' => '2021-06-18',
-                'fecha_resultados' => '2021-06-29',
-                'archivo_preliminar' => 'dt',
-                'archivo_preliminar_tipo' => 'th',
-                'archivo_resultado' => 'fg',
-                'archivo_resultado_tipo' => 'gh',                
+                'dni'=>'48315656',
+                'nombres'=>"Eduardo Percy",
+                'apellido_paterno'=>'Washinton',
+                'apellido_materno'=>'Culantres',
+                'email'=>'48315656@mail.com',
             ],
-         ]);              
+        ];
+        //USUARIOS y ROLES
+        foreach($users as $u){
+            $query = new User;
+            $query->dni=$u['dni'];
+            $query->nombres=$u['nombres'];
+            $query->apellido_paterno=$u['apellido_paterno'];
+            $query->apellido_materno=$u['apellido_materno'];
+            $query->email= $u['apellido_materno'];
+            $query->password=bcrypt($u['dni']);
+            $query->save();
+            
+            $query2 = new UserRol;
+            $query2->user_id = $query->id;
+            $query2->rol_id = 3;
+            $query2->save();
+            unset($query);
+            unset($query2);
+
+        }
+        
+        //PROCESO
+        for($i=1;$i<=10;$i++){
+            $query =new Proceso;
+            $query->cod = 'CAS-00'.$i.'-2020';
+            $query->tipo_id= 1;
+            $query->nombre= 'Ingeniero de Sistemas';
+            $query->descripcion = 'La Oficina de informática requiere Ingeniero de sistemas cobn expiericia en desarrollo de SW';
+            $query->n_plazas = $i%3+1;
+            $query->oficina = 'Unidad de informática';
+            $query->archivo_bases = 'no detectado';
+            $query->archivo_bases_tipo = 'cv';
+            $query->archivo_resolucion = 'link';
+            $query->archivo_resolucion_tipo = 'link';
+            $query->contrato_inicio = '2019-03-'.(9+$i);
+            $query->evaluar_conocimientos = false;
+            $query->bon_ffaa = '0.1';
+            $query->bon_pers_disc = '0.5';
+            $query->bon_deport = '0.5';
+            $query->bon_otros1 = '0.5';
+            $query->bon_otros2 = '0.5';
+            //$query->pje_otro = '0.5';
+            $query->pje_max_cv = '0.5';
+            $query->pje_min_cv = '0.5';
+            $query->pje_max_conoc = '0.5';
+            $query->pje_min_conoc = '0.5';
+            $query->pje_max_entrev = '0.5';
+            $query->pje_min_entrev = '0.5';
+            $query->anios_exp_lab_gen = '0.5';
+            $query->anios_exp_lab_esp = '0.5';
+            $query->horas_cap_ind = '0.5';
+            $query->fecha_aprobacion = '2021-05-11';
+            $query->fecha_publicacion = '2021-06-12';
+            $query->fecha_inscripcion_inicio = '2021-06-13';
+            $query->fecha_inscripcion_fin = '2021-06-25';
+            $query->fecha_resultados = '2021-06-29';
+            $query->archivo_preliminar = 'dt';
+            $query->archivo_preliminar_tipo = 'th';
+            $query->archivo_resultado = 'fg';
+            $query->archivo_resultado_tipo = 'gh';
+            $query->save();
+            unset($query);
+        }
+
+        //POSTULANTE
+        foreach( User::all() as $key => $k){
+            $query = new Postulante; 
+            $query->user_id=$k->id;
+            $query->proceso_id=1;
+            $query->save();
+            unset($query);
+        }
+        
+
+
+        
     }
 }

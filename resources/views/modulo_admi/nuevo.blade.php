@@ -34,12 +34,12 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="lastName1">Nombre de la convocatoria:</label>
-                            <input type="text" class="form-control" id="" placeholder="Cargo"> </div>
+                            <input type="text" class="form-control" id="" placeholder="Cargo al que postula"> </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="emailAddress1">Puesto de la convocatoria :</label>
-                            <input type="text" class="form-control" id="" placeholder="Area/Unidad"> </div>
+                            <input type="text" class="form-control" id="" placeholder="Area/Unidad al que postula"> </div>
                     </div>
                 </div>
                 <div class="row">

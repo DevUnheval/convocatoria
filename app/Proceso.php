@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Proceso extends Model
 {
     protected $table = 'procesos';
-	protected $primaryKey = 'id';
+	  protected $primaryKey = 'id';
     protected $fillable = ['tipo_id','cod','descripcion','n_plazas','oficina','archivo_bases','archivo_bases_tipo',
                            'archivo_resolucion','archivo_resolucion_tipo','contrato_inicio','evaluar_conocimientos',
                            'bon_ffaa','bon_pers_disc','bon_deport','bon_otros1','bon_otros2','pje_otro','pje_max_cv',
@@ -27,6 +27,6 @@ class Proceso extends Model
 		return $this->hasMany(EvaluacionProceso::class);
     }
     public function tipoproceso() {
-		return $this->belongsTo(TipoProceso::class);
+		return $this->belongsTo(TipoProceso::class,'tipo_id');
 	}
 }

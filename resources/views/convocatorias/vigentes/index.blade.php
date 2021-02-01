@@ -14,29 +14,21 @@
 @section('menu_title_2','Vigentes')
 
 @section('content')
-
-
-@if(auth()->check())
-    @php $rol=auth()->user()->roles[0]->nombre; @endphp
-@else
-    @php $rol='Visitante'; @endphp
-@endif
-{{$rol}}
-
-
                         <div class="card">
-                            
                             <div class="card-body">
                             {{-- modal --}}
-                            @include('convocatorias.vigentes.nuevo')
-                            @include('convocatorias.vigentes.editar')
+                            @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @include('convocatorias.vigentes.m_nuevo')
+                                @include('convocatorias.vigentes.m_editar')
+                                @include('convocatorias.vigentes.m_ver')
+                           
                             {{--Fin modal --}}
 
                             <h4 class="card-title">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo" wfd-id="181">
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </h4>
-                                
+                            @endif
                                 <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
@@ -60,7 +52,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                                                                       
+                                                <!-- Cuerpo vacio -->
                                         </tbody>
                                         <tfoot>
                                             <tr>
