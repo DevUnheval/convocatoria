@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 
 //Rutas AUTH
-Auth::routes(['verify' => true]);//FRANZ
+Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
 Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
@@ -64,6 +64,13 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+});
+
+//POSTULANTE
+Route::group(['prefix' => 'postulante'], function(){
+    // Vistas 
+    Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular'); 
+        
 });
 
 //MAESTRO
