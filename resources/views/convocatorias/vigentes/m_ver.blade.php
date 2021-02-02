@@ -18,7 +18,7 @@
                                 <!--<h4 class="card-title">Step wizard with validation</h4>
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
                                 -->
-                                <form action="#" class="tab-wizard wizard-circle" id="nueva_convocatoria">
+                                <form action="#" class="tab-wizard wizard-circle" id="ver_convocatoria">
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
