@@ -45,6 +45,7 @@ $(document).ready(function() {
                         'El registro fue creado con éxito!',
                         'success'
                     )
+                    $('#modal_nuevo').modal('hide');
                 }
             })
 
