@@ -67,7 +67,11 @@ $postulantes=[
     </ul>
     <div class="tab-content">
         <div  id="note-full-container" class="note-has-grid row">
+               
+                @include('postulantes.modal_cv')
+                @include('postulantes.modal_evaluar')
                 @foreach($postulantes as $key => $p)
+                
                 <div class="col-md-3 single-note-pendiente container-fluid all-category {{$p['estado']=='Califica' ? 'note-califica':''}} {{$p['estado']=='No califica' ? 'note-no-califica':''}} {{$p['estado']=='Pendiente' ? 'note-pendiente':''}}">
                     <div class="card card-body el-element-overlay">
                         <span class="side-stick"></span>
@@ -80,11 +84,12 @@ $postulantes=[
                                     <div class="el-overlay w-100 overflow-hidden">
                                         <ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">
                                             <li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="{{url('material-pro/src/assets/images/users/'.($key%7+1).'.jpg')}}" title="ver foto"><i class="icon-picture"></i></a></li>
-                                            <li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline el-link text-white border-white" href="javascript:void(0);" title="CV"><i class="fas fa-address-card"></i></a></li> 
-                                            <li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline el-link text-white border-white" href="javascript:void(0);" title="evaluar"><i class="fas fa-calculator"></i></a></li>
+                                            <li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="CV"><i class="fas fa-address-card" ></i></button></li> 
+                                            <li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="evaluar"><i class="fas fa-calculator"></i></button></li>
 
                                         </ul>
                                     </div>
+                                  
                                 </div>
                                 <div class="el-card-content text-center">
                                     <h4 class="mb-0">{{$p['nombres']}} (25)</h4> <span class="text-muted">Ingenieria Civil</span>
@@ -95,6 +100,7 @@ $postulantes=[
                                     <span class="text-muted"><b>Conoc/Psic/Hab:</b> 34</span><br>
                                     <span class="text-muted"><b>Entrevista:</b> 34</span>
                             </div>
+                          
                         </div>
                     </div>
                 </div>

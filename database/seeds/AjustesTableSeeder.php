@@ -33,7 +33,7 @@ class AjustesTableSeeder extends Seeder
                   'apellido_paterno' => 'paterno',
                   'apellido_materno' => 'materno',
                   'email' => 'email@mail.com',
-                  'email_verified_at' => '2021-01-31 22:12:03',
+                  'email_verified_at' => date('2021-01-31 22:12:03'),
                   'password' => bcrypt('Administrador'),
               ],
            ]);

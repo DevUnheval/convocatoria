@@ -14,16 +14,16 @@
 @section('menu_title_2','Vigentes')
 
 @section('content')
-        <div class="card">
-            <div class="card-body">
-            {{-- modal --}}
-            @include('convocatorias.vigentes.modalinvidtado')
-            @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                @include('convocatorias.vigentes.nuevo')
-                @include('convocatorias.vigentes.editar')
-                
-            
-            {{--Fin modal --}}
+                        <div class="card">
+                            <div class="card-body">
+                            {{-- modal --}}
+                            @include('convocatorias.vigentes.modalinvidtado')
+                            @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @include('convocatorias.vigentes.m_nuevo')
+                                @include('convocatorias.vigentes.m_editar')
+                                @include('convocatorias.vigentes.m_ver')
+                           
+                            {{--Fin modal --}}
 
             <h4 class="card-title">
                 <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
@@ -89,6 +89,21 @@
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/convocatorias.js')}}"></script>
+
+    <script>
+    $(document).ready(function(){
+        $("#check_conocimientos").change(function() {
+            if(this.checked) {
+                $(".fila_conocimiento").prop("disabled", false);
+                $(".fila_conocimiento").prop('required',true);
+            }else{
+                $(".fila_conocimiento").prop("disabled", true);
+                $(".fila_conocimiento").prop('required',false);
+                //$(".fila_conocimiento").removeAttr( "required" );
+            }
+        });
+    });
+    </script>
 
    
 @endsection
