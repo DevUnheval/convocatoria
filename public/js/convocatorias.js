@@ -39,68 +39,40 @@ $(document).ready(function() {
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Crear'
             }).then((result) => {
-                if (result.value) {
-                    Swal.fire(
-                        'Guardado!',
-                        'El registro fue creado con éxito!',
-                        'success'
-                    )
-                    $('#modal_nuevo').modal('hide');
-                }
+                //===========================
+
+                var route = '/convocatorias/store';
+                $.ajax({
+                  headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                  data:  $("#"+$(this).attr('id')).serialize(),
+                  url:   route,
+                  type: 'POST',
+                  beforeSend: function () {
+                    console.log('enviando....');
+                  },
+                  success:  function (response){
+                        console.log("exito",response);
+                        $('#zero_config').DataTable().ajax.reload();
+                        $('#modal_nuevo').modal('hide');
+                    
+                  },
+                  error: function (response){
+                      console.log("Error",response.data);
+                    Swal.fire({
+                        title: "¡Error!",
+                        text: response.responseJSON.message,
+                        icon: "error",
+                        timer: 3500,
+                    })
+    
+                  }
+                });
+            
+//========================================
+               
             })
-
         }
-        // =========> ejemplito
-    //     onFinished: function (event, currentIndex) {
-    //         var route = '/informe/'+$(this).attr('id');
-    //         $.ajax({
-    //           headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-    //           data:  $("#"+$(this).attr('id')).serialize(),
-    //           url:   route,
-    //           type: 'POST',
-    //           beforeSend: function () {
-    //             console.log('enviando....');
-    //           },
-    //           success:  function (response){
-                    //console.log(response.data);
-    //              console.log(response);
-    //             if(!response.resultado){
-    //               Swal.fire({
-    //                       title: "¡Error!",
-    //                       text: response.msj,
-    //                       icon: "error",
-    //                       timer: 2500,
-    //                   })
-    //               return false;
-    //             }
-    //             $('#datatable-ajax').DataTable().ajax.reload();
-    //             $('#modal_nuevo').modal('hide');
-    //             $('#modal_editar').modal('hide');
-    //             personas(response.data.id,response.data.programa);
-    //             Swal.fire({
-    //                       title: "¡Éxito!",
-    //                       text: response.msj,
-    //                       icon: "success",
-    //                       timer: 2500,
-    //                       showConfirmButton: false
-    //                   })
-    //             document.getElementById("form_editar").reset();
-    //             document.getElementById("form_nuevo").reset();
-    //             $("#form_editar").steps('reset');
-    //             $("#form_nuevo").steps('reset');
-    //           },
-    //           error: function (response){
-    //             Swal.fire({
-    //                 title: "¡Error!",
-    //                 text: response.responseJSON.message,
-    //                 icon: "error",
-    //                 timer: 3500,
-    //             })
-
-    //           }
-    //         });
-    //     }
-    // })
+       
         // ============>
     }), $(".tab-wizard").validate({
         ignore: "input[type=hidden]",

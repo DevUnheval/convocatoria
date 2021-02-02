@@ -8,15 +8,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Mail;
-//use App\Http\Controllers\OrderShipped;
-=======
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
->>>>>>> 03302be1fb304c73c5d8356929e043c1775b4b7a
 
 class UsuarioController extends Controller
 {
@@ -29,6 +24,7 @@ class UsuarioController extends Controller
  
     public function registrar(Request $request)
     {
+       // return "asdsd";
         $v = \Validator::make($request->all(), [
             'dni' =>'required|unique:users',
             'email' =>'required|unique:users',
@@ -58,7 +54,7 @@ class UsuarioController extends Controller
         //Mail::to($request->user())->send();
         $correo=$request->email; 
         $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
-        return redirect('/email/verify')->with('correo',$correo);
+        //return redirect('/email/verify')->with('correo',$correo);
         //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
         
 

@@ -19,6 +19,7 @@
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
                                 -->
                                 <form action="#" class="tab-wizard wizard-circle" id="nueva_convocatoria">
+                                @csrf
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
@@ -272,9 +273,9 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="bon_deport" type="radio" id="5" class="radio-col-indigo material-inputs" />
+                                                    <input name="bon_deport" type="radio" value=true id="5" class="radio-col-indigo material-inputs" />
                                                     <label for="5" class="mb-0 mt-2">Si</label>
-                                                    <input name="bon_deport" checked type="radio" id="6" class="radio-col-indigo material-inputs" />
+                                                    <input name="bon_deport" checked type="radio" value=false id="6" class="radio-col-indigo material-inputs" />
                                                     <label for="6" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
