@@ -24,7 +24,7 @@ Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a p
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
 Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
+Route::get('perfil', 'Auth\PerfilController@index')->name('perfil');
  //JOSE AQUI TUS RUTAS
  //Fin Auth
 
