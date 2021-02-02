@@ -148,7 +148,7 @@
                                         <div class="row form-group mb-0 py-2 bg-light"> 
                                             <div class="form-group col-md-3 row justify-content-center align-items-center">
                                                 <label class="custom-control custom-checkbox" >
-                                                    <input type="checkbox" class="custom-control-input" checked>
+                                                    <input type="checkbox" class="custom-control-input" id="check_curricular">
                                                     <span class="custom-control-label"> <small>Curricular</small></span>                                                   
                                                 </label>
                                             </div>                                                                                                                            
@@ -175,25 +175,25 @@
                                         <div class="row form-group mb-0 py-1 bg-light"> 
                                             <div class="col-md-3 row justify-content-center align-items-center">
                                                 <label class="custom-control custom-checkbox" >
-                                                    <input type="checkbox" class="custom-control-input" >
+                                                    <input type="checkbox" class="custom-control-input" id="check_conocimientos" >
                                                     <span class="custom-control-label"> <small>Conocimientos</small></span>                                                   
                                                 </label>
                                             </div>                                                                                                                           
                                             <div class="col-md-3 border-left">
                                                     <b><small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="14">
+                                                    <input type="number" class="form-control  fila_conocimiento" id="wfirstName2" name="firstName" disabled>
                                                 
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="20">
+                                                    <input type="number" class="form-control  fila_conocimiento" id="wfirstName2" name="firstName" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="wfirstName2">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control required" id="wfirstName2" name="firstName" value="30">
+                                                    <input type="number" class="form-control  fila_conocimiento" id="wfirstName2" name="firstName" disabled>
                                                 </div>
                                             </div>
                                         </div>
