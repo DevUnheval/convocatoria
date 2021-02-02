@@ -163,7 +163,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="f_curricular3">Evaluación Curricular:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_curricular required"   name="f_curricular3" value="30">
+                                                    <input type="number" class="form-control fila_curricular required"   name="f_curricular3" value="40">
                                                 </div>
                                             </div>
                                         </div> 
@@ -213,7 +213,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small for="f_entrevista3">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="f_entrevista3" value="40">
+                                                    <input type="number" class="form-control fila_entrevista required"   name="f_entrevista3" value="60">
                                                 </div>
                                             </div>
                                         </div>
@@ -226,7 +226,7 @@
                                                 <input type="number" class="form-control required"   name="exp_general" value="2">
                                             </div>
                                             <div class="col-md-6 form-group">                                                
-                                                <b><small for="exp_esp">Años de Experiencia- Sector Público: <span class="text-danger">(mínimo)</span> </small></b>
+                                                <b><small for="exp_esp">Años de Experiencia Especifica- Sector Público: <span class="text-danger">(mínimo)</span> </small></b>
                                                 <input type="number" class="form-control required"   name="exp_esp" value="1">
                                             </div>
                                             <div class="col-md-6 form-group">                                                
@@ -243,7 +243,8 @@
                                         <h4 class="card-title">Bonificaciones: </h4>                   
                                         <div class="row ">
                                             <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por Discapacidad</h5>
+                                                <h5 class="control-label col-form-label">Bonificación por Discapacidad <small>(15%)</small></h5>
+                                                <label><small>Ley N° 29973, Ley General de la Persona con Discapacidad.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
@@ -256,7 +257,8 @@
                                         </div>
                                         <div class="row ">
                                             <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas</h5>
+                                                <h6 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas<small>(10%)</small></h6>
+                                                <label><small>Ley N° 29248, Ley del Servicio Militar.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
@@ -270,6 +272,8 @@
                                         <div class="row form-group">
                                             <div class="col-sm-9">
                                                 <h5 class="control-label col-form-label">Bonificación por Deportista Calificado</h5>
+                                                <label><small>Se otorgará una bonificación de acuerdo al Decreto Supremo N° 089-2003-PCM,
+                                                 que aprueba el Reglamento de la Ley N° 27674, Ley que establece el acceso de Deportistas de Alto Nivel a la Administración Pública.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
