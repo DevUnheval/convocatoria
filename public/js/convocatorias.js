@@ -101,7 +101,7 @@ function editar(id){
         success:  function (response){
             console.log("exito",response);
             $("#cod").val(response.cod);
-            $("#n_plaza").val(response.n_plaza);
+            $("#n_plaza").val(response.n_plazas);
             $("#nombre").val(response.nombre);
             $("#oficina").val(response.oficina);
             $("#descripcion").val(response.descripcion);

@@ -60,6 +60,10 @@ class AjustesTableSeeder extends Seeder
                   'descripcion' => 'Puede evaluar a los participantes',
               ],
               [
+                'nombre' => 'Editor',
+                'descripcion' => 'Puede crear convocatorias',
+              ],
+              [
                   'nombre' => 'Postulante',
                   'descripcion' => 'Puede postular a una plaza',
               ],
