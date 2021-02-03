@@ -37,7 +37,12 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index');  
         Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update');  
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
-    });    
+    });   
+    Route::group(['prefix' => 'usuarios'], function(){
+        Route::get('/', 'UsuarioController@vista_usuarios')->name('maestro.usuarios.index');  
+        Route::post('update', 'UsuarioController@update')->name('maestro.usuarios.update');  
+        Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
+    }); 
 });
 
 //CONVOCATORIAS

@@ -219,6 +219,9 @@
                                 
                             </ul>
                         </li>
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('maestro.usuarios.index')}}" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios</span></a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
