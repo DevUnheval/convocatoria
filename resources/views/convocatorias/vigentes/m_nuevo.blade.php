@@ -107,7 +107,7 @@
                                                     <!--<div class="col-md-5">Hora inicio:<input class="form-control" type="time" value="18:00:00"></div>-->                                                
                                             </div>
                                             <div class="col-md-6">
-                                                <div><small class="font-weight-bold">Cierre la Inscripción:<span class="text-danger"> *</span></small> 
+                                                <div><small class="font-weight-bold">Cierre de Inscripción:<span class="text-danger"> *</span></small> 
                                                     <input type="datetime-local" class="form-control required" name="fecha_inscripcion_fin"   value="2021-01-31T22:00:00"></div>
                                             </div>
                                         </div>
