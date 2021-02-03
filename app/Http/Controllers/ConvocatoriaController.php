@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Proceso;
+use App\TipoProceso;
 class ConvocatoriaController extends Controller
 {
     public function __construct()
@@ -19,14 +20,16 @@ class ConvocatoriaController extends Controller
     //vistas
     public function vigentes()
     {
-        return view('convocatorias.vigentes');
+        
+        $datos = [
+            'tipos_proc'=>TipoProceso::pluck('nombre','id')
+        ];
+        return view('convocatorias.vigentes.index',compact('datos') );
     }
     
     public function vigentes_data(){
       
-        $query = Proceso::all();
-        $dato=$query[0];
-        $dato->tipoproceso->nombre;
+        $query = Proceso::orderBy('id','desc')->get();
         if($query->count()<1)
         return $this->data_null;
     
@@ -43,17 +46,17 @@ class ConvocatoriaController extends Controller
                                 aria-expanded="false">
                                 <i class="ti-settings"></i>
                             </button>';
-                $config.= ' <div class="dropdown-menu animated slideInUp" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-eye"></i> Abrir </a>
-                                    <a class="dropdown-item type="button" class="btn" data-toggle="modal" data-target="#modal_editar"><i class="ti-pencil-alt"></i> Editar</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-comment-alt"></i> Comunicar</a>
+                $config.= " <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
+                                    <a class='dropdown-item' href='javascript:void(0)'><i class='ti-eye'></i> Abrir </a>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
+                                    <a class='dropdown-item' href='javascript:void(0)'><i class='ti-comment-alt'></i> Comunicar</a>
                                 </div>
-                            </div>';
+                            </div>";
 
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
-                $convocatoria_all = '<b><i class="fa fa-address-book"></i> Tipo: </b>'.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i> Cargo: </b>'.$dato->nombre.'<br><b><i class="fa fa-home"></i> Oficina: </b><small>'.$dato->oficina.'<small>';
+                $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[0,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
@@ -88,9 +91,9 @@ class ConvocatoriaController extends Controller
 
     //CRUD
     
-    public function store(Request $request)
+    public function store(Request $r)
     {
-        return $request->all();
+        Proceso::create($r->all());
     }
 
     public function show($id)
@@ -101,7 +104,7 @@ class ConvocatoriaController extends Controller
   
     public function edit($id)
     {
-        //
+        return Proceso::find($id);
     }
 
   

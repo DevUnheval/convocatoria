@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () { return view('convocatorias.vigentes.index'); })->name('index');
+//Route::get('/', function () { return view('convocatorias.vigentes.index'); })->name('index');
+Route::get('/', 'ConvocatoriaController@vigentes')->name('index'); 
 
 //Rutas AUTH
 Auth::routes(['verify' => true]);
@@ -36,7 +37,12 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index');  
         Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update');  
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
-    });    
+    });   
+    Route::group(['prefix' => 'usuarios'], function(){
+        Route::get('/', 'UsuarioController@vista_usuarios')->name('maestro.usuarios.index');  
+        Route::post('update', 'UsuarioController@update')->name('maestro.usuarios.update');  
+        Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
+    }); 
 });
 
 //CONVOCATORIAS
@@ -50,6 +56,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('en_curso/data', 'ConvocatoriaController@vigentes')->name('convocatoria.en_curso.data'); 
     Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
+    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
 });
@@ -61,7 +68,7 @@ Route::group(['prefix' => 'postulante'], function(){
         
 });
 
-//MAESTRO
+//POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{cas?}/{etapa?}/listar', 'PostulantesController@index')
                 ->where(['cas' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');

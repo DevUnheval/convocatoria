@@ -39,7 +39,7 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Nº plazas</th>
+                                <th>Nº <br>plazas</th>
                                 <th>Inscripción<br> (inicio - fin)</th>
                                 <th>Comunicados</th>
                                 <th>Bases</th>
@@ -62,7 +62,7 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Nº plazas</th>
+                                <th>Nº <br>plazas</th>
                                 <th>Inscripción <br>(inicio - fin)</th>
                                 <th>Comunicados</th>
                                 <th>Bases</th>

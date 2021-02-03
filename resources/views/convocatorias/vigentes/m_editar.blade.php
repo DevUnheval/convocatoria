@@ -19,45 +19,52 @@
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
                                 -->
                                 <form action="#" class="tab-wizard wizard-circle" id="editar_convocatoria">
+                                @csrf
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
                                         <div class="row form-group mb-0 py-2 bg-light">                                            
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <b><small for="cod_conv">Código de la convocatoria:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="text" class="form-control required"   name="cod_conv" value="001-2021">
+                                                    <b><small>Código de la convocatoria:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="text" class="form-control required" name="cod"  id="cod">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <small for="t_proceso">Tipo de Proceso: <span class="text-danger"> *</span> </small>
-                                                    <select class="custom-select form-control" name="t_proceso">
-                                                        <option value="cas">CAS/1057</option>
-                                                        <option value="practicas">Prácticas</option>
-                                                        <option value="276">276</option>
-                                                        <option value="728">728</option>
+                                                    <small>Tipo de Proceso: <span class="text-danger"> *</span> </small>
+                                                    <select class="custom-select form-control" name="tipo_id" id="tipo_id">
+                                                        @foreach($datos['tipos_proc'] as $key => $tipo )
+                                                        <option value="{{$key}}">{{$tipo}}</option>
+                                                        @endforeach
+                                                        
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <small for="cant_plaza">Cantidad de plazas:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control required" name="cant_plaza"value="1">
+                                                    <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control required" name="n_plaza" id="n_plaza">
                                                 </div>
                                             </div>
                                         </div>                                        
                                         <div class="row form-group border-bottom mb-0 py-1 bg-light">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <small for="n_conv">Nombre/Cargo de la convocatoria:<span class="text-danger"> *</span> </small>
-                                                    <input type="text" class="form-control required"   name="n_conv" value="Especialista Administrativo" placeholder=""> 
+                                                    <small>Nombre/Cargo de la convocatoria:<span class="text-danger"> *</span> </small>
+                                                    <input type="text" class="form-control required"   name="nombre" id="nombre"> 
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <small for="n_area">Area/Unidad al que postula:<span class="text-danger"> *</span> </small>
-                                                    <input type="text" class="form-control required"   name="n_area" value="Unidad de Recursos Humanos" placeholder="">
+                                                    <small>Area/Unidad al que postula:<span class="text-danger"> *</span> </small>
+                                                    <input type="text" class="form-control required"   name="oficina" id="oficina">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <small>Descripción (opcional)</small>
+                                                    <textarea class="form-control" name="descripcion" id="descripcion" placeholder="Escribir aquí..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,21 +72,15 @@
                                         <div class="form-group row">
                                             <label class="col-sm-4 text-left control-label col-form-label">Bases:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control-file"  >
+                                                <input type="file" class="form-control-file" name="archivo_bases">  
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-sm-4 text-left control-label col-form-label">Resolución de Aprobación:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control-file"   aria-describedby="fileHelp">
+                                                <input type="file" class="form-control-file" name="archivo_resolucion">
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 text-left control-label col-form-label">Anexos:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control-file"   aria-describedby="fileHelp">
-                                            </div>
-                                        </div>                                       
+                                        </div>                                    
                                         
                                     </section>
                                     <!-- Step 2 -->
@@ -88,26 +89,26 @@
                                         <div class="row form-group mb-0 py-2 bg-light">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <small for="f_aprobacion">Fecha Aprobación:<span class="text-danger"> *</span> </small>
-                                                    <input type="date" class="form-control" name="f_aprobacion">
+                                                    <small>Fecha Aprobación:<span class="text-danger"> *</span> </small>
+                                                    <input type="date" class="form-control" name="fecha_aprobacion"  id="fecha_aprobacion">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <small for="f_publicacion">Fecha Publicación:<span class="text-danger"> *</span> </small>
-                                                    <input type="date" class="form-control required" name="f_publicacion"  value="2021-01-26">
+                                                    <small>Fecha Publicación:<span class="text-danger"> *</span> </small>
+                                                    <input type="date" class="form-control required" name="fecha_publicacion" id="fecha_publicacion">
                                                 </div>
                                             </div>                                            
                                         </div>
                                         <div class="row form-group border-bottom mb-0 py-3 bg-light">                                            
                                             <div class="col-md-6">
-                                                    <div><small class="font-weight-bold" for="f_inicio">Fecha y Hora de Inicio Inscripción:<span class="text-danger"> *</span></small>
-                                                        <input type="datetime-local" class="form-control required" name="f_inicio" value="2021-01-29T07:30:00"></div>                                                   
+                                                    <div><small class="font-weight-bold">Inicio Inscripción:<span class="text-danger"> *</span></small>
+                                                        <input type="datetime-local" class="form-control required" name="fecha_inscripcion_inicio" id="fecha_inscripcion_inicio"></div>                                                   
                                                     <!--<div class="col-md-5">Hora inicio:<input class="form-control" type="time" value="18:00:00"></div>-->                                                
                                             </div>
                                             <div class="col-md-6">
-                                                <div><small class="font-weight-bold" for="f_fin">Fecha y Hora de Cerrar la Inscripción:<span class="text-danger"> *</span></small> 
-                                                    <input type="datetime-local" class="form-control required" name="f_fin"   value="2021-01-31T22:00:00"></div>
+                                                <div><small class="font-weight-bold">Cierre la Inscripción:<span class="text-danger"> *</span></small> 
+                                                    <input type="datetime-local" class="form-control required" name="fecha_inscripcion_fin"  id="fecha_inscripcion_fin"></div>
                                             </div>
                                         </div>
                                         <br>
@@ -115,13 +116,13 @@
                                         <h6 class="card-subtitle">Detalle el inicio y duración del contrato (opcional)</h6>
                                         <div class="row form-group">
                                             <div class="col-md-6">
-                                                <div> <input type="date" class="form-control"  >    
+                                                <div> <input type="date" class="form-control" name="fecha_firma_contrato" id="fecha_firma_contrato">    
                                                     <small class="font-weight-bold">Inicio del Contrato</small> </div>                                                                                                       
                                             </div>     
                                             <div class="col-md-6">
                                                 <div class="form-group">                                                        
-                                                    <input type="number" class="form-control" name="d_contrato">
-                                                    <small for="d_contrato">Duración del contrato <span class="text-danger">(meses)</span> </small> </div>                                                
+                                                    <input type="text" class="form-control" name="duracion_contrato" id="duracion_contrato">
+                                                    <small>Duración del contrato <span class="text-danger">(campo de texto)</span> </small> </div>                                                
                                             </div>
                                         </div>
                                     </section>
@@ -149,20 +150,20 @@
                                             </div>                                                                                                                            
                                             <div class="col-md-3 border-left" >
                                                 <div class="form-group">
-                                                    <b><small for="f_curricular">Evaluación Curricular:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control fila_curricular required"   name="f_curricular" value="14">
+                                                    <b><small>Evaluación Curricular:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control fila_curricular required" name="pje_min_cv" id="pje_min_cv">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_curricular2">Evaluación Curricular:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_curricular required"   name="f_curricular2" value="20">
+                                                    <small>Evaluación Curricular:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control fila_curricular required" name="pje_max_cv" id="pje_max_cv">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_curricular3">Evaluación Curricular:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_curricular required"   name="f_curricular3" value="30">
+                                                    <small>Evaluación Curricular:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control fila_curricular required" name="peso_cv" id="peso_cv">
                                                 </div>
                                             </div>
                                         </div> 
@@ -175,20 +176,20 @@
                                                 </label>
                                             </div>                                                                                                                           
                                             <div class="col-md-3 border-left">
-                                                    <b><small for="f_cono1">Ev. Conocimientos:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control  fila_conocimiento"   name="f_cono1" disabled>
+                                                    <b><small>Ev. Conocimientos:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control  fila_conocimiento"   name="pje_min_conoc" id="pje_min_conoc" disabled>
                                                 
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_cono2">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control  fila_conocimiento"   name="f_cono2" disabled>
+                                                    <small>Ev. Conocimientos:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control  fila_conocimiento"   name="pje_max_conoc" id="pje_max_conoc" disabled>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_cono3">Ev. Conocimientos:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control  fila_conocimiento"   name="f_cono3" disabled>
+                                                    <small>Ev. Conocimientos:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control  fila_conocimiento"   name="peso_conoc" id="peso_conoc" disabled>
                                                 </div>
                                             </div>
                                         </div>
@@ -199,20 +200,20 @@
                                             </div>                                                                                                                           
                                             <div class="col-md-3 border-left">
                                                 <div class="form-group">
-                                                    <b><small for="f_entrevista1">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="f_entrevista1" value="14">
+                                                    <b><small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_min_entrev" id="pje_min_entrev">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_entrevista2">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="f_entrevista2" value="20">
+                                                    <small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_max_entrev" id="pje_max_entrev">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small for="f_entrevista3">Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="f_entrevista3" value="40">
+                                                    <small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control fila_entrevista required"   name="peso_entrev" id="peso_entrev">
                                                 </div>
                                             </div>
                                         </div>
@@ -221,20 +222,20 @@
                                         <h4 class="card-title">Factores de Evaluación - Curricular: </h4>                   
                                         <div class="row form-group mb-0 py-2 bg-light">                                                                                                                            
                                             <div class="col-md-6 form-group">                                                
-                                                <b><small for="exp_general">Años de Experiencia- General: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="exp_general" value="2">
+                                                <b><small>Años de Experiencia - General: <span class="text-danger">(mínimo)</span> </small></b>
+                                                <input type="number" class="form-control required"   name="anios_exp_lab_gen" id="anios_exp_lab_gen">
                                             </div>
                                             <div class="col-md-6 form-group">                                                
-                                                <b><small for="exp_esp">Años de Experiencia- Sector Público: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="exp_esp" value="1">
+                                                <b><small>Años de Experiencia - Especifica: <span class="text-danger">(mínimo)</span> </small></b>
+                                                <input type="number" class="form-control required"   name="anios_exp_lab_esp" id="anios_exp_lab_esp">
                                             </div>
                                             <div class="col-md-6 form-group">                                                
-                                                <b><small for="h_cap_total">Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="h_cap_total" value="500">
+                                                <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
+                                                <input type="number" class="form-control required"   name="horas_cap_total" id="horas_cap_total">
                                             </div>
                                             <div class="col-md-6 form-group">                                                
-                                                <b><small for="h_cap_ind">Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required" name="h_cap_ind" value="80">
+                                                <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
+                                                <input type="number" class="form-control required" name="horas_cap_ind" id="horas_cap_ind">
                                             </div>
                                         </div>                                        
                                     <!-- Bonificaciones-->     
@@ -242,40 +243,44 @@
                                         <h4 class="card-title">Bonificaciones: </h4>                   
                                         <div class="row ">
                                             <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por Discapacidad</h5>
+                                                <h5 class="control-label col-form-label">Bonificación por Discapacidad <small>(15%)</small></h5>
+                                                <label><small>Ley N° 29973, Ley General de la Persona con Discapacidad.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="bon_discapacidad" checked type="radio" id="1" class="radio-col-indigo material-inputs" />
-                                                    <label for="1" class="mb-0 mt-2">Si</label>
-                                                    <input name="bon_discapacidad" type="radio" id="2" class="radio-col-indigo material-inputs" />
-                                                    <label for="2" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_pers_disc" value=1  checked type="radio" id="hay_bon_pers_disc_1" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_pers_disc_1" class="mb-0 mt-2">Si</label>
+                                                    <input name="hay_bon_pers_disc" value=0  type="radio" id="hay_bon_pers_disc_2" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_pers_disc_2" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
-                                        </div>
+                                        </div><hr>
                                         <div class="row ">
                                             <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas</h5>
+                                                <h6 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas<small>(10%)</small></h6>
+                                                <label><small>Ley N° 29248, Ley del Servicio Militar.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="bon_ffaa"checked type="radio" id="3" class="radio-col-indigo material-inputs" />
-                                                    <label for="3" class="mb-0 mt-2">Si</label>
-                                                    <input name="bon_ffaa" type="radio" id="4" class="radio-col-indigo material-inputs" />
-                                                    <label for="4" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_ffaa" value=1  checked type="radio" id="hay_bon_ffaa_1" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_ffaa_1" class="mb-0 mt-2">Si</label>
+                                                    <input name="hay_bon_ffaa" value=0  type="radio" id="hay_bon_ffaa_2" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_ffaa_2" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
-                                        </div>
+                                        </div><hr>
                                         <div class="row form-group">
                                             <div class="col-sm-9">
                                                 <h5 class="control-label col-form-label">Bonificación por Deportista Calificado</h5>
+                                                <label><small>Se otorgará una bonificación de acuerdo al Decreto Supremo N° 089-2003-PCM,
+                                                 que aprueba el Reglamento de la Ley N° 27674, Ley que establece el acceso de Deportistas de Alto Nivel a la Administración Pública.</small></label>
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="bon_deport" type="radio" id="5" class="radio-col-indigo material-inputs" />
-                                                    <label for="5" class="mb-0 mt-2">Si</label>
-                                                    <input name="bon_deport" checked type="radio" id="6" class="radio-col-indigo material-inputs" />
-                                                    <label for="6" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_deport" type="radio" value=1 id="hay_bon_deport_1" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_deport_1" class="mb-0 mt-2">Si</label>
+                                                    <input name="hay_bon_deport" checked type="radio" value=0 id="hay_bon_deport_2" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_deport_2" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
                                         </div>                                 
