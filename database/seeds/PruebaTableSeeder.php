@@ -14,6 +14,7 @@ class PruebaTableSeeder extends Seeder
      */
     public function run()
     {
+        
         $users=[
             [
                 'dni'=>'12121236',
@@ -45,6 +46,7 @@ class PruebaTableSeeder extends Seeder
             $query->apellido_paterno=$u['apellido_paterno'];
             $query->apellido_materno=$u['apellido_materno'];
             $query->email= $u['apellido_materno'];
+            $query->email_verified_at= date("Y-m-d");
             $query->password=bcrypt($u['dni']);
             $query->save();
             

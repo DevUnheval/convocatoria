@@ -19,6 +19,9 @@
       </div>
             
       <div class="col-12"><hr><br></div>
+
+      @include('maestro.modal_editar')
+      
       @foreach($ajustes as $a)
          
          <div class="col-md-4">
