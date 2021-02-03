@@ -27,10 +27,10 @@ class UsuarioController extends Controller
         }';
     }
 
-    // public function index()
-    // {
-    //     return view('auth.register');
-    // }
+    public function index()
+    {
+        return view('auth.register');
+    }
  
     public function registrar(Request $request)
     {
@@ -42,33 +42,33 @@ class UsuarioController extends Controller
         ]);
 
 
-        // if ($v->fails()){
-        //     return redirect()->back()->withInput()->withErrors($v->errors());
-        // }        
-        // $Usuario = new User();
-        // $Usuario->dni = $request->dni;
-        // $Usuario->nombres = $request->nombres;
-        // $Usuario->apellido_paterno = $request->apellido_paterno;
-        // $Usuario->apellido_materno = $request->apellido_materno;
-        // $Usuario->email = $request->email;
-        // $Usuario->password = Hash::make($request->password);
-        // $Usuario->save();
+        if ($v->fails()){
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }        
+        $Usuario = new User();
+        $Usuario->dni = $request->dni;
+        $Usuario->nombres = $request->nombres;
+        $Usuario->apellido_paterno = $request->apellido_paterno;
+        $Usuario->apellido_materno = $request->apellido_materno;
+        $Usuario->email = $request->email;
+        $Usuario->password = Hash::make($request->password);
+        $Usuario->save();
         
-        // $rol = new UserRol();
-        // $rol->user_id =$Usuario->id;
-        // $rol->rol_id = 3;
-        // $rol->save();
+        $rol = new UserRol();
+        $rol->user_id =$Usuario->id;
+        $rol->rol_id = 3;
+        $rol->save();
 
-        // $this->guard()->login($Usuario); //autologin despues de guardar el registro
+        $this->guard()->login($Usuario); //autologin despues de guardar el registro
 
-        // //Mail::to($request->user())->send();
-        // $correo=$request->email; 
-        // $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
-        // //return redirect('/email/verify')->with('correo',$correo);
-        // //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
+        //Mail::to($request->user())->send();
+        $correo=$request->email; 
+        $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
+        //return redirect('/email/verify')->with('correo',$correo);
+        //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
         
 
-        // return redirect()->route('postulante_inicio');
+        return redirect()->route('postulante_inicio');
 
         
     }

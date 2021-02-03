@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +9,7 @@ class Proceso extends Model
 {
     protected $table = 'procesos';
 	  protected $primaryKey = 'id';
-    protected $fillable = ['tipo_id','cod','nombre','descripcion','n_plazas','oficina','archivo_bases','archivo_bases_tipo',
+    protected $fillable = ['tipo_id','etapa_evaluacion','proceso','cod','nombre','descripcion','n_plazas','oficina','archivo_bases','archivo_bases_tipo',
                            'archivo_resolucion','archivo_resolucion_tipo','contrato_inicio','evaluar_conocimientos',
                            'bon_ffaa','bon_pers_disc','bon_deport','bon_otros1','bon_otros2','pje_otro','pje_max_cv',
                            'pje_min_cv','pje_max_conoc','pje_min_conoc','pje_max_entrev','pje_min_entrev','anios_exp_lab_gen',
@@ -31,5 +32,11 @@ class Proceso extends Model
     }
     public function tipoproceso() {
 		return $this->belongsTo(TipoProceso::class,'tipo_id');
-	}
+    }
+    public function getFechaInscripcionInicioAttribute($value){
+    return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+    public function getFechaInscripcionFinAttribute($value){
+        return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
 }

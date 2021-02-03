@@ -16,6 +16,8 @@ class CreateProcesosTable extends Migration
         Schema::create('procesos', function (Blueprint $table) {
             $table->id();
             $table->string('cod'); //1,2,3 cada año se reinicia
+            $table->integer('etapa_evaluacion')->default(1);//1: CV, 2: Conoc; 3: entrevista
+            $table->integer('estado')->default(1); // 0: pre-cargado, 1: publicado, 2: en curso, 3: concluido, 4: cancelado 
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipo_procesos')->onDelete('cascade');
 
