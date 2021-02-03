@@ -44,7 +44,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control required" name="n_plaza"value="1">
+                                                    <input type="number" class="form-control required" name="n_plazas"value="1">
                                                 </div>
                                             </div>
                                         </div>                                        
