@@ -67,16 +67,24 @@
                                                 <input type="text" class="form-control required" id="wemailAddress2" name="emailAddress" placeholder=""> 
                                             </div>
                                         </div>
+                                    </div>                                                                           
+                                <div class="card-body">
+                                    <h4 class="card-title">Subir foto</h4>
+                                    <form class="mt-3">
+                                        <fieldset class="form-group">
+                                            <input type="file" class="form-control-file" id="exampleInputFile">
+                                        </fieldset>
+                                    </form>
+                                 </div>
+                                   
+                                 <h4 class="card-title mt-4">Roles</h4>
+                                 <div class="row">
+                                    @foreach($roles as $key => $rol)
+                                    <div class="col-md-3">
+                                        <input type="checkbox" id="md_checkbox_{{$key}}" class="material-inputs chk-col-amber"/>
+                                        <label for="md_checkbox_{{$key}}">{{$rol}}</label>
                                     </div>
-                                    <h4 class="card-title  mt-4">Roles</h4>
-                                    {{-- <h6 class="text-muted">Add to <code>.with-gap material-inputs</code> class </h6> --}}
-                                    <div class="row mt-3">
-                                        <div class="col-md-3">
-                                            <input name="group5" type="radio" id="radio_30" class="with-gap material-inputs material-inputs radio-col-red"
-                                                checked />
-                                            <label for="radio_30">Administrador</label>
-                                        </div>
-                                    </div>
+                                    @endforeach
                                 </div>
                                       
                                       

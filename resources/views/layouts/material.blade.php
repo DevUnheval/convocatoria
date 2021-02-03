@@ -220,7 +220,14 @@
                             </ul>
                         </li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('maestro.usuarios.index')}}" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu">Usuarios</span></a>
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="{{route('convocatoria.historico')}}" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
+                                <span class="hide-menu">Maestro</span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Usuarios</span></a></li>
+                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Tipo de Procesos</span></a></li>
+                                
+                            </ul>
                         </li>
                     </ul>
                 </nav>

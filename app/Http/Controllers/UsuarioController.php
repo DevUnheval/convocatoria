@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Proceso;
+use App\Rol;
 use App\User;
 use App\UserRol;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -87,7 +88,8 @@ class UsuarioController extends Controller
         
     }
     public function vista_usuarios(){
-        return view("maestro.usuarios");
+        $roles= Rol::pluck('nombre','id');
+        return view("maestro.usuarios",compact('roles'));
     }
     public function data_usuarios(){
         $query = User::all();
