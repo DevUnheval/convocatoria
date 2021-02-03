@@ -2,8 +2,8 @@
 <div id="modal_nuevo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
        <div class="modal-content">
-          <div class="modal-header">
-             <h4 class="modal-title" id="fullWidthModalLabel">Nuevo Curso y/o Capacitación</h4>
+          <div class="modal-header bg-success">
+             <h4 class="modal-title text-white" id="fullWidthModalLabel">Nuevo Curso y/o Programa de Especialización</h4>
              <button type="button" class="close" data-dismiss="modal"
              aria-hidden="true">×</button>
           </div>
@@ -22,46 +22,96 @@
                                   
                                     <div class="card-body wizard-content">
                                       <div class="row">
-                                          <div class="col-md-4">
+                                          <div class="col-md-12">
                                               <div class="form-group">
-                                                  <label for="wfirstName2">Código de la convocatoria:<span class="danger">*</span> </label>
-                                                  <input type="text" class="form-control required" id="wfirstName2" name="firstName">
-                                              </div>
-                                          </div>
-                                          <div class="col-md-4">
-                                              <div class="form-group">
-                                                  <label for="wlastName2">Tipo de Proceso: <span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" id="location1" name="location">
-                                                      <option value="">*Seleccione*</option>
-                                                      <option value="Amsterdam">CAS/1057</option>
-                                                      <option value="Frankfurt">Prácticas</option>
-                                                      <option value="Berlin">276</option>
-                                                      <option value="Frankfurt">728</option>
+                                                  <label for="tipo_estudio">Tipo de estudio:<span class="danger">*</span> </label>
+                                                  <select class="custom-select form-control" id="tipo_estudio" name="tipo_estudio">
+                                                    <option value="">*Seleccione*</option>
+                                                    <option value="Curso">Curso</option>
+                                                    <option value="Programa Especializacion">Programa de Especialización</option>
                                                   </select>
                                               </div>
                                           </div>
-                                          <div class="col-md-4">
+                                     </div>
+                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="descripcion">Descripción:<span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="descripcion" name="descripcion" > 
+                                            </div>
+                                        </div>
+                                     </div>
+                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="institucion">Institución:<span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="institucion" name="institucion" > 
+                                            </div>
+                                        </div>
+                                     </div>
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="pais">Pais: <span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="pais" name="pais" > 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="ciudad">Ciudad :<span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="ciudad" name="ciudad" >
+                                            </div>
+                                        </div>
+                                      </div>   
+                                      <div class="row">
+                                          <div class="col-md-6">
                                               <div class="form-group">
-                                                  <label for="wfirstName2">Cantidad de plazas:<span class="danger">*</span> </label>
-                                                  <input type="number" class="form-control required" id="wfirstName2" name="firstName">
+                                                  <label for="fechainicio">Fecha de inicio: <span class="danger">*</span> </label>
+                                                  <input type="date" class="form-control required" id="fechainicio" name="fechainicio" > 
+                                              </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label for="fechafin">Fecha de fin :<span class="danger">*</span> </label>
+                                                  <input type="date" class="form-control required" id="fechafin" name="fechafin">
                                               </div>
                                           </div>
                                       </div>
                                       <div class="row">
-                                          <div class="col-md-6">
-                                              <div class="form-group">
-                                                  <label for="wemailAddress2">Nombre de la convocatoria: <span class="danger">*</span> </label>
-                                                  <input type="text" class="form-control required" id="wemailAddress2" name="emailAddress" placeholder="Cargo al que postula"> 
-                                              </div>
-                                          </div>
-                                          <div class="col-md-6">
-                                              <div class="form-group">
-                                                  <label for="wphoneNumber2">Puesto de la convocatoria :<span class="danger">*</span> </label>
-                                                  <input type="text" class="form-control required" id="wphoneNumber2" placeholder="Area/Unidad al que postula">
-                                              </div>
-                                          </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="horaslectivas">Horas lectivas: <span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="horaslectivas" name="horaslectivas" > 
+                                            </div>
+                                        </div>
                                       </div>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="documento">Documento de sustento: <span class="danger">*</span> </label>
+                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                            <label for="wemailAddress2">(*) Indica un campo obligatorio </label>
+                                            </div>  
+                                       </div>
+                                      </div>
+                                      <br>
+                                      <div  class="row">
+                                        <div class="form-group col-md-12">
+                                            <button data-repeater-delete="" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
+                                            </button>
+                                            <button class="btn btn-success waves-effect waves-light" type="submit">Guardar
+                                            </button>  
+                                        </div>
                                     </div>
+                                  </div>
+                                      
+                                    
                                     
                                 </form>
                           </div>
@@ -73,10 +123,7 @@
              {{-- wizard FIN--}}
             
             </div>
-            <div class="modal-footer">
-                
-                <button type="button" class="btn btn-info">Guardar</button>
-            </div>
+            
        </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
