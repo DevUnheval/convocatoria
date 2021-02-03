@@ -170,7 +170,7 @@
                                         <div class="row form-group mb-0 py-1 bg-light"> 
                                             <div class="col-md-3 row justify-content-center align-items-center">
                                                 <label class="custom-control custom-checkbox" >
-                                                    <input type="checkbox" class="custom-control-input" id="check_conocimientos" >
+                                                    <input type="checkbox" class="custom-control-input" id="e_check_conocimientos" >
                                                     <span class="custom-control-label"> <small>Conocimientos</small></span>                                                   
                                                 </label>
                                             </div>                                                                                                                           

@@ -25,9 +25,9 @@ class CreateProcesosTable extends Migration
             $table->string('n_plazas')->default(1);
             $table->string('oficina')->nullable();
             $table->string('archivo_bases')->nullable(); //link local, o URL de drive
-            $table->string('archivo_bases_tipo')->nullable(); //local o web
+            $table->string('archivo_bases_tipo')->default('local'); //local o web
             $table->string('archivo_resolucion')->nullable(); //link local, o URL de drive
-            $table->string('archivo_resolucion_tipo')->nullable();//local o web
+            $table->string('archivo_resolucion_tipo')->default('local');//local o web
             $table->date('contrato_inicio')->nullable();
 
             //configuración
@@ -37,6 +37,11 @@ class CreateProcesosTable extends Migration
             $table->decimal('bon_deport', 3, 2)->default(0);
             $table->decimal('bon_otros1', 3, 2)->default(0);
             $table->decimal('bon_otros2', 3, 2)->default(0);
+            
+            $table->boolean('hay_bon_pers_disc')->default(true);
+            $table->boolean('hay_bon_ffaa')->default(true);
+            $table->boolean('hay_bon_deport')->default(false);
+
 
             //$table->decimal('pje_otro', 3, 2)->default(0);
             $table->decimal('pje_max_cv', 4, 2)->default(60.00);
@@ -45,6 +50,9 @@ class CreateProcesosTable extends Migration
             $table->decimal('pje_min_conoc', 5, 2)->default(0);
             $table->decimal('pje_max_entrev', 5, 2)->default(40);
             $table->decimal('pje_min_entrev', 5, 2)->default(20);
+            $table->decimal('peso_cv', 4, 2)->default(0.0);
+            $table->decimal('peso_conoc', 4, 2)->default(0.0);
+            $table->decimal('peso_entrev', 4, 2)->default(0.0);
                 //CV
                 $table->decimal('anios_exp_lab_gen', 5, 2)->default(3);
                 $table->decimal('anios_exp_lab_esp', 5, 2)->default(2);
@@ -57,6 +65,8 @@ class CreateProcesosTable extends Migration
             $table->dateTimeTz('fecha_inscripcion_inicio')->nullable();
             $table->dateTimeTz('fecha_inscripcion_fin')->nullable();
             $table->date('fecha_resultados')->nullable();
+            $table->date('fecha_firma_contrato')->nullable();
+            $table->string('duracion_contrato')->nullable();
 
 
             //archivos/publicaciones

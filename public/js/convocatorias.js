@@ -67,8 +67,6 @@ $(document).ready(function() {
     
                   }
                 });
-            
-//========================================
                
             })
         }
@@ -92,5 +90,32 @@ $(document).ready(function() {
                 email: !0
             }
         }
-    })    
+    })      
 })
+
+function editar(id){
+    $.ajax({
+        url:   "/convocatorias/edit/"+id,
+        type: 'GET',
+        beforeSend: function () {
+          console.log('enviando....');
+        },
+        success:  function (response){
+              console.log("exito",response);
+              //aqui llenar todo los inputs .val("___")
+              
+          
+        },
+        error: function (response){
+            console.log("Error",response.data);
+          Swal.fire({
+              title: "¡Error!",
+              text: response.responseJSON.message,
+              icon: "error",
+              timer: 3500,
+          })
+
+        }
+    });
+    $("#modal_editar").modal("show");
+}
