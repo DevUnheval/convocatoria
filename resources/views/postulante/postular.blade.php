@@ -9,18 +9,24 @@
 @endsection
 
 @section('content')
-{{auth()->user()->nombres}} <br>
+<!--{{auth()->user()->nombres}} <br>
 {{auth()->user()->id}} <br>
-{{auth()->user()->email}} <br>
+{{auth()->user()->email}} <br>-->
 <!-- ============================================================== -->
 <!-- Example -->
 <!-- ============================================================== -->
+@include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
+@include('postulante.modalnuevaexperiencia')
 
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-5"></i>  <strong> <h2>Proceso de Seleccion N° 002-2021 - ASISTENTE ADMINISTRATIVO EJECUTIVO COMERCIAL</h2></strong> 
+            <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-info">
+            @foreach ($proceso as $pro)
+            {{$pro->cod}} - {{$pro->nombre}} (N° plazas = {{$pro->n_plazas}})
+            @endforeach    
+            </h2></strong> 
             
         </div>
         <div class="card-body wizard-content">
@@ -164,11 +170,19 @@
                 </section>
                 <!-- Step 2 -->
                 <h6>Formación Académica</h6>
-                
                 <section>
-                    
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
+                                <i class="fa fa-plus"></i> Nuevo</button>
+                            </div>
+                        </div>
+                        
+                    </div>                    
                     <div class="table-responsive">
-                        <table id="zero_config" class="table table-striped table-bordered">
+                        <table id="zero_config1" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Tipo de estudios</th>
@@ -218,118 +232,164 @@
                             </tfoot>
                         </table>
                     </div>
-                    <br>
-                    <div class="row">
-                        <h4 class="card-title">
-                            <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
-                            <i class="fa fa-plus"></i> Nuevo</button>
-                        </h4>
-                    </div>
+                                        
                 </section>
+                
                 <!-- Step 3 -->
                 <h6>Cursos y/o Especializaciones</h6>
                 <section>
+                    <br>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="wint1">Interview For :</label>
-                                <input type="text" class="form-control required" id="wint1"> </div>
-                            <div class="form-group">
-                                <label for="wintType1">Interview Type :</label>
-                                <select class="custom-select form-control required" id="wintType1" data-placeholder="Type to search cities" name="wintType1">
-                                    <option value="Banquet">Normal</option>
-                                    <option value="Fund Raiser">Difficult</option>
-                                    <option value="Dinner Party">Hard</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="wLocation1">Location :</label>
-                                <select class="custom-select form-control required" id="wLocation1" name="wlocation">
-                                    <option value="">Select City</option>
-                                    <option value="India">India</option>
-                                    <option value="USA">USA</option>
-                                    <option value="Dubai">Dubai</option>
-                                </select>
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
+                                <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="wjobTitle2">Interview Date :</label>
-                                <input type="date" class="form-control required" id="wjobTitle2">
-                            </div>
-                            <div class="form-group">
-                                <label>Requirements :</label>
-                                <div class="c-inputs-stacked">
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio16" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio16">Employee</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio17" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio17">Contract</label>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
+                        <div class="col-md-4">
+                          <div class="form-inline">
+                              <label for="total_horas">Total horas: <span class="danger"></span> </label>
+                              <input type="text" readonly="readonly" class="form-control" id="total_horas" name="total_horas" > 
+                          </div>
+                      </div>
                     </div>
                     
+                    <div class="table-responsive">
+                        <table id="zero_config2" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de estudios</th>
+                                    <th>Descripción</th>
+                                    <th>Centro de Estudios</th>
+                                    <th>Especialidad<br></th>
+                                    <th>Cantidad de Horas</th>
+                                    <th>Documento</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <!-- Cuerpo vacio -->
+                                    <tr>
+                                        <td>Curso</td>
+                                        <td>Redes</td>
+                                        <td>Universidad Nacional Hermilio Valdizan</td>
+                                        <td>Espcialidad</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Curso</td>
+                                        <td>Redes</td>
+                                        <td>Universidad Nacional Hermilio Valdizan</td>
+                                        <td>Espcialidad</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Tipo de estudios</th>
+                                    <th>Descripción</th>
+                                    <th>Centro de Estudios</th>
+                                    <th>Especialidad<br></th>
+                                    <th>Cantidad de Horas</th>
+                                    <th>Documento</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                                        
                 </section>
                 
                 <!-- Step 4 -->
                 <h6>Experiencia Laboral</h6>
                 <section>
+                    <br>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="behName1">Behaviour :</label>
-                                <input type="text" class="form-control required" id="behName1">
-                            </div>
-                            <div class="form-group">
-                                <label for="participants1">Confidance</label>
-                                <input type="text" class="form-control required" id="participants1">
-                            </div>
-                            <div class="form-group">
-                                <label for="participants1">Result</label>
-                                <select class="custom-select form-control required" id="participants1" name="location">
-                                    <option value="">Select Result</option>
-                                    <option value="Selected">Selected</option>
-                                    <option value="Rejected">Rejected</option>
-                                    <option value="Call Second-time">Call Second-time</option>
-                                </select>
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_experiencia">
+                                <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="decisions1">Comments</label>
-                                <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Rate Interviwer :</label>
-                                <div class="c-inputs-stacked">
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio11" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio11">1 star</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio12" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio12">2 star</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio13" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio13">3 star</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio14" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio14">4 star</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="customRadio15" name="customRadio" class="custom-control-input">
-                                        <label class="custom-control-label" for="customRadio15">5 star</label>
-                                    </div>
-                                </div>
+                        <div class="col-md-4">
+                            <div class="form-inline">
+                                <label for="exp_general">Experiencia General:<span class="danger"></span> </label>
+                                <input type="text" readonly="readonly" class="form-control " id="exp_general" name="exp_general" > 
                             </div>
                         </div>
+                        <div class="col-md-4">
+                          <div class="form-inline">
+                              <label for="exp_especifica">Experiencia Específica:<span class="danger"></span> </label>
+                              <input type="text" readonly="readonly" class="form-control " id="exp_especifica" name="exp_especifica" > 
+                          </div>
+                      </div>
                     </div>
+                    
+                    <div class="table-responsive">
+                        <table id="zero_config3" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de estudios</th>
+                                    <th>Descripción</th>
+                                    <th>Centro de Estudios</th>
+                                    <th>Especialidad<br></th>
+                                    <th>Cantidad de Horas</th>
+                                    <th>Documento</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                    <!-- Cuerpo vacio -->
+                                    <tr>
+                                        <td>Curso</td>
+                                        <td>Redes</td>
+                                        <td>Universidad Nacional Hermilio Valdizan</td>
+                                        <td>Espcialidad</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Curso</td>
+                                        <td>Redes</td>
+                                        <td>Universidad Nacional Hermilio Valdizan</td>
+                                        <td>Espcialidad</td>
+                                        <td>80</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Tipo de estudios</th>
+                                    <th>Descripción</th>
+                                    <th>Centro de Estudios</th>
+                                    <th>Especialidad<br></th>
+                                    <th>Cantidad de Horas</th>
+                                    <th>Documento</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                                        
                 </section>
             </form>
         </div>
@@ -411,5 +471,11 @@
             }
         }
     })
+
+    $(document).ready( function () {
+    $('#zero_config1').DataTable();
+    $('#zero_config2').DataTable();
+    $('#zero_config3').DataTable();
+} );
     </script>
 @endsection
