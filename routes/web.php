@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () { return view('convocatorias.vigentes.index'); })->name('index');
 
 //Rutas AUTH
-Auth::routes(['verify' => true]);//FRANZ
+Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
 Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
@@ -24,7 +24,7 @@ Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a p
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
 Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-
+Route::get('perfil', 'Auth\PerfilController@index')->name('perfil');
  //JOSE AQUI TUS RUTAS
  //Fin Auth
 
@@ -57,6 +57,13 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+});
+
+//POSTULANTE
+Route::group(['prefix' => 'postulante'], function(){
+    // Vistas 
+    Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular'); 
+        
 });
 
 //MAESTRO

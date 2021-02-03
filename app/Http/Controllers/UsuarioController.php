@@ -9,8 +9,10 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 class UsuarioController extends Controller
 {
@@ -31,6 +33,7 @@ class UsuarioController extends Controller
  
     public function registrar(Request $request)
     {
+       // return "asdsd";
         $v = \Validator::make($request->all(), [
             'dni' =>'required|unique:users',
             'email' =>'required|unique:users',
