@@ -22,7 +22,11 @@
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-5"></i>  <strong> <h2>Proceso de Seleccion N° 002-2021 - ASISTENTE ADMINISTRATIVO EJECUTIVO COMERCIAL</h2></strong> 
+            <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-info">
+            @foreach ($proceso as $pro)
+            {{$pro->cod}} - {{$pro->nombre}} (N° plazas = {{$pro->n_plazas}})
+            @endforeach    
+            </h2></strong> 
             
         </div>
         <div class="card-body wizard-content">
