@@ -64,7 +64,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <small>Descripción (opcional)</small>
-                                                    <textarea class="form-control required" name="descripcion" placeholder="Escribir aquí..."></textarea>
+                                                    <textarea class="form-control" name="descripcion" placeholder="Escribir aquí..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
