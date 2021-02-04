@@ -65,6 +65,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
 Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
     Route::get('postular', 'postulante\PostulanteController@postular')->name('postulante_postular');
+    Route::post('store', 'postulante\PostulanteController@store')->name('postulante.store'); 
     //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
 
         
