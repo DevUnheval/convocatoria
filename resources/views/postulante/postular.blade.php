@@ -18,6 +18,8 @@
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
+@include('postulante.mod_selec_exp_espec')
+@include('postulante.mod_seleccionar_capac')
 
 <div class="col-12">
     <div class="card">
@@ -38,69 +40,72 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="apellido_paterno"> Apellido Paterno : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno"> </div>
+                                <label for="apellido_paterno"> Apellido Paterno : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{auth()->user()->apellido_paterno}}" id="apellido_paterno" name="apellido_paterno" disabled> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="apellido_materno"> Apellido Materno : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="apellido_materno" name="apellido_materno"> </div>
+                                <label for="apellido_materno"> Apellido Materno : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{auth()->user()->apellido_materno}}" id="apellido_materno" name="apellido_materno" disabled> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="nombres"> Nombres : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="nombres" name="nombres"> </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="dni"> DNI : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="dni" name="dni"> </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="email"> Correo electrónico : <span class="danger">*</span> </label>
-                                <input type="email" class="form-control" id="email" name="email"> </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="danger">*</span> </label>
-                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"> </div>
+                                <label for="nombres"> Nombres : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{auth()->user()->nombres}}" id="nombres" name="nombres" disabled> </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ruc"> RUC : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="ruc" name="ruc"> </div>
+                                <label for="dni"> DNI : <span class="text-danger">*</span> </label>
+                                <input type="text" value="{{auth()->user()->dni}}" class="form-control" id="dni" name="dni" disabled> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="apellido_paterno"> Ubigeo segun DNI : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno"> </div>
+                                <label for="email"> Correo electrónico : <span class="text-danger">*</span> </label>
+                                <input type="email" class="form-control" id="email" value="{{auth()->user()->email}}" name="email" disabled> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="apellido_materno"> Nacionalidad : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="apellido_materno" name="apellido_materno"> </div>
+                                <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger">*</span> </label>
+                                <input type="date" class="form-control" value="{{auth()->user()->fecha_nacimiento}}" id="fecha_nacimiento" name="fecha_nacimiento" disabled> </div>
+                        </div>
+                    </div>
+                    @foreach ($datos_usuario as $du)
+                        
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ruc"> RUC : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{$du->ruc}}"  id="ruc" name="ruc"> </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="apellido_paterno"> Ubigeo segun DNI : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{$du->ubigeo}}" id="apellido_paterno" name="apellido_paterno"> </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="apellido_materno"> Nacionalidad : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{auth()->user()->nacionalidad}}" id="apellido_materno" name="apellido_materno"> </div>
                         </div>   
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefono_celular"> Telefono celular : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="telefono_celular" name="telefono_celular"> </div>
+                                <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{$du->telefono_celular}}" id="telefono_celular" name="telefono_celular"> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="telefono_fijo"> Telefono fijo : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="telefono_fijo" name="telefono_fijo"> </div>
+                                <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{$du->telefono_celular}}" id="telefono_fijo" name="telefono_fijo"> </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="domicilio"> Domicilio : <span class="danger">*</span> </label>
-                                <input type="text" class="form-control" id="domicilio" name="domicilio"> </div>
+                                <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
+                                <input type="text" class="form-control" value="{{$du->domicilio}}" id="domicilio" name="domicilio"> </div>
                         </div>   
                     </div>
                     <br>
@@ -108,15 +113,15 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label > ¿Cuenta con certificado de discapacidad y/o registro en CONADIS?(Ley N° 29973) <span class="danger">*</span> </label>
+                                <label > ¿Cuenta con certificado de discapacidad y/o registro en CONADIS?(Ley N° 29973) <span class="text-danger">*</span> </label>
                                 
                             </div>  
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input name="group1"  class="material-inputs" type="radio" id="si_discapacidad"  />
+                                <input name="group1"  class="material-inputs" {{$du->es_pers_disc = 1 ? 'checked' : ''}} value="1" type="radio" id="si_discapacidad"  />
                                 <label for="si_discapacidad">Si</label>
-                                <input name="group1"  class="material-inputs" type="radio" id="no_discapacidad"  />
+                                <input name="group1"  class="material-inputs" {{$du->es_pers_disc = 0 ? 'checked' : ''}} value="0" type="radio" id="no_discapacidad"  />
                                 <label for="no_discapacidad">No</label>
                             </div>   
                         </div>
@@ -125,15 +130,15 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label > ¿Es licenciado de las FFAA ?(Ley Nº 29248) <span class="danger">*</span> </label>
+                                <label > ¿Es licenciado de las FFAA ?(Ley Nº 29248) <span class="text-danger">*</span> </label>
                                 
                             </div>  
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input name="group2"  class="material-inputs" type="radio" id="si_ffaa"  />
+                                <input name="group2"  class="material-inputs" {{$du->es_lic_ffaa = 1 ? 'checked' : ''}} type="radio" id="si_ffaa"  />
                                 <label for="si_ffaa">Si</label>
-                                <input name="group2"  class="material-inputs" type="radio" id="no_ffaa"  />
+                                <input name="group2"  class="material-inputs" {{$du->es_lic_ffaa = 0 ? 'checked' : ''}} type="radio" id="no_ffaa"  />
                                 <label for="no_ffaa">No</label>
                             </div>   
                         </div>
@@ -142,25 +147,27 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label > ¿Es deportista calificado? <span class="danger">*</span> </label>
+                                <label > ¿Es deportista calificado? <span class="text-danger">*</span> </label>
                                 
                             </div>  
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input name="group3"  class="material-inputs" type="radio" id="si_deportista"  />
+                                <input name="group3"  class="material-inputs" {{$du->es_deportista = "1" ? 'checked' : ''}}  type="radio" id="si_deportista"  />
                                 <label for="si_deportista">Si</label>
-                                <input name="group3"  class="material-inputs" type="radio" id="no_deportista"  />
+                                <input name="group3"  class="material-inputs"  {{$du->es_deportista = "0" ? 'checked' : ''}} type="radio" id="no_deportista"  />
                                 <label for="no_deportista">No</label>
                             </div>   
                         </div>
                                              
                     </div>
+
+                    @endforeach
                     <br>
                     <div class="row">
                         <div class="col-md-12">
                             
-                            <label> (*) Indica un campo obligatorio.<span class="danger"></span> </label>
+                            <label class="text-danger"> (*) Indica un campo obligatorio.<span class="text-danger"></span> </label>
                         </div>
                         
                     <br>
@@ -185,48 +192,37 @@
                         <table id="zero_config1" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tipo de estudios</th>
-                                    <th>Descripción</th>
+                                    <th>Grado de estudio</th>
+                                    <th>Especialidad</th>
                                     <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
+                                    <th>Fecha Expedición<br></th>
                                     <th>Documento</th>
-                                    <th>Editar</th>
+                                    
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <!-- Cuerpo vacio -->
+                                    @foreach ($datos_formacion as $df)
                                     <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$df->grado_id}}</td>
+                                        <td>{{$df->especialidad}}</td>
+                                        <td>{{$df->centro_estudios}}</td>
+                                        <td>{{$df->fecha_expedicion}}</td>
+                                        <td><button class="btn btn-info" >ver</button></td>
+                                        
+                                        <td><button class="btn btn-danger" >Eliminar</button></td>
                                     </tr>
-                                    <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Tipo de estudios</th>
-                                    <th>Descripción</th>
+                                    <th>Grado de estudio</th>
+                                    <th>Especialidad</th>
                                     <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
+                                    <th>Fecha Expedición<br></th>
                                     <th>Documento</th>
-                                    <th>Editar</th>
+                                    
                                     <th>Eliminar</th>
                                 </tr>
                             </tfoot>
@@ -240,20 +236,21 @@
                 <section>
                     <br>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                               
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_selec_capac">
+                                    <i class="fa fa-plus"></i> Adicionar Capacitación</button>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-7">
                           <div class="form-inline">
-                              <label for="total_horas">Total horas: <span class="danger"></span> </label>
+                              <label for="total_horas">Total horas: <span class="text-danger"></span> </label>
                               <input type="text" readonly="readonly" class="form-control" id="total_horas" name="total_horas" > 
                           </div>
                       </div>
@@ -263,51 +260,20 @@
                         <table id="zero_config2" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tipo de estudios</th>
+                                    <th>Tipo de estudio</th>
                                     <th>Descripción</th>
-                                    <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
+                                    <th>Institución</th>
+                                    <th>Horas lectivas<br></th>
                                     <th>Documento</th>
-                                    <th>Editar</th>
+                                    
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <!-- Cuerpo vacio -->
-                                    <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Tipo de estudios</th>
-                                    <th>Descripción</th>
-                                    <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
-                                    <th>Documento</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </tfoot>
+                            
                         </table>
                     </div>
                                         
@@ -326,13 +292,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-inline">
-                                <label for="exp_general">Experiencia General:<span class="danger"></span> </label>
+                                <label for="exp_general">Experiencia General:<span class="text-danger"></span> </label>
                                 <input type="text" readonly="readonly" class="form-control " id="exp_general" name="exp_general" > 
                             </div>
                         </div>
                         <div class="col-md-4">
                           <div class="form-inline">
-                              <label for="exp_especifica">Experiencia Específica:<span class="danger"></span> </label>
+                              <label for="exp_especifica">Experiencia Específica:<span class="text-danger"></span> </label>
                               <input type="text" readonly="readonly" class="form-control " id="exp_especifica" name="exp_especifica" > 
                           </div>
                       </div>
@@ -342,53 +308,98 @@
                         <table id="zero_config3" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Tipo de estudios</th>
-                                    <th>Descripción</th>
-                                    <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
+                                    <th>Tipo de Experiencia</th>
+                                    <th>Tipo Entidad</th>
+                                    <th>Nombre Entidad</th>
+                                    <th>Cargo<br></th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
                                     <th>Documento</th>
-                                    <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                     <!-- Cuerpo vacio -->
+                                    @foreach ($datos_experiencia as $de)
                                     <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>falta det experiencia</td>
+                                        <td>falta det tipo entidad</td>
+                                        <td>{{$de->centro_laboral}}</td>
+                                        <td>{{$de->cargo}}</td>
+                                        <td>{{$de->fecha_inicio}}</td>
+                                        <td>{{$de->fecha_fin}}</td>
+                                        <td><button class="btn btn-info" >ver</button></td>
+                                        <td><button class="btn btn-danger" >Eliminar</button></td>
                                     </tr>
-                                    <tr>
-                                        <td>Curso</td>
-                                        <td>Redes</td>
-                                        <td>Universidad Nacional Hermilio Valdizan</td>
-                                        <td>Espcialidad</td>
-                                        <td>80</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Tipo de estudios</th>
-                                    <th>Descripción</th>
-                                    <th>Centro de Estudios</th>
-                                    <th>Especialidad<br></th>
-                                    <th>Cantidad de Horas</th>
+                                    <th>Tipo de Experiencia</th>
+                                    <th>Tipo Entidad</th>
+                                    <th>Nombre Entidad</th>
+                                    <th>Cargo<br></th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
                                     <th>Documento</th>
-                                    <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+                                        
+                </section>
+
+                <!-- Step 5 -->
+                <h6>POSTULAR</h6>
+                <section>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group text-right">
+                                <label class="text-md-right text-right"> Declaración jurada <span class="text-danger">*</span> </label>
+                                
+                            </div>  
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input name=""  class="material-inputs"  type="file" id=""  />
+                            </div>   
+                        </div>
+                                             
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group text-right">
+                                <label class="text-md-right " > Anexo 1 <span class="text-danger">*</span> </label>
+                                
+                            </div>  
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <input name=""  class="material-inputs"  type="file" id=""  />
+                            </div>   
+                        </div>
+                                             
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group text-right">
+                                <label class="text-right"> Anexo 2 <span class="text-danger">*</span> </label>
+                                
+                            </div>  
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input name=""  class="material-inputs"  type="file" id=""  />
+                            </div>   
+                        </div>
+                                             
+                    </div>
+
+                    
+                    <br>
+                    <br>
                                         
                 </section>
             </form>
@@ -406,76 +417,10 @@
 <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
 <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
 <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-
+<script src="{{ asset('/js/postulante.js')}}"></script>
+<script src="{{ asset('/js/tablas_postular.js')}}"></script>
 <script>
     //Vertical Steps
-    
-    $("#example-vertical").steps({
-        headerTag: "h3",
-        bodyTag: "section",
-        transitionEffect: "slideLeft",
-        stepsOrientation: "vertical"
-    });
-    
-    //Custom design form example
-    $(".tab-wizard").steps({
-        headerTag: "h6",
-        bodyTag: "section",
-        transitionEffect: "fade",
-        titleTemplate: '<span class="step">#index#</span> #title#',
-        labels: {
-            finish: "Submit"
-        },
-        onFinished: function(event, currentIndex) {
-            swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
-    
-        }
-    });
-    
-    
-    var form = $(".validation-wizard").show();
-    
-    $(".validation-wizard").steps({
-        headerTag: "h6",
-        bodyTag: "section",
-        transitionEffect: "fade",
-        titleTemplate: '<span class="step">#index#</span> #title#',
-        labels: {
-            finish: "Submit"
-        },
-        onStepChanging: function(event, currentIndex, newIndex) {
-            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
-        },
-        onFinishing: function(event, currentIndex) {
-            return form.validate().settings.ignore = ":disabled", form.valid()
-        },
-        onFinished: function(event, currentIndex) {
-            swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
-        }
-    }), $(".validation-wizard").validate({
-        ignore: "input[type=hidden]",
-        errorClass: "text-danger",
-        successClass: "text-success",
-        highlight: function(element, errorClass) {
-            $(element).removeClass(errorClass)
-        },
-        unhighlight: function(element, errorClass) {
-            $(element).removeClass(errorClass)
-        },
-        errorPlacement: function(error, element) {
-            error.insertAfter(element)
-        },
-        rules: {
-            email: {
-                email: !0
-            }
-        }
-    })
-
-    $(document).ready( function () {
-    $('#zero_config1').DataTable();
-    $('#zero_config2').DataTable();
-    $('#zero_config3').DataTable();
-} );
+   
     </script>
 @endsection

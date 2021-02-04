@@ -53,7 +53,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="carreraProfesional">Carrera Profesional/Mención:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="carreraProfesional" name="carreraProfesional" > 
+                                                <input type="checkbox" id="md_checkbox_27" class="material-inputs filled-in chk-col-light-blue"/> 
                                             </div>
                                         </div>
                                      </div>
