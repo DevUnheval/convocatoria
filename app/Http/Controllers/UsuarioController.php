@@ -88,32 +88,26 @@ class UsuarioController extends Controller
         
     }
     public function vista_usuarios(){
-        $roles= Rol::pluck('nombre','id');
+        $roles= Rol::where('id','<>',1)->pluck('nombre','id');
         return view("maestro.usuarios",compact('roles'));
     }
     public function data_usuarios(){
-        $query = User::all();
-        //$dato=$query[0];
-        //$dato->tipoproceso->nombre;
+        $query = User::where("id","<>",1)->get();
         if($query->count()<1)
         return $this->data_null;
 
         // return $query;
         foreach ($query as $dato) {
             //return $dato->tipoproceso;
-           
-            
                 $config = ' <div class="btn-group">';
                 $config.= ' <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <i class="ti-settings"></i>
                             </button>';
-                $config.= ' <div class="dropdown-menu animated slideInUp" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-eye"></i> Abrir </a>
-                                    <a class="dropdown-item type="button" class="btn" data-toggle="modal" data-target="#modal_editar"><i class="ti-pencil-alt"></i> Editar</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-comment-alt"></i> Comunicar</a>
+                $config.= "<div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
+                                    <button class='dropdown-item'  class='btn' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
                                 </div>
-                            </div>';
+                            </div>";
                 
                             $usuarios_all = $dato->nombres.' '.$dato->apellido_paterno.' '.$dato-> apellido_materno;
                             $dni=$dato->dni;
@@ -125,7 +119,30 @@ class UsuarioController extends Controller
         }
                         return json_encode($data, true);        
                 
-                    }
+    }
+
+    public function edit($id){
+        $user = User::find($id);
+        return 
+            [
+                "usuario"  =>  $user,
+                "roles"    =>  $user->roles->pluck("id")
+            ];
+    }
+
+    public function update(Request $r){
+        $q=User::find($r->id);
+        $q->nombres=$r->nombres;
+        $q->apellido_paterno=$r->apellido_paterno;
+        $q->apellido_materno=$r->apellido_materno;
+        if($q->password!=""){
+            $q->password=bcrypt($r->password);
+        }
+        $q->save();
+        $q->roles()->sync($r->roles);
+        return $q->roles;
+       
+    }
                 
     }
 

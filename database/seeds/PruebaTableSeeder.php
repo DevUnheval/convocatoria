@@ -52,7 +52,7 @@ class PruebaTableSeeder extends Seeder
             
             $query2 = new UserRol;
             $query2->user_id = $query->id;
-            $query2->rol_id = 3;
+            $query2->rol_id = 4;
             $query2->save();
             unset($query);
             unset($query2);
