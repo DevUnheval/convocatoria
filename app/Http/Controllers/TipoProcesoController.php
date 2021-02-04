@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Proceso;
 use App\Rol;
+use App\TipoProceso;
 use App\User;
 use App\UserRol;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class UsuarioController extends Controller
+class TipoProcesoController extends Controller
 {
     public function __construct()
     {
@@ -87,14 +88,14 @@ class UsuarioController extends Controller
          return "error";
         
     }
-    public function vista_usuarios(){
-        $roles= Rol::pluck('nombre','id');
-        return view("maestro.usuarios",compact('roles'));
+    public function vista_tipoprocesos(){
+        
+        return view("maestro.tipoprocesos");
     }
-    public function data_usuarios(){
-        $query = User::all();
-        //$dato=$query[0];
-        //$dato->tipoproceso->nombre;
+    public function data_tipoprocesos(){
+        $query = TipoProceso::all();
+        // $dato=$query[0];
+        // $dato->tipoproceso->nombre;
         if($query->count()<1)
         return $this->data_null;
 
@@ -113,19 +114,15 @@ class UsuarioController extends Controller
                                     <a class="dropdown-item type="button" class="btn" data-toggle="modal" data-target="#modal_editar"><i class="ti-pencil-alt"></i> Editar</a>
                                     <a class="dropdown-item" href="javascript:void(0)"><i class="ti-comment-alt"></i> Comunicar</a>
                                 </div>
-                            </div>';
-                
-                            $usuarios_all = $dato->nombres.' '.$dato->apellido_paterno.' '.$dato-> apellido_materno;
-                            $dni=$dato->dni;
-                            $foto="<img src='$dato->img' height='45px'/>";
-                            $roles=$dato->roles->pluck('nombre');
-        
-
-                            $data['aaData'][] = [$config,$dato->id,$dni,$usuarios_all,$foto, $roles];
+                             </div>';
+                               
+                            $nombre=$dato->nombre;   
+                            $descripcion=$dato->descripcion;                          
+                           
+                            $data['aaData'][] = [$config,$dato->id,$nombre,$descripcion];
         }
                         return json_encode($data, true);        
                 
                     }
                 
     }
-

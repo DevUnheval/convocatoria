@@ -43,6 +43,11 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::post('update', 'UsuarioController@update')->name('maestro.usuarios.update');  
         Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
     }); 
+    Route::group(['prefix' => 'tipoprocesos'], function(){
+        Route::get('/', 'TipoProcesoController@vista_tipoprocesos')->name('maestro.tipoprocesos.index');  
+        Route::post('update', 'TipoProcesoController@update')->name('maestro.tipoprocesos.update');  
+        Route::get('data', 'TipoProcesoController@data_tipoprocesos')->name('maestro.tipoprocesos.data');  
+    }); 
 });
 
 //CONVOCATORIAS
@@ -51,6 +56,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso');
     Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
+    Route::get('usuarios', 'UsuarioController@historico')->name('convocatoria.maestro');
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
     Route::get('en_curso/data', 'ConvocatoriaController@vigentes')->name('convocatoria.en_curso.data'); 
