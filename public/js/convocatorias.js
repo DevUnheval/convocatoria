@@ -51,7 +51,6 @@ $(document).ready(function() {
                         },
                         success:  function (response){
                             console.log("exito",response);
-                            //Swal.fire('Guardado!','El registro ha sido creado con éxito.','success');
                             $('#zero_config').DataTable().ajax.reload();
                             $('#modal_nuevo').modal('hide');                    
                         },
@@ -101,7 +100,7 @@ function editar(id){
         success:  function (response){
             console.log("exito",response);
             $("#cod").val(response.cod);
-            $("#n_plaza").val(response.n_plaza);
+            $("#n_plazas").val(response.n_plazas);
             $("#nombre").val(response.nombre);
             $("#oficina").val(response.oficina);
             $("#descripcion").val(response.descripcion);

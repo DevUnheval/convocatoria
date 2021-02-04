@@ -52,7 +52,6 @@ class ConvocatoriaController extends Controller
                                     <a class='dropdown-item' href='javascript:void(0)'><i class='ti-comment-alt'></i> Comunicar</a>
                                 </div>
                             </div>";
-
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
@@ -94,6 +93,7 @@ class ConvocatoriaController extends Controller
     public function store(Request $r)
     {
         Proceso::create($r->all());
+        return $r->all();
     }
 
     public function show($id)
