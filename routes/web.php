@@ -73,6 +73,7 @@ Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
     Route::get('postular', 'postulante\PostulanteController@postular')->name('postulante_postular');
     Route::post('actualizardatos', 'postulante\PostulanteController@actualizar')->name('actualizardatos'); 
+    Route::post('guardarformacion', 'postulante\PostulanteController@guardarformacion')->name('guardarformacion'); 
     //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
 
         

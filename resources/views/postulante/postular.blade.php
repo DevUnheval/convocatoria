@@ -73,6 +73,7 @@
                                     <input type="date" class="form-control" value="{{auth()->user()->fecha_nacimiento}}" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
                         </div>
+                        <input type="hidden" value="{{auth()->user()->id}}"  id="di2" >
                         @foreach ($datos_usuario as $du)
                             
                         <input type="hidden" value="{{$du->id}}"  id="di" >
@@ -205,6 +206,7 @@
                 <h6>Formación Académica</h6>
                 <section>
                     <br>
+                    <div id="div_act">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -254,7 +256,7 @@
                             </tfoot>
                         </table>
                     </div>
-                                        
+                    </div>                     
                 </section>
                 
                 <!-- Step 3 -->
@@ -302,7 +304,7 @@
                             
                         </table>
                     </div>
-                                        
+                </div>                     
                 </section>
                 
                 <!-- Step 4 -->
