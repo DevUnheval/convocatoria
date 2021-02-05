@@ -224,7 +224,7 @@
                                 <span class="hide-menu">Maestro</span>
                             </a>
                             <ul aria-expanded="false" class="collapse first-level">
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Usuarios</span></a></li>
+                                <li class="sidebar-item"><a href="{{route('maestro.usuarios.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Usuarios</span></a></li>
                                 <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Tipo de Procesos</span></a></li>
                                 
                             </ul>

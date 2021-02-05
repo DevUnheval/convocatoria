@@ -58,7 +58,7 @@ class ConvocatoriaController extends Controller
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
-                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[0,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
+                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
                 }else if(auth()->check() && auth()->user()->hasRoles(['Postulante'])){
                     $idproceso=$dato->id;
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';

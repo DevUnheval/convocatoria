@@ -29,7 +29,7 @@
 
 @section('content')
 <?php
-$postulantes=[
+$postulantess=[
     ['dni'=>'48315690', 'nombres'=>'Juan Carrillo Celis', 'estado'=>'Pendiente','ev_curricular'=>50,'ev_conocimiento'=>60,'ev_entrevista'=>50],
     ['dni'=>'43350690', 'nombres'=>'Pedro Carrillo Celis', 'estado'=>'Califica','ev_curricular'=>50,'ev_conocimiento'=>60,'ev_entrevista'=>50],
     ['dni'=>'44320690', 'nombres'=>'Pedro Carrillo Celis', 'estado'=>'Califica','ev_curricular'=>50,'ev_conocimiento'=>60,'ev_entrevista'=>50],
@@ -53,7 +53,7 @@ $postulantes=[
             <i class="icon-layers mr-1"></i><span class="d-none d-md-block">Todos ({{count($postulantes)}})</span></a> 
         </li>
         <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-pendiente">
-            <i class="icon-clock mr-1"></i><span class="d-none d-md-block">Pendientes (2)</span></a> 
+            <i class="icon-clock mr-1"></i><span class="d-none d-md-block">{{$postulantes}}</span></a> 
         </li>
         <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-no-califica">
             <i class="icon-close mr-1"></i><span class="d-none d-md-block">No califica (8)</span></a> 
@@ -71,11 +71,10 @@ $postulantes=[
                 @include('postulantes.modal_cv')
                 @include('postulantes.modal_evaluar')
                 @foreach($postulantes as $key => $p)
-                
-                <div class="col-md-3 single-note-pendiente container-fluid all-category {{$p['estado']=='Califica' ? 'note-califica':''}} {{$p['estado']=='No califica' ? 'note-no-califica':''}} {{$p['estado']=='Pendiente' ? 'note-pendiente':''}}">
+                <div class="col-md-3 single-note-pendiente container-fluid all-category {{array_key_exists($p->$calificacion_etapa_actual, $estado) ? $estado[$p->$calificacion_etapa_actual]['clase'] : 'note-pendiente'}}">
                     <div class="card card-body el-element-overlay">
                         <span class="side-stick"></span>
-                        <h5 class="note-title text-truncate w-75 mb-0"> {{$p['estado']}}  <i class="point fas fa-circle ml-1 font-10" ></i></h5>
+                        <h5 class="note-title text-truncate w-75 mb-0"> {{array_key_exists($p->$calificacion_etapa_actual, $estado) ? $estado[$p->$calificacion_etapa_actual]['nombre'] : 'Pendiente'}}  <i class="point fas fa-circle ml-1 font-10" ></i></h5>
                         <p class="note-date font-12 text-muted">11 March 2009</p>
                         <div class="note-content">
                             <div class="el-card-item pb-3">
@@ -92,7 +91,7 @@ $postulantes=[
                                   
                                 </div>
                                 <div class="el-card-content text-center">
-                                    <h4 class="mb-0">{{$p['nombres']}} (25)</h4> <span class="text-muted">Ingenieria Civil</span>
+                                    <h4 class="mb-0">{{$p->user->nombres.' '.$p->user->apellido_paterno.' '.$p->user->apellido_materno}} (25)</h4> <span class="text-muted">Ingenieria Civil</span>
                                 </div>
                             </div>
                             <div class="el-card-content text-left">
