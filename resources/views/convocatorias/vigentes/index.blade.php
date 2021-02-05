@@ -22,6 +22,7 @@
                                 @include('convocatorias.vigentes.m_nuevo')
                                 @include('convocatorias.vigentes.m_editar')
                                 @include('convocatorias.vigentes.m_ver')
+                                @include('convocatorias.vigentes.m_comunicados')
                            
                             {{--Fin modal --}}
 
@@ -32,7 +33,7 @@
             @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
-                        <thead>
+                        <thead class="bg-success text-white">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 <th>Conf.</th>
@@ -55,7 +56,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot>
+                        <tfoot  class="bg-success text-white">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 <th>Conf.</th>
