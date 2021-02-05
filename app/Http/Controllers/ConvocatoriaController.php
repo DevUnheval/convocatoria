@@ -54,11 +54,11 @@ class ConvocatoriaController extends Controller
                             </div>";
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
-                $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
+                $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button" data-toggle="modal" data-target="#modal_comunicados" data-original-title="Ver"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
-                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[0,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
+                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
                 }else if(auth()->check() && auth()->user()->hasRoles(['Postulante'])){
                     $idproceso=$dato->id;
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
@@ -86,6 +86,10 @@ class ConvocatoriaController extends Controller
     public function historico()
     {
         return view('convocatorias.historico');
+    }
+    public function showme($id)
+    {
+        return Proceso::find($id);
     }
 
     //CRUD

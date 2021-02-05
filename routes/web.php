@@ -80,8 +80,8 @@ Route::group(['prefix' => 'postulante'], function(){
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
-        Route::get('/{cas?}/{etapa?}/listar', 'PostulantesController@index')
-                ->where(['cas' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
+        Route::get('/{proceso_id}/{etapa?}/listar', 'PostulantesController@index')
+                ->where(['proceso_id' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
         
    });

@@ -16,25 +16,24 @@ class AjustesController extends Controller
     	return view('maestro.ajustes',compact('ajustes'));
     }
     public function update(Request $r){
-    	$query=[];
-    	//texto
-    	for ($i=1; $i < 4; $i++) {
-    		$valor='elemento_'.$i;
-    		$query[$i] = DB::table('ajustes')->where('id', $i)->update(['valor' => $r->$valor]);
-    	}
+		$ajustes = $this->data();
+		foreach ($ajustes as $key => $value) {
+			$i=$key+1;
+			$valor='elemento_'.$i;
+			if($value['tipo']=='imagen'){
+				if($r->file($valor)){
+					$archivo_actual=Ajuste::find($i);
+					//Eliminamos el imagen que existía
+					Storage::delete($archivo_actual->valor);
+					$name= $r->file($valor)->store('public/ajustes/img');
+					$query[$i] = DB::table('ajustes')->where('id', $i)->update(['valor' => $name]);
+				}
 
-    	for ($i=4; $i < 9; $i++) { 
-    		$valor='elemento_'.$i;
-    		
-    		if($r->file($valor)){
-    			$archivo_actual=Ajuste::find($i);
-	            //Eliminamos el imagen que existía
-	            Storage::delete($archivo_actual->valor);
-	            $name= $r->file($valor)->store('public/ajustes/img');
-	            $query[$i] = DB::table('ajustes')->where('id', $i)->update(['valor' => $name]);
-        	}
-    	}
-    	
+			}else{
+				$query[$i] = DB::table('ajustes')->where('id', $i)->update(['valor' => $r->$valor]);
+			}
+		}
+    	   	
     	return redirect()->route('maestro.ajustes.index');
     }
 
@@ -63,6 +62,7 @@ class AjustesController extends Controller
 			['nombre'=>'manual administrador','valor'=>'https://drive.google.com/file/d/16vrreNnNt2C6KCJsmmTdhU6IN8R2grvF/view?usp=sharing','descripcion'=>'Manual de uso para el administrador','tipo'=>'archivo_ruta'],
 			['nombre'=>'video tutorial usuario','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para usuario','tipo'=>'archivo_ruta'],
 			['nombre'=>'video tutorial administrador','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para el administrador','tipo'=>'archivo_ruta'],
+			['nombre'=>'Confirmación de correo','valor'=>'1','descripcion'=>'¿Para concluir con el registro de una cuenta se debe confirmar el correo electrónico?','tipo'=>'booleano'],
 		];
     }
 }

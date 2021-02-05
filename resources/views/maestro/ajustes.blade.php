@@ -47,7 +47,22 @@
                 @break
                @case('archivo_ruta') <input type="url" name="elemento_{{$a->id}}" value="{{ $a->valor }}" class="form-control" required>
                   <a href="{{ url($a->valor) }}" target="_blank">Abrir el enlace</a> @break
+               
+               @case('booleano') 
+                  <div>
+                     <div class="form-check form-check-inline">
+                        <input class="form-check-input material-inputs" type="radio"  name="elemento_{{$a->id}}" id="elemento_si_{{$a->id}}" value="1" {{$a->valor=='1' ? 'checked' : ''}}>
+                        <label class="form-check-label" for="elemento_si_{{$a->id}}">SI</label>
+                     </div>
+                     <div class="form-check form-check-inline">
+                        <input class="form-check-input material-inputs" type="radio"  name="elemento_{{$a->id}}" id="elemento_no_{{$a->id}}" value="0" {{$a->valor=='0' ? 'checked' : ''}}>
+                        <label class="form-check-label" for="elemento_no_{{$a->id}}">NO </label>
+                     </div>
+                  </div>
+               @break
+
                @default <span>Valor no reconocido</span> @break
+
             @endswitch
          </div>
          <div class="col-12"><hr><br></div>

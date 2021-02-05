@@ -51,6 +51,9 @@ class UsuarioController extends Controller
         $Usuario->apellido_paterno = $request->apellido_paterno;
         $Usuario->apellido_materno = $request->apellido_materno;
         $Usuario->email = $request->email;
+        if(\App\Ajuste::find(13)=='1'){
+            $Usuario->email_verified_at = date('Y-m-d');
+        }
         $Usuario->password = Hash::make($request->password);
         $Usuario->save();
         
@@ -66,11 +69,7 @@ class UsuarioController extends Controller
         $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
         //return redirect('/email/verify')->with('correo',$correo);
         //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
-        
-
         return redirect()->route('postulante_inicio');
-
-        
     }
     public function api_reniec($dni)
     {
