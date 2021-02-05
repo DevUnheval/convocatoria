@@ -144,19 +144,19 @@
                                        <div class="row">
                                           <div class="col-md-6 form-group">
                                              <small>Fecha Aprobación:</small>
-                                             <input type="date" class="form-control" name="fecha_aprobacion"  id="fecha_aprobacion">
+                                             <input type="date" class="form-control" name="fecha_aprobacion"  id="fecha_aprobacion" disabled>
                                           </div>
                                           <div class="col-md-6 form-group">
                                              <small>Fecha Publicación:</small>
-                                             <input type="date" class="form-control required" name="fecha_publicacion" id="fecha_publicacion">
+                                             <input type="date" class="form-control required" name="fecha_publicacion" id="fecha_publicacion" disabled>
                                           </div>
                                           <div class="col-md-6 form-group">
                                              <small>Fecha Publicación:</small>
-                                             <input type="date" class="form-control required" name="fecha_inscripcion_inicio" id="fecha_inscripcion_inicio">
+                                             <input type="date" class="form-control required" name="fecha_inscripcion_inicio" id="fecha_inscripcion_inicio" disabled>
                                           </div>
                                           <div class="col-md-6 form-group">
                                              <small>Fecha Publicación:</small>
-                                             <input type="date" class="form-control required" name="fecha_inscripcion_fin"  id="fecha_inscripcion_fin">
+                                             <input type="date" class="form-control required" name="fecha_inscripcion_fin"  id="fecha_inscripcion_fin" disabled>
                                           </div> 
                                        </div>
                                     </div>

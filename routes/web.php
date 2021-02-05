@@ -65,9 +65,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
-    Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');  
-    
-    Route::get('showme/{id}', 'ConvocatoriaController@showme')->where(['id' => '[0-9]+'])->name('convocatoria.showme');  
+    Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
 });
 
 //POSTULANTE
