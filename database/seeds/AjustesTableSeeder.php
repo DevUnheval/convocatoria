@@ -83,7 +83,7 @@ class AjustesTableSeeder extends Seeder
            DB::table('user_rols')->insert([
             [
                 'user_id' => '2',
-                'rol_id' => '3',
+                'rol_id' => '4',
             ],
          ]);
 
