@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- @include('maestro.modal_editar') --}}
+                     @include('maestro.modal_edit_tipo_proc')
 @endsection
 @section('js')
 <!--This page plugins -->

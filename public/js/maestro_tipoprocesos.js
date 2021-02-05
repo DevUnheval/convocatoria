@@ -9,4 +9,15 @@ $(document).ready(function() {
           order: []
     }) 
 
-})
+});
+
+function editar(id,nombre,descripcion){
+    var id = id;
+    var nombre = nombre;
+    var descripcion=descripcion;
+   // alert("==========>");
+    $("#modal_edit_tipo_proc").modal("show");
+    console.log("id",id);
+    console.log("nombre",nombre);
+    console.log("descripcion",descripcion);
+}

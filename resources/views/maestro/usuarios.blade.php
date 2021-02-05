@@ -55,6 +55,7 @@
                             </div>
                         </div>
                         @include('maestro.modal_editar')
+                        
 @endsection
 @section('js')
 <!--This page plugins -->
