@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\postulante;
 
+use App\DatosUser;
 use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
@@ -19,9 +20,10 @@ class PostulanteController extends Controller
         $idproceso =$_GET["idproceso"];
         $proceso = Proceso::where('id',$idproceso)->get();
         
-        $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
-        ->select("*")
-        ->get();
+       // $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
+        //->select("*")
+        //->get();
+        $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
         $datos_formacion = User::join("formacion_users", "formacion_users.user_id", "=", "users.id")
         ->select("*")
         ->where("formacion_users.user_id", "=", auth()->user()->id)
@@ -41,9 +43,30 @@ class PostulanteController extends Controller
        // return view('postulante.postular',compact('procesoseleccionado'));
     }
 
-    public function store(Request $data){
+    public function actualizar(Request $data){
+        
+        //$datap =$data->nacionalidad;
+        //return response()->json(['dataaa'=>$data->ruc]);
+        $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
+        ->select("*")
+        ->get();
+        $datosuser = DatosUser::find($data->id);
+        $datosuser->telefono_celular = $data->celular;
+        $datosuser->telefono_fijo = $data->telfijo;
+        $datosuser->ruc = $data->ruc;
+        $datosuser->domicilio = $data->domicilio;
+        $datosuser->ubigeo = $data->ubigeodni;
+        $datosuser->es_pers_disc = $data->dicapacidad;
+        $datosuser->es_lic_ffaa = $data->ffaa;
+        $datosuser->es_deportista = $data->deportista;
+        $datosuser->save();
 
-        return dd($data);
+        $datosuser2 = User::find(auth()->user()->id);
+        $datosuser2->nacionalidad = $data->nacionalidad;
+        $datosuser2->fecha_nacimiento = $data->fechanac;
+        $datosuser2->save();
+        
+        return response()->json(['mensaje'=>"correcto"]);
 
     }
    
