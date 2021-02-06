@@ -50,7 +50,6 @@ class ConvocatoriaController extends Controller
                                     <a class='dropdown-item' href='javascript:void(0)'><i class='ti-eye'></i> Abrir </a>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
                                     <a class='dropdown-item' href='javascript:void(0)'><i class='ti-comment-alt'></i> Comunicar</a>
-                                </div>
                             </div>";
                 $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';

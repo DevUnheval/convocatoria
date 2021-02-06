@@ -36,21 +36,25 @@ class PostulantesController extends Controller
         if($etapa_a_buscar>0){ //si es cero, mostrará a todos, caso contrario filtrará por etapas
             $calificacion_etapa_anterior = $etapas[$etapa_a_buscar-1]['desc_bd'];// (...=>) Pero en caso estemos en la etapa 2,3,..n; la etapa anterior será actual -1
             $query = $query->where($calificacion_etapa_anterior,1); //los que aprobaron en la etapa anterior se mostrará en esta vista        
+            
+            $califica =  Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_anterior,1)->where($calificacion_etapa_actual,1)->get();
+            $noCalifica =  Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_anterior,1)->where($calificacion_etapa_actual,0)->get();
+        }
+        else{
+            $califica =    Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_actual,1)->get();
+            $noCalifica =  Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_actual,0)->get();
         }
         $postulantes = $query->orderby('id','desc')->get();
-        
-        //$pendientes =  $query->whereNull($calificacion_etapa_actual)->count(); NO se puede reutilizar el $query-> xq se acumula los where, hace un filtro del filtro anterior
-        $pendientes = $query->whereNull($calificacion_etapa_actual)->count();
-        $aptos =  Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_anterior,1)->where($calificacion_etapa_actual,1)->count();
-        $noAptos =  Postulante::where('proceso_id',$proceso_id)->where($calificacion_etapa_anterior,1)->where($calificacion_etapa_actual,0)->count();
+        $pendientes = $query->whereNull($calificacion_etapa_actual)->get();
         $estado = $this->estado();
-        return $grupos = [
+        $grupo = [
             'total' => count($postulantes),
-            'pendientes' => $pendientes,
-            'aptos' => $aptos,
-            'noAptos' => $noAptos
+            'pendientes' => count($pendientes),
+            'califica' => count($califica),
+            'noCalifica' => count($noCalifica),
         ];
-        return view('postulantes.index',compact('postulantes','calificacion_etapa_actual','estado'));
+        $etapa_actual = $etapas[$etapa_a_buscar];
+        return view('postulantes.index',compact('proceso','postulantes','calificacion_etapa_actual','estado','grupo','etapas','etapa_actual'));
     }
 
     private function etapas_evaluacion($proceso){
