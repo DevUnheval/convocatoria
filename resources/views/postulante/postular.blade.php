@@ -9,6 +9,8 @@
 @endsection
 
 @section('content')
+
+
 <!--{{auth()->user()->nombres}} <br>
 {{auth()->user()->id}} <br>
 {{auth()->user()->email}} <br>-->
@@ -18,7 +20,6 @@
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
-@include('postulante.mod_selec_exp_espec')
 @include('postulante.mod_seleccionar_capac')
 
 <div class="col-12">
@@ -34,6 +35,7 @@
         <div class="card-body wizard-content">
             
             <form  id="datospostulante" class="validation-wizard wizard-circle mt-5">
+                @csrf
                 <!-- Step 1 -->
                 <h6>Datos Personales</h6>
                 <section>
@@ -151,7 +153,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" id="file_ffaa"  />
+                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file"  />
                                 </div>   
                             </div>
                                                 
@@ -201,6 +203,7 @@
                             
                         </div>
                     </div>
+                    
                 </section>
                 <!-- Step 2 -->
                 <h6>Formación Académica</h6>
@@ -217,46 +220,31 @@
                         
                     </div>                    
                     <div class="table-responsive">
-                        <table id="zero_config1" class="table table-striped table-bordered">
+                        <table id="zeroconfig1" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>Grado de estudio</th>
                                     <th>Especialidad</th>
                                     <th>Centro de Estudios</th>
-                                    <th>Fecha Expedición<br></th>
-                                    <th>Documento</th>
+                                    <th>Fecha Expedición</th>
+                                    <th>Acciones</th>
                                     
-                                    <th>Eliminar</th>
+                                    
+                                    
                                 </tr>
                             </thead>
-                            <tbody>
-                                    <!-- Cuerpo vacio -->
-                                    @foreach ($datos_formacion as $df)
-                                    <tr>
-                                        <td>{{$df->grado_id}}</td>
-                                        <td>{{$df->especialidad}}</td>
-                                        <td>{{$df->centro_estudios}}</td>
-                                        <td>{{$df->fecha_expedicion}}</td>
-                                        <td><button class="btn btn-info" >ver</button></td>
+                                    <tbody id="zeroconfig1_body">
                                         
-                                        <td><button class="btn btn-danger" >Eliminar</button></td>
-                                    </tr>
-                                    @endforeach
-                            </tbody>
+                                    </tbody>
+                                
                             <tfoot>
-                                <tr>
-                                    <th>Grado de estudio</th>
-                                    <th>Especialidad</th>
-                                    <th>Centro de Estudios</th>
-                                    <th>Fecha Expedición<br></th>
-                                    <th>Documento</th>
-                                    
-                                    <th>Eliminar</th>
-                                </tr>
+
                             </tfoot>
+                            
                         </table>
                     </div>
-                    </div>                     
+                 </div>    
+                 <br><br><br>                 
                 </section>
                 
                 <!-- Step 3 -->
@@ -292,19 +280,18 @@
                                     <th>Descripción</th>
                                     <th>Institución</th>
                                     <th>Horas lectivas<br></th>
-                                    <th>Documento</th>
+                                    <th>Acciones</th>
                                     
-                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="zeroconfig2_body">
                                     <!-- Cuerpo vacio -->
-                                    
+                                   
                             </tbody>
                             
                         </table>
                     </div>
-                </div>                     
+                                   
                 </section>
                 
                 <!-- Step 4 -->
@@ -342,37 +329,15 @@
                                     <th>Cargo<br></th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
-                                    <th>Documento</th>
-                                    <th>Eliminar</th>
+                                    <th>Acciones</th>
+                                    
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="zeroconfig3_body">
                                     <!-- Cuerpo vacio -->
-                                    @foreach ($datos_experiencia as $de)
-                                    <tr>
-                                        <td>falta det experiencia</td>
-                                        <td>falta det tipo entidad</td>
-                                        <td>{{$de->centro_laboral}}</td>
-                                        <td>{{$de->cargo}}</td>
-                                        <td>{{$de->fecha_inicio}}</td>
-                                        <td>{{$de->fecha_fin}}</td>
-                                        <td><button class="btn btn-info" >ver</button></td>
-                                        <td><button class="btn btn-danger" >Eliminar</button></td>
-                                    </tr>
-                                    @endforeach
+                                   
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Tipo de Experiencia</th>
-                                    <th>Tipo Entidad</th>
-                                    <th>Nombre Entidad</th>
-                                    <th>Cargo<br></th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Fin</th>
-                                    <th>Documento</th>
-                                    <th>Eliminar</th>
-                                </tr>
-                            </tfoot>
+                            
                         </table>
                     </div>
                                         
@@ -391,7 +356,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file" id=""  />
+                                <input name=""  class="material-inputs"  type="file"/>
                             </div>   
                         </div>
                                              
@@ -405,7 +370,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group ">
-                                <input name=""  class="material-inputs"  type="file" id=""  />
+                                <input name=""  class="material-inputs"  type="file"  />
                             </div>   
                         </div>
                                              
@@ -419,7 +384,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file" id=""  />
+                                <input name=""  class="material-inputs"  type="file"   />
                             </div>   
                         </div>
                                              

@@ -21,7 +21,21 @@
                               <form>
                                   
                                     <div class="card-body wizard-content">
-                                      <div class="row">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exp_general">Experiencia General:<span class="text-center danger">*</span> </label>
+                                                    <input style="width: 20px; height: 20px" id="exp_general" name="exp_general" checked value="1" type="checkbox" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label for="exp_especifica">Experiencia Específica:<span class="text-center danger">*</span> </label>
+                                                  <input style="width: 20px; height: 20px" id="exp_especifica" name="exp_especifica" value="1" type="checkbox" />
+                                              </div>
+                                          </div>
+                                       </div>
+                                        <div class="row">
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="tipo_experiencia">Tipo de Experiencia:<span class="danger">*</span> </label>

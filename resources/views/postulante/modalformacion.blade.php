@@ -102,8 +102,8 @@
                                       <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="documento">Documento de sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                                <label for="documento_formac">Documento de sustento: <span class="danger">*</span> </label>
+                                                <input type="file" class="form-control required" id="documento_formac" name="documento_formac" > 
                                             </div>
                                         </div>
                                       </div>
@@ -118,7 +118,7 @@
                                       <br>
                                       <div  class="row">
                                         <div class="form-group col-md-12">
-                                            <button data-repeater-delete="" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
+                                            <button id="btn_can_formac" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                             </button>
                                             <button id="btn_guardar_formacion" class="btn btn-success waves-effect waves-light" >Guardar </button>  
                                         </div>
