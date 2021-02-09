@@ -19,7 +19,7 @@ function editar(id){
           console.log('enviando....');
         },
         success:  function (response){
-            //console.log("resultado",response);
+            //console.log("resultado",response.usuario.dni);
             $("#dni").val(response.usuario.dni);
             $("#nombres").val(response.usuario.nombres);
             $("#apellido_paterno").val(response.usuario.apellido_paterno);
@@ -44,27 +44,27 @@ function editar(id){
 
 function guardar_cambio(){
     var datos=$("#editar_usuario").serialize();
-    var route = '/maestro/usuarios/update';
-                    $.ajax({
-                            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                            data: datos,
-                            url:   route,
-                            type: 'POST',
-                        beforeSend: function () {
-                            console.log('enviando....');
-                        },
-                        success:  function (){
-                            $('#zero_config').DataTable().ajax.reload();
-                            $('#modal_editar').modal('hide');                    
-                        },
-                        error: function (response){
-                            console.log("Error",response.data);
-                            Swal.fire({
-                                title: "¡Error!",
-                                text: response.responseJSON.message,
-                                icon: "error",
-                                timer: 3500,
-                            })
-                        }
-                    });
+    var route = '/maestro/usuarios/update/'+$("#id").val();
+    $.ajax({
+            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+            data: datos,
+            url:   route,
+            type: 'POST',
+        beforeSend: function () {
+            console.log('enviando....');
+        },
+        success:  function (){
+            $('#zero_config').DataTable().ajax.reload();
+            $('#modal_editar').modal('hide');                    
+        },
+        error: function (response){
+            console.log("Error",response.data);
+            Swal.fire({
+                title: "¡Error!",
+                text: response.responseJSON.message,
+                icon: "error",
+                timer: 3500,
+            })
+        }
+    });
 }

@@ -39,10 +39,10 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
     });   
     Route::group(['prefix' => 'usuarios'], function(){
-        Route::get('/', 'UsuarioController@vista_usuarios')->name('maestro.usuarios.index');  
-        Route::post('update', 'UsuarioController@update')->name('maestro.usuarios.update');  
-        Route::get('edit/{id}', 'UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
-        Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
+        Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index');  
+        Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update');  
+        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
+        Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 
     Route::group(['prefix' => 'procesos'], function(){
         Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index');  
