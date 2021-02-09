@@ -16,7 +16,7 @@ $(document).ready(function() {
     
     
     
-    //llenar tabla formacion académica
+    //___________________________llenar tabla formacion académica__________________
     var tabla="";
     $.get('/postulante/formacion/data1',function (data){
         for (var i = 0; i < data.length; i++) {
@@ -27,7 +27,7 @@ $(document).ready(function() {
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button>"+
-             "   <button type='button' onclick=\"eliminar('tblform"+data[i].id+"');\" class='btn btn-danger'>Eliminar</button>"+
+             "   <button type='button' onclick=\"eliminar('tblform"+data[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
@@ -38,37 +38,80 @@ $(document).ready(function() {
     //_______________________________llenar tabla cursos / capacitaciones______________________
     var tabla2="";
     var tipoestudio="";
-    $.get('/postulante/capacitaciones/data1',function (data){
+    var totalhoras=0;
+    $.get('/postulante/capacitaciones/data1',function (data2){
        
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data2.length; i++) {
             tipoestudio = "";
-            if(data[i].es_curso_espec==1){
+            totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
+
+            if(data2[i].es_curso_espec==1){
                 tipoestudio = "Curso/Especialización";
             }
-            if(data[i].es_ofimatica==1){
+            if(data2[i].es_ofimatica==1){
                 tipoestudio = "Ofimática";
             }
-            if(data[i].es_idioma==1){
+            if(data2[i].es_idioma==1){
                 tipoestudio = "Idioma";
             }
-            tabla += "<tr id='tblcapac"+data[i].id+"'>"+
+            tabla2 += "<tr id='tblcapac"+data2[i].id+"'>"+
             "<td>"+tipoestudio+"</td>"+
-            "<td>"+data[i].especialidad+"</td>"+
-            "<td>"+data[i].centro_estudios+"</td>"+
-            "<td>"+data[i].cantidad_horas+"</td>"+
+            "<td>"+data2[i].especialidad+"</td>"+
+            "<td>"+data2[i].centro_estudios+"</td>"+
+            "<td>"+data2[i].cantidad_horas+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button>"+
-             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data[i].id+"');\" class='btn btn-danger'>Eliminar</button>"+
+             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
     
-    $('#zeroconfig2_body').append(tabla);
+    $('#zeroconfig2_body').append(tabla2);
+    $('#total_horas').val(totalhoras);
         
     
     
     });
 
-    //_________________________________________________________________________
+    //_______________________________llenar tabla EXPERIENCIAS______________________
+    var tabla3="";
+    //var ttiempoexp_gen=0;
+    //var ttiempoexp_esp=0;
+    $.get('/postulante/experiencias/data1',function (data3){
+        var marcadogeneral="";
+        var marcadoespecifico="";
+        for (var i = 0; i < data3.length; i++) {
+            //ttiempoexp_gen = ttiempoexp_gen + parseFloat(data3[i].dias_exp_gen);
+            //ttiempoexp_esp = ttiempoexp_esp + parseFloat(data3[i].dias_exp_esp);
+             marcadogeneral="";
+             marcadoespecifico="";
+            if(data3[i].es_exp_gen==1){marcadogeneral="checked";}
+            if(data3[i].es_exp_esp==1){marcadoespecifico="checked";}
+            
+           
+            tabla3 += "<tr id='tblexp"+data3[i].id+"'>"+
+            "<td>falta tipo</td>"+
+            "<td><p>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /></p><br>"+
+            "<p>Exp.Específica <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></p></td>"+
+            
+            "<td>falta entidad</td>"+
+            "<td>"+data3[i].centro_laboral+"</td>"+
+            "<td>"+data3[i].cargo_funcion+"</td>"+
+            "<td>"+data3[i].fecha_inicio+"</td>"+
+            "<td>"+data3[i].fecha_fin+"</td>"+
+            "<td><button class='btn btn-info' type='button'>ver</button></td>"+
+            "<td><button type='button' onclick=\"editar_expe('tblexp"+data3[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "</td>"+
+            "</tr>";
+        }
+    
+    $('#zeroconfig3_body').append(tabla3);
+    //$('#total_exp_general').val(ttiempoexp_gen);
+    //$('#total_exp_especifica').val(ttiempoexp_esp);
+     
+    });
+
+    //_________________________INICIO TAB WIZARD________________________________________________
     var form = $(".validation-wizard").show();
     
     $(".validation-wizard").steps({
@@ -137,7 +180,7 @@ $(".tab-wizard").steps({
 })
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 
-//funcion eliminar formacion academica
+//____________________________funcion eliminar formacion academica_____________
 function eliminar(transid){
     //alert("holas : "+transid);
     var id=transid.substring(7);
@@ -161,11 +204,35 @@ function eliminar(transid){
 
  //________________________funcion eliminar capacitacion______________________________________
  function eliminarcapac(transid){
-    //alert("holas : "+transid);
+    
     var id=transid.substring(8);
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/eliminarcapacitacion",
+        type: "POST" ,
+        datatype: "json",
+        data: { id:id },
+        success:function(data){
+           alert("fila eliminada!!"+data);
+           $('#'+transid).remove();
+           console.log(data);
+           //alert(data.cantidad_horas);
+           $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
+        },
+        error: function(data){
+            alert("error!!"+data); }
+
+    });
+
+    
+ }
+ //________________________funcion eliminar EXPERIENCIA______________________________________
+ function eliminar_expe(transid){
+    //alert("holas : "+transid);
+    var id=transid.substring(6);
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/eliminarexperiencia",
         type: "POST" ,
         datatype: "json",
         data: { id:id },
@@ -177,9 +244,69 @@ function eliminar(transid){
             alert("error!!"+data); }
 
     });
+ }
+//_______________________________NUEVA EXPERIENCIA VER FORMULARIO (LIMPIA LOS CAMPOS INPUT) 
+function nueva_expe(){   
+    var htmlbotones="<button onclick=\"guardar_experiencia();\" class=\"btn btn-success waves-effect waves-light\" type=\"button\">Guardar</button>";
+    
+    $('#div_btns_exper').html(htmlbotones);
+   
+    $("#modal_nueva_experiencia").modal("show");
+    
+          $('#exp_general').attr("checked",true);
+          $('#exp_especifica').removeAttr("checked");
+          $("#nombre_entidad").val("");
+          $("#cargo_exp").val("");
+          $("#funciones_princi").val("");
+          $("#fecha_inicio_exp").val("");
+          $("#fecha_fin_exp").val("");
+        
+    
+ }
+
+//_______________________________EDITAR EXPERIENCIA (ABRIR MODAL Y RECUPERAR DATOS PARA MOSTRAR EN LOS INPUT)___________________
+ function editar_expe(transid){
+    
+    var htmlbotones="<button onclick=\"actualizar_expe('"+transid+"');\" class=\"btn btn-warning waves-effect waves-light\" type=\"button\">Guardar</button>";
+
+    $('#div_btns_exper').html(htmlbotones);
+    
+    $("#modal_nueva_experiencia").modal("show");
+      var id=transid.substring(6);
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/editarexperiencia",
+        type: "POST" ,
+        datatype: "json",
+        data: { id:id },
+        success:function(data){
+           alert("datos recibidos");
+           console.log(data);
+          if(data[0].es_exp_gen==1){$('#exp_general').attr("checked",true);}else{
+            $('#exp_general').removeAttr("checked"); 
+          }
+          if(data[0].es_exp_esp==1){$('#exp_especifica').attr("checked",true);}else{
+            $('#exp_especifica').removeAttr("checked");
+          }
+
+          $("#nombre_entidad").val(data[0].centro_laboral);
+          $("#cargo_exp").val(data[0].cargo_funcion);
+          $("#funciones_princi").val(data[0].desc_cargo_funcion);
+          $("#fecha_inicio_exp").val(data[0].fecha_inicio);
+          $("#fecha_fin_exp").val(data[0].fecha_fin);
+          
+
+        },
+        error: function(data){
+            alert("error!!"+data); }
+
+    });
 
     
  }
+
+ 
+
 
 
 

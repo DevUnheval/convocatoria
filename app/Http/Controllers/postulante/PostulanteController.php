@@ -4,13 +4,14 @@ namespace App\Http\Controllers\postulante;
 
 use App\CapacitacionUser;
 use App\DatosUser;
+use App\ExperienciaLabUser;
 use App\FormacionUser;
 use App\GradoFormacion;
 use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
+
 
 class PostulanteController extends Controller
 {
@@ -98,14 +99,15 @@ class PostulanteController extends Controller
     
     public function capacitaciones_data1(){
         $query = CapacitacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-        if($query->isEmpty()){
-            return true;
-        }else{
+        
             return $query;
         }
-        
-    }
-    
+    public function experiencias_data1(){
+            $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+            
+                return $query;
+            }
+
     public function formacion_data(){
 
         $query = FormacionUser::where('user_id','2')->select('grado_id','especialidad','centro_estudios','fecha_expedicion')->get();
@@ -213,13 +215,70 @@ class PostulanteController extends Controller
     }
 
     public function eliminarcapacitacion(Request $data){
-        
+        $query = CapacitacionUser::where('id',$data->id)->get();
         $Capac = CapacitacionUser::find($data->id);
         $Capac->delete();
         
-        return "eliminadoCApac";
+        return $query;
+    }
+    
+    public function guardarexperiencia(Request $data){
+      
+       $el = new ExperienciaLabUser();
+        
+        $el->user_id = auth()->user()->id;
+        $el->es_exp_gen = $data->es_exp_gen;
+        $el->es_exp_esp = $data->es_exp_esp;
+        $el->centro_laboral = $data->centro_laboral;
+        
+        $el->cargo_funcion = $data->cargo_funcion;
+        $el->desc_cargo_funcion = $data->desc_cargo_funcion;
+        $el->fecha_inicio = $data->fecha_inicio;
+        $el->fecha_fin = $data->fecha_fin;
+        $el->dias_exp_gen =$data->dias_exp_gen;
+        $el->dias_exp_esp = $data->dias_exp_esp;
+        
+        $el->save();
+    
+        $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->get()->last();
+        return $query;
+
     }
 
+    public function eliminarexperiencia(Request $data){
+        
+        $Exper = ExperienciaLabUser::find($data->id);
+        $Exper->delete();
+        
+        return "eliminadoEXPERIENCIA";
+    }
+    
+    public function editarexperiencia(Request $data){
+        $query = ExperienciaLabUser::where('id',$data->id)->get();
+        return $query;
+    }
+
+    public function actualizarexperiencia(Request $data){
+        
+        $Exper = ExperienciaLabUser::find($data->id);
+        
+        //$Exper->user_id = $data->user_id_exp;
+        $Exper->es_exp_gen = $data->es_exp_gen;
+        $Exper->es_exp_esp = $data->es_exp_esp;
+        $Exper->centro_laboral = $data->centro_laboral;
+        
+        $Exper->cargo_funcion = $data->cargo_funcion;
+        $Exper->desc_cargo_funcion = $data->desc_cargo_funcion;
+        $Exper->fecha_inicio = $data->fecha_inicio;
+        $Exper->fecha_fin = $data->fecha_fin;
+        $Exper->dias_exp_gen =$data->dias_exp_gen;
+        $Exper->dias_exp_esp = $data->dias_exp_esp;
+        
+        $Exper->save();
+        
+        $query = ExperienciaLabUser::where('id',$data->id)->get();
+        return $query;
+    }
     
     
 }

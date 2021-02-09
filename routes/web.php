@@ -80,6 +80,12 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::get('capacitaciones/data1', 'postulante\PostulanteController@capacitaciones_data1')->name('capacitaciones_data1');
     Route::post('guardarcapacitacion', 'postulante\PostulanteController@guardarcapacitacion')->name('guardarcapacitacion');
     Route::post('eliminarcapacitacion', 'postulante\PostulanteController@eliminarcapacitacion')->name('eliminarcapacitacion');
+    Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1');
+    Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia');
+    Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia');
+    Route::post('editarexperiencia', 'postulante\PostulanteController@editarexperiencia')->name('editarexperiencia');
+    Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia');
+    
     //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
 
         

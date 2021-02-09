@@ -19,13 +19,13 @@
                               <h6 class="card-subtitle">You can us the validation like what we did</h6>
                               -->
                               <form>
-                                  
+                                @csrf  
                                     <div class="card-body wizard-content">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label for="exp_general">Experiencia General:<span class="text-center danger">*</span> </label>
-                                                    <input style="width: 20px; height: 20px" id="exp_general" name="exp_general" checked value="1" type="checkbox" />
+                                                    <input style="width: 20px; height: 20px" id="exp_general" name="exp_general" checked value="1" type="checkbox" disabled />
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -39,7 +39,7 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="tipo_experiencia">Tipo de Experiencia:<span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" id="tipo_experiencia" name="tipo_experiencia">
+                                                  <select class="custom-select form-control" disabled id="tipo_experiencia" name="tipo_experiencia" disabled>
                                                     <option value="">*Seleccionar*</option>
                                                     <option value="">Laboral</option>
                                                     <option value="">Prácticas Pre Profesionales</option>
@@ -51,7 +51,7 @@
                                           <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tipo_entidad">Tipo Entidad:<span class="danger">*</span> </label>
-                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad">
+                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad" disabled>
                                                   <option value="">*Seleccionar*</option>
                                                   <option value="">Público</option>
                                                   <option value="">Privado</option>
@@ -72,13 +72,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="area">Área:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="area" name="area" > 
+                                                <input type="text" class="form-control required" id="area" name="area" disabled> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="cargo">Cargo:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="cargo" name="cargo" > 
+                                                <label for="cargo_exp">Cargo:<span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="cargo_exp" name="cargo_exp" > 
                                             </div>
                                         </div>
                                      </div>
@@ -87,22 +87,22 @@
                                       <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="fecha">Funciones principales: <span class="danger">*</span> </label>
-                                                <input type="textarea" class="form-control required" id="fecha" name="fecha" > 
+                                                <label for="funciones_princi">Funciones principales: <span class="danger">*</span> </label>
+                                                <textarea type="textarea" class="form-control required" id="funciones_princi" name="funciones_princi" ></textarea> 
                                             </div>
                                         </div>
                                       </div>
                                       <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="fecha_inicio">Fecha Inicio: <span class="danger">*</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_inicio" name="fecha_inicio" > 
+                                                <label for="fecha_inicio_exp">Fecha Inicio: <span class="danger">*</span> </label>
+                                                <input type="date" class="form-control required" id="fecha_inicio_exp" name="fecha_inicio_exp" > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="fecha_fin">Fecha fin: <span class="danger">*</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_fin" name="fecha_fin" > 
+                                                <label for="fecha_fin_exp">Fecha fin: <span class="danger">*</span> </label>
+                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" > 
                                             </div>
                                         </div>
                                       </div>
@@ -110,7 +110,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="documento">Documento sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                                <input type="file" class="form-control required" id="documento" name="documento" disabled> 
                                             </div>
                                         </div>
                                         
@@ -118,11 +118,10 @@
                                       
                                       <br>
                                       <div  class="row">
-                                        <div class="form-group col-md-12">
-                                            <button data-repeater-delete="" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
+                                        <div class="form-group col-md-12" >
+                                            <button id="btn_cancelar_exper" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                             </button>
-                                            <button class="btn btn-success waves-effect waves-light" type="submit">Guardar
-                                            </button>  
+                                            <span id="div_btns_exper"></span>  
                                         </div>
                                     </div>
                                   </div>

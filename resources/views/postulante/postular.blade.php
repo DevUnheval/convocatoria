@@ -20,14 +20,14 @@
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
-@include('postulante.mod_seleccionar_capac')
+
 
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-info">
+            <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
             @foreach ($proceso as $pro)
-            {{$pro->cod}} - {{$pro->nombre}} (N° plazas = {{$pro->n_plazas}})
+            <div><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} (N° plazas = {{$pro->n_plazas}})</div>
             @endforeach    
             </h2></strong> 
             
@@ -194,10 +194,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-warning" data-toggle="modal" data-target="#modal_editar_datos_postulante">
-                                    <i class="fa fa-plus"></i> Editar</button>
+                                    
                                     <button id="btn_guardardatos" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
-                                    <i class="fa fa-plus"></i> Guardar</button>
+                                    <i class="fa fa-plus "></i> Guardar</button>
                                 </div>
                             </div>
                             
@@ -221,7 +220,7 @@
                     </div>                    
                     <div class="table-responsive">
                         <table id="zeroconfig1" class="table table-striped table-bordered">
-                            <thead>
+                            <thead class="text-white bg-info">
                                 <tr>
                                     <th>Grado de estudio</th>
                                     <th>Especialidad</th>
@@ -274,7 +273,7 @@
                     
                     <div class="table-responsive">
                         <table id="zero_config2" class="table table-striped table-bordered">
-                            <thead>
+                            <thead class="text-white bg-info">
                                 <tr>
                                     <th>Tipo de estudio</th>
                                     <th>Descripción</th>
@@ -301,34 +300,36 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_experiencia">
+                                <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-inline">
-                                <label for="exp_general">Experiencia General:<span class="text-danger"></span> </label>
-                                <input type="text" readonly="readonly" class="form-control " id="exp_general" name="exp_general" > 
+                                <label for="total_exp_general">Total Experiencia General:<span class="text-danger"></span> </label>
+                                <input type="text" readonly="readonly" class="form-control " id="total_exp_general" name="total_exp_general" > 
                             </div>
                         </div>
                         <div class="col-md-4">
                           <div class="form-inline">
-                              <label for="exp_especifica">Experiencia Específica:<span class="text-danger"></span> </label>
-                              <input type="text" readonly="readonly" class="form-control " id="exp_especifica" name="exp_especifica" > 
+                              <label for="total_exp_especifica">Experiencia Específica:<span class="text-danger"></span> </label>
+                              <input type="text" readonly="readonly" class="form-control " id="total_exp_especifica" name="total_exp_especifica" > 
                           </div>
                       </div>
                     </div>
                     
                     <div class="table-responsive">
                         <table id="zero_config3" class="table table-striped table-bordered">
-                            <thead>
+                            <thead class="text-white bg-info">
                                 <tr>
                                     <th>Tipo de Experiencia</th>
+                                    <th>Es experiencia</th>
                                     <th>Tipo Entidad</th>
                                     <th>Nombre Entidad</th>
                                     <th>Cargo<br></th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
+                                    <th>Documento</th>
                                     <th>Acciones</th>
                                     
                                 </tr>
@@ -412,6 +413,7 @@
 <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
 <script src="{{ asset('/js/postulante.js')}}"></script>
 <script src="{{ asset('/js/tablas_postular.js')}}"></script>
+<script src="{{ asset('/js/moment.min.js')}}"></script>
 <script>
     //Vertical Steps
    
