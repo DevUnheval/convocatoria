@@ -14,21 +14,20 @@
                     <div class="row" >                      
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <b><small for="wfirstName2">DNI:<span class="text-danger"> *</span> </small></b>
-                                    <input type="text" class="form-control required" id="dni" name="dni">
+                                    <b><small for="dni">DNI:<span class="text-danger"> *</span> </small></b>
+                                    <input type="text" class="form-control" id="dni" name="dni">
                                 </div>
-                            </div>                                       
-                    
+                            </div>                     
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <small >Nombres:<span class="text-danger"> *</span> </small>
-                                    <input type="text" class="form-control required" id="nombres" name="nombres"> 
+                                    <input type="text" class="form-control" id="nombres" name="nombres"> 
                                 </div>
                             </div>
                             <div class="col-md-6">
                             <div class="form-group">
                                 <small>Apellido Paterno:<span class="text-danger"> *</span> </small>
-                                <input type="text" class="form-control required" id="apellido_paterno" name="apellido_paterno"> 
+                                <input type="text" class="form-control" id="apellido_paterno" name="apellido_paterno"> 
                             </div>
                             </div>
                             <div class="col-md-6">
@@ -40,7 +39,7 @@
                             <div class="col-md-6">
                             <div class="form-group">
                                 <small>Contraseña:<span class="text-danger"> *</span> </small>
-                                <input type="text" class="form-control required" name="password" placeholder="(opcional)"> 
+                                <input type="password" class="form-control" name="password" placeholder="(opcional)"> 
                             </div>
                             </div>
                     </div>

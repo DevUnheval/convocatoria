@@ -39,15 +39,17 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
     });   
     Route::group(['prefix' => 'usuarios'], function(){
-        Route::get('/', 'UsuarioController@vista_usuarios')->name('maestro.usuarios.index');  
-        Route::post('update', 'UsuarioController@update')->name('maestro.usuarios.update');  
-        Route::get('edit/{id}', 'UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
-        Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
+        Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index');  
+        Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update');  
+        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
+        Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 
-    Route::group(['prefix' => 'tipoprocesos'], function(){
-        Route::get('/', 'TipoProcesoController@vista_tipoprocesos')->name('maestro.tipoprocesos.index');  
-        Route::post('update', 'TipoProcesoController@update')->name('maestro.tipoprocesos.update');  
-        Route::get('data', 'TipoProcesoController@data_tipoprocesos')->name('maestro.tipoprocesos.data');  
+    Route::group(['prefix' => 'procesos'], function(){
+        Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index');  
+        Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update');  
+        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store');  
+        Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
+        Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar');  
     }); 
 });
 
@@ -57,7 +59,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso');
     Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
-    Route::get('usuarios', 'UsuarioController@historico')->name('convocatoria.maestro');
+    
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
     Route::get('en_curso/data', 'ConvocatoriaController@vigentes')->name('convocatoria.en_curso.data'); 
@@ -93,8 +95,8 @@ Route::group(['prefix' => 'postulante'], function(){
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
-        Route::get('/{cas?}/{etapa?}/listar', 'PostulantesController@index')
-                ->where(['cas' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
+        Route::get('/{proceso_id}/{etapa?}/listar', 'PostulantesController@index')
+                ->where(['proceso_id' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
         
    });

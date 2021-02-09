@@ -16,21 +16,17 @@
 @section('content')
                         <div class="card">
                             <div class="card-body">
-                        
-
-                            <h4 class="card-title">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
-                                <i class="fa fa-plus"></i> Nuevo</button>
-                            </h4>
-                        
+                            @include('maestro.usuarios.editar')
                                 <div class="table-responsive">
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Conf.</th>
-                                                <th>Id</th>                                                
-                                                <th>Nombre</th>
-                                                <th>Descripción</th>                                                
+                                                <th>Id</th>
+                                                <th>DNI</th>
+                                                <th>Nombres y Apellidos</th>
+                                                <th>Foto</th>
+                                                <th>Roles</th>
                                                 </th>
                                             </tr>
                                         </thead>
@@ -40,9 +36,11 @@
                                         <tfoot>
                                             <tr>
                                                 <th>Conf.</th>
-                                                <th>Id</th>                                                
-                                                <th>Nombre</th>
-                                                <th>Descripción</th> 
+                                                <th>Id</th>
+                                                <th>DNI</th>
+                                                <th>Nombres y Apellidos</th>
+                                                <th>Foto</th>
+                                                <th>Roles</th>
                                                 
                                             </tr>
                                         </tfoot>
@@ -50,7 +48,8 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- @include('maestro.modal_editar') --}}
+                       
+                        
 @endsection
 @section('js')
 <!--This page plugins -->
@@ -59,7 +58,7 @@
 
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/maestro_tipoprocesos.js')}}"></script>
+    <script src="{{ asset('/js/maestro_usuarios.js')}}"></script>
 
 
    
