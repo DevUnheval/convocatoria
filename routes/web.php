@@ -44,10 +44,12 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('edit/{id}', 'UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
         Route::get('data', 'UsuarioController@data_usuarios')->name('maestro.usuarios.data');  
     }); 
-    Route::group(['prefix' => 'tipoprocesos'], function(){
-        Route::get('/', 'TipoProcesoController@vista_tipoprocesos')->name('maestro.tipoprocesos.index');  
-        Route::post('update', 'TipoProcesoController@update')->name('maestro.tipoprocesos.update');  
-        Route::get('data', 'TipoProcesoController@data_tipoprocesos')->name('maestro.tipoprocesos.data');  
+    Route::group(['prefix' => 'procesos'], function(){
+        Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index');  
+        Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update');  
+        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store');  
+        Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
+        Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar');  
     }); 
 });
 

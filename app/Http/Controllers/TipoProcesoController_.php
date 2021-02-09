@@ -111,7 +111,7 @@ class TipoProcesoController extends Controller
                             </button>';
                 $config.= " <div class='dropdown-menu animated slideInUp' x-placement='ottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                                     <a class='dropdown-item' href='javascript:void(0)'><i class='ti-eye'></i> Abrir </a>
-                                    <a class='dropdown-item' type='button' class='btn' onclick='editar($dato->id, $dato->nombre, $dato->descripcion)'><i class='ti-pencil-alt'></i> Editar</a>
+                                    <button class='dropdown-item btn opcion-editar' data-id='$dato->id' data-nombre='$dato->nombre' data-descripcion='$dato->descripcion'><i class='ti-pencil-alt'></i> Editar</button>
                                     <a class='dropdown-item' href='javascript:void(0)'><i class='ti-comment-alt'></i> Comunicar</a>
                                 </div>
                              </div>";

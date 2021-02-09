@@ -9,7 +9,9 @@
                  aria-hidden="true">×</button>
          </div>
          <div class="modal-body">
-             ...
+            <input id="id" class"form-control">
+            <input id="nombre" class"form-control">
+            <input id="descripcion" class"form-control">
          </div>
      </div><!-- /.modal-content -->
  </div><!-- /.modal-dialog -->
