@@ -26,6 +26,11 @@ class CreateProcesosTable extends Migration
             $table->string('descripcion')->nullable();
             $table->string('n_plazas')->default(1);
             $table->string('oficina')->nullable();
+            $table->text('habilidades')->nullable();
+            $table->text('capacitaciones')->nullable();
+            $table->decimal('remuneracion', 7, 2)->nullable();
+            $table->string('especialidad')->default("Ninguna");
+            
             $table->string('archivo_bases')->nullable(); //link local, o URL de drive
             $table->string('archivo_bases_tipo')->default('local'); //local o web
             $table->string('archivo_resolucion')->nullable(); //link local, o URL de drive
@@ -43,7 +48,11 @@ class CreateProcesosTable extends Migration
             $table->boolean('hay_bon_pers_disc')->default(true);
             $table->boolean('hay_bon_ffaa')->default(true);
             $table->boolean('hay_bon_deport')->default(false);
-
+                //nivel-grado academico a convocar
+                $table->integer('nivel_acad_convocar')->default(1);
+                //nivel-grado academico a evaluar
+                $table->integer('nivel_acad_evaluar')->default(1);
+                $table->string('especialiad')->nullable(); 
 
             //$table->decimal('pje_otro', 3, 2)->default(0);
             $table->decimal('pje_max_cv', 4, 2)->default(60.00);
@@ -73,10 +82,10 @@ class CreateProcesosTable extends Migration
 
             //archivos/publicaciones
             $table->string('archivo_preliminar')->nullable();
-            $table->string('archivo_preliminar_tipo')->nullable();
+            $table->string('archivo_preliminar_tipo')->default('local');
                 //evaluaciones=> es una tabla aparte, 
             $table->string('archivo_resultado')->nullable();
-            $table->string('archivo_resultado_tipo')->nullable();
+            $table->string('archivo_resultado_tipo')->nullable('local');
 
             $table->timestamps();
         });

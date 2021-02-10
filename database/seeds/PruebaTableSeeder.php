@@ -17,6 +17,13 @@ class PruebaTableSeeder extends Seeder
         
         $users=[
             [
+                'dni' => '12345678',
+                'nombres' => 'CESAR',
+                'apellido_paterno' => 'JIMENEZ',
+                'apellido_materno' => 'VARGAS',
+                'email' => 'email2@gmail.com',
+            ],
+            [
                 'dni'=>'12121236',
                 'nombres'=>"Pepito Postulante",
                 'apellido_paterno'=>'Cardenas',

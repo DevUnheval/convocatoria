@@ -31,16 +31,18 @@ $(document).ready(function() {
             //Swal.fire("Aquí escribir el AJAX para que mande el formulario, y sweet alert para que avise que se registró")
             Swal.fire({
                 //title: '',
-                text: "¿Está seguro de crear el registro?",
+                text: "¿Está seguro de crear el PROCESO de CONVOCATORIA de PERSONAL?",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#d33',  
-                cancelButtonText: 'Cancelar',              
+                cancelButtonText: 'No, cerrar',              
                 confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Crear'
+                confirmButtonText: 'Si, registrar'
             }).then((result) => {
+                if (result.value) {
                     //===========================
-                    var route = '/convocatorias/store';
+                    var route = $(this).data("route");
+                    console.log( "DATOS ==>", $("#"+$(this).attr('id')).serialize() );
                     $.ajax({
                             headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
                             data:  $("#"+$(this).attr('id')).serialize(),
@@ -50,9 +52,21 @@ $(document).ready(function() {
                             console.log('enviando....');
                         },
                         success:  function (response){
-                            console.log("exito",response);
+                            //console.log("exito",response);
                             $('#zero_config').DataTable().ajax.reload();
-                            $('#modal_nuevo').modal('hide');                    
+                            $('.modal_nuevo_edit').modal('hide');  
+                            Swal.fire({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Se registró correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })  
+                            document.getElementById("form_nuevo").reset();
+                            $("#form_nuevo").steps('reset');    
+                           
+                            document.getElementById("form_editar").reset();
+                            $("#form_editar").steps('reset');        
                         },
                         error: function (response){
                             console.log("Error",response.data);
@@ -64,6 +78,7 @@ $(document).ready(function() {
                             })
                         }
                     });
+                }
                               
             })
         }
@@ -87,10 +102,11 @@ $(document).ready(function() {
                 email: !0
             }
         }
-    })      
+    })
+     
 })
-
 function editar(id){
+
     $.ajax({
         url:   "/convocatorias/edit/"+id,
         type: 'GET',
@@ -98,12 +114,19 @@ function editar(id){
           console.log('enviando....');
         },
         success:  function (response){
-            console.log("exito",response);
+            $("#id").val(response.id);
             $("#cod").val(response.cod);
             $("#n_plazas").val(response.n_plazas);
             $("#nombre").val(response.nombre);
             $("#oficina").val(response.oficina);
             $("#descripcion").val(response.descripcion);
+            $("#remuneracion").val(response.remuneracion);
+            $("#nivel_acad_convocar").val(response.nivel_acad_convocar);
+            $("#nivel_acad_evaluar").val(response.nivel_acad_evaluar);
+            $("#especialidad").val(response.especialidad);
+            $("#capacitaciones").val(response.capacitaciones);
+            $("#habilidades").val(response.habilidades);
+            
 
             $("#fecha_aprobacion").val(response.fecha_aprobacion);
             $("#fecha_publicacion").val(response.fecha_publicacion);

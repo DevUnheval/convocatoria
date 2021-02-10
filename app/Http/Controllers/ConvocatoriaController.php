@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proceso;
 use App\TipoProceso;
+use App\GradoFormacion;
 class ConvocatoriaController extends Controller
 {
     public function __construct()
@@ -21,8 +22,9 @@ class ConvocatoriaController extends Controller
     public function vigentes()
     {
         
-        $datos = [
-            'tipos_proc'=>TipoProceso::pluck('nombre','id')
+       $datos = [
+            'tipos_proc'=>TipoProceso::pluck('nombre','id'),
+            'grado_formacion'=>GradoFormacion::pluck('nombre','id')
         ];
         return view('convocatorias.vigentes.index',compact('datos') );
     }
@@ -112,9 +114,10 @@ class ConvocatoriaController extends Controller
     }
 
   
-    public function update(Request $request, $id)
+    public function update(Request $r)
     {
-        //
+        Proceso::where('id', $r->id)    
+                ->update($r->all());
     }
 
    

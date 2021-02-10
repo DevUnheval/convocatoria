@@ -1,5 +1,5 @@
 <!-- Full width modal content -->
-<div id="modal_nuevo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
+<div id="modal_nuevo" class="modal fade modal_nuevo_edit" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header bg-success" >
@@ -18,19 +18,19 @@
                                 <!--<h4 class="card-title">Step wizard with validation</h4>
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
                                 -->
-                                <form action="#" class="tab-wizard wizard-circle" id="nueva_convocatoria">
+                                <form action="#" class="tab-wizard wizard-circle" id="form_nuevo" data-route="/convocatorias/store">
                                 @csrf
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
                                         <div class="row form-group mb-0 py-2 bg-light">                                            
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <b><small>Código de la convocatoria:<span class="text-danger"> *</span> </small></b>
+                                                    <b><small>Cód. convocatoria:<span class="text-danger"> *</span> </small></b>
                                                     <input type="text" class="form-control required"   name="cod" value="001-2021">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Tipo de Proceso: <span class="text-danger"> *</span> </small>
                                                     <select class="custom-select form-control" name="tipo_id">
@@ -41,10 +41,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" name="n_plazas"value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <small>Remuneración (S/):<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control required" name="remuneracion" >
                                                 </div>
                                             </div>
                                         </div>                                        
@@ -61,26 +67,68 @@
                                                     <input type="text" class="form-control required"   name="oficina" value="Unidad de Recursos Humanos" placeholder="">
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Nivel/Grado académico a Convocar: <span class="text-danger"> *</span> </small>
+                                                    <select class="custom-select form-control" name="nivel_acad_convocar">
+                                                        @foreach($datos['grado_formacion'] as $key => $nivel )
+                                                        <option value="{{$key}}">{{$nivel}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Nivel/Grado académico a Evaluar: <span class="text-danger"> *</span> </small>
+                                                    <select class="custom-select form-control" name="nivel_acad_evaluar">
+                                                        @foreach($datos['grado_formacion'] as $key => $nivel )
+                                                        <option value="{{$key}}">{{$nivel}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <small>Descripción (opcional)</small>
+                                                    <small>Especialidad <span class="text-danger"> *</span> </small>
+                                                    <input type="text" class="form-control required"   name="especialidad" placeholder="p.e Ingeniero de sistemas"> 
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Capacitaciones </small>
+                                                    <textarea class="form-control" name="capacitaciones" placeholder="Escribir aquí..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Habilidades </small>
+                                                    <textarea class="form-control" name="habilidades" placeholder="Escribir aquí..."></textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <small>Descripción adicional (opcional)</small>
                                                     <textarea class="form-control" name="descripcion" placeholder="Escribir aquí..."></textarea>
                                                 </div>
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 text-left control-label col-form-label">Bases:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control-file"  name="archivo_bases">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 text-left control-label col-form-label">Resolución de Aprobación:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control-file" name="archivo_resolucion">
-                                            </div>
-                                        </div>                                    
+                                        <div class = "row">
+                                                <div class="col-sm-6">
+                                                    <input type="file" class="form-control-file"  name="archivo_bases" id="archivo_bases" hidden>
+                                                    <label class="btn btn-success" for="archivo_bases"> 
+                                                    <i class="fa fa-file"></i> Bases</label>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <input type="file" class="form-control-file" name="archivo_resolucion" id="archivo_resolucion" hidden>
+                                                    <label class="btn btn-success" for="archivo_resolucion"> 
+                                                    <i class="fa fa-file"></i> Resol. Aprobación</label>
+                                                </div> 
+                                        </div>  <br><br>                               
                                         
                                     </section>
                                     <!-- Step 2 -->
@@ -96,7 +144,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <small>Fecha Publicación:<span class="text-danger"> *</span> </small>
-                                                    <input type="date" class="form-control required" name="fecha_publicacion"  value="2021-01-26">
+                                                    <input type="date" class="form-control required" name="fecha_publicacion"  value="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>                                            
                                         </div>
@@ -113,7 +161,7 @@
                                         </div>
                                         <br>
                                         <h4 class="card-title">Contrato</h4>
-                                        <h6 class="card-subtitle">Detalle el inicio y duración del contrato (opcional)</h6>
+                                        <h6 class="card-subtitle">Firma del contrato (opcional)</h6>
                                         <div class="row form-group">
                                             <div class="col-md-6">
                                                 <div> <input type="date" class="form-control" name="fecha_firma_contrato" >    
