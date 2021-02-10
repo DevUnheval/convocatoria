@@ -134,6 +134,7 @@ $(document).ready(function() {
             return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
         }, 
         onFinishing: function(event, currentIndex) {
+            alert("hola 2");
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
@@ -146,12 +147,15 @@ $(document).ready(function() {
         errorClass: "text-danger",
         successClass: "text-success",
         highlight: function(element, errorClass) {
+            
             $(element).removeClass(errorClass)
         },
         unhighlight: function(element, errorClass) {
+            
             $(element).removeClass(errorClass)
         },
         errorPlacement: function(error, element) {
+            alert("hola 3");
             error.insertAfter(element)
         },
         rules: {
@@ -162,7 +166,7 @@ $(document).ready(function() {
     })
 
     
-
+/*
 $("#example-vertical").steps({
     headerTag: "h3",
     bodyTag: "section",
@@ -184,7 +188,7 @@ $(".tab-wizard").steps({
 
     }
 });
-
+*/
 })
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 

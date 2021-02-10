@@ -33,8 +33,8 @@
                 @csrf
                 <!-- Step 1 -->
                 <h6>Datos Personales</h6>
-                <section>
-                    <div id="section1">
+                <section id="section1">
+                    <div >
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -67,7 +67,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger">*</span> </label>
-                                    <input type="date" class="form-control" value="{{auth()->user()->fecha_nacimiento}}" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
+                                    <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
                         </div>
                         <input type="hidden" value="{{auth()->user()->id}}"  id="di2" >
@@ -78,41 +78,41 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ruc"> RUC : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value=""  id="ruc" name="ruc"> </div>
+                                    <input type="text" class="form-control required" value=""  id="ruc" name="ruc"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ubigeodni"> Ubigeo de Nacimiento : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="ubigeodni" name="ubigeodni"> </div>
+                                    <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="nacionalidad" name="nacionalidad"> </div>
+                                    <input type="text" class="form-control required" value="" id="nacionalidad" name="nacionalidad"> </div>
                             </div>   
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="telefono_celular" name="telefono_celular"> </div>
+                                    <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
+                                    <input type="text" class="form-control required" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="ubigeo_domicilio" name="ubigeo_domicilio"> </div>
+                                    <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio"> </div>
                             </div>   
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="" id="domicilio" name="domicilio"> </div>
+                                    <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
                             </div>   
                         </div>
                         <br>
@@ -126,9 +126,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group1" value="true"  class=" group1 material-inputs"  value="1" type="radio" id="si_discapacidad"  />
+                                    <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_discapacidad"  />
                                     <label for="si_discapacidad">Si</label>
-                                    <input name="group1" value="false" class=" group1 material-inputs" value="0" type="radio" id="no_discapacidad"  />
+                                    <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_discapacidad"  />
                                     <label for="no_discapacidad">No</label>
                                 </div>   
                             </div>
@@ -147,9 +147,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group2" value="true" class="group2 material-inputs" value="1" type="radio" id="si_ffaa"  />
+                                    <input name="group2" value="true" class="group2 material-inputs required" value="1" type="radio" id="si_ffaa"  />
                                     <label for="si_ffaa">Si</label>
-                                    <input name="group2" value="false"  class="group2 material-inputs" value="0" type="radio" id="no_ffaa"  />
+                                    <input name="group2" value="false"  class="group2 material-inputs required" value="0" type="radio" id="no_ffaa"  />
                                     <label for="no_ffaa">No</label>
                                 </div>   
                             </div>
@@ -169,9 +169,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group3" value="true"  class=" group3 material-inputs" type="radio" id="si_deportista"  />
+                                    <input name="group3" value="true"  class=" group3 material-inputs required" type="radio" id="si_deportista"  />
                                     <label for="si_deportista">Si</label>
-                                    <input name="group3" value="false"  class=" group3 material-inputs" type="radio" id="no_deportista"  />
+                                    <input name="group3" value="false"  class=" group3 material-inputs required" type="radio" id="no_deportista"  />
                                     <label for="no_deportista">No</label>
                                 </div>   
                             </div>
@@ -208,7 +208,7 @@
                 </section>
                 <!-- Step 2 -->
                 <h6>Formación Académica</h6>
-                <section>
+                <section id="section2">
                     <br>
                     <div id="div_act">
                     <div class="row">
@@ -250,7 +250,7 @@
                 
                 <!-- Step 3 -->
                 <h6>Cursos y/o Especializaciones</h6>
-                <section>
+                <section id="section3">
                     <br>
                     <div class="row">
                         <div class="col-md-2">
