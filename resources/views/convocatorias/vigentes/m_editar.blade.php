@@ -1,5 +1,5 @@
 <!-- Full width modal content -->
-<div id="modal_editar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
+<div id="modal_editar" class="modal fade modal_nuevo_edit" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header bg-warning" >
@@ -18,19 +18,19 @@
                                 <!--<h4 class="card-title">Step wizard with validation</h4>
                                 <h6 class="card-subtitle">You can us the validation like what we did</h6>
                                 -->
-                                <form action="#" class="tab-wizard wizard-circle" id="editar_convocatoria">
-                                @csrf
+                                <form action="#" class="tab-wizard wizard-circle" id="form_editar" name="form_editar" data-route="/convocatorias/update">
+                                    <input type="hidden" id="id" name="id">
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
                                         <div class="row form-group mb-0 py-2 bg-light">                                            
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <b><small>Código de la convocatoria:<span class="text-danger"> *</span> </small></b>
+                                                    <b><small>Cód. convocatoria:<span class="text-danger"> *</span> </small></b>
                                                     <input type="text" class="form-control required" name="cod"  id="cod">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Tipo de Proceso: <span class="text-danger"> *</span> </small>
                                                     <select class="custom-select form-control" name="tipo_id" id="tipo_id">
@@ -41,10 +41,16 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" name="n_plazas" id="n_plazas">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <small>Remuneración (S/):<span class="text-danger"> *</span> </small>
+                                                    <input type="number" class="form-control required" name="remuneracion" id="remuneracion">
                                                 </div>
                                             </div>
                                         </div>                                        
@@ -61,6 +67,48 @@
                                                     <input type="text" class="form-control required"   name="oficina" id="oficina">
                                                 </div>
                                             </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Nivel/Grado académico a Convocar: <span class="text-danger"> *</span> </small>
+                                                    <select class="custom-select form-control" name="nivel_acad_convocar" id="nivel_acad_convocar">
+                                                        @foreach($datos['grado_formacion'] as $key => $nivel )
+                                                        <option value="{{$key}}">{{$nivel}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Nivel/Grado académico a Evaluar: <span class="text-danger"> *</span> </small>
+                                                    <select class="custom-select form-control" name="nivel_acad_evaluar" id="nivel_acad_evaluar">
+                                                        @foreach($datos['grado_formacion'] as $key => $nivel )
+                                                        <option value="{{$key}}">{{$nivel}}</option>
+                                                        @endforeach
+                                                        
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <small>Especialidad <span class="text-danger"> *</span> </small>
+                                                    <input type="text" class="form-control required"   name="especialidad" id="especialidad" placeholder="p.e Ingeniero de sistemas"> 
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Capacitaciones </small>
+                                                    <textarea class="form-control" name="capacitaciones" id="capacitaciones" placeholder="Escribir aquí..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <small>Habilidades </small>
+                                                    <textarea class="form-control" name="habilidades" id="habilidades" placeholder="Escribir aquí..."></textarea>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <small>Descripción (opcional)</small>
