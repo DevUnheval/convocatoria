@@ -1,20 +1,25 @@
 $(document).ready(function() {
-   // $('#zeroconfig1').DataTable();
-     /*   bProcessing: true,
-        sAjaxSource: '/postulante/formacion/data',
-        "language" : {'url':'/js/table-latino.json'},
-        iDisplayLength: 15,
-        aLengthMenu: [15, 25,50, 100],
-        bAutoWidth: true,
-         order: []
-       */
-    
-   
+  
+    $.get('/postulante/datosuser/data1',function (data){
+    if(data.valor=="0"){
+        console.log("esta vacio");
+    }else{
+        //console.log(data);
+        $('#ruc').val(data[0].ruc);
+        $('#ubigeodni').val(data[0].ubigeo_nacimiento);
+        $('#nacionalidad').val(data[0].nacionalidad);
+        $('#telefono_celular').val(data[0].telefono_celular);
+        $('#telefono_fijo').val(data[0].telefono_fijo);
+        $('#domicilio').val(data[0].domicilio);
+        $('#fecha_nacimiento').val(data[0].fecha_nacimiento);
+        $('#ubigeo_domicilio').val(data[0].ubigeo_domicilio);
 
-    //$('#zero_config2').DataTable();
-    //$('#zero_config3').DataTable();
+        if(data[0].es_lic_ffaa==1){$("#si_ffaa").prop("checked", true);}else{$("#no_ffaa").prop("checked", true);}
+        if(data[0].es_deportista==1){$("#si_deportista").prop("checked", true);}else{$("#no_deportista").prop("checked", true);}
+        if(data[0].es_pers_disc==1){$("#si_discapacidad").prop("checked", true);}else{$("#no_discapacidad").prop("checked", true);}
     
-    
+    } 
+});    
     
     //___________________________llenar tabla formacion académica__________________
     var tabla="";
@@ -120,9 +125,12 @@ $(document).ready(function() {
         transitionEffect: "fade",
         titleTemplate: '<span class="step">#index#</span> #title#',
         labels: {
+            next: "Siguiente",
+            previous: "Anterior",
             finish: "Registrar Postulación"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
+            alert("estoy en el sgt nivel");
             return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
         }, 
         onFinishing: function(event, currentIndex) {

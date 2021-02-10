@@ -17,24 +17,37 @@ class PostulanteController extends Controller
 {
     public function __construct()
     {
-        $this->data_null='{
+       /* $this->data_null='{
             "sEcho": 1,
             "iTotalRecords": "0",
             "iTotalDisplayRecords": "0",
             "aaData": []
-        }';
+        }';*/
     }
    
     public function index()
     {
         
     }
-
+/*
     public function formacion_data_prueba(){
         $dataform=FormacionUser::where('user_id',2)->get();
         //return datatables()->of($dataform)->toJson();
         return json_encode($dataform, true);
     }
+*/
+    public function datosuser_data1(){
+        
+        if(DatosUser::where('user_id',auth()->user()->id)->exists()){
+            $query = DatosUser::where('user_id', auth()->user()->id)->get();
+            return $query;
+        }else{
+            return response()->json(['valor'=>"0"]);
+        }
+
+
+    }
+       
 
     public function postular()
     {   
@@ -65,30 +78,59 @@ class PostulanteController extends Controller
        // return view('postulante.postular',compact('procesoseleccionado'));
     }
 
-    public function actualizar(Request $data){
+    public function actualizar_o_registrar(Request $data){
         
         //$datap =$data->nacionalidad;
         //return response()->json(['dataaa'=>$data->ruc]);
         //$datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         //->select("*")
         //->get();
-        $datosuser = DatosUser::find($data->id);
+        if(DatosUser::where('user_id',auth()->user()->id)->exists()){
+        
+          $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->get();
+        $datosuser = DatosUser::find($idDatosUser[0]->id);
         $datosuser->telefono_celular = $data->celular;
         $datosuser->telefono_fijo = $data->telfijo;
         $datosuser->ruc = $data->ruc;
         $datosuser->domicilio = $data->domicilio;
-        $datosuser->ubigeo = $data->ubigeodni;
+        $datosuser->ubigeo_nacimiento = $data->ubigeodni;
+        $datosuser->ubigeo_domicilio = $data->ubigeo_domicilio;
         $datosuser->es_pers_disc = $data->dicapacidad;
         $datosuser->es_lic_ffaa = $data->ffaa;
         $datosuser->es_deportista = $data->deportista;
-        $datosuser->save();
+        $datosuser->nacionalidad = $data->nacionalidad;
+        $datosuser->fecha_nacimiento = $data->fechanac;
 
-        $datosuser2 = User::find(auth()->user()->id);
-        $datosuser2->nacionalidad = $data->nacionalidad;
-        $datosuser2->fecha_nacimiento = $data->fechanac;
-        $datosuser2->save();
+        $datosuser->archivo_dni = "";
+        $datosuser->archivo_dni_tipo = "";
+
+        $datosuser->save();
+            
+           
+        }else{
+        $datosuserno =new DatosUser;
+        $datosuserno->user_id = auth()->user()->id;
+        $datosuserno->telefono_celular = $data->celular;
+        $datosuserno->telefono_fijo = $data->telfijo;
+        $datosuserno->ruc = $data->ruc;
+        $datosuserno->domicilio = $data->domicilio;
+        $datosuserno->ubigeo_nacimiento = $data->ubigeodni;
+        $datosuserno->ubigeo_domicilio = $data->ubigeo_domicilio;
+        $datosuserno->es_pers_disc = $data->dicapacidad;
+        $datosuserno->es_lic_ffaa = $data->ffaa;
+        $datosuserno->es_deportista = $data->deportista;
+        $datosuserno->nacionalidad = $data->nacionalidad;
+        $datosuserno->fecha_nacimiento = $data->fechanac;
         
-        return response()->json(['mensaje'=>"correcto"]);
+        $datosuserno->archivo_dni = "";
+        $datosuserno->archivo_dni_tipo = "";
+
+        $datosuserno->save();
+            
+        }
+
+       
+        return response()->json(['mensaje'=>"Datos guardados con exito!!"]);
 
     }
    

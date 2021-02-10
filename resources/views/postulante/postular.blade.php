@@ -11,12 +11,7 @@
 @section('content')
 
 
-<!--{{auth()->user()->nombres}} <br>
-{{auth()->user()->id}} <br>
-{{auth()->user()->email}} <br>-->
-<!-- ============================================================== -->
-<!-- Example -->
-<!-- ============================================================== -->
+
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
@@ -27,8 +22,8 @@
         <div class="alert alert-info" role="alert">
             <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
             @foreach ($proceso as $pro)
-            <div><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} (N° plazas = {{$pro->n_plazas}})</div>
-            @endforeach    
+            <div><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>n° plazas = {{$pro->n_plazas}}</small></div>
+            @endforeach     
             </h2></strong> 
             
         </div>
@@ -76,41 +71,48 @@
                             </div>
                         </div>
                         <input type="hidden" value="{{auth()->user()->id}}"  id="di2" >
-                        @foreach ($datos_usuario as $du)
+                        
                             
-                        <input type="hidden" value="{{$du->id}}"  id="di" >
+                        
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ruc"> RUC : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{$du->ruc}}"  id="ruc" name="ruc"> </div>
+                                    <input type="text" class="form-control" value=""  id="ruc" name="ruc"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ubigeodni"> Ubigeo segun DNI : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{$du->ubigeo}}" id="ubigeodni" name="ubigeodni"> </div>
+                                    <label for="ubigeodni"> Ubigeo de Nacimiento : <span class="text-danger">*</span> </label>
+                                    <input type="text" class="form-control" value="" id="ubigeodni" name="ubigeodni"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{auth()->user()->nacionalidad}}" id="nacionalidad" name="nacionalidad"> </div>
+                                    <input type="text" class="form-control" value="" id="nacionalidad" name="nacionalidad"> </div>
                             </div>   
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{$du->telefono_celular}}" id="telefono_celular" name="telefono_celular"> </div>
+                                    <input type="text" class="form-control" value="" id="telefono_celular" name="telefono_celular"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{$du->telefono_fijo}}" id="telefono_fijo" name="telefono_fijo"> </div>
+                                    <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
+                                    <input type="text" class="form-control" value="" id="ubigeo_domicilio" name="ubigeo_domicilio"> </div>
+                            </div>   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{$du->domicilio}}" id="domicilio" name="domicilio"> </div>
+                                    <input type="text" class="form-control" value="" id="domicilio" name="domicilio"> </div>
                             </div>   
                         </div>
                         <br>
@@ -124,9 +126,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group1" value="true"  class=" group1 material-inputs" {{$du->es_pers_disc = 1 ? 'checked' : ''}} value="1" type="radio" id="si_discapacidad"  />
+                                    <input name="group1" value="true"  class=" group1 material-inputs"  value="1" type="radio" id="si_discapacidad"  />
                                     <label for="si_discapacidad">Si</label>
-                                    <input name="group1" value="false" class=" group1 material-inputs" {{$du->es_pers_disc = 0 ? 'checked' : ''}} value="0" type="radio" id="no_discapacidad"  />
+                                    <input name="group1" value="false" class=" group1 material-inputs" value="0" type="radio" id="no_discapacidad"  />
                                     <label for="no_discapacidad">No</label>
                                 </div>   
                             </div>
@@ -145,9 +147,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group2" value="true" class="group2 material-inputs" {{$du->es_lic_ffaa = 1 ? 'checked' : ''}} type="radio" id="si_ffaa"  />
+                                    <input name="group2" value="true" class="group2 material-inputs" value="1" type="radio" id="si_ffaa"  />
                                     <label for="si_ffaa">Si</label>
-                                    <input name="group2" value="false"  class="group2 material-inputs" {{$du->es_lic_ffaa = 0 ? 'checked' : ''}} type="radio" id="no_ffaa"  />
+                                    <input name="group2" value="false"  class="group2 material-inputs" value="0" type="radio" id="no_ffaa"  />
                                     <label for="no_ffaa">No</label>
                                 </div>   
                             </div>
@@ -167,9 +169,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <input name="group3" value="true"  class=" group3 material-inputs" {{$du->es_deportista = "1" ? 'checked' : ''}}  type="radio" id="si_deportista"  />
+                                    <input name="group3" value="true"  class=" group3 material-inputs" type="radio" id="si_deportista"  />
                                     <label for="si_deportista">Si</label>
-                                    <input name="group3" value="false"  class=" group3 material-inputs"  {{$du->es_deportista = "0" ? 'checked' : ''}} type="radio" id="no_deportista"  />
+                                    <input name="group3" value="false"  class=" group3 material-inputs" type="radio" id="no_deportista"  />
                                     <label for="no_deportista">No</label>
                                 </div>   
                             </div>
@@ -181,7 +183,7 @@
                                                 
                         </div>
 
-                        @endforeach
+                       
                         <br>
                         <div class="row">
                             <div class="col-md-12">

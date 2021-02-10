@@ -27,11 +27,12 @@ $(document).ready(function() {
     })
         
 
-    //  actualizar datos personales - section 1
-    $('#btn_guardardatos').on('click',function(){
-    var discap;
-    var ffaa;
-    var depor;
+//_______________________________guardar o actualizar datos personales - section 1____________________________
+    
+$('#btn_guardardatos').on('click',function(){
+    var discap=0;
+    var ffaa=0;
+    var depor=0;
       if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
       if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
       if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
@@ -45,7 +46,7 @@ $(document).ready(function() {
             type: "POST" ,
             datatype: "json",
             data: {
-                id: $("#di").val(),
+               // id: $("#di").val(),
                 fechanac: $("#fecha_nacimiento").val(),
                 ruc:$("#ruc").val(),
                 ubigeodni: $("#ubigeodni").val(),
@@ -53,15 +54,16 @@ $(document).ready(function() {
                 celular: $("#telefono_celular").val(),
                 telfijo: $("#telefono_fijo").val(),
                 domicilio: $("#domicilio").val(),
+                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
                 dicapacidad: discap,
                 ffaa:ffaa,
                 deportista: depor
 
             },
             success:function(data){
-                console.log(data.mensaje);
-                alert("datos guardados!!")
-                $('#section1').load();
+               // console.log(data);
+               alert(data.mensaje);
+                //$('#section1').load();
             },
             error: function(data){
                 alert("error!!")
