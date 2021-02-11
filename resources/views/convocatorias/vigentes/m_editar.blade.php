@@ -2,8 +2,8 @@
 <div id="modal_editar" class="modal fade modal_nuevo_edit" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
-            <div class="modal-header bg-warning" >
-               <h4 class="modal-title"id="fullWidthModalLabel">Editar registro</h4>
+            <div class="modal-header bg-info" >
+               <h4 class="modal-title text-white" id="fullWidthModalLabel">Editar registro</h4>
                <button type="button" class="close" data-dismiss="modal"
                aria-hidden="true">×</button>
             </div>
@@ -63,7 +63,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <small>Area/Unidad al que postula:<span class="text-danger"> *</span> </small>
+                                                    <small>Área/Unidad al que postula:<span class="text-danger"> *</span> </small>
                                                     <input type="text" class="form-control required"   name="oficina" id="oficina">
                                                 </div>
                                             </div>
@@ -219,7 +219,7 @@
                                         <div class="row form-group mb-0 py-1 bg-light"> 
                                             <div class="col-md-3 row justify-content-center align-items-center">
                                                 <label class="custom-control custom-checkbox" >
-                                                    <input type="checkbox" class="custom-control-input" id="check_conocimientos" >
+                                                    <input type="checkbox" class="custom-control-input check_conocimientos">
                                                     <span class="custom-control-label"> <small>Conocimientos</small></span>                                                   
                                                 </label>
                                             </div>                                                                                                                           
@@ -296,10 +296,10 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="hay_bon_pers_disc" value=1  checked type="radio" id="hay_bon_pers_disc_1" class="radio-col-indigo material-inputs" />
+                                                    <input name="hay_bon_pers_disc" value="1"  checked type="radio" id="hay_bon_pers_disc_1" class="radio-col-indigo material-inputs" />
                                                     <label for="hay_bon_pers_disc_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_pers_disc" value=0  type="radio" id="hay_bon_pers_disc_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="hay_bon_pers_disc_2" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_pers_disc" value="0"  type="radio" id="hay_bon_pers_disc_0" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_pers_disc_0" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
                                         </div><hr>
@@ -310,10 +310,10 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="hay_bon_ffaa" value=1  checked type="radio" id="hay_bon_ffaa_1" class="radio-col-indigo material-inputs" />
+                                                    <input name="hay_bon_ffaa" value="1"  checked type="radio" id="hay_bon_ffaa_1" class="radio-col-indigo material-inputs" />
                                                     <label for="hay_bon_ffaa_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_ffaa" value=0  type="radio" id="hay_bon_ffaa_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="hay_bon_ffaa_2" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_ffaa" value="0"  type="radio" id="hay_bon_ffaa_0" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_ffaa_0" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
                                         </div><hr>
@@ -325,10 +325,10 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <fieldset>
-                                                    <input name="hay_bon_deport" type="radio" value=1 id="hay_bon_deport_1" class="radio-col-indigo material-inputs" />
+                                                    <input name="hay_bon_deport" type="radio" value="1" id="hay_bon_deport_1" class="radio-col-indigo material-inputs" />
                                                     <label for="hay_bon_deport_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_deport" checked type="radio" value=0 id="hay_bon_deport_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="hay_bon_deport_2" class="mb-0 mt-2">No</label>
+                                                    <input name="hay_bon_deport" checked type="radio" value="0" id="hay_bon_deport_0" class="radio-col-indigo material-inputs" />
+                                                    <label for="hay_bon_deport_0" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
                                         </div>                                 
