@@ -1,5 +1,6 @@
 $(document).ready(function() {
   
+   //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
     if(data.valor=="0"){
         console.log("esta vacio");
@@ -27,7 +28,7 @@ $(document).ready(function() {
         for (var i = 0; i < data.length; i++) {
             
             tabla += "<tr id='tblform"+data[i].id+"'>"+
-            "<td>"+data[i].grado_id+"</td>"+
+            "<td>"+data[i].nombre+"</td>"+
             "<td>"+data[i].especialidad+"</td>"+
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
@@ -84,21 +85,25 @@ $(document).ready(function() {
     $.get('/postulante/experiencias/data1',function (data3){
         var marcadogeneral="";
         var marcadoespecifico="";
+        var totaldias_gen=0;
+        var totaldias_esp=0;
         for (var i = 0; i < data3.length; i++) {
             //ttiempoexp_gen = ttiempoexp_gen + parseFloat(data3[i].dias_exp_gen);
             //ttiempoexp_esp = ttiempoexp_esp + parseFloat(data3[i].dias_exp_esp);
              marcadogeneral="";
              marcadoespecifico="";
+             totaldias_gen=totaldias_gen+data3[i].dias_exp_gen;
+             totaldias_esp=totaldias_esp+data3[i].dias_exp_esp;
             if(data3[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3[i].es_exp_esp==1){marcadoespecifico="checked";}
             
            
             tabla3 += "<tr id='tblexp"+data3[i].id+"'>"+
-            "<td>falta tipo</td>"+
-            "<td><p>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /></p><br>"+
-            "<p>Exp.Específica <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></p></td>"+
+            "<td>"+data3[i].tipo_experiencia+"</td>"+
+            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
+            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
-            "<td>falta entidad</td>"+
+            "<td>"+data3[i].tipo_institucion+"</td>"+
             "<td>"+data3[i].centro_laboral+"</td>"+
             "<td>"+data3[i].cargo_funcion+"</td>"+
             "<td>"+data3[i].fecha_inicio+"</td>"+
@@ -111,6 +116,8 @@ $(document).ready(function() {
         }
     
     $('#zeroconfig3_body').append(tabla3);
+    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
     //$('#total_exp_general').val(ttiempoexp_gen);
     //$('#total_exp_especifica').val(ttiempoexp_esp);
      
@@ -130,15 +137,15 @@ $(document).ready(function() {
             finish: "Registrar Postulación"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
-            alert("estoy en el sgt nivel");
+            
             return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
         }, 
         onFinishing: function(event, currentIndex) {
-            alert("hola 2");
+            
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
-            alert("hola");
+            
             
             
         }
@@ -155,7 +162,7 @@ $(document).ready(function() {
             $(element).removeClass(errorClass)
         },
         errorPlacement: function(error, element) {
-            alert("hola 3");
+            
             error.insertAfter(element)
         },
         rules: {
@@ -268,6 +275,8 @@ function nueva_expe(){
           $('#exp_general').attr("checked",true);
           $('#exp_especifica').removeAttr("checked");
           $("#nombre_entidad").val("");
+          $("#tipo_experiencia").val("0");
+          $("#tipo_entidad").val("0");
           $("#cargo_exp").val("");
           $("#funciones_princi").val("");
           $("#fecha_inicio_exp").val("");
@@ -301,6 +310,8 @@ function nueva_expe(){
             $('#exp_especifica').removeAttr("checked");
           }
 
+          $("#tipo_entidad").val("'"+data[0].tipo_institucion+"'");
+          $("#tipo_experiencia").val("'"+data[0].tipo_experiencia+"'");
           $("#nombre_entidad").val(data[0].centro_laboral);
           $("#cargo_exp").val(data[0].cargo_funcion);
           $("#funciones_princi").val(data[0].desc_cargo_funcion);
@@ -317,8 +328,50 @@ function nueva_expe(){
     
  }
 
- 
+ function cumplehoras_porcapa(hrsminima,hrsdecapa){
+    var resultado; 
+    if(hrsdecapa<hrsminima){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
 
+ function cumplehoras_totales(hrsminima_total,mihrs_total){
+    var resultado; 
+    if(mihrs_total<hrsminima_total){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+ 
+ function cumple_exp(mi_exp,exp_totalmin){
+    var resultado; 
+    if(mi_exp<exp_totalmin){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+
+ function anios_meses_dias(diasx){
+    var anios;
+    var meses;
+    var dias;
+    anios= Math.trunc(diasx/365); 
+    meses= Math.trunc((diasx%365)/30);
+    dias =(diasx%365)%30;
+    
+     
+  return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
+ }
 
 
 

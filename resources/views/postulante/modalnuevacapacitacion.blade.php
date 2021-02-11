@@ -68,13 +68,13 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechainicio_capac">Fecha de inicio: <span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechainicio_capac" name="fechainicio_capac" disabled > 
+                                                  <input type="date" class="form-control required" id="fechainicio_capac" name="fechainicio_capac"  > 
                                               </div>
                                           </div>
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechafin_capac">Fecha de fin :<span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechafin_capac" name="fechafin_capac" disabled>
+                                                  <input type="date" class="form-control required" id="fechafin_capac" name="fechafin_capac" >
                                               </div>
                                           </div>
                                       </div>

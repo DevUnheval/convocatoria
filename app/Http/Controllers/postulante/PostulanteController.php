@@ -53,11 +53,12 @@ class PostulanteController extends Controller
     {   
         $idproceso =$_GET["idproceso"];
         $proceso = Proceso::where('id',$idproceso)->get();
-        
-       // $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
-        //->select("*")
-        //->get();
+        $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
+        ->select("grado_formacions.nombre")
+        ->where("procesos.id",$_GET["idproceso"])
+        ->get();
         $gradoformac = GradoFormacion::get();
+        
         $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
         $datos_formacion = User::join("formacion_users", "formacion_users.user_id", "=", "users.id")
         ->select("*")
@@ -72,10 +73,8 @@ class PostulanteController extends Controller
         ->where("experiencia_lab_users.user_id", "=", auth()->user()->id)
         ->get();
 
-        return view('postulante.postular',compact('datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia'));
-        //return dd(compact('datos_usuario','datos_formacion','datos_capacitacion','datos_experiencia'));
-       // return view('postulante.postular',compact('proceso','proceso'));
-       // return view('postulante.postular',compact('procesoseleccionado'));
+        return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia'));
+        
     }
 
     public function actualizar_o_registrar(Request $data){
@@ -135,7 +134,10 @@ class PostulanteController extends Controller
     }
    
     public function formacion_data1(){
-        $query = FormacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+        $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
+        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->where("formacion_users.user_id",auth()->user()->id)->get();
+        //$query = FormacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
         return $query;
     }
     
@@ -171,29 +173,6 @@ class PostulanteController extends Controller
         }
         return json_encode($data, true);  
 
-       // $query = FormacionUser::where('user_id','2')->select('grado_id','especialidad','centro_estudios','fecha_expedicion')->get();
-        //return datatables()->of($query)->toJson();
-        
-        /*
-       if($request->ajax()){
-        $query = FormacionUser::where('user_id','2')->get();
-       // if($query->count()<1)
-        //return $this->data_null;
-
-        return DataTables::of($query)
-            ->addColumn('action',function($query){
-        $acciones = '<a href="" class="btn btn-info btn-sm">Editar</a>';
-        $acciones .= '<button type="button" name="btneliminarform" id="btneliminarform" class="btn btn-danger btn-sm">Eliminar </button>';
-                return $acciones;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-
-            
-
-    }
-     return view('postulante.postular');   
-   */
 }
 
     public function guardarformacion(Request $data){
@@ -203,7 +182,7 @@ class PostulanteController extends Controller
         
        $fu = new FormacionUser;
         
-        $fu->user_id = $data->user_id;
+        $fu->user_id = auth()->user()->id;
         $fu->grado_id = $data->grado_id;
         $fu->fecha_inicio = $data->fecha_inicio;
         $fu->fecha_fin = $data->fecha_fin;
@@ -216,7 +195,10 @@ class PostulanteController extends Controller
         $fu->archivo_tipo = "null";
         $fu->save();
     
-        $query = FormacionUser::where('user_id',auth()->user()->id)->get()->last();
+        $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
+        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->where("formacion_users.user_id",auth()->user()->id)->get()->last();
+        //$query = FormacionUser::where('user_id',auth()->user()->id)->get()->last();
         return $query;
 
     }
@@ -245,6 +227,8 @@ class PostulanteController extends Controller
         $cu->especialidad = $data->especialidad;
         $cu->ciudad = $data->ciudad;
         $cu->pais = $data->pais;
+        $cu->fecha_inicio = $data->fechainicio_capac;
+        $cu->fecha_fin = $data->fechafin_capac;
         $cu->archivo ="null";
         $cu->archivo_tipo = "null";
         $cu->cantidad_horas = $data->cantidad_horas;
@@ -273,6 +257,8 @@ class PostulanteController extends Controller
         $el->es_exp_esp = $data->es_exp_esp;
         $el->centro_laboral = $data->centro_laboral;
         
+        $el->tipo_institucion = $data->tipo_institucion;
+        $el->tipo_experiencia = $data->tipo_experiencia;
         $el->cargo_funcion = $data->cargo_funcion;
         $el->desc_cargo_funcion = $data->desc_cargo_funcion;
         $el->fecha_inicio = $data->fecha_inicio;
@@ -309,6 +295,8 @@ class PostulanteController extends Controller
         $Exper->es_exp_esp = $data->es_exp_esp;
         $Exper->centro_laboral = $data->centro_laboral;
         
+        $Exper->tipo_institucion = $data->tipo_institucion;
+        $Exper->tipo_experiencia = $data->tipo_experiencia;
         $Exper->cargo_funcion = $data->cargo_funcion;
         $Exper->desc_cargo_funcion = $data->desc_cargo_funcion;
         $Exper->fecha_inicio = $data->fecha_inicio;

@@ -39,11 +39,11 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="tipo_experiencia">Tipo de Experiencia:<span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" disabled id="tipo_experiencia" name="tipo_experiencia" disabled>
-                                                    <option value="">*Seleccionar*</option>
-                                                    <option value="">Laboral</option>
-                                                    <option value="">Prácticas Pre Profesionales</option>
-                                                    <option value="">Prácticas Profesionales</option>
+                                                  <select class="custom-select form-control" id="tipo_experiencia" name="tipo_experiencia">
+                                                    <option value="0">*Seleccionar*</option>
+                                                    <option value="Experiencia Laboral">Experiencia Laboral</option>
+                                                    <option value="Prácticas Pre Profesionales">Prácticas Pre Profesionales</option>
+                                                    <option value="Prácticas Profesionales">Prácticas Profesionales</option>
                                                     
                                                   </select>
                                               </div>
@@ -51,10 +51,10 @@
                                           <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tipo_entidad">Tipo Entidad:<span class="danger">*</span> </label>
-                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad" disabled>
-                                                  <option value="">*Seleccionar*</option>
-                                                  <option value="">Público</option>
-                                                  <option value="">Privado</option>
+                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad">
+                                                  <option value="0">*Seleccionar*</option>
+                                                  <option value="Público">Público</option>
+                                                  <option value="Privado">Privado</option>
                                                   
                                                 </select>
                                             </div>
@@ -69,13 +69,8 @@
                                         </div>
                                      </div>
                                      <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="area">Área:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="area" name="area" disabled> 
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
+                                        
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="cargo_exp">Cargo:<span class="danger">*</span> </label>
                                                 <input type="text" class="form-control required" id="cargo_exp" name="cargo_exp" > 
@@ -110,7 +105,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="documento">Documento sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" disabled> 
+                                                <input type="file" class="form-control required" id="documento" name="documento" > 
                                             </div>
                                         </div>
                                         

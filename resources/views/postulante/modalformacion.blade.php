@@ -35,15 +35,7 @@
                                           </div>
                                           <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="nivel_estudios">Nivel de estudios:<span class="danger">*</span> </label>
-                                                <select class="custom-select form-control" id="nivel_estudios" name="nivel_estudios">
-                                                  <option value="">*Seleccionar*</option>
-                                                  <option value="">Estudiante</option>
-                                                  <option value="">Egresado</option>
-                                                  <option value="">Bachiller</option>
-                                                  <option value="">Titulado</option>
-                                                  
-                                                </select>
+                                                
                                             </div>
                                         </div>
                                      </div>
@@ -67,7 +59,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="ciudad_form">Ciudad:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="ciudad_form" name="ciudad_form" > 
+                                                <input type="text" class="form-control required" id="ciudad_form" name="ciudad_form" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
