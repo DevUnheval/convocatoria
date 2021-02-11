@@ -130,18 +130,50 @@ $(document).ready(function() {
             finish: "Registrar Postulación"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
-            alert("estoy en el sgt nivel");
-            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
+            //var validar_paso = validar_paso(currentIndex, newIndex);
+            // alert(validar_paso);
+
+            //aquí validamos dependiendo el PASO actual: currentIndex
+            var validar_paso = 
+            //{"estado":true, "msj1":"Éxito", "msj2":"Se guardaron los cambios"};
+            {"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
+
+            switch(currentIndex){
+                case 0: console.log("Datos Personales"); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                case 1: console.log("Formación Académica"); break;
+                case 2: console.log("Cursos y/o especializaciones"); break;
+                case 3: console.log("Experiecia Laboral"); break;
+            }
+           
+            if(validar_paso.estado){
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: validar_paso.msj2,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) 
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: "¡Error!",
+                    text: validar_paso.msj2,
+                    icon: "error",
+                    timer: 3500,
+                })
+                return false;
+            }
+                
         }, 
         onFinishing: function(event, currentIndex) {
             alert("hola 2");
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
-            alert("hola");
-            
-            
-        }
+            alert("hola"); 
+        }, 
+        
     }), $(".validation-wizard").validate({
         ignore: "input[type=hidden]",
         errorClass: "text-danger",
@@ -164,6 +196,8 @@ $(document).ready(function() {
             }
         }
     })
+
+
 
     
 /*
@@ -313,9 +347,9 @@ function nueva_expe(){
             alert("error!!"+data); }
 
     });
-
-    
  }
+
+
 
  
 
