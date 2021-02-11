@@ -28,7 +28,10 @@ class CreateDatosPostulantesTable extends Migration
 
             //domicilio
             $table->string('domicilio');
-            $table->unsignedBigInteger('ubigeo'); //no le pongo como llave primaria, xq el ubigeo lo es
+            $table->string('ubigeo_domicilio'); //no le pongo como llave primaria, xq el ubigeo lo es
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('ubigeo_nacimiento')->nullable();//quizá lo quitemos
+            $table->string('nacionalidad')->default('Peruana');//quizá lo quitemos
 
             //bonificacion
             $table->boolean('es_pers_disc')->default(false);

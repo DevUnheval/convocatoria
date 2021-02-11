@@ -21,9 +21,6 @@ class CreateUsersTable extends Migration
             $table->string('apellido_materno');
             $table->string('email');
             $table->string('img')->default('/imagenes/users/user.png');
-            $table->date('fecha_nacimiento')->nullable();
-            $table->string('ubigeo_nacimiento')->nullable();//quizá lo quitemos
-            $table->string('nacionalidad')->default('Peruana');//quizá lo quitemos
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
