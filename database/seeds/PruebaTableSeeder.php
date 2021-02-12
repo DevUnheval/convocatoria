@@ -17,6 +17,13 @@ class PruebaTableSeeder extends Seeder
         
         $users=[
             [
+                'dni' => '12345678',
+                'nombres' => 'CESAR',
+                'apellido_paterno' => 'JIMENEZ',
+                'apellido_materno' => 'VARGAS',
+                'email' => 'email2@gmail.com',
+            ],
+            [
                 'dni'=>'12121236',
                 'nombres'=>"Pepito Postulante",
                 'apellido_paterno'=>'Cardenas',
@@ -63,7 +70,9 @@ class PruebaTableSeeder extends Seeder
         for($i=1;$i<=10;$i++){
             $query =new Proceso;
             $query->cod = 'CAS-00'.$i.'-2020';
-            $query->tipo_id= 1;
+            $query->tipo_id= ($i%5 + 1);
+            $query->remuneracion=rand(930, 4005);;
+            $query->especialidad='Especialidad '.$i;
             $query->nombre= 'Ingeniero de Sistemas';
             $query->descripcion = 'La Oficina de informática requiere Ingeniero de sistemas cobn expiericia en desarrollo de SW';
             $query->n_plazas = $i%3+1;

@@ -24,11 +24,12 @@
                                       <div class="row">
                                           <div class="col-md-12">
                                               <div class="form-group">
-                                                  <label for="tipo_estudio">Tipo de estudio:<span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" id="tipo_estudio" name="tipo_estudio">
-                                                    <option value="">*Seleccione*</option>
-                                                    <option value="Curso">Curso</option>
-                                                    <option value="Programa Especializacion">Programa de Especialización</option>
+                                                  <label for="tipo_capacitacion">Tipo de estudio:<span class="danger">*</span> </label>
+                                                  <select class="custom-select form-control" id="tipo_capacitacion" name="tipo_capacitacion">
+                                                    <option value="0">*Seleccione*</option>
+                                                    <option value="1">Curso/Especialización</option>
+                                                    <option value="2">Offimática</option>
+                                                    <option value="3">Idioma</option>
                                                   </select>
                                               </div>
                                           </div>
@@ -52,44 +53,50 @@
                                      <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="pais">Pais: <span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="pais" name="pais" > 
+                                                <label for="pais_capacit">Pais: <span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="pais_capacit" name="pais_capacit" > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="ciudad">Ciudad :<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="ciudad" name="ciudad" >
+                                                <label for="ciudad_capacit">Ciudad :<span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="ciudad_capacit" name="ciudad_capacit" >
                                             </div>
                                         </div>
                                       </div>   
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="form-group">
-                                                  <label for="fechainicio">Fecha de inicio: <span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechainicio" name="fechainicio" > 
+                                                  <label for="fechainicio_capac">Fecha de inicio: <span class="danger">*</span> </label>
+                                                  <input type="date" class="form-control required" id="fechainicio_capac" name="fechainicio_capac" disabled > 
                                               </div>
                                           </div>
                                           <div class="col-md-6">
                                               <div class="form-group">
-                                                  <label for="fechafin">Fecha de fin :<span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechafin" name="fechafin">
+                                                  <label for="fechafin_capac">Fecha de fin :<span class="danger">*</span> </label>
+                                                  <input type="date" class="form-control required" id="fechafin_capac" name="fechafin_capac" disabled>
                                               </div>
                                           </div>
                                       </div>
                                       <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="horaslectivas">Horas lectivas: <span class="danger">*</span> </label>
                                                 <input type="text" class="form-control required" id="horaslectivas" name="horaslectivas" > 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="nivel_capa">Nivel: <span class="danger">*</span> </label>
+                                                <input type="text" class="form-control required" id="nivel_capa" name="nivel_capa" > 
                                             </div>
                                         </div>
                                       </div>
                                       <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="documento">Documento de sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                                <label for="documento_capa">Documento de sustento: <span class="danger">*</span> </label>
+                                                <input type="file" class="form-control required" id="documento_capa" name="documento_capa" > 
                                             </div>
                                         </div>
                                       </div>
@@ -103,9 +110,9 @@
                                       <br>
                                       <div  class="row">
                                         <div class="form-group col-md-12">
-                                            <button data-repeater-delete="" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
+                                            <button id="btn_can_capacitacion" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                             </button>
-                                            <button class="btn btn-success waves-effect waves-light" type="submit">Guardar
+                                            <button id="btn_guardar_capacitacion" class="btn btn-success waves-effect waves-light" type="button">Guardar
                                             </button>  
                                         </div>
                                     </div>

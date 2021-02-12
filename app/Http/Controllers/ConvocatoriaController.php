@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Proceso;
 use App\TipoProceso;
+use App\GradoFormacion;
 class ConvocatoriaController extends Controller
 {
     public function __construct()
@@ -21,8 +22,9 @@ class ConvocatoriaController extends Controller
     public function vigentes()
     {
         
-        $datos = [
-            'tipos_proc'=>TipoProceso::pluck('nombre','id')
+       $datos = [
+            'tipos_proc'=>TipoProceso::pluck('nombre','id'),
+            'grado_formacion'=>GradoFormacion::pluck('nombre','id')
         ];
         return view('convocatorias.vigentes.index',compact('datos') );
     }
@@ -34,25 +36,18 @@ class ConvocatoriaController extends Controller
         return $this->data_null;
     
         foreach ($query as $dato) {
-            //return $dato->tipoproceso;
-            $acciones = "<div class='btn-group'>";
-            $acciones .= "<a href='busqueda/$dato->id' target='_blank'  class='btn btn-success btn-circle'>
-                            <i class='mdi mdi-launch'></i></a> ";
-            $acciones .= "<button type='button' class='btn btn-info btn-circle' onclick='personas($dato->id,$dato->programa_id)'>
-                            <i class='fa fa-users' ></i></button> ";
             if(!$dato->file){
                 $config = ' <div class="btn-group">';
                 $config.= ' <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 <i class="ti-settings"></i>
                             </button>';
-                $config.= " <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
-                                    <a class='dropdown-item' href='javascript:void(0)'><i class='ti-eye'></i> Abrir </a>
+                $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)'><i class='ti-comment-alt'></i> Comunicar</a>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                                 </div>
                             </div>";
-                $bases = '<button type="button" class="btn btn-outline-warning btn-rounded btn-xs" data-toggle="modal" data-target="#modal_ver" data-original-title="Ver"><i class="fa fa-info"></i> </button> ';
+                $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
                 $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button" data-toggle="modal" data-target="#modal_comunicados" data-original-title="Ver"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
@@ -112,9 +107,10 @@ class ConvocatoriaController extends Controller
     }
 
   
-    public function update(Request $request, $id)
+    public function update(Request $r)
     {
-        //
+        Proceso::where('id', $r->id)    
+                ->update($r->all());
     }
 
    

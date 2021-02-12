@@ -38,17 +38,7 @@ class AjustesTableSeeder extends Seeder
               ],
            ]);
 
-           DB::table('users')->insert([
-            [
-                'dni' => '12345678',
-                'nombres' => 'CESAR',
-                'apellido_paterno' => 'JIMENEZ',
-                'apellido_materno' => 'VARGAS',
-                'email' => 'email2@gmail.com',
-                'email_verified_at' => '2021-01-31 22:12:03',
-                'password' => bcrypt('12345678'),
-            ],
-         ]);
+          
          
            DB::table('rols')->insert([
               [
@@ -80,13 +70,6 @@ class AjustesTableSeeder extends Seeder
               ],
            ]);
 
-           DB::table('user_rols')->insert([
-            [
-                'user_id' => '2',
-                'rol_id' => '4',
-            ],
-         ]);
-
            DB::table('tipo_procesos')->insert([
             [
                 'nombre' => 'C.A.S',
@@ -112,24 +95,40 @@ class AjustesTableSeeder extends Seeder
 
          DB::table('grado_formacions')->insert([
             [
-                'nombre' => 'Tecnico Profesional',
+                'nombre' => 'Ninguno',
+                'descripcion' => '',
+            ],
+            [
+                'nombre' => 'Secundaria incompleta',
+                'descripcion' => '',
+            ],
+            [
+                'nombre' => 'Secundaria completa',
+                'descripcion' => '',
+            ],
+            [
+                'nombre' => 'Egresado universitario',
                 'descripcion' => 'desc',
             ],
             [
-                'nombre' => 'Bachiller',
+                'nombre' => 'Técnico superior',
                 'descripcion' => 'desc',
             ],
             [
-                'nombre' => 'Título Profesional',
+                'nombre' => 'Bachiller universitario',
                 'descripcion' => 'desc',
             ],
             [
-                'nombre' => 'Posgrado Maestria',
-                'descripcion' => 'descripcion',
+                'nombre' => 'Título universitario',
+                'descripcion' => 'desc',
             ],
             [
-                'nombre' => 'Posgrado Doctorado',
-                'descripcion' => 'descripcion',
+                'nombre' => 'Grado de Maestro',
+                'descripcion' => 'posgrado',
+            ],
+            [
+                'nombre' => 'Grado de Doctor',
+                'descripcion' => 'posgrado',
             ],            
          ]);
          

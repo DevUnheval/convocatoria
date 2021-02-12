@@ -81,7 +81,21 @@ Route::group(['prefix' => 'convocatorias'], function(){
 Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
     Route::get('postular', 'postulante\PostulanteController@postular')->name('postulante_postular');
-    Route::post('store', 'postulante\PostulanteController@store')->name('postulante.store'); 
+    Route::get('datosuser/data1', 'postulante\PostulanteController@datosuser_data1')->name('datosuser_data1');
+    Route::get('formacion/data1', 'postulante\PostulanteController@formacion_data1')->name('formacion_data1');
+    Route::get('formacion/data', 'postulante\PostulanteController@formacion_data')->name('formacion_data');
+    Route::post('actualizardatos', 'postulante\PostulanteController@actualizar_o_registrar')->name('actualizardatos'); 
+    Route::post('guardarformacion', 'postulante\PostulanteController@guardarformacion')->name('guardarformacion'); 
+    Route::post('eliminarformacion', 'postulante\PostulanteController@eliminarformacion')->name('eliminarformacion');
+    Route::get('capacitaciones/data1', 'postulante\PostulanteController@capacitaciones_data1')->name('capacitaciones_data1');
+    Route::post('guardarcapacitacion', 'postulante\PostulanteController@guardarcapacitacion')->name('guardarcapacitacion');
+    Route::post('eliminarcapacitacion', 'postulante\PostulanteController@eliminarcapacitacion')->name('eliminarcapacitacion');
+    Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1');
+    Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia');
+    Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia');
+    Route::post('editarexperiencia', 'postulante\PostulanteController@editarexperiencia')->name('editarexperiencia');
+    Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia');
+    
     //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
 
         

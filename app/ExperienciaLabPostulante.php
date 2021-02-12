@@ -14,6 +14,7 @@ class ExperienciaLabPostulante extends Model
                             'fecha_fin','dias_exp_gen','dias_exp_esp'];
     public $timestamps = False;
     
+    
     public function user() {
 		return $this->belongsTo(User::class);
 	}
