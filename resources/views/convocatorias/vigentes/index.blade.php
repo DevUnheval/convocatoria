@@ -19,13 +19,13 @@
                             {{-- modal --}}
                             
                             @include('convocatorias.vigentes.m_ver')
-                            
+                            @include('convocatorias.vigentes.m_comunicados')
                             @include('convocatorias.vigentes.modalinvidtado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                     @include('convocatorias.vigentes.m_nuevo')
                                     @include('convocatorias.vigentes.m_editar')
                                     
-                                    @include('convocatorias.vigentes.m_comunicados')
+                                    
                             {{--Fin modal --}}
 
             <h4 class="card-title">

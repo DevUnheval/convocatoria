@@ -2,7 +2,7 @@
 
 namespace App;
 use Carbon\Carbon;
-
+use App\Comunicado;
 use Illuminate\Database\Eloquent\Model;
 
 class Proceso extends Model
@@ -41,5 +41,8 @@ class Proceso extends Model
     }
     public function getFechaInscripcionFinAttribute($value){
         return Carbon::parse($value)->format('Y-m-d\TH:i');
+    }
+    public function ultimo_comunicado(){
+      return Comunicado::where("proceso_id",$this->id)->orderBy("id","desc")->first();		
     }
 }

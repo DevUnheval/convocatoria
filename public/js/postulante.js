@@ -139,7 +139,7 @@ $(document).ready(function() {
             {"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
 
             switch(currentIndex){
-                case 0: console.log("Datos Personales"); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                case 0: validar_paso = guardar(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
                 case 1: console.log("Formación Académica"); break;
                 case 2: console.log("Cursos y/o especializaciones"); break;
                 case 3: console.log("Experiecia Laboral"); break;
