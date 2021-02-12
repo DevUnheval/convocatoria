@@ -43,6 +43,7 @@
                                        <h5 id="ver_remuneracion"></h5>
                                  </div>
                               </div>
+                              <hr>
                               <div class="col-md-6">
                                  <div class="form-group">
                                        <small class="text-info">Nombre/Cargo de la convocatoria: </small>

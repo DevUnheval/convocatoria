@@ -107,6 +107,37 @@
         });
     });
     </script>
-
+    <script>
+    $(document).ready(function() {
+        $("input[type=radio]").click(function(event){
+            var valor = $(event.target).val();
+            if(valor =="1"){
+                $("#div_b_local").show();
+                $("#div_b_link").hide();
+            } else if (valor == "0") {
+                $("#div_b_local").hide();
+                $("#div_b_link").show();
+            } else { 
+                // Otra cosa
+            }
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $("input[type=radio]").click(function(event){
+            var valor = $(event.target).val();
+            if(valor =="res_local"){
+                $("#div_res_local").show();
+                $("#div_res_link").hide();
+            } else if (valor == "res_link") {
+                $("#div_res_local").hide();
+                $("#div_res_link").show();
+            } else { 
+                // Otra cosa
+            }
+        });
+    });
+    </script>
    
 @endsection

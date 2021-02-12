@@ -52,6 +52,13 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar');  
         
     }); 
+    Route::group(['prefix' => 'formacion'], function(){
+        Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index');  
+        Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update');  
+        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store');  
+        Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
+        Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar');  
+    }); 
 });
 
 //CONVOCATORIAS

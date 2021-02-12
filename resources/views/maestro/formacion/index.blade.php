@@ -10,8 +10,8 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Procesos vigentes')
-@section('menu_title_2','Procesos')
+@section('menu_title_1','Formacion Academica')
+@section('menu_title_2','Formacion')
 
 @section('content')
 
@@ -21,8 +21,8 @@
             <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
             <i class="fa fa-plus"></i> Nuevo</button>
         </h4>
-        @include('maestro.proceso.editar')
-        @include('maestro.proceso.nuevo')                        
+        @include('maestro.formacion.editar')
+        @include('maestro.formacion.nuevo')                        
             <div class="table-responsive">
                 <table id="data_table" class="table table-striped table-bordered">
                     <thead>
@@ -59,5 +59,5 @@
 
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/maestro_tipoprocesos.js')}}"></script>
+    <script src="{{ asset('/js/maestro_formacion.js')}}"></script>
 @endsection
