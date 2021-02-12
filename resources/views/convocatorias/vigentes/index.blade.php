@@ -17,13 +17,15 @@
                         <div class="card">
                             <div class="card-body">
                             {{-- modal --}}
+                            
+                            @include('convocatorias.vigentes.m_ver')
+                            
                             @include('convocatorias.vigentes.modalinvidtado')
-                            @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                @include('convocatorias.vigentes.m_nuevo')
-                                @include('convocatorias.vigentes.m_editar')
-                                @include('convocatorias.vigentes.m_ver')
-                                @include('convocatorias.vigentes.m_comunicados')
-                           
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                    @include('convocatorias.vigentes.m_nuevo')
+                                    @include('convocatorias.vigentes.m_editar')
+                                    
+                                    @include('convocatorias.vigentes.m_comunicados')
                             {{--Fin modal --}}
 
             <h4 class="card-title">
@@ -93,7 +95,7 @@
 
     <script>
     $(document).ready(function(){
-        $("#check_conocimientos").change(function() {
+        $(".check_conocimientos").change(function() {
             if(this.checked) {
                 $(".fila_conocimiento").prop("disabled", false);
                 $(".fila_conocimiento").prop('required',true);

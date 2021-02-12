@@ -27,108 +27,26 @@ $(document).ready(function() {
     })
         
 
-//_______________________________guardar o actualizar datos personales - section 1____________________________
-    
-$('#btn_guardardatos').on('click',function(){
-    var discap=0;
-    var ffaa=0;
-    var depor=0;
-      if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
-      if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
-      if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
-//var ddd= {!! json_encode($datos_usuario) !!};
-//@json($datos_usuario);
-    
-   
-        $.ajax({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            url: "/postulante/actualizardatos",
-            type: "POST" ,
-            datatype: "json",
-            data: {
-               // id: $("#di").val(),
-                fechanac: $("#fecha_nacimiento").val(),
-                ruc:$("#ruc").val(),
-                ubigeodni: $("#ubigeodni").val(),
-                nacionalidad: $("#nacionalidad").val(),
-                celular: $("#telefono_celular").val(),
-                telfijo: $("#telefono_fijo").val(),
-                domicilio: $("#domicilio").val(),
-                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
-                dicapacidad: discap,
-                ffaa:ffaa,
-                deportista: depor
 
-            },
-            success:function(data){
-               // console.log(data);
-               alert(data.mensaje);
-                //$('#section1').load();
-            },
-            error: function(data){
-                alert("error!!")
-
-            }
-
-        });
-
-    })
 
 //_________________________________ guardar formacion académica - section 2___________________________________
-    $('#btn_guardar_formacion').on('click',function(){
-             var especialidad_tratada= "";
-        if($("#tipo_estudio").val()==2 || $("#tipo_estudio").val()==3){
-            especialidad_tratada = "-";
-        }else{
-            especialidad_tratada= $("#especialidad").val();
-        }
-
-            $.ajax({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                url: "/postulante/guardarformacion",
-                type: "POST" ,
-                datatype: "json",
-                data: {
-                   // user_id: $("#di2").val(),
-                    grado_id: $("#tipo_estudio").val(),
-                    fecha_inicio:$("#fecha_inicio").val(),
-                    fecha_fin: $("#fecha_fin").val(),
-                    fecha_expedicion: $("#fecha_exp").val(),
-                    centro_estudios: $("#centro_estudio_form").val(),
-                    especialidad: especialidad_tratada,
-                    ciudad: $("#ciudad_form").val(),
-                    pais: $("#pais_form").val(),
-                        
-                },
-                success:function(data){
-                    console.log(data);
-                    alert("datos guardados!! "+data.especialidad);
-                   
-                    
-                  var fila = "<tr id='tblform"+data.id+"'>"+
-                  "<td>"+data.nombre+"</td>"+
-                  "<td>"+data.especialidad+"</td>"+
-                  "<td>"+data.centro_estudios+"</td>"+
-                  "<td>"+data.fecha_expedicion+"</td>"+
-                  "<td><button class='btn btn-info' type='button' >ver</button>"+
-                   "   <button type='button' onclick=\"eliminar('tblform"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
-                  "</td>"+
-                  "</tr>";
-                   $('#zeroconfig1_body').prepend(fila); 
-                   $('#modal_nueva_formacion').modal('hide');
-                   //$('#zero_config1').DataTable().ajax.reload(); 
-                    //var refreshId =  setInterval( function(){
-                      //  $('#div_act').load();//actualizas el div
-                       //}, 1000 );
-                },
-                error: function(data){
-                    alert("error!!")
-    
-                }
-    
-            });
-    
-        }) 
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                
+            }else{
+                event.preventDefault();
+                guardar_formacion_acad();
+            }
+        
+            
+        }, false);
+    });
 
 // ______________________________-boton cancelar, ocultar modal - section 2
         $('#btn_can_formac').on('click',function(){
@@ -136,87 +54,23 @@ $('#btn_guardardatos').on('click',function(){
         })
 
 //_________________________________ guardar curso capacitacion - section 3
-$('#btn_guardar_capacitacion').on('click',function(){
-    var es_curso_espec=0;
-   var  es_ofimatica=0;
-    var es_idioma=0;   
-    var nivel_tratada=""; 
-    if($("#tipo_capacitacion").val()==1){
-        es_curso_espec=1;
-        es_ofimatica=0;
-        es_idioma=0;
-        nivel_tratada = "-";
-    }
-    if($("#tipo_capacitacion").val()==2){
-        es_curso_espec=0;
-        es_ofimatica=1;
-        es_idioma=0;
-        nivel_tratada = $("#nivel_capa").val();
-    }
-    if($("#tipo_capacitacion").val()==3){
-        es_curso_espec=0;
-        es_ofimatica=0;
-        es_idioma=1;
-        nivel_tratada = $("#nivel_capa").val();
-    }
-
-    $.ajax({
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: "/postulante/guardarcapacitacion",
-        type: "POST" ,
-        datatype: "json",
-        data: {
-           // user_id: $("#di2").val(),
-           es_curso_espec: es_curso_espec,
-           es_ofimatica: es_ofimatica,
-           es_idioma: es_idioma,
-           
-           especialidad:$("#descripcion").val(),
-           centro_estudios: $("#institucion").val(),
-           pais: $("#pais_capacit").val(),
-           ciudad: $("#ciudad_capacit").val(),
-           fechainicio_capac: $("#fechainicio_capac").val(),
-           fechafin_capac: $("#fechafin_capac").val(),
-           nivel_capa : nivel_tratada,
-           cantidad_horas: $("#horaslectivas").val(),  
-                
-        },
-        success:function(data){
-           // console.log(data);
-            alert("datos guardados CAPACITACION!! ");
-            var tipoestudio="";
-            if(data.es_curso_espec==1){
-                tipoestudio = "Curso/Especialización";
-            }
-            if(data.es_ofimatica==1){
-                tipoestudio = "Ofimática";
-            }
-            if(data.es_idioma==1){
-                tipoestudio = "Idioma";
-            } 
+var forms2 = document.getElementsByClassName('needs-validation2');
+// Loop over them and prevent submission
+var validation = Array.prototype.filter.call(forms2, function(form) {
+    form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            form.classList.add('was-validated');
             
-          var fila = "<tr id='tblcapac"+data.id+"'>"+
-          "<td>"+tipoestudio+"</td>"+
-          "<td>"+data.especialidad+"</td>"+
-          "<td>"+data.centro_estudios+"</td>"+
-          "<td>"+data.cantidad_horas+"</td>"+
-          "<td><button class='btn btn-info' >ver</button>"+
-           "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
-          "</td>"+
-          "</tr>";
-           $('#zeroconfig2_body').prepend(fila); 
-           $('#modal_nuevo').modal('hide');
-           $('#total_horas').val(parseFloat($('#total_horas').val()) + parseFloat(data.cantidad_horas));
-           
-        },
-        error: function(data){
-            alert("error!!")
-
+        }else{
+            event.preventDefault();
+            guardar_curso_capa();
         }
-
-    });
-
-}) 
+    
+        
+    }, false);
+});
 
 //__________________________________ boton cancelar, ocultar modal - section 3
 $('#btn_can_capacitacion').on('click',function(){
@@ -246,8 +100,12 @@ $("#tipo_estudio").on('click',function(){
 $("#tipo_capacitacion").on('click',function(){
     if($("#tipo_capacitacion").val()==2 || $("#tipo_capacitacion").val()==3){
         $('#nivel_capa').removeAttr('disabled');
+        $('#nivel_capa').attr('required',true);
+        
     }else{
         $('#nivel_capa').attr('disabled',true);
+        $('#nivel_capa').removeAttr('required');
+        
     }
 })
 
@@ -430,3 +288,178 @@ function actualizar_expe(transid){
 
    
 }
+
+function cumplehoras_porcapa(hrsminima,hrsdecapa){
+    var resultado; 
+    if(hrsdecapa>=hrsminima){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+
+
+ function guardar_formacion_acad(){
+     
+
+    var especialidad_tratada= "";
+    if($("#tipo_estudio").val()==2 || $("#tipo_estudio").val()==3){
+        especialidad_tratada = "-";
+    }else{
+        especialidad_tratada= $("#especialidad").val();
+    }
+
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/postulante/guardarformacion",
+            type: "POST" ,
+            datatype: "json",
+            data: {
+               // user_id: $("#di2").val(),
+                grado_id: $("#tipo_estudio").val(),
+                fecha_inicio:$("#fecha_inicio").val(),
+                fecha_fin: $("#fecha_fin").val(),
+                fecha_expedicion: $("#fecha_exp").val(),
+                centro_estudios: $("#centro_estudio_form").val(),
+                especialidad: especialidad_tratada,
+                ciudad: $("#ciudad_form").val(),
+                pais: $("#pais_form").val(),
+                    
+            },
+            success:function(data){
+                
+              var fila = "<tr id='tblform"+data.id+"'>"+
+              "<td>"+data.nombre+"</td>"+
+              "<td>"+data.especialidad+"</td>"+
+              "<td>"+data.centro_estudios+"</td>"+
+              "<td>"+data.fecha_expedicion+"</td>"+
+              "<td><button class='btn btn-info' type='button' >ver</button>"+
+               "   <button type='button' onclick=\"eliminar('tblform"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+              "</td>"+
+              "</tr>";
+               $('#zeroconfig1_body').prepend(fila); 
+              
+               Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: "Formacion registrada",
+                showConfirmButton: false,
+                timer: 2000
+            })
+               $('#modal_nueva_formacion').modal('hide');
+               
+            },
+            error: function(data){
+                alert("error!!")
+
+            }
+
+        });
+ }
+
+ function guardar_curso_capa(){
+    var es_curso_espec=0;
+    var  es_ofimatica=0;
+     var es_idioma=0;   
+     var nivel_tratada="";
+     
+     if(!cumplehoras_porcapa(parseInt($("#horas_cap_ind").val()),parseInt($("#horaslectivas").val()))){
+ 
+         Swal.fire({
+             type: 'error',
+             title: "¡Error!",
+             text: "No cumple con mínimo de horas de curso/capacitación",
+             icon: "error",
+             timer: false,
+         })
+         return false;
+     }
+ 
+     if($("#tipo_capacitacion").val()==1){
+         es_curso_espec=1;
+         es_ofimatica=0;
+         es_idioma=0;
+         nivel_tratada = "-";
+     }
+     if($("#tipo_capacitacion").val()==2){
+         es_curso_espec=0;
+         es_ofimatica=1;
+         es_idioma=0;
+         nivel_tratada = $("#nivel_capa").val();
+     }
+     if($("#tipo_capacitacion").val()==3){
+         es_curso_espec=0;
+         es_ofimatica=0;
+         es_idioma=1;
+         nivel_tratada = $("#nivel_capa").val();
+     }
+ 
+     $.ajax({
+         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+         url: "/postulante/guardarcapacitacion",
+         type: "POST" ,
+         datatype: "json",
+         data: {
+            // user_id: $("#di2").val(),
+            es_curso_espec: es_curso_espec,
+            es_ofimatica: es_ofimatica,
+            es_idioma: es_idioma,
+            
+            especialidad:$("#descripcion").val(),
+            centro_estudios: $("#institucion").val(),
+            pais: $("#pais_capacit").val(),
+            ciudad: $("#ciudad_capacit").val(),
+            fechainicio_capac: $("#fechainicio_capac").val(),
+            fechafin_capac: $("#fechafin_capac").val(),
+            nivel_capa : nivel_tratada,
+            cantidad_horas: $("#horaslectivas").val(),  
+                 
+         },
+         success:function(data){
+            // console.log(data);
+             //alert("datos guardados CAPACITACION!! ");
+             var tipoestudio="";
+             if(data.es_curso_espec==1){
+                 tipoestudio = "Curso/Especialización";
+             }
+             if(data.es_ofimatica==1){
+                 tipoestudio = "Ofimática";
+             }
+             if(data.es_idioma==1){
+                 tipoestudio = "Idioma";
+             } 
+             
+           var fila = "<tr id='tblcapac"+data.id+"'>"+
+           "<td>"+tipoestudio+"</td>"+
+           "<td>"+data.especialidad+"</td>"+
+           "<td>"+data.centro_estudios+"</td>"+
+           "<td>"+data.cantidad_horas+"</td>"+
+           "<td><button class='btn btn-info' >ver</button>"+
+            "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+           "</td>"+
+           "</tr>";
+ 
+           Swal.fire({
+             position: 'center',
+             type: 'success',
+             title: "Curso/Capacitación guardado",
+             showConfirmButton: false,
+             timer: 1500
+         });
+ 
+            $('#zeroconfig2_body').prepend(fila); 
+            $('#total_horas').val(parseFloat($('#total_horas').val()) + parseFloat(data.cantidad_horas));
+            $('#modal_nuevo').modal('hide');
+            
+            
+         },
+         error: function(data){
+             alert("error!!")
+ 
+         }
+ 
+     });
+ 
+ }

@@ -309,6 +309,18 @@ class PostulanteController extends Controller
         $query = ExperienciaLabUser::where('id',$data->id)->get();
         return $query;
     }
+
+    public function datosexpgenyesp(Request $data){
+
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+        return compact('suma_expgen','suma_expesp');
+    }
     
     
 }

@@ -102,11 +102,10 @@ $(document).ready(function() {
                 email: !0
             }
         }
-    })
-     
+    })  
 })
-function editar(id){
 
+function editar(id){
     $.ajax({
         url:   "/convocatorias/edit/"+id,
         type: 'GET',
@@ -116,6 +115,7 @@ function editar(id){
         success:  function (response){
             $("#id").val(response.id);
             $("#cod").val(response.cod);
+            $("#tipo_id").val(response.tipo_id);
             $("#n_plazas").val(response.n_plazas);
             $("#nombre").val(response.nombre);
             $("#oficina").val(response.oficina);
@@ -148,13 +148,10 @@ function editar(id){
             $("#anios_exp_lab_esp").val(response.anios_exp_lab_esp);
             $("#horas_cap_total").val(response.horas_cap_total);
             $("#horas_cap_ind").val(response.horas_cap_ind);
-            $("#hay_bon_pers_disc_1").val(response.hay_bon_pers_disc_1);
-            $("#hay_bon_pers_disc_2").val(response.hay_bon_pers_disc_2);
-            $("#hay_bon_ffaa_1").val(response.hay_bon_ffaa_1);
-            $("#hay_bon_ffaa_2").val(response.hay_bon_ffaa_2);
-            $("#hay_bon_deport_1").val(response.hay_bon_deport_1);
-            $("#hay_bon_deport_2").val(response.hay_bon_deport_2);
-          
+
+            $("#hay_bon_pers_disc_"+response.hay_bon_pers_disc).prop("checked", true);
+            $("#hay_bon_ffaa_"+response.hay_bon_ffaa).prop("checked", true);
+            $("#hay_bon_deport_"+response.hay_bon_deport_).prop("checked", true);          
         },
         error: function (response){
             console.log("Error",response.data);
@@ -168,4 +165,59 @@ function editar(id){
         }
     });
     $("#modal_editar").modal("show");
+}
+
+function ver_detalles(id){
+    $.ajax({
+        url:   "/convocatorias/edit/"+id,
+        type: 'GET',
+        beforeSend: function () {
+          console.log('enviando....');
+        },
+        success:  function (response){
+           console.log("Resultados => ",response);
+           $("#ver_cod").html(response.cod);
+           $("#ver_n_plazas").html(response.n_plazas);
+           $(".ocultar_elemento").prop("hidden", true);
+           $("#ver_tipo_id_"+response.tipo_id).prop("hidden", false);
+           $("#ver_remuneracion").html("S/ "+response.remuneracion);
+           $("#ver_nombre").html(response.nombre);
+           $("#ver_oficina").html(response.oficina);
+           $("#ver_nivel_acad_convocar_"+response.nivel_acad_convocar).prop("hidden", false);
+
+           $("#ver_exp_lab_gen").html(response.anios_exp_lab_gen);
+           $("#ver_exp_lab_esp").html(response.anios_exp_lab_esp);
+           $("#ver_postulacion").html("Desde: "+response.fecha_inscripcion_inicio+" <br> Hasta: "+response.fecha_inscripcion_fin);
+
+           if(response.capacitaciones!= null){
+                $("#ver_capacitaciones").html(response.capacitaciones);
+                $("#div_ver_capacitaciones").prop("hidden", false);
+           }
+           if(response.especialidad != null){
+                $("#div_ver_especialidad").prop("hidden", false);
+                $("#ver_especialidad").html(response.especialidad);
+           }
+           if(response.habilidades!=null){
+                $("#ver_habilidades").html(response.habilidades);
+                $("#div_ver_habilidades").prop("hidden", false);
+           }
+           if(response.descripcion!=null){
+                $("#ver_descripcion").html(response.descripcion);
+                $("#div_ver_descripcion").prop("hidden", false);
+           }
+           $("#modal_ver_mas").modal("show"); 
+          
+           
+           
+        },
+        error: function (response){
+            console.log("Error",response.data);
+          Swal.fire({
+              title: "¡Error!",
+              text: response.responseJSON.message,
+              icon: "error",
+              timer: 3500,
+          })
+        }
+    });
 }

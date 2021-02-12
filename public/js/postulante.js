@@ -134,21 +134,53 @@ $(document).ready(function() {
         labels: {
             next: "Siguiente",
             previous: "Anterior",
-            finish: "Registrar Postulación"
+            finish: "REGISTRAR POSTULACIÓN"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
-            
-            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
+          var validar_paso={"estado":false, "msjok":"", "msjerror":""};
+          //
+          //{"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
+          switch(currentIndex){
+                case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                case 1:  return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 3: validar_paso = cumple_exp_genyesp(); break;
+            }
+           
+            if(validar_paso.estado){
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: validar_paso.msjok,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+           //     setTimeout(function(){
+             //       return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+               // }, 2500);
+
+                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+               
+            }else{
+                Swal.fire({
+                    type: 'error',
+                    title: "¡Error!",
+                    text: validar_paso.msjerror,
+                    icon: "error",
+                    timer: 3500,
+                })
+                return false;
+            }
+           
         }, 
         onFinishing: function(event, currentIndex) {
             
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
-            
-            
-            
-        }
+           
+        }, 
+        
     }), $(".validation-wizard").validate({
         ignore: "input[type=hidden]",
         errorClass: "text-danger",
@@ -172,31 +204,9 @@ $(document).ready(function() {
         }
     })
 
-    
-/*
-$("#example-vertical").steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    stepsOrientation: "vertical"
-});
-
-//Custom design form example
-$(".tab-wizard").steps({
-    headerTag: "h6",
-    bodyTag: "section",
-    transitionEffect: "fade",
-    titleTemplate: '<span class="step">#index#</span> #title#',
-    labels: {
-        finish: "Submit"
-    },
-    onFinished: function(event, currentIndex) {
-        swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
-
-    }
-});
-*/
 })
+
+ 
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 
 //____________________________funcion eliminar formacion academica_____________
@@ -210,7 +220,14 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: "Formacion eliminada",
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -232,11 +249,19 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+           
            $('#'+transid).remove();
-           console.log(data);
+           
            //alert(data.cantidad_horas);
            $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
+
+           Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: "Curso eliminado",
+            showConfirmButton: false,
+            timer: 1500
+        })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -256,8 +281,15 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+           
            $('#'+transid).remove();
+           Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: "Experiencia eliminada",
+            showConfirmButton: false,
+            timer: 1500
+        })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -324,20 +356,55 @@ function nueva_expe(){
             alert("error!!"+data); }
 
     });
+ }
 
+//_______________________________guardar o actualizar datos personales - section 1____________________________
     
- }
+function guardardatos(){
+    var discap=0;
+    var ffaa=0;
+    var depor=0;
+    var valor;
+      if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
+      if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
+      if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
+//var ddd= {!! json_encode($datos_usuario) !!};
+//@json($datos_usuario);
+    
+   
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/postulante/actualizardatos",
+            type: "POST" ,
+            datatype: "json",
+            data: {
+               // id: $("#di").val(),
+                fechanac: $("#fecha_nacimiento").val(),
+                ruc:$("#ruc").val(),
+                ubigeodni: $("#ubigeodni").val(),
+                nacionalidad: $("#nacionalidad").val(),
+                celular: $("#telefono_celular").val(),
+                telfijo: $("#telefono_fijo").val(),
+                domicilio: $("#domicilio").val(),
+                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
+                dicapacidad: discap,
+                ffaa:ffaa,
+                deportista: depor
 
- function cumplehoras_porcapa(hrsminima,hrsdecapa){
-    var resultado; 
-    if(hrsdecapa<hrsminima){
-        resultado = true;
-     }else{
-         resultado = false;
-     }
-     
-  return resultado;
- }
+            },
+            success:function(data){
+               console.log("correcto");
+            },
+            error: function(data){
+                console.log("error");
+            }
+
+        });
+
+       return {'estado':true,'msjok':'datos guardados correctamente','msjerror':'error en guardar datos'};
+    }
+
+ 
 
  function cumplehoras_totales(hrsminima_total,mihrs_total){
     var resultado; 
@@ -350,7 +417,70 @@ function nueva_expe(){
   return resultado;
  }
  
- function cumple_exp(mi_exp,exp_totalmin){
+function cumple_exp_genyesp(){
+    var arrayExp={estado:"",msjok:"",msjerror:""};
+    
+    var aa= $.get('/postulante/datosexpgenyesp',function (data){
+        
+        //var b={'suma_expgen':data.suma_expgen,'suma_expesp':suma_data.suma_expesp};
+   return data.suma_expgen;
+    });
+
+    //console.log(aa[responseJSON.suma_expesp]);
+    console.log(aa);
+    console.log("hola",aa.responseJSON);
+    console.log(JSON.parse(aa));
+    //console.log(aa.responseJSON[0].suma_expgen);
+       /* if(Mi_exp_gen<Exp_gen_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia general mínima";
+        return arrayExp;
+    }else if(Mi_exp_esp<Exp_esp_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia específica mínima";
+        return arrayExp;
+    }else{
+        arrayExp.estado=true;
+        arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        return arrayExp;
+    }
+
+*/
+}
+
+function cumple_formacion(){
+    var arrayExp={estado:"",msjok:"",msjerror:""};
+    
+
+   /* if(Mi_exp_gen<Exp_gen_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia general mínima";
+        return arrayExp;
+    }else if(Mi_exp_esp<Exp_esp_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia específica mínima";
+        return arrayExp;
+    }else{
+        arrayExp.estado=true;
+        arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        return arrayExp;
+    }
+
+*/
+}
+
+
+ function cumple_exp_gen(mi_exp,exp_totalmin){
+    var resultado; 
+    if(mi_exp<exp_totalmin){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+ function cumple_exp_esp(mi_exp,exp_totalmin){
     var resultado; 
     if(mi_exp<exp_totalmin){
         resultado = true;
@@ -373,8 +503,4 @@ function nueva_expe(){
   return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
  }
 
-
-
-
-
-
+ 
