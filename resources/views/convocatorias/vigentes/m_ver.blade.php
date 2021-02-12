@@ -16,33 +16,77 @@
                      <div class="card">
                         <!-- Inicio de los Tabs -->
                         <div class="card-body">
+                           <!--modelo 1 --borde --> 
                            <div class="row">
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                       <b><small class="text-info">Cód. convocatoria:</small></b><br>
-                                       <h5 id="ver_cod"></h5>
+                              <div class="col-md-12 card border-ligth border bg-ligth-warning ">
+                                 <div class="row mb-0 py-2">
+                                    <div class="col-md-3 ">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Cód. convocatoria:</small></b><br>
+                                             <h5 id="ver_cod"></h5>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Tipo Proceso:</small></b><br>
+                                                @foreach($datos['tipos_proc'] as $key => $tipo )
+                                                <h5 id="ver_tipo_id_{{$key}}" class="ocultar_elemento" hidden> {{$tipo }}</h5>
+                                                @endforeach
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Nº plazas:</small></b><br>
+                                             <h5 id="ver_n_plazas"></h5>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Remuneración:</small></b><br>
+                                             <h5 id="ver_remuneracion"></h5>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                       <b><small class="text-info">Tipo Proceso:</small></b><br>
-                                          @foreach($datos['tipos_proc'] as $key => $tipo )
-                                          <h5 id="ver_tipo_id_{{$key}}" class="ocultar_elemento" hidden> {{$tipo }}</h5>
-                                          @endforeach
+                           </div>
+                           
+
+                           <!--modelo 2 
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <div class="row">
+                                    <div class="col-md-3 ">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Cód. convocatoria:</small></b><br>
+                                             <h5 id="ver_cod"></h5>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Tipo Proceso:</small></b><br>
+                                                @foreach($datos['tipos_proc'] as $key => $tipo )
+                                                <h5 id="ver_tipo_id_{{$key}}" class="ocultar_elemento" hidden> {{$tipo }}</h5>
+                                                @endforeach
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Nº plazas:</small></b><br>
+                                             <h5 id="ver_n_plazas"></h5>
+                                       </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                       <div class="form-group">
+                                             <b><small class="text-info">Remuneración:</small></b><br>
+                                             <h5 id="ver_remuneracion"></h5>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                       <b><small class="text-info">Nº plazas:</small></b><br>
-                                       <h5 id="ver_n_plazas"></h5>
-                                 </div>
-                              </div>
-                              <div class="col-md-3">
-                                 <div class="form-group">
-                                       <b><small class="text-info">Remuneración:</small></b><br>
-                                       <h5 id="ver_remuneracion"></h5>
-                                 </div>
-                              </div>
+                           </div>
+                            fin modelo 2 
+                           <hr>-->
+                           <div class="row">
                               <div class="col-md-6">
                                  <div class="form-group">
                                        <small class="text-info">Nombre/Cargo de la convocatoria: </small>
@@ -54,8 +98,11 @@
                                        <small class="text-info">Área/Oficina: </small>
                                        <h5 id="ver_oficina"></h5>
                                  </div>
-                              </div>    
-                              <div class="col-md-12">
+                              </div>
+                           </div>  
+                           <hr> 
+                           <div class="row"> 
+                              <div class="col-md-4">
                                  <div class="form-group">
                                        <small class="text-info">Formación académica:  </small>
                                        @foreach($datos['grado_formacion'] as $key => $nivel )
@@ -75,31 +122,39 @@
                                        <small class="text-info">Experiencia laboral específica </small>
                                        <h5 id="ver_exp_lab_esp"></h5>
                                  </div>
-                              </div>  
-                              <div class="col-md-4">
-                                 <div class="form-group">
-                                       <small class="text-info">Postulación</small>
-                                       <h5 id="ver_postulacion"></h5>
-                                 </div>
-                              </div>  
-                              <div class="col-md-12 ocultar_elemento" id="div_ver_capacitaciones">
+                              </div>
+                           </div>
+                           <hr>
+                           <div class="row">  
+                              <div class="col-md-4 ocultar_elemento" id="div_ver_capacitaciones">
                                  <div class="form-group">
                                        <small class="text-info">Capacitaciones </small>
                                        <h5 id="ver_capacitaciones"></h5>
                                  </div>
                               </div>
-                              <div class="col-md-12 ocultar_elemento" id="div_ver_habilidades">
+                              <div class="col-md-4 ocultar_elemento" id="div_ver_habilidades">
                                  <div class="form-group">
                                        <small class="text-info">Habilidades </small>
                                        <h5 id="ver_habilidades"></h5>
                                  </div>
                               </div>
-                              <div class="col-md-12 ocultar_elemento" id="div_ver_descripcion">
+                              <div class="col-md-4 ocultar_elemento" id="div_ver_descripcion">
                                  <div class="form-group">
                                        <small class="text-info">Otros datos: </small>
                                        <h5 id="ver_descripcion"></h5>
                                  </div>
                               </div>
+                           </div>
+                           <hr>                           
+                           <div class="row">    
+                              <div class="col-md-12">
+                                 <div class="form-group">
+                                       <small class="text-info">Postulación</small>
+                                       <h5 id="ver_postulacion"></h5>
+                                 </div>
+                              </div>  
+                           </div>
+                           <div class="row">
                               <div class="col-md-6">
                                  <div class="form-group">
                                        <small class="text-info">Bases: </small><br>
@@ -123,7 +178,7 @@
               
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
             </div>
          </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

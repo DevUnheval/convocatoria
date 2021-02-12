@@ -50,6 +50,14 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store');  
         Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
         Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar');  
+        
+    }); 
+    Route::group(['prefix' => 'formacion'], function(){
+        Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index');  
+        Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update');  
+        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store');  
+        Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
+        Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar');  
     }); 
 });
 
@@ -67,7 +75,11 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
-    Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+    //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+    Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');   
+    Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar');  
+    Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
+    
 });
 
 //POSTULANTE

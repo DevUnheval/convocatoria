@@ -19,13 +19,13 @@
                             {{-- modal --}}
                             
                             @include('convocatorias.vigentes.m_ver')
-                            
+                            @include('convocatorias.vigentes.m_comunicados')
                             @include('convocatorias.vigentes.modalinvidtado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                     @include('convocatorias.vigentes.m_nuevo')
                                     @include('convocatorias.vigentes.m_editar')
                                     
-                                    @include('convocatorias.vigentes.m_comunicados')
+                                    
                             {{--Fin modal --}}
 
             <h4 class="card-title">
@@ -107,6 +107,37 @@
         });
     });
     </script>
-
+    <script>
+    $(document).ready(function() {
+        $("input[type=radio]").click(function(event){
+            var valor = $(event.target).val();
+            if(valor =="1"){
+                $("#div_b_local").show();
+                $("#div_b_link").hide();
+            } else if (valor == "0") {
+                $("#div_b_local").hide();
+                $("#div_b_link").show();
+            } else { 
+                // Otra cosa
+            }
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $("input[type=radio]").click(function(event){
+            var valor = $(event.target).val();
+            if(valor =="res_local"){
+                $("#div_res_local").show();
+                $("#div_res_link").hide();
+            } else if (valor == "res_link") {
+                $("#div_res_local").hide();
+                $("#div_res_link").show();
+            } else { 
+                // Otra cosa
+            }
+        });
+    });
+    </script>
    
 @endsection

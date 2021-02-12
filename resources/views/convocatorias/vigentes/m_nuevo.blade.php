@@ -117,18 +117,68 @@
                                             </div>
                                         </div>
                                         <br>
+                                        <!--
                                         <div class = "row">
-                                                <div class="col-sm-6">
+                                            <div class="col-sm-6 border border-secondary  mb-0 py-3" > 
+                                                <div class="col-sm-2">                                                  
                                                     <input type="file" class="form-control-file"  name="archivo_bases" id="archivo_bases" hidden>
                                                     <label class="btn btn-success" for="archivo_bases"> 
-                                                    <i class="fa fa-file"></i> Bases</label>
+                                                    <i class="fa fa-file"></i> Bases</label> 
+                                                </div>                                                  
+                                            </div>
+                                            <div class="col-sm-6  border border-secondary mb-0 py-3">
+                                                <input type="file" class="form-control-file" name="archivo_resolucion" id="archivo_resolucion" hidden>
+                                                <label class="btn btn-success" for="archivo_resolucion"> 
+                                                <i class="fa fa-file"></i> Resol. Aprobación</label>
+                                            </div> 
+                                        </div>
+                                        -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card border-dark border">
+                                                    <div class="card-header bg-dark">
+                                                        <h4 class="mb-0 text-white"> <i class="fa fa-upload"></i> Bases</h4>
+                                                    </div>
+                                                    <div class="card-body"> 
+                                                        <fieldset>
+                                                            <input name="base" value="1" type="radio" id="bases_local" class="radio-col-indigo material-inputs" />
+                                                            <label for="bases_local" class="mb-0 mt-2">Local</label>
+                                                            <input name="base" value="0"  type="radio" id="bases_link" class="radio-col-indigo material-inputs" />
+                                                            <label for="bases_link" class="mb-0 mt-2">Link</label>
+                                                        </fieldset> 
+                                                        <br>
+                                                        <div class="" id="div_b_local">                                                  
+                                                            <input type="file" class="form-control-file"  name="archivo_bases" id="archivo_bases">                                                             
+                                                        </div>
+                                                        <div id="div_b_link">
+                                                            <input type="text" class="form-control"   id="" placeholder="Ingrese el link">   
+                                                        </div>                                                 
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-6">
-                                                    <input type="file" class="form-control-file" name="archivo_resolucion" id="archivo_resolucion" hidden>
-                                                    <label class="btn btn-success" for="archivo_resolucion"> 
-                                                    <i class="fa fa-file"></i> Resol. Aprobación</label>
-                                                </div> 
-                                        </div>  <br><br>                               
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border-dark border">
+                                                    <div class="card-header bg-dark">
+                                                        <h4 class="mb-0 text-white"><i class="fa fa-upload"></i> Resolucion de Aprobación</h4></div>
+                                                    <div class="card-body">
+                                                        <fieldset>
+                                                            <input name="res_aprobacion" value="res_local" type="radio" id="res_local" class="radio-col-indigo material-inputs" />
+                                                            <label for="res_local" class="mb-0 mt-2">Local</label>
+                                                            <input name="res_aprobacion" value="res_link"  type="radio" id="res_link" class="radio-col-indigo material-inputs" />
+                                                            <label for="res_link" class="mb-0 mt-2">Link</label>
+                                                        </fieldset> 
+                                                        <br>
+                                                        <div class="" id="div_res_local">                                                  
+                                                            <input type="file" class="form-control-file"  name="archivo_resolucion" id="archivo_resolucion">                                                             
+                                                        </div>
+                                                        <div id="div_res_link">
+                                                            <input type="text" class="form-control"   id="" placeholder="Ingrese el link">   
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     <br><br>                           
                                         
                                     </section>
                                     <!-- Step 2 -->

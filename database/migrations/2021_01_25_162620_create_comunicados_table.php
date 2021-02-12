@@ -20,7 +20,7 @@ class CreateComunicadosTable extends Migration
             $table->string('nombre')->nullable();
             $table->string('descripcion')->nullable();
             $table->string('archivo');
-            $table->string('archivo_tipo'); //local o web
+            $table->string('archivo_tipo')->default("local"); //local o web
 
             $table->timestamps();
         });
