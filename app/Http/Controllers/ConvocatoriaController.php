@@ -76,7 +76,7 @@ class ConvocatoriaController extends Controller
 
     public function en_curso()
     {
-        return view('convocatorias.en_curso');
+        return view('convocatorias.en_curso.index');
     }
     public function historico()
     {
