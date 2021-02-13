@@ -22,29 +22,40 @@
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <img src="../imagenes/users/d3.jpg" class="rounded-circle" width="150">
-                                    <h4 class="card-title mt-2">Hanna Gover</h4>
-                                    <h6 class="card-subtitle">Accoubts Manager Amix corp</h6>
+                                <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
+                                    <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
+                                    @foreach(auth()->user()->roles as $rol)
+                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
+                                    @endforeach
                                     <!-- <div class="row text-center justify-content-md-center">
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
                                     </div> -->
                                 </center>
                             </div>
-                            <div>
-                                <hr> </div>
-                                <div class="card-body"> <small class="text-muted">Correo Electrónico </small>
-                                <h6>hannagover@gmail.com</h6> <small class="text-muted pt-4 db">T. Movil</small>
-                                <h6>+91 654 784 547</h6> <small class="text-muted pt-4 db">Dirección</small>
-                                <h6>Calle alla sito, N° 20815</h6>
+                            <div></div>
+                                <hr> 
+                                <div class="card-body"> 
+                                    <small class="text-muted">DNI</small> 
+                                        <h6>{{auth()->user()->dni}}</h6> 
+                                    <small class="text-muted">Fecha de Nacimiento</small> 
+                                        <h6></h6> 
+                                    <small class="text-muted pt-4 db">Celular</small> 
+                                        <h6>987654321</h6>
+                                    <small class="text-muted pt-4 db">Correo</small> 
+                                        <h6>{{auth()->user()->email}}</h6>  
+                                    <small class="text-muted pt-4 db">Dirección</small>
+                                        <h6>Calle alla sito, N° 20815</h6>
+                                    <br> 
+                                    <button type="button" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Editar"><i class="mdi mdi-account-edit font-20"></i></button>
                                 <!-- <div class="map-box">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
-                                </div>  -->
-                                <small class="text-muted pt-4 db">Redes Sociales</small>
-                                <br>
-                                <button class="btn btn-circle btn-secondary"><i class="fab fa-facebook-f"></i></button>
-                                <button class="btn btn-circle btn-secondary"><i class="fab fa-twitter"></i></button>
-                                <button class="btn btn-circle btn-secondary"><i class="fab fa-youtube"></i></button>
+                                </div> 
+                                    <small class="text-muted pt-4 db">Redes Sociales</small>
+                                    <br>
+                                    <button class="btn btn-circle btn-secondary"><i class="fab fa-twitter"></i></button>
+                                    <button class="btn btn-circle btn-secondary"><i class="fab fa-youtube"></i></button> 
+                                -->
                             </div>
                         </div>
                     </div>

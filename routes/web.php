@@ -70,7 +70,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
-    Route::get('en_curso/data', 'ConvocatoriaController@vigentes')->name('convocatoria.en_curso.data'); 
+    Route::get('en_curso/data', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso.data'); 
     Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
