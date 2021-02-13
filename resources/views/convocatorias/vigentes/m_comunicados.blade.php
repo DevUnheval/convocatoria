@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header bg-danger" >
-               <h4 class="modal-title text-white"id="fullWidthModalLabel"></h4>
+               <h4 class="modal-title text-white"id="fullWidthModalLabel">Comunicados</h4>
                <button type="button" class="close btn-light" data-dismiss="modal"
                aria-hidden="true">×</button>
             </div>
@@ -16,91 +16,54 @@
                             <!-- Inicio de los Tabs -->
                             <div class="card-body">
                                 <h4 class="card-title mb-3">CAS - 011-2021</h4>
-                                <ul class="nav nav-tabs mb-3 ">
-                                    <li class="nav-item">
-                                        <a href="#id_comunicados" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                            <i class="mdi mdi-bell-ring d-lg-none d-block mr-1"></i>
-                                            <span class="d-none d-lg-block">Comunicados</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#id_resultados" data-toggle="tab" aria-expanded="true" class="nav-link active">
-                                            <i class="mdi mdi-account-network d-lg-none d-block mr-1"></i>
-                                            <span class="d-none d-lg-block">Resultados</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <!-- tab 1 -->
-                                    <div class="tab-pane" id="id_comunicados">
-                                        <div class="alert alert-success" role="alert">
-                                            <strong><i class='fa fa-info-circle'></i>Atención: </strong>No se registraron comunicados para la presente convocatoria 
-                                            <label name="cod"  id="cod"> (aqui va el N° de la convocatoria)</label>
-                                        </div>  
-                                        <div class="table-responsive ">
-                                            <table class="table table-hover table-bordered col-md-12">
-                                                <thead class="bg-success text-white">
-                                                     <th colspan="4"></th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td ><b>Fecha de Publicación: </b>04-01-2021</td>
-                                                        <td><b>Archivo:</b></td>
-                                                        <td><button type="button" class="btn btn-outline-danger btn-rounded btn-xs"><i class="fa fa-download"></i> Descargar</button></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>                                      
-                                    </div>
-                                    <!-- tab 2 -->
-                                    <div class="tab-pane show active" id="id_resultados">
-                                        <div class="table-responsive ">
-                                            <table class="table table-hover table-bordered col-md-12">
-                                                <thead class="bg-success text-white">
-                                                     <th colspan="4">Etapa: Evaluación Curricular</th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td ><b>Fecha de Publicación: </b>04-01-2021</td>
-                                                        <td><b>Archivo:</b></td>
-                                                        <td><button type="button" class="btn btn-outline-danger btn-rounded btn-xs"><i class="fa fa-download"></i> Descargar</button></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table class="table table-hover table-bordered col-md-12">
-                                                <thead class="bg-success text-white">
-                                                     <th colspan="4">Etapa: Entrevista Personal</th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td ><b>Fecha de Publicación: </b>04-01-2021</td>
-                                                        <td><b>Archivo:</b></td>
-                                                        <td><button type="button" class="btn btn-outline-danger btn-rounded btn-xs"><i class="fa fa-download"></i> Descargar</button></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <table class="table table-hover table-bordered col-md-12">
-                                                <thead class="bg-success text-white">
-                                                     <th colspan="4">Etapa: Resultado Final</th>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td ><b>Fecha de Publicación: </b>04-01-2021</td>
-                                                        <td><b>Archivo:</b></td>
-                                                        <td><button type="button" class="btn btn-outline-danger btn-rounded btn-xs"><i class="fa fa-download"></i> Descargar</button></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                <form id="form_comunicados">
+                                    <div class="row form-group mb-0 py-2 bg-light">                                            
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <b><small>Nombre:</small></b>
+                                                <input type="text" class="form-control required" id="nombre_nuevo_comunicado" name="nombre">
+                                                <input type="hidden"   name="proceso_id" id="proceso_id_comunicado">
+                                            </div>
                                         </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <b><small>Comunicado:</small></b>
+                                                <input type="file" class="form-control required" id="file_comunicado"  name="archivo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group"><br>
+                                                <button type="button" class="btn btn-outline-success btn-rounded btn-sm" onclick="guardar_comunicado()"><i class="fa fa-save"></i> Guardar</button>
+                                            </div>
+                                        </div>
+                                       
                                     </div>
-                                </div>
+                                </form><hr>
+                                @endif
+                                <div class="table-responsive ">
+                                    <table class="table table-hover table-bordered col-md-12" id="tabla_comunicados">
+                                        <thead class="">
+                                        <tr>
+                                            <th>Fecha</th>
+                                            <th>Nombre</th>
+                                            <th>Comunicado</th>
+                                            @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                            <th>Acciones</th>
+                                            @endif
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>  
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger my-2" data-dismiss="modal">Cerrar</button>
-                            </div>
-                            <!-- Fin de los Tabs -->
+                            
                         </div>
                     </div>              
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cerrar</button>
             </div>
          </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

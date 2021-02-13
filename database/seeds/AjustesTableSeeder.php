@@ -107,6 +107,10 @@ class AjustesTableSeeder extends Seeder
                 'descripcion' => '',
             ],
             [
+                'nombre' => 'Estudiante Universitario',
+                'descripcion' => '',
+            ],
+            [
                 'nombre' => 'Egresado universitario',
                 'descripcion' => 'desc',
             ],

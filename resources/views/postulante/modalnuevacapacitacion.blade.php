@@ -18,14 +18,14 @@
                               <!--<h4 class="card-title">Step wizard with validation</h4>
                               <h6 class="card-subtitle">You can us the validation like what we did</h6>
                               -->
-                              <form>
+                              <form class="needs-validation2" novalidate> 
                                   
                                     <div class="card-body wizard-content">
                                       <div class="row">
                                           <div class="col-md-12">
                                               <div class="form-group">
                                                   <label for="tipo_capacitacion">Tipo de estudio:<span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" id="tipo_capacitacion" name="tipo_capacitacion">
+                                                  <select class="custom-select form-control" id="tipo_capacitacion" name="tipo_capacitacion" required>
                                                     <option value="0">*Seleccione*</option>
                                                     <option value="1">Curso/Especialización</option>
                                                     <option value="2">Offimática</option>
@@ -38,7 +38,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="descripcion">Descripción:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="descripcion" name="descripcion" > 
+                                                <input type="text" class="form-control" id="descripcion" name="descripcion" required> 
                                             </div>
                                         </div>
                                      </div>
@@ -46,7 +46,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="institucion">Institución:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="institucion" name="institucion" > 
+                                                <input type="text" class="form-control" id="institucion" name="institucion" required> 
                                             </div>
                                         </div>
                                      </div>
@@ -54,13 +54,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="pais_capacit">Pais: <span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="pais_capacit" name="pais_capacit" > 
+                                                <input type="text" class="form-control " id="pais_capacit" name="pais_capacit" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="ciudad_capacit">Ciudad :<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="ciudad_capacit" name="ciudad_capacit" >
+                                                <input type="text" class="form-control " id="ciudad_capacit" name="ciudad_capacit" required>
                                             </div>
                                         </div>
                                       </div>   
@@ -68,13 +68,13 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechainicio_capac">Fecha de inicio: <span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechainicio_capac" name="fechainicio_capac" disabled > 
+                                                  <input type="date" class="form-control " id="fechainicio_capac" name="fechainicio_capac"  required> 
                                               </div>
                                           </div>
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechafin_capac">Fecha de fin :<span class="danger">*</span> </label>
-                                                  <input type="date" class="form-control required" id="fechafin_capac" name="fechafin_capac" disabled>
+                                                  <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" required>
                                               </div>
                                           </div>
                                       </div>
@@ -82,13 +82,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="horaslectivas">Horas lectivas: <span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="horaslectivas" name="horaslectivas" > 
+                                                <input type="text" class="form-control " id="horaslectivas" name="horaslectivas" required > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="nivel_capa">Nivel: <span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="nivel_capa" name="nivel_capa" > 
+                                                <input type="text" class="form-control " id="nivel_capa" name="nivel_capa" required> 
                                             </div>
                                         </div>
                                       </div>
@@ -96,7 +96,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="documento_capa">Documento de sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento_capa" name="documento_capa" > 
+                                                <input type="file" class="form-control" id="documento_capa" name="documento_capa" > 
                                             </div>
                                         </div>
                                       </div>
@@ -112,7 +112,7 @@
                                         <div class="form-group col-md-12">
                                             <button id="btn_can_capacitacion" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                             </button>
-                                            <button id="btn_guardar_capacitacion" class="btn btn-success waves-effect waves-light" type="button">Guardar
+                                            <button id="btn_guardar_capacitacion" class="btn btn-success waves-effect waves-light" >Guardar
                                             </button>  
                                         </div>
                                     </div>

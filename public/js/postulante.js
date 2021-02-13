@@ -1,5 +1,6 @@
 $(document).ready(function() {
   
+   //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
     if(data.valor=="0"){
         console.log("esta vacio");
@@ -27,7 +28,7 @@ $(document).ready(function() {
         for (var i = 0; i < data.length; i++) {
             
             tabla += "<tr id='tblform"+data[i].id+"'>"+
-            "<td>"+data[i].grado_id+"</td>"+
+            "<td>"+data[i].nombre+"</td>"+
             "<td>"+data[i].especialidad+"</td>"+
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
@@ -84,21 +85,25 @@ $(document).ready(function() {
     $.get('/postulante/experiencias/data1',function (data3){
         var marcadogeneral="";
         var marcadoespecifico="";
+        var totaldias_gen=0;
+        var totaldias_esp=0;
         for (var i = 0; i < data3.length; i++) {
             //ttiempoexp_gen = ttiempoexp_gen + parseFloat(data3[i].dias_exp_gen);
             //ttiempoexp_esp = ttiempoexp_esp + parseFloat(data3[i].dias_exp_esp);
              marcadogeneral="";
              marcadoespecifico="";
+             totaldias_gen=totaldias_gen+data3[i].dias_exp_gen;
+             totaldias_esp=totaldias_esp+data3[i].dias_exp_esp;
             if(data3[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3[i].es_exp_esp==1){marcadoespecifico="checked";}
             
            
             tabla3 += "<tr id='tblexp"+data3[i].id+"'>"+
-            "<td>falta tipo</td>"+
-            "<td><p>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /></p><br>"+
-            "<p>Exp.Específica <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></p></td>"+
+            "<td>"+data3[i].tipo_experiencia+"</td>"+
+            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
+            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
-            "<td>falta entidad</td>"+
+            "<td>"+data3[i].tipo_institucion+"</td>"+
             "<td>"+data3[i].centro_laboral+"</td>"+
             "<td>"+data3[i].cargo_funcion+"</td>"+
             "<td>"+data3[i].fecha_inicio+"</td>"+
@@ -111,6 +116,8 @@ $(document).ready(function() {
         }
     
     $('#zeroconfig3_body').append(tabla3);
+    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
     //$('#total_exp_general').val(ttiempoexp_gen);
     //$('#total_exp_especifica').val(ttiempoexp_esp);
      
@@ -127,51 +134,51 @@ $(document).ready(function() {
         labels: {
             next: "Siguiente",
             previous: "Anterior",
-            finish: "Registrar Postulación"
+            finish: "REGISTRAR POSTULACIÓN"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
-            //var validar_paso = validar_paso(currentIndex, newIndex);
-            // alert(validar_paso);
-
-            //aquí validamos dependiendo el PASO actual: currentIndex
-            var validar_paso = 
-            //{"estado":true, "msj1":"Éxito", "msj2":"Se guardaron los cambios"};
-            {"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
-
-            switch(currentIndex){
-                case 0: console.log("Datos Personales"); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
-                case 1: console.log("Formación Académica"); break;
-                case 2: console.log("Cursos y/o especializaciones"); break;
-                case 3: console.log("Experiecia Laboral"); break;
+          var validar_paso={"estado":false, "msjok":"", "msjerror":""};
+          //
+          //{"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
+          switch(currentIndex){
+                case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                case 1:  return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 3: validar_paso = cumple_exp_genyesp(); break;
             }
            
             if(validar_paso.estado){
                 Swal.fire({
                     position: 'top-end',
                     type: 'success',
-                    title: validar_paso.msj2,
+                    title: validar_paso.msjok,
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2000
                 })
-                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) 
+           //     setTimeout(function(){
+             //       return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+               // }, 2500);
+
+                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+               
             }else{
                 Swal.fire({
                     type: 'error',
                     title: "¡Error!",
-                    text: validar_paso.msj2,
+                    text: validar_paso.msjerror,
                     icon: "error",
                     timer: 3500,
                 })
                 return false;
             }
-                
+           
         }, 
         onFinishing: function(event, currentIndex) {
-            alert("hola 2");
+            
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
-            alert("hola"); 
+           
         }, 
         
     }), $(".validation-wizard").validate({
@@ -187,7 +194,7 @@ $(document).ready(function() {
             $(element).removeClass(errorClass)
         },
         errorPlacement: function(error, element) {
-            alert("hola 3");
+            
             error.insertAfter(element)
         },
         rules: {
@@ -197,33 +204,9 @@ $(document).ready(function() {
         }
     })
 
-
-
-    
-/*
-$("#example-vertical").steps({
-    headerTag: "h3",
-    bodyTag: "section",
-    transitionEffect: "slideLeft",
-    stepsOrientation: "vertical"
-});
-
-//Custom design form example
-$(".tab-wizard").steps({
-    headerTag: "h6",
-    bodyTag: "section",
-    transitionEffect: "fade",
-    titleTemplate: '<span class="step">#index#</span> #title#',
-    labels: {
-        finish: "Submit"
-    },
-    onFinished: function(event, currentIndex) {
-        swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
-
-    }
-});
-*/
 })
+
+ 
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 
 //____________________________funcion eliminar formacion academica_____________
@@ -237,7 +220,14 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+
+            Swal.fire({
+                position: 'top-end',
+                type: 'error',
+                title: "Formacion eliminada",
+                showConfirmButton: false,
+                timer: 1500
+            })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -259,11 +249,19 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+           
            $('#'+transid).remove();
-           console.log(data);
+           
            //alert(data.cantidad_horas);
            $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
+
+           Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: "Curso eliminado",
+            showConfirmButton: false,
+            timer: 1500
+        })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -283,8 +281,15 @@ function eliminar(transid){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("fila eliminada!!"+data);
+           
            $('#'+transid).remove();
+           Swal.fire({
+            position: 'top-end',
+            type: 'error',
+            title: "Experiencia eliminada",
+            showConfirmButton: false,
+            timer: 1500
+        })
         },
         error: function(data){
             alert("error!!"+data); }
@@ -302,6 +307,8 @@ function nueva_expe(){
           $('#exp_general').attr("checked",true);
           $('#exp_especifica').removeAttr("checked");
           $("#nombre_entidad").val("");
+          $("#tipo_experiencia").val("0");
+          $("#tipo_entidad").val("0");
           $("#cargo_exp").val("");
           $("#funciones_princi").val("");
           $("#fecha_inicio_exp").val("");
@@ -335,6 +342,8 @@ function nueva_expe(){
             $('#exp_especifica').removeAttr("checked");
           }
 
+          $("#tipo_entidad").val("'"+data[0].tipo_institucion+"'");
+          $("#tipo_experiencia").val("'"+data[0].tipo_experiencia+"'");
           $("#nombre_entidad").val(data[0].centro_laboral);
           $("#cargo_exp").val(data[0].cargo_funcion);
           $("#funciones_princi").val(data[0].desc_cargo_funcion);
@@ -349,13 +358,149 @@ function nueva_expe(){
     });
  }
 
+//_______________________________guardar o actualizar datos personales - section 1____________________________
+    
+function guardardatos(){
+    var discap=0;
+    var ffaa=0;
+    var depor=0;
+    var valor;
+      if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
+      if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
+      if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
+//var ddd= {!! json_encode($datos_usuario) !!};
+//@json($datos_usuario);
+    
+   
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/postulante/actualizardatos",
+            type: "POST" ,
+            datatype: "json",
+            data: {
+               // id: $("#di").val(),
+                fechanac: $("#fecha_nacimiento").val(),
+                ruc:$("#ruc").val(),
+                ubigeodni: $("#ubigeodni").val(),
+                nacionalidad: $("#nacionalidad").val(),
+                celular: $("#telefono_celular").val(),
+                telfijo: $("#telefono_fijo").val(),
+                domicilio: $("#domicilio").val(),
+                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
+                dicapacidad: discap,
+                ffaa:ffaa,
+                deportista: depor
 
+            },
+            success:function(data){
+               console.log("correcto");
+            },
+            error: function(data){
+                console.log("error");
+            }
+
+        });
+
+       return {'estado':true,'msjok':'datos guardados correctamente','msjerror':'error en guardar datos'};
+    }
 
  
 
+ function cumplehoras_totales(hrsminima_total,mihrs_total){
+    var resultado; 
+    if(mihrs_total<hrsminima_total){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+ 
+function cumple_exp_genyesp(){
+    var arrayExp={estado:"",msjok:"",msjerror:""};
+    
+    var aa= $.get('/postulante/datosexpgenyesp',function (data){
+        
+        //var b={'suma_expgen':data.suma_expgen,'suma_expesp':suma_data.suma_expesp};
+   return data.suma_expgen;
+    });
+
+    //console.log(aa[responseJSON.suma_expesp]);
+    console.log(aa);
+    console.log("hola",aa.responseJSON);
+    console.log(JSON.parse(aa));
+    //console.log(aa.responseJSON[0].suma_expgen);
+       /* if(Mi_exp_gen<Exp_gen_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia general mínima";
+        return arrayExp;
+    }else if(Mi_exp_esp<Exp_esp_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia específica mínima";
+        return arrayExp;
+    }else{
+        arrayExp.estado=true;
+        arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        return arrayExp;
+    }
+
+*/
+}
+
+function cumple_formacion(){
+    var arrayExp={estado:"",msjok:"",msjerror:""};
+    
+
+   /* if(Mi_exp_gen<Exp_gen_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia general mínima";
+        return arrayExp;
+    }else if(Mi_exp_esp<Exp_esp_min){
+        arrayExp.estado=false;
+        arrayExp.msjerror="No cumple con la experiencia específica mínima";
+        return arrayExp;
+    }else{
+        arrayExp.estado=true;
+        arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        return arrayExp;
+    }
+
+*/
+}
 
 
+ function cumple_exp_gen(mi_exp,exp_totalmin){
+    var resultado; 
+    if(mi_exp<exp_totalmin){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
+ function cumple_exp_esp(mi_exp,exp_totalmin){
+    var resultado; 
+    if(mi_exp<exp_totalmin){
+        resultado = true;
+     }else{
+         resultado = false;
+     }
+     
+  return resultado;
+ }
 
+ function anios_meses_dias(diasx){
+    var anios;
+    var meses;
+    var dias;
+    anios= Math.trunc(diasx/365); 
+    meses= Math.trunc((diasx%365)/30);
+    dias =(diasx%365)%30;
+    
+     
+  return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
+ }
 
-
-
+ 

@@ -5,7 +5,8 @@
 
 <link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet">
-    <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
+<link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
+   
 @endsection
 
 @section('content')
@@ -22,7 +23,7 @@
         <div class="alert alert-info" role="alert">
             <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
             @foreach ($proceso as $pro)
-            <div><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>n° plazas = {{$pro->n_plazas}}</small></div>
+            <div><input type="hidden" value="{{$proceso}}"  id="cod" ><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>n° plazas = {{$pro->n_plazas}}</small></div>
             @endforeach     
             </h2></strong> 
             
@@ -70,7 +71,7 @@
                                     <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
                         </div>
-                        <input type="hidden" value="{{auth()->user()->id}}"  id="di2" >
+                        
                         
                             
                         
@@ -197,8 +198,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     
-                                    <button id="btn_guardardatos" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
+                                  <!--  <button id="btn_guardardatos" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
                                     <i class="fa fa-plus "></i> Guardar</button>
+                                       <button onclick="anios_meses_dias(365)" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
+                                        <i class="fa fa-plus "></i> calcular tiempo</button>-->
                                 </div>
                             </div>
                             
@@ -212,11 +215,18 @@
                     <br>
                     <div id="div_act">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            @foreach ($proceso_formacion as $item)
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Formación requerida: </strong> {{$item->nombre}}
+                            </div>
+                            @endforeach
                         </div>
                         
                     </div>                    
@@ -253,24 +263,28 @@
                 <section id="section3">
                     <br>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_selec_capac">
-                                    <i class="fa fa-plus"></i> Adicionar Capacitación</button>
+                        
+                        <div class="col-md-4">
+                            <div class="alert alert-success text-center" role="alert">
+                                <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
                             </div>
+                            
                         </div>
-                        <div class="col-md-7">
-                          <div class="form-inline">
-                              <label for="total_horas">Total horas: <span class="text-danger"></span> </label>
-                              <input type="text" readonly="readonly" class="form-control" id="total_horas" name="total_horas" > 
+                       
+                          <div class="col-md-4">
+                            @foreach ($proceso as $item)
+                            <div class="alert alert-danger text-center" role="alert">
+                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
+                            </div>
+                            @endforeach
                           </div>
-                      </div>
+                      
                     </div>
                     
                     <div class="table-responsive">
@@ -292,33 +306,49 @@
                             
                         </table>
                     </div>
-                                   
+                    <br><br><br>                
                 </section>
                 
                 <!-- Step 4 -->
                 <h6>Experiencia Laboral</h6>
                 <section>
-                    <br>
+                    
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        
                         <div class="col-md-4">
-                            <div class="form-inline">
-                                <label for="total_exp_general">Total Experiencia General:<span class="text-danger"></span> </label>
-                                <input type="text" readonly="readonly" class="form-control " id="total_exp_general" name="total_exp_general" > 
+                            <div class="alert alert-success text-center" role="alert">
+                                <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
                             </div>
+                            
                         </div>
                         <div class="col-md-4">
-                          <div class="form-inline">
-                              <label for="total_exp_especifica">Experiencia Específica:<span class="text-danger"></span> </label>
-                              <input type="text" readonly="readonly" class="form-control " id="total_exp_especifica" name="total_exp_especifica" > 
-                          </div>
+                            <div class="alert alert-success text-center" role="alert">
+                                <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                            </div>
+
+                          
                       </div>
+                      <div class="col-md-4">
+                        @foreach ($proceso as $item)
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Exper. General mínima: </strong> {{$item->anios_exp_lab_gen}}  <br>
+                            <strong>Exper. Específica mínima: </strong> {{$item->anios_exp_lab_esp}}
+                        </div>
+                        @endforeach
+                      </div>
+                      
                     </div>
+                   
                     
                     <div class="table-responsive">
                         <table id="zero_config3" class="table table-striped table-bordered">
@@ -343,7 +373,7 @@
                             
                         </table>
                     </div>
-                                        
+                    <br><br><br>                      
                 </section>
 
                 <!-- Step 5 -->
@@ -416,8 +446,5 @@
 <script src="{{ asset('/js/postulante.js')}}"></script>
 <script src="{{ asset('/js/tablas_postular.js')}}"></script>
 <script src="{{ asset('/js/moment.min.js')}}"></script>
-<script>
-    //Vertical Steps
-   
-    </script>
+
 @endsection

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Proceso;
 use App\TipoProceso;
 use App\GradoFormacion;
+use App\Comunicado;
+
 class ConvocatoriaController extends Controller
 {
     public function __construct()
@@ -43,13 +46,18 @@ class ConvocatoriaController extends Controller
                                 <i class="ti-settings"></i>
                             </button>';
                 $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='Eliminar($dato->id)'><i class='fa fa-trash'></i> Eliminar</a>
                                 </div>
                             </div>";
                 $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
                 $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
-                $comunicados = '<button class="btn btn-outline-danger waves-effect waves-light btn-xs" type="button" data-toggle="modal" data-target="#modal_comunicados" data-original-title="Ver"><span class="btn-label"><i class="ti-comment"></i></span> Comunicado</button>';
+                $comunicados = ""; 
+                if($dato->comunicados->count() > 0 ){
+                    $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
+                   $comunicados = "<button class='btn btn-outline-danger waves-effect waves-light btn-xs' onclick='ver_comunicados($dato->id)'><span class='btn-label'><i class='ti-comment'></i></span> Comunicado <br> $texto </button>";
+                }
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
@@ -113,7 +121,47 @@ class ConvocatoriaController extends Controller
                 ->update($r->all());
     }
 
-   
+    public function show_comunicados($proceso_id){
+        $comunicados = Comunicado::where("proceso_id",$proceso_id)->orderBy("id","desc")->get();
+        $filas = "";
+        if($comunicados->count() > 0){
+           foreach($comunicados as $c){
+                $filas.="<tr>
+                                <td >". date_format(date_create($c->created_at),"d/m/Y  h:i A")."</td>
+                                <td>".$c->nombre."</td>
+                                <td><a href='".Storage::url($c->archivo)."' target='_blank' class='btn btn-outline-danger btn-rounded btn-xs'><i class='fa fa-download'></i> Descargar</button></td>";
+                    if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+                        $filas.="<td>
+                                    <button type='button' class='btn btn-outline-danger btn-rounded btn-xs' onclick='eliminar_comunicado($c->id,$proceso_id)'><i class='fa fa-trash'></i> Eliminar</button>
+                                </td>";
+                    }    
+                $filas.= "</tr>";
+                // <button type='button' class='btn btn-outline-info btn-rounded btn-xs'><i class='fa fa-edit'></i> Editar</button>
+            }
+        }
+        
+        return $filas;
+    }
+    public function guardar_comunicados(Request $r){
+
+        $query = new Comunicado;
+        $query->proceso_id=$r->proceso_id;
+        $query->nombre=$r->nombre;
+        //$query->archivo="rarchivo";
+        if($r->file('archivo')){
+            //Eliminamos el imagen que existía
+            //Storage::delete($q->file);
+            $name= $r->file('archivo')->store('public/comunicados');
+            $query->archivo=$name;
+        }
+        $query->save();
+        //Comunicado::create($r->all());
+    } 
+    public function eliminar_comunicado($id){
+        $c=Comunicado::find($id);
+        Storage::delete($c->archivo);
+        Comunicado::destroy($id);
+    }      
     public function destroy($id)
     {
         //

@@ -21,9 +21,9 @@ class CreateExperienciaLabUsersTable extends Migration
             $table->boolean('es_exp_gen')->default(true);
             $table->boolean('es_exp_esp')->default(false);
             //Tipo institución/centro laboral: 0: publico, 1: privado
-            $table->boolean('tipo_institucion')->default(false);
+            $table->string('tipo_institucion');
             // tipo experiencia 1: Regular; 2: practicas pre prof; 3: practicas profeionales;
-            $table->integer('tipo_experiencia')->default(1);
+            $table->string('tipo_experiencia');
             //datos generales-obligatorios
             $table->string('centro_laboral');//nombre de la entidad o empresa
             $table->string('cargo_funcion');

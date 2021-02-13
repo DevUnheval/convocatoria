@@ -25,6 +25,8 @@ class CreateCapacitacionUsersTable extends Migration
             $table->string('centro_estudios');
             $table->string('especialidad');
             $table->string('ciudad');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
             $table->string('pais');
             $table->string('archivo');
             $table->string('archivo_tipo');
