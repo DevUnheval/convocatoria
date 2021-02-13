@@ -25,7 +25,7 @@
                                 <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
                                     <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                     @foreach(auth()->user()->roles as $rol)
-                                    <h6 class="card-subtitle" > {{$rol->nombre}}</h6>
+                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
                                     @endforeach
                                     <!-- <div class="row text-center justify-content-md-center">
                                         <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
@@ -47,7 +47,7 @@
                                     <small class="text-muted pt-4 db">Dirección</small>
                                         <h6>Calle alla sito, N° 20815</h6>
                                     <br> 
-                                    <button type="button" class="btn btn-info btn-circle btn-outline" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Editar"><i class="mdi mdi-account-edit font-20"></i></button>
+                                    <button type="button" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Editar"><i class="mdi mdi-account-edit font-20"></i></button>
                                 <!-- <div class="map-box">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
                                 </div> 
