@@ -79,6 +79,8 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');   
     Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar');  
     Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
+
+    Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
     
 });
 

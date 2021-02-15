@@ -24,8 +24,6 @@
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                     @include('convocatorias.vigentes.m_nuevo')
                                     @include('convocatorias.vigentes.m_editar')
-                                    
-                                    
                             {{--Fin modal --}}
 
             <h4 class="card-title">
@@ -106,35 +104,28 @@
             }
         });
     });
-    </script>
-    <script>
+    
     $(document).ready(function() {
-        $("input[type=radio]").click(function(event){
-            var valor = $(event.target).val();
+        $('.form-check-input').on('change', function() {
+           
+            //alert( valor);
+            var valor   =  $(this).val();
+            var $div    =  "#"+$(this).data("id_div");
+            var $nombre =  $(this).data("name");
+            var $id     =  $(this).data("id");
             if(valor =="1"){
-                $("#div_b_local").show();
-                $("#div_b_link").hide();
-            } else if (valor == "0") {
-                $("#div_b_local").hide();
-                $("#div_b_link").show();
+                if($id=="n_archivo_bases" || $id=="n_archivo_resolucion"){
+                    $($div).html('<input type="file" class="form-control-file required '+$nombre+'" id="'+$id+'" name="'+$id+'">'); //es necesario ponerle atributo name, sino no agarra el required...
+                }else{
+                     $($div).html('<input type="file" class="form-control-file '+$nombre+'"  id="'+$id+'">'); //... y le mandamos un name que no esté en BD, así no pasa nada
+                }
+                
+                
+            } else if (valor == "0"){ 
+                $($div).html('<input type="url" class="form-control required '+$nombre+'" name="'+$id+'" id="'+$id+'" placeholder="Ingrese el link">');      
+                $($div+" input").focus();
             } else { 
-                // Otra cosa
-            }
-        });
-    });
-    </script>
-    <script>
-    $(document).ready(function() {
-        $("input[type=radio]").click(function(event){
-            var valor = $(event.target).val();
-            if(valor =="res_local"){
-                $("#div_res_local").show();
-                $("#div_res_link").hide();
-            } else if (valor == "res_link") {
-                $("#div_res_local").hide();
-                $("#div_res_link").show();
-            } else { 
-                // Otra cosa
+                $($div).html('No se seleccionó');      
             }
         });
     });

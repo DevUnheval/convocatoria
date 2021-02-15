@@ -158,13 +158,15 @@
                               <div class="col-md-6">
                                  <div class="form-group">
                                        <small class="text-info">Bases: </small><br>
-                                       <button class="btn btn-danger"> Descargar</buton>
+                                       <a href="#" id="ver_bases" target="_blank" class="btn btn-danger"> 
+                                       <i class="fa fa-download"></i> Descargar Bases</a>
                                  </div>
                               </div>
                               <div class="col-md-6">
                                  <div class="form-group">
                                        <small class="text-info">Resolución: </small><br>
-                                       <button class="btn btn-danger"> Descargar</buton>
+                                       <a href="#" id="ver_resolucion" target="_blank" class="btn btn-danger">
+                                             <i class="fa fa-download"></i> Descargar Resolución</a>
                                  </div>
                               </div>
                            </div>

@@ -42,19 +42,58 @@ $(document).ready(function() {
                 if (result.value) {
                     //===========================
                     var route = $(this).data("route");
-                    console.log( "DATOS ==>", $("#"+$(this).attr('id')).serialize() );
+                    
+                    var id_form=$(this).attr('id');
+                    var data = $("#"+id_form).serializeArray();
+                    var bases = $("#"+id_form+ " .archivo_bases"); 
+                    var resolucion = $("#"+id_form+ " .archivo_resolucion"); 
+
+                    var formData = new FormData();
+                    data.forEach(element => {
+                       if(!(element.name=="bases" || element.name=="resolucion" || element.name=="e_archivo_resolucion" || element.name=="e_archivo_bases")){//son nombres no válidos, que no tienen campos en la BD, pero necesarios para las vistas
+                            formData.append(element.name,element.value);
+                       }
+                       
+                    });
+                    
+                    
+                    if(bases.attr("type") == "file"){
+                        if(document.getElementById(bases.attr('id')).files[0]){
+                            formData.append("archivo_bases", document.getElementById(bases.attr('id')).files[0] );
+                        }
+                    }else if (bases.attr("type") == "url"){
+                        formData.append("archivo_bases", $("#"+bases.attr('id') ).val());
+                        formData.append("archivo_bases_tipo", "web" );
+                    }else{
+                        alert("No hay base");
+                    }
+
+                    if(resolucion.attr("type") == "file"){
+                        if(document.getElementById(resolucion.attr('id')).files[0]){
+                            formData.append("archivo_resolucion", document.getElementById(resolucion.attr('id')).files[0] );
+                        }
+                    }else if (resolucion.attr("type") == "url"){
+                        formData.append("archivo_resolucion", $("#"+resolucion.attr('id') ).val());
+                        formData.append("archivo_resolucion_tipo", "web" );
+                    }else{
+                        alert("No hay resolucion");
+                        //return false;
+                    }
                     $.ajax({
                             headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                            data:  $("#"+$(this).attr('id')).serialize(),
+                            data:  formData,
                             url:   route,
                             type: 'POST',
+                            cache:false,
+                            contentType: false,
+                            processData: false,
                         beforeSend: function () {
                             console.log('enviando....');
                         },
                         success:  function (response){
-                            //console.log("exito",response);
-                            $('#zero_config').DataTable().ajax.reload();
-                            $('.modal_nuevo_edit').modal('hide');  
+                            console.log("respuesta",response);
+                           
+                            
                             Swal.fire({
                                 position: 'top-end',
                                 type: 'success',
@@ -62,11 +101,14 @@ $(document).ready(function() {
                                 showConfirmButton: false,
                                 timer: 1500
                             })  
+                            $('#zero_config').DataTable().ajax.reload();
+                            $('.modal_nuevo_edit').modal('hide'); 
                             document.getElementById("form_nuevo").reset();
                             $("#form_nuevo").steps('reset');    
-                           
                             document.getElementById("form_editar").reset();
-                            $("#form_editar").steps('reset');        
+                            $("#form_editar").steps('reset');  
+                            $("#n_resolucion_local").change();     $("#n_resolucion_local").click();
+                            $("#n_bases_local").change();   $("#n_bases_local").click();
                         },
                         error: function (response){
                             console.log("Error",response.data);
@@ -106,6 +148,7 @@ $(document).ready(function() {
 })
 
 function editar(id){
+    $("#form_editar").steps('reset');  
     $.ajax({
         url:   "/convocatorias/edit/"+id,
         type: 'GET',
@@ -151,7 +194,25 @@ function editar(id){
 
             $("#hay_bon_pers_disc_"+response.hay_bon_pers_disc).prop("checked", true);
             $("#hay_bon_ffaa_"+response.hay_bon_ffaa).prop("checked", true);
-            $("#hay_bon_deport_"+response.hay_bon_deport_).prop("checked", true);          
+            $("#hay_bon_deport_"+response.hay_bon_deport_).prop("checked", true);     
+            
+            if(response.archivo_resolucion_tipo == "web"){
+                $("#e_res_web").change();
+                $("#e_res_web").click();
+                $("#e_archivo_resolucion").val(response.archivo_resolucion);
+            }else{
+                $("#e_res_local").change();
+                $("#e_res_local").click();
+            }
+
+            if(response.archivo_bases_tipo == "web"){
+                $("#e_bases_web").change();
+                $("#e_bases_web").click();
+                $("#e_archivo_bases").val(response.archivo_bases);
+            }else{
+                $("#e_bases_local").change();
+                $("#e_bases_local").click();
+            }
         },
         error: function (response){
             console.log("Error",response.data);
@@ -205,6 +266,16 @@ function ver_detalles(id){
                 $("#ver_descripcion").html(response.descripcion);
                 $("#div_ver_descripcion").prop("hidden", false);
            }
+            $href_bases="#";
+            if(response.archivo_bases != ""){
+                $href_bases=response.archivo_bases.replace("public/", '/storage/');
+            }
+            $href_res="#";
+            if(response.archivo_resolucion != ""){
+                $href_res=response.archivo_resolucion.replace("public/", '/storage/');
+            }
+                $("#ver_bases").attr("href", $href_bases);
+                $("#ver_resolucion").attr("href", $href_res);
            $("#modal_ver_mas").modal("show"); 
           
            
@@ -254,7 +325,7 @@ function guardar_comunicado(){
     if( $("#nombre_nuevo_comunicado").val()=="" ){
         $("#nombre_nuevo_comunicado").focus();
         Swal.fire({
-            position: 'top-end',
+            //position: 'top-end',
             type: 'warning',
             title: 'El campo nombre está vacio',
             showConfirmButton: false,
@@ -265,7 +336,7 @@ function guardar_comunicado(){
     var file=document.getElementById('file_comunicado').files[0];
     if(!file){
         Swal.fire({
-            position: 'top-end',
+            //position: 'top-end',
             type: 'warning',
             title: 'No hay archivo',
             showConfirmButton: false,
@@ -301,6 +372,7 @@ function guardar_comunicado(){
             }) 
             document.getElementById("form_comunicados").reset();
             ver_comunicados($("#proceso_id_comunicado").val()); 
+            $('#zero_config').DataTable().ajax.reload();
         },
         error: function (response){
             console.log("Error",response.data);
@@ -343,6 +415,7 @@ function eliminar_comunicado(comunicado_id, proceso_id){
                         timer: 1500
                     }) 
                     ver_comunicados(proceso_id);
+                    $('#zero_config').DataTable().ajax.reload();
                 },
                 error: function (response){
                     console.log("Error",response.data);
@@ -358,4 +431,52 @@ function eliminar_comunicado(comunicado_id, proceso_id){
     });
 
     
+}
+
+function eliminar_convocatoria(proceso_id){
+    Swal.fire({
+        title: "¿Está seguro de desea ELIMINAR el REGISTRO?",
+        text: "Se borrarán todos los datos permanentemente",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',  
+        cancelButtonText: 'No, cerrar',              
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+        
+        if (result.value) {
+            $.ajax({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                url:   "/convocatorias/eliminar_convocatoria/"+proceso_id,
+                type: 'POST',
+                beforeSend: function () {
+                  console.log('enviando....');
+
+                },
+                success:  function (response){
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Se eliminó correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                    // ver_comunicados(proceso_id);
+                    $('#zero_config').DataTable().ajax.reload();
+                },
+                error: function (response){
+                    console.log("Error",response.data);
+                  Swal.fire({
+                      title: "¡Error!",
+                      text: response.responseJSON.message,
+                      icon: "error",
+                      timer: 3500,
+                  })
+                }
+            });
+        }
+    });
+
+
 }

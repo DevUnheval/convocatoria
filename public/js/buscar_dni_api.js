@@ -1,5 +1,5 @@
     $(document).ready(function(){
-       // $('#dni').on('keyup',contardigitos);	
+        $('#dni').on('keyup',contardigitos);	
 
         var forms = document.getElementsByClassName('needs-validation_registro');
     // Loop over them and prevent submission
