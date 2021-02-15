@@ -359,3 +359,51 @@ function eliminar_comunicado(comunicado_id, proceso_id){
 
     
 }
+
+function eliminar_convocatoria(proceso_id){
+    Swal.fire({
+        title: "¿Está seguro de desea ELIMINAR el REGISTRO?",
+        text: "Se borrarán todos los datos permanentemente",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',  
+        cancelButtonText: 'No, cerrar',              
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+        
+        if (result.value) {
+            $.ajax({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                url:   "/convocatorias/eliminar_convocatoria/"+proceso_id,
+                type: 'POST',
+                beforeSend: function () {
+                  console.log('enviando....');
+
+                },
+                success:  function (response){
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Se eliminó correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                    // ver_comunicados(proceso_id);
+                    $('#zero_config').DataTable().ajax.reload();
+                },
+                error: function (response){
+                    console.log("Error",response.data);
+                  Swal.fire({
+                      title: "¡Error!",
+                      text: response.responseJSON.message,
+                      icon: "error",
+                      timer: 3500,
+                  })
+                }
+            });
+        }
+    });
+
+
+}

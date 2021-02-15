@@ -8,6 +8,7 @@ use App\Proceso;
 use App\TipoProceso;
 use App\GradoFormacion;
 use App\Comunicado;
+use App\Postulante;
 
 class ConvocatoriaController extends Controller
 {
@@ -48,7 +49,7 @@ class ConvocatoriaController extends Controller
                 $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)' onclick='Eliminar($dato->id)'><i class='fa fa-trash'></i> Eliminar</a>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='eliminar_convocatoria($dato->id)'><i class='fa fa-trash'></i> Eliminar</a>
                                 </div>
                             </div>";
                 $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
@@ -164,6 +165,13 @@ class ConvocatoriaController extends Controller
     }      
     public function destroy($id)
     {
-        //
+        $query = Postulante::where('proceso_id',$id)->first();
+        if($query){
+
+            Proceso::destroy($id);
+            return "exito";
+        }
+        return "error";
+        
     }
 }
