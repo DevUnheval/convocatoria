@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header bg-info" >
-               <h4 class="modal-title text-white" id="fullWidthModalLabel">Editar registro</h4>
+               <h4 class="modal-title text-white" id="fullWidthModalLabel">Editar proceso</h4>
                <button type="button" class="close" data-dismiss="modal"
                aria-hidden="true">×</button>
             </div>
@@ -117,18 +117,46 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 text-left control-label col-form-label">Bases:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control-file" name="archivo_bases">  
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card border-info border">
+                                                    <div class="card-header bg-info">
+                                                        <h4 class="mb-0 text-white"> <i class="fa fa-upload"></i> Bases</h4>
+                                                    </div>
+                                                    <div class="card-body"> 
+                                                        <fieldset>
+                                                            <input name="bases" id="e_bases_local" value="1" type="radio" data-id_div="div_e_file" data-name="archivo_bases" data-id="e_archivo_bases" class="radio-col-indigo material-inputs form-check-input check-file" checked />
+                                                            <label for="e_bases_local" class="mb-0 mt-2">Local</label>
+                                                            <input name="bases" id="e_bases_web" value="0"  type="radio" data-id_div="div_e_file" data-name="archivo_bases" data-id="e_archivo_bases" class="radio-col-indigo material-inputs  form-check-input" />
+                                                            <label for="e_bases_web" class="mb-0 mt-2">Link</label>
+                                                        </fieldset> 
+                                                        <br>
+                                                        <div class="" id="div_e_file">                                                  
+                                                            <input type="file" class="form-control-file archivo_bases" id="e_archivo_bases">
+                                                        </div>                                                 
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 text-left control-label col-form-label">Resolución de Aprobación:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control-file" name="archivo_resolucion">
+                                            <div class="col-md-6">
+                                                <div class="card border-info border">
+                                                    <div class="card-header bg-info">
+                                                        <h4 class="mb-0 text-white"><i class="fa fa-upload"></i> Resolucion de Aprobación</h4></div>
+                                                    <div class="card-body">
+                                                        <fieldset>
+                                                            <input name="resolucion" id="e_res_local" value="1" type="radio" data-id_div="div_e_file2" data-name="archivo_resolucion" data-id="e_archivo_resolucion" class="radio-col-indigo material-inputs form-check-input check-file" checked/>
+                                                            <label for="e_res_local" class="mb-0 mt-2">Local</label>
+                                                            <input name="resolucion" id="e_res_web" value="0"  type="radio" data-id_div="div_e_file2" data-name="archivo_resolucion" data-id="e_archivo_resolucion" class="radio-col-indigo material-inputs form-check-input"/>
+                                                            <label for="e_res_web" class="mb-0 mt-2">Link</label>
+                                                        </fieldset> 
+                                                        <br>
+                                                        <div class="" id="div_e_file2">                                                  
+                                                            <input type="file" class="form-control-file archivo_resolucion" id="e_archivo_resolucion">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>                                    
+                                        </div><br><br>                                    
                                         
                                     </section>
                                     <!-- Step 2 -->
