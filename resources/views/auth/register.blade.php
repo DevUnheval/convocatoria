@@ -22,7 +22,7 @@
 </head>
 
 <body>
-<div class="main-wrapper">
+<div class="main-wrapper ">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
@@ -36,7 +36,7 @@
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background-image:url({{substr(\App\Ajuste::find(1)->elemento('imagen fondo login'), 0,6)=='public'
                                     ?Storage::url(\App\Ajuste::find(1)->elemento('imagen fondo login'))
                                     :asset(\App\Ajuste::find(1)->elemento('imagen fondo login'))}}); background-repeat: no-repeat; background-size: 100% 100%;">
-            <div class="p-4 bg-white rounded">
+            <div class="p-4 bg-white rounded shadow-lg">
                 <div class="main-wrapper">
                     <!-- ============================================================== -->
                     <!-- Preloader - style you can find in spinners.css -->
@@ -85,40 +85,64 @@
                                 <div class="row">
                                     <div class="col-12">
                                         
-                                        <form class="form-horizontal mt-3 form-material" method="POST" action="{{route('registro_usuario_post')}}">
+                                        <form id="form_registrar" class="needs-validation_registro form-horizontal mt-3 form-material" method="POST" action="{{route('registro_usuario_post')}} " novalidate>
                                             @csrf
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="dni" name="dni" placeholder="DNI" value="{{old('dni')}}" required>
+                                                    <input class="form-control" type="text" required id="dni" name="dni" placeholder="DNI" value="{{old('dni')}}" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
+                                                
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control mayuscula" type="text" required="" id="nombres" name="nombres" placeholder="Nombres" value="{{old('nombres')}}" required>
+                                                    <input class="form-control" type="text" required id="nombres" name="nombres" placeholder="Nombres" value="{{old('nombres')}}" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
+                                                
+
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="apellido_paterno" name="apellido_paterno" placeholder="Apellido Paterno" value="{{old('apellido_paterno')}}" required>
+                                                    <input class="form-control" type="text" required id="apellido_paterno" name="apellido_paterno" placeholder="Apellido Paterno" value="{{old('apellido_paterno')}}" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
                                             </div><div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required="" id="apellido_materno" name="apellido_materno" placeholder="Apellido Materno" value="{{old('apellido_materno')}}" required>
+                                                    <input class="form-control" type="text" required id="apellido_materno" name="apellido_materno" placeholder="Apellido Materno" value="{{old('apellido_materno')}}" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
                                                     <input class="form-control" type="email" required id="email" name="email" placeholder="Correo electrónico" value="{{old('email')}}">
+                                                    <div class="invalid-feedback">
+                                                        Ingrese un correo válido
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required id="password" name="password" placeholder="Contraseña" required>
+                                                    <input class="form-control" type="password" required id="password" name="password" placeholder="Contraseña" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required id="password-confirm" name="password_confirmation" placeholder="Confirmar contraseña" required>
+                                                    <input class="form-control" type="password" required id="password-confirm" name="password_confirmation" placeholder="Confirmar contraseña" >
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-3">
@@ -126,12 +150,16 @@
                                                     <div class="checkbox checkbox-success pt-0">
                                                         <input id="checkbox-signup" type="checkbox" required class="chk-col-indigo material-inputs">
                                                         <label for="checkbox-signup"> Estoy deacuerdo con los <a href="#">terminos</a></label>
+                                                        <div class="invalid-feedback">
+                                                           Marque la opción "Estoy deacuerdo con los terminos"
+                                                          </div> 
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group text-center mb-3">
                                                 <div class="col-xs-12">
                                                     <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Registrarse</button>
+                                                    
                                                 </div>
                                             </div>
                                             <div class="form-group mb-0 mt-2 ">
@@ -191,7 +219,7 @@
     <script src="{{ asset('/material-pro/src/assets/libs/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
-    <!-- ============================================================== -->
+    <!-- 
     <script>
     $('[data-toggle="tooltip"]').tooltip();
     $(".preloader").fadeOut();
@@ -202,7 +230,7 @@
         $("#loginform").slideUp();
         $("#recoverform").fadeIn();
     });
-    </script>
+    </script>============================================================== -->
     <script src="{{ asset('/js/buscar_dni_api.js')}}"></script>
     
 </body>

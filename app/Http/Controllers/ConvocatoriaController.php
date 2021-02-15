@@ -53,7 +53,16 @@ class ConvocatoriaController extends Controller
                                 </div>
                             </div>";
                 $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
-                $bases.= '<button type="button" class="btn btn-outline-info btn-rounded btn-xs"><i class="fa fa-file"></i> Bases</button>';
+                if($dato->archivo_bases != ""){ 
+                    $href="#";
+                    if($dato->archivo_bases_tipo =="local"){
+                        $href=Storage::url($dato->archivo_bases);
+                    }
+                    else if($dato->archivo_bases_tipo =="web"){
+                        $href=$dato->archivo_bases;
+                    }
+                    $bases.= "<a href='$href' target='_black' class='btn btn-outline-info btn-rounded btn-xs'><i class='fa fa-file'></i> Bases</a>";
+                }
                 $comunicados = ""; 
                 if($dato->comunicados->count() > 0 ){
                     $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
@@ -100,8 +109,20 @@ class ConvocatoriaController extends Controller
     
     public function store(Request $r)
     {
-        Proceso::create($r->all());
-        return $r->all();
+        
+        $q = Proceso::create($r->all());
+        if($r->file('archivo_bases')){
+            $name= $r->file('archivo_bases')->store('public/procesos/bases');
+            $q->archivo_bases=$name;
+            $q->save(); 
+        }  
+        if($r->file('archivo_resolucion')){
+            $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
+            $q->archivo_resolucion=$name;
+            $q->save(); 
+        }
+            
+        return $q;
     }
 
     public function show($id)
@@ -118,8 +139,22 @@ class ConvocatoriaController extends Controller
   
     public function update(Request $r)
     {
-        Proceso::where('id', $r->id)    
+        $q=Proceso::where('id', $r->id)    
                 ->update($r->all());
+                
+        if($r->file('archivo_bases')){
+            Storage::delete($p->archivo_bases);//primero eliminamos el archivo anterior
+            $name= $r->file('archivo_bases')->store('public/procesos/bases');
+            $q->archivo_bases=$name;
+            $q->save(); 
+        }  
+        if($r->file('archivo_resolucion')){
+            Storage::delete($p->archivo_resolucion);//primero eliminamos el archivo anterior
+            $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
+            $q->archivo_resolucion=$name;
+            $q->save(); 
+        }
+
     }
 
     public function show_comunicados($proceso_id){
@@ -144,15 +179,12 @@ class ConvocatoriaController extends Controller
         return $filas;
     }
     public function guardar_comunicados(Request $r){
-
         $query = new Comunicado;
         $query->proceso_id=$r->proceso_id;
         $query->nombre=$r->nombre;
         //$query->archivo="rarchivo";
         if($r->file('archivo')){
-            //Eliminamos el imagen que existía
-            //Storage::delete($q->file);
-            $name= $r->file('archivo')->store('public/comunicados');
+            $name= $r->file('archivo')->store('public/procesos/comunicados');
             $query->archivo=$name;
         }
         $query->save();
@@ -165,9 +197,8 @@ class ConvocatoriaController extends Controller
     }      
     public function destroy($id)
     {
-        $query = Postulante::where('proceso_id',$id)->first();
+        $query = Postulante::where("proceso_id",$id)->first();
         if($query){
-
             Proceso::destroy($id);
             return "exito";
         }

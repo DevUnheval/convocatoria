@@ -27,7 +27,7 @@ class PostulanteController extends Controller
    
     public function index()
     {
-        
+        return view('convocatorias.vigentes.index');
     }
 /*
     public function formacion_data_prueba(){

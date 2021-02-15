@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Proceso;
-use App\Rol;
+
 use App\User;
 use App\UserRol;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
+
 use Illuminate\Support\Facades\Http;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Validator;
 
 class UsuarioController extends Controller
 {
+    use RegistersUsers; //usando esto podre autologuearme y enviar el correo de confirmación
+    
     public function __construct()
     {
         $this->data_null='{
@@ -34,8 +34,7 @@ class UsuarioController extends Controller
  
     public function registrar(Request $request)
     {
-       // return "asdsd";
-        $v = \Validator::make($request->all(), [
+          $v = Validator::make($request->all(), [
             'dni' =>'required|unique:users',
             'email' =>'required|unique:users',
             'password' =>'required|confirmed|min:8',
@@ -44,33 +43,35 @@ class UsuarioController extends Controller
 
         if ($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
-        }        
+        }    
+        
         $Usuario = new User();
         $Usuario->dni = $request->dni;
         $Usuario->nombres = $request->nombres;
         $Usuario->apellido_paterno = $request->apellido_paterno;
         $Usuario->apellido_materno = $request->apellido_materno;
         $Usuario->email = $request->email;
+        
+        //_________________________________________________
         if(\App\Ajuste::find(13)=='1'){
             $Usuario->email_verified_at = date('Y-m-d');
         }
+        //______________________________________________
         $Usuario->password = Hash::make($request->password);
         $Usuario->save();
         
         $rol = new UserRol();
         $rol->user_id =$Usuario->id;
-        $rol->rol_id = 3;
+        $rol->rol_id = 4;
         $rol->save();
 
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
-
-        //Mail::to($request->user())->send();
-        $correo=$request->email; 
+ 
         $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
-        //return redirect('/email/verify')->with('correo',$correo);
-        //return redirect()->route('postulante_inicio', array('dni' => $request->dni, 'password' => $request->password));
+       
         return redirect()->route('postulante_inicio');
     }
+    
     public function api_reniec($dni)
     {
         //var_dump (openssl_get_cert_locations ());

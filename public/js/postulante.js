@@ -420,16 +420,23 @@ function guardardatos(){
 function cumple_exp_genyesp(){
     var arrayExp={estado:"",msjok:"",msjerror:""};
     
-    var aa= $.get('/postulante/datosexpgenyesp',function (data){
+    var aa = $.get('/postulante/datosexpgenyesp',function (data){
         
         //var b={'suma_expgen':data.suma_expgen,'suma_expesp':suma_data.suma_expesp};
-   return data.suma_expgen;
+   
     });
 
+    var jqxhr = $.ajax( "/postulante/datosexpgenyesp" )
+  .done(function(data) {
+    console.log(data);
+  });
+
+  console.log('jqxhr=> ',jqxhr);
+  console.log('=> ',jqxhr.responseJSON);
     //console.log(aa[responseJSON.suma_expesp]);
     console.log(aa);
-    console.log("hola",aa.responseJSON);
-    console.log(JSON.parse(aa));
+    //console.log("hola",aa.responseText.suma_expgen);
+    //console.log(JSON.parse(aa));
     //console.log(aa.responseJSON[0].suma_expgen);
        /* if(Mi_exp_gen<Exp_gen_min){
         arrayExp.estado=false;
