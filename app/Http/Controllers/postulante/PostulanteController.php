@@ -269,7 +269,15 @@ class PostulanteController extends Controller
         $el->save();
     
         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->get()->last();
-        return $query;
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+
+        return compact('query','suma_expgen','suma_expesp');
 
     }
 
@@ -307,7 +315,15 @@ class PostulanteController extends Controller
         $Exper->save();
         
         $query = ExperienciaLabUser::where('id',$data->id)->get();
-        return $query;
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+
+        return compact('query','suma_expgen','suma_expesp');
     }
 
     public function datosexpgenyesp(Request $data){
@@ -318,9 +334,25 @@ class PostulanteController extends Controller
         $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
+        $proceso = Proceso::where('id',10)->get();
+        $min_expgen = $proceso[0]->anios_exp_lab_gen;
+        $min_expesp = $proceso[0]->anios_exp_lab_esp;
 
-        return compact('suma_expgen','suma_expesp');
+       return compact('suma_expgen','suma_expesp','min_expgen','min_expesp');
+       
     }
-    
+    public function datosformacion_general(Request $data){
+
+        $miformacion_max=FormacionUser::select('grado_id')
+        ->where('user_id',auth()->user()->id)
+        ->max('grado_id');
+        $proceso = Proceso::where('id',$data->idproceso)->get();
+        $form_nivel_requerido = $proceso[0]->nivel_acad_convocar;
+       
+        
+       return compact('form_nivel_requerido','miformacion_max');
+       
+    }
+  
     
 }

@@ -92,8 +92,8 @@ $(document).ready(function() {
             //ttiempoexp_esp = ttiempoexp_esp + parseFloat(data3[i].dias_exp_esp);
              marcadogeneral="";
              marcadoespecifico="";
-             totaldias_gen=totaldias_gen+data3[i].dias_exp_gen;
-             totaldias_esp=totaldias_esp+data3[i].dias_exp_esp;
+             totaldias_gen=totaldias_gen+parseInt(data3[i].dias_exp_gen);
+             totaldias_esp=totaldias_esp+parseInt(data3[i].dias_exp_esp);
             if(data3[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3[i].es_exp_esp==1){marcadoespecifico="checked";}
             
@@ -103,11 +103,11 @@ $(document).ready(function() {
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
-            "<td>"+data3[i].tipo_institucion+"</td>"+
             "<td>"+data3[i].centro_laboral+"</td>"+
             "<td>"+data3[i].cargo_funcion+"</td>"+
             "<td>"+data3[i].fecha_inicio+"</td>"+
             "<td>"+data3[i].fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data3[i].dias_exp_gen))+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button></td>"+
             "<td><button type='button' onclick=\"editar_expe('tblexp"+data3[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
             "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
@@ -116,6 +116,8 @@ $(document).ready(function() {
         }
     
     $('#zeroconfig3_body').append(tabla3);
+
+    
     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
     //$('#total_exp_general').val(ttiempoexp_gen);
@@ -137,48 +139,45 @@ $(document).ready(function() {
             finish: "REGISTRAR POSTULACIÓN"
         },
         onStepChanging: function(event, currentIndex, newIndex) {
-          var validar_paso={"estado":false, "msjok":"", "msjerror":""};
-          //
-          //{"estado":false, "msj1":"Error", "msj2":"Algo salio mal"};
+          var validar_paso;
+
+          if(newIndex<currentIndex){
+            return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+          }
+                   
           switch(currentIndex){
                 case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
-                case 1:  return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 1: validar_paso = cumple_formacion(); break; 
                 case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
                 case 3: validar_paso = cumple_exp_genyesp(); break;
             }
            
             if(validar_paso.estado){
-                Swal.fire({
+               /* Swal.fire({
                     position: 'top-end',
                     type: 'success',
                     title: validar_paso.msjok,
                     showConfirmButton: false,
                     timer: 2000
-                })
-           //     setTimeout(function(){
-             //       return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
-               // }, 2500);
-
-                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
-               
-            }else{
+                })*/
+                   return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+            } else{
                 Swal.fire({
-                    type: 'error',
-                    title: "¡Error!",
+                    type: 'warning',
+                    title: "¡Información!",
                     text: validar_paso.msjerror,
-                    icon: "error",
-                    timer: 3500,
+                    timer: null
                 })
                 return false;
             }
            
         }, 
         onFinishing: function(event, currentIndex) {
-            
+            alert('estoy en onFinishing');
             return form.validate().settings.ignore = ":disabled", form.valid()
         },
         onFinished: function(event, currentIndex) {
-           
+            alert('estoy en boto final');
         }, 
         
     }), $(".validation-wizard").validate({
@@ -299,7 +298,8 @@ function eliminar(transid){
 //_______________________________NUEVA EXPERIENCIA VER FORMULARIO (LIMPIA LOS CAMPOS INPUT) 
 function nueva_expe(){   
     var htmlbotones="<button onclick=\"guardar_experiencia();\" class=\"btn btn-success waves-effect waves-light\" type=\"button\">Guardar</button>";
-    
+    $("#header-experiencia").addClass("bg-success");
+    $("#header-experiencia").removeClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
    
     $("#modal_nueva_experiencia").modal("show");
@@ -321,7 +321,8 @@ function nueva_expe(){
  function editar_expe(transid){
     
     var htmlbotones="<button onclick=\"actualizar_expe('"+transid+"');\" class=\"btn btn-warning waves-effect waves-light\" type=\"button\">Guardar</button>";
-
+    $("#header-experiencia").removeClass("bg-success");
+    $("#header-experiencia").addClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
     
     $("#modal_nueva_experiencia").modal("show");
@@ -335,11 +336,11 @@ function nueva_expe(){
         success:function(data){
            alert("datos recibidos");
            console.log(data);
-          if(data[0].es_exp_gen==1){$('#exp_general').attr("checked",true);}else{
-            $('#exp_general').removeAttr("checked"); 
+          if(data[0].es_exp_gen==1){$('#exp_general').prop("checked",true);}else{
+            $('#exp_general').prop("checked",false); 
           }
-          if(data[0].es_exp_esp==1){$('#exp_especifica').attr("checked",true);}else{
-            $('#exp_especifica').removeAttr("checked");
+          if(data[0].es_exp_esp==1){$('#exp_especifica').prop("checked",true);}else{
+            $('#exp_especifica').prop("checked",false);
           }
 
           $("#tipo_entidad").val("'"+data[0].tipo_institucion+"'");
@@ -361,17 +362,39 @@ function nueva_expe(){
 //_______________________________guardar o actualizar datos personales - section 1____________________________
     
 function guardardatos(){
+   
+    
+    var arrayExp={estado:"",msjok:"",msjerror:""};
     var discap=0;
     var ffaa=0;
     var depor=0;
     var valor;
-      if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
-      if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
-      if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
-//var ddd= {!! json_encode($datos_usuario) !!};
-//@json($datos_usuario);
     
-   
+    if($("#fecha_nacimiento").val()=="" || $("#ruc").val()=="" || $("#ubigeodni").val()=="" || 
+    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || $("#telefono_fijo").val()=="" || 
+    $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
+        ///////////////////////////////d$('.micheckbox').prop('checked')
+        return arrayExp;
+    }else if(!$("#si_discapacidad").is(':checked') && !$("#no_discapacidad").is(':checked')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de seleccionar si es discapacitado o no";
+        return arrayExp;
+    }else if(!$("#si_ffaa").is(':checked') && !$("#no_ffaa").is(':checked')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de seleccionar si es licenciado de las Fuerzas Armadas";
+        return arrayExp;
+    }else if(!$("#si_deportista").is(':checked') && !$("#no_deportista").is(':checked')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de seleccionar si es Deportista Calificado";
+        return arrayExp;
+    }   
+
+    if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
+    if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
+    if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
+
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizardatos",
@@ -393,7 +416,7 @@ function guardardatos(){
 
             },
             success:function(data){
-               console.log("correcto");
+              /// console.log("correcto");
             },
             error: function(data){
                 console.log("error");
@@ -401,12 +424,13 @@ function guardardatos(){
 
         });
 
-       return {'estado':true,'msjok':'datos guardados correctamente','msjerror':'error en guardar datos'};
+        arrayExp.estado = true;
+        arrayExp.msjok = "Datos actualizados";
+        return arrayExp;
+
     }
 
- 
-
- function cumplehoras_totales(hrsminima_total,mihrs_total){
+    function cumplehoras_totales(hrsminima_total,mihrs_total){
     var resultado; 
     if(mihrs_total<hrsminima_total){
         resultado = true;
@@ -419,26 +443,31 @@ function guardardatos(){
  
 function cumple_exp_genyesp(){
     var arrayExp={estado:"",msjok:"",msjerror:""};
+    var res;
     
-    var aa = $.get('/postulante/datosexpgenyesp',function (data){
-        
-        //var b={'suma_expgen':data.suma_expgen,'suma_expesp':suma_data.suma_expesp};
-   
+    $.ajax({
+        //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/datosexpgenyesp",
+        type: "GET" ,
+        async:false,
+        datatype: "json",
+        data: {idproceso : getParameterByName('idproceso')},
+        success:function(data){
+           res= data;
+        }
     });
 
-    var jqxhr = $.ajax( "/postulante/datosexpgenyesp" )
-  .done(function(data) {
-    console.log(data);
-  });
-
-  console.log('jqxhr=> ',jqxhr);
-  console.log('=> ',jqxhr.responseJSON);
-    //console.log(aa[responseJSON.suma_expesp]);
-    console.log(aa);
-    //console.log("hola",aa.responseText.suma_expgen);
-    //console.log(JSON.parse(aa));
-    //console.log(aa.responseJSON[0].suma_expgen);
-       /* if(Mi_exp_gen<Exp_gen_min){
+    //console.log(res);
+    var Mi_exp_gen = res.suma_expgen;
+    var Mi_exp_esp = res.suma_expesp;
+    var Exp_gen_min = res.min_expgen;
+    var Exp_esp_min = res.suma_expesp;
+ 
+    if(Mi_exp_gen==0 || Mi_exp_esp==0){
+        arrayExp.estado=false;
+        arrayExp.msjerror="Debe de registrar experiencia general y específica";
+        return arrayExp;
+    } else if(Mi_exp_gen<Exp_gen_min){
         arrayExp.estado=false;
         arrayExp.msjerror="No cumple con la experiencia general mínima";
         return arrayExp;
@@ -452,51 +481,51 @@ function cumple_exp_genyesp(){
         return arrayExp;
     }
 
-*/
+}
+
+function getParameterByName(name) { //esta funcion recuepera la variable pasada por url ejemplo miVariable= getParameterByName('miVariable')
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function cumple_formacion(){
     var arrayExp={estado:"",msjok:"",msjerror:""};
-    
 
-   /* if(Mi_exp_gen<Exp_gen_min){
+    var res;
+    
+    $.ajax({
+        //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/datosformacion_general",
+        type: "GET" ,
+        async:false,
+        datatype: "json",
+        data: {idproceso : getParameterByName('idproceso')},
+        success:function(data){
+           respu= data;
+        }
+    });
+    
+    
+    var miformacion_max = respu.miformacion_max;
+    var formacion_nivel_requerido = respu.form_nivel_requerido;
+    
+    if(miformacion_max==null){
         arrayExp.estado=false;
-        arrayExp.msjerror="No cumple con la experiencia general mínima";
+        arrayExp.msjerror="Es necesario que registre una formación académica";
         return arrayExp;
-    }else if(Mi_exp_esp<Exp_esp_min){
+    } else if(miformacion_max<formacion_nivel_requerido){
         arrayExp.estado=false;
-        arrayExp.msjerror="No cumple con la experiencia específica mínima";
+        arrayExp.msjerror="No cumple con el nivel de formación requerido";
         return arrayExp;
-    }else{
+    }else {
         arrayExp.estado=true;
-        arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        arrayExp.msjok="Usted cumple con el nivel de formación requerido";
         return arrayExp;
     }
 
-*/
 }
-
-
- function cumple_exp_gen(mi_exp,exp_totalmin){
-    var resultado; 
-    if(mi_exp<exp_totalmin){
-        resultado = true;
-     }else{
-         resultado = false;
-     }
-     
-  return resultado;
- }
- function cumple_exp_esp(mi_exp,exp_totalmin){
-    var resultado; 
-    if(mi_exp<exp_totalmin){
-        resultado = true;
-     }else{
-         resultado = false;
-     }
-     
-  return resultado;
- }
 
  function anios_meses_dias(diasx){
     var anios;

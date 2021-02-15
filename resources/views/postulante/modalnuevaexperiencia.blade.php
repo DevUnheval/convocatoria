@@ -2,7 +2,7 @@
 <div id="modal_nueva_experiencia" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
        <div class="modal-content">
-          <div class="modal-header bg-success">
+          <div id="header-experiencia" class="modal-header bg-success">
              <h4 class="modal-title text-white" id="fullWidthModalLabel">Datos Experiencia Laboral</h4>
              <button type="button" class="close" data-dismiss="modal"
              aria-hidden="true">×</button>

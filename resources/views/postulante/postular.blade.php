@@ -137,7 +137,7 @@
                                 <div class="form-group">
                                     <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad"  />
                                 </div>   
-                            </div>                   
+                            </div>                               
                         </div>
                         <div class="row">
                             <div class="col-md-5">
@@ -356,11 +356,12 @@
                                 <tr>
                                     <th>Tipo de Experiencia</th>
                                     <th>Es experiencia</th>
-                                    <th>Tipo Entidad</th>
+                                    
                                     <th>Nombre Entidad</th>
                                     <th>Cargo<br></th>
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
+                                    <th>Tiempo Exper.</th>
                                     <th>Documento</th>
                                     <th>Acciones</th>
                                     
