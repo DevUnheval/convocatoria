@@ -30,47 +30,30 @@ $(document).ready(function() {
 
 
 //_________________________________ guardar formacion académica - section 2___________________________________
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.classList.add('was-validated');
-                
-            }else{
-                event.preventDefault();
-                guardar_formacion_acad();
-            }
-        
-            
-        }, false);
-    });
-
+    
 // ______________________________-boton cancelar, ocultar modal - section 2
         $('#btn_can_formac').on('click',function(){
             $('#modal_nueva_formacion').modal('hide');
         })
 
 //_________________________________ guardar curso capacitacion - section 3
-var forms2 = document.getElementsByClassName('needs-validation2');
-// Loop over them and prevent submission
-var validation = Array.prototype.filter.call(forms2, function(form) {
-    form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-            form.classList.add('was-validated');
+        var forms2 = document.getElementsByClassName('needs-validation2');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms2, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                    
+                }else{
+                    event.preventDefault();
+                 guardar_curso_capa();
+                }
             
-        }else{
-            event.preventDefault();
-            guardar_curso_capa();
-        }
-    
-        
-    }, false);
-});
+                
+            }, false);
+        });
 
 //__________________________________ boton cancelar, ocultar modal - section 3
 $('#btn_can_capacitacion').on('click',function(){
@@ -78,8 +61,7 @@ $('#btn_can_capacitacion').on('click',function(){
 })
 
 //_________________________________ guardar experiencia - section 4
-//$('#btn_guardar_experiencia').on('click',function(){
-  
+
 
 // boton cancelar, ocultar modal - section 3
 $('#btn_cancelar_exper').on('click',function(){
@@ -113,10 +95,46 @@ $("#tipo_capacitacion").on('click',function(){
 
 //______________________FUNCIONES________________________________
 
+//_______________________________GUARDAR NUEVA FORMACION ACADÉMICA_________________________
+function guardar_formac(){
+    
+    var forms = document.getElementsByClassName('needs-validation');
+// Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+    
+        if (form.checkValidity() === false) {
+           // event.preventDefault();
+            //event.stopPropagation();
+            form.classList.add('was-validated');
+            alert("aqui estoy");
+        }else{
+            guardar_formacion_data();
+
+        }
+            
+    form.classList.remove('was-validated');    
+   
+});
+
+}
+
 // ______________________________GUARDAR NUEVA EXPERIENCIA USUARIO_________________________________
 
-function guardar_experiencia(){ 
-    var diasexpgen=0;
+function guardar_experiencia(){
+    
+    var forms3 = document.getElementsByClassName('needs-validation3');
+// Loop over them and prevent submission
+var validation = Array.prototype.filter.call(forms3, function(form) {
+    
+        if (form.checkValidity() === false) {
+           // event.preventDefault();
+            //event.stopPropagation();
+            form.classList.add('was-validated');
+            
+        }else{
+            //event.preventDefault();
+
+            var diasexpgen=0;
     var diasexpesp=0;
     var exp_general=0;
     var exp_especifica=0;
@@ -124,7 +142,6 @@ function guardar_experiencia(){
     var fechafin=moment($("#fecha_fin_exp").val());
     var dias=fechafin.diff(fechainicio,"days");
 
-   
     if($('#exp_general').prop('checked')){
         exp_general=1;
         diasexpgen=dias
@@ -159,35 +176,45 @@ function guardar_experiencia(){
                 
         },
         success:function(data){
-           // console.log(data);
-            alert("datos guardados EXPERIENCIA!! ");
+            //console.log(data);
+            //alert("datos guardados EXPERIENCIA!! ");
             
             marcadogeneral="";
             marcadoespecifico="";
-           if(data.es_exp_gen==1){marcadogeneral="checked";}
-           if(data.es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query.es_exp_gen==1){marcadogeneral="checked";}
+           if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
 
-          var fila = "<tr id='tblexp"+data.id+"'>"+
-          "<td>"+data.tipo_experiencia+"</td>"+
+          var fila = "<tr id='tblexp"+data.query.id+"'>"+
+          "<td>"+data.query.tipo_experiencia+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
-            "<td>"+data.tipo_institucion+"</td>"+
-            "<td>"+data.centro_laboral+"</td>"+
-            "<td>"+data.cargo_funcion+"</td>"+
-            "<td>"+data.fecha_inicio+"</td>"+
-            "<td>"+data.fecha_fin+"</td>"+
+            
+            "<td>"+data.query.centro_laboral+"</td>"+
+            "<td>"+data.query.cargo_funcion+"</td>"+
+            "<td>"+data.query.fecha_inicio+"</td>"+
+            "<td>"+data.query.fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data.query.dias_exp_gen))+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button></td>"+
-            "<td><button type='button' onclick=\"editar_expe('tblexp"+data.id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
-            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "<td><button type='button' onclick=\"editar_expe('tblexp"+data.query.id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
+            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query.id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
-           $('#zeroconfig3_body').prepend(fila); 
+           $('#zeroconfig3_body').prepend(fila);
+           
+           Swal.fire({
+            position: 'top-end',
+            type: 'success',
+            title: "Experiencia registrada",
+            showConfirmButton: false,
+            timer: 2000
+        })
+
            $('#modal_nueva_experiencia').modal('hide');
            
-           //$('#zero_config1').DataTable().ajax.reload(); 
-            //var refreshId =  setInterval( function(){
-              //  $('#div_act').load();//actualizas el div
-               //}, 1000 );
+           var totaldias_gen=parseInt(data.suma_expgen);
+           var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
         },
         error: function(data){
             alert("error!!");
@@ -195,13 +222,34 @@ function guardar_experiencia(){
         }
 
     });
+            
+    form.classList.remove('was-validated');    
+}
+    
+        
+    
+});
+
+    
 
 }
 
 //______________________________ACTUALIZAR DATOS EXPERIENCIA_______________________
 
 function actualizar_expe(transid){
-    //alert("estoy por actualizar tu experiencia" + transid);
+    
+    var forms3 = document.getElementsByClassName('needs-validation3');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms3, function(form) {
+        
+            if (form.checkValidity() === false) {
+               // event.preventDefault();
+                //event.stopPropagation();
+                form.classList.add('was-validated');
+                
+            }else{
+                //event.preventDefault();
+    
     var id=transid.substring(6);
 
     var diasexpgen=0;
@@ -247,36 +295,49 @@ function actualizar_expe(transid){
             
         },
         success:function(data){
-            console.log(data);
+            //console.log(data);
             //alert(data);
           var marcadogeneral="";
             var marcadoespecifico="";
-           if(data[0].es_exp_gen==1){marcadogeneral="checked";}
-           if(data[0].es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
+           if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
         
           var filahtml =
-            "<td>"+data[0].tipo_experiencia+"</td>"+
+            "<td>"+data.query[0].tipo_experiencia+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
-            "<td>"+data[0].tipo_institucion+"</td>"+
-            "<td>"+data[0].centro_laboral+"</td>"+
-            "<td>"+data[0].cargo_funcion+"</td>"+
-            "<td>"+data[0].fecha_inicio+"</td>"+
-            "<td>"+data[0].fecha_fin+"</td>"+
+            
+            "<td>"+data.query[0].centro_laboral+"</td>"+
+            "<td>"+data.query[0].cargo_funcion+"</td>"+
+            "<td>"+data.query[0].fecha_inicio+"</td>"+
+            "<td>"+data.query[0].fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data.query[0].dias_exp_gen))+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button></td>"+
-            "<td><button type='button' onclick=\"editar_expe('tblexp"+data[0].id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
-            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "<td><button type='button' onclick=\"editar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
+            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
             
+            var totaldias_gen=parseInt(data.suma_expgen);
+           var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
             
-            var iddd="tblexp"+data[0].id;
+            var iddd="tblexp"+data.query[0].id;
+
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: "Experiencia actualizada",
+                showConfirmButton: false,
+                timer: 2000
+            })
+
             $('#modal_nueva_experiencia').modal('hide');
             $("#"+iddd).html(filahtml);
            
+            
            
-           
-          
-        },
+         },
         error: function(data){
             alert("error!!");
 
@@ -285,7 +346,9 @@ function actualizar_expe(transid){
        
 
     });
-
+    form.classList.remove('was-validated');
+}
+ })
    
 }
 
@@ -301,7 +364,7 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
  }
 
 
- function guardar_formacion_acad(){
+ function guardar_formacion_data(){
      
 
     var especialidad_tratada= "";
@@ -335,8 +398,10 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
               "<td>"+data.especialidad+"</td>"+
               "<td>"+data.centro_estudios+"</td>"+
               "<td>"+data.fecha_expedicion+"</td>"+
-              "<td><button class='btn btn-info' type='button' >ver</button>"+
-               "   <button type='button' onclick=\"eliminar('tblform"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+              "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+              "   <button type='button' onclick=\"editar_form('tblform"+data.id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+              "   <button type='button' onclick=\"eliminar('tblform"+data.id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+
               "</td>"+
               "</tr>";
                $('#zeroconfig1_body').prepend(fila); 
@@ -359,6 +424,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
         });
  }
 
+
+ //__________________________________-GUARDAR CURSO CAPACITACION _________________________________
  function guardar_curso_capa(){
     var es_curso_espec=0;
     var  es_ofimatica=0;

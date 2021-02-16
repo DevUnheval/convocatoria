@@ -151,12 +151,12 @@ class PostulanteController extends Controller
         
             return $query;
         }
-    public function experiencias_data1(){
+    public function experiencias_data1(Request $data){
             $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-            
-                return $query;
+            $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof')->where('id',$data->idproceso)->get();
+                return compact('query','proceso'); //REVISAR CÓDIGO DESPUÉS
             }
-
+/*
     public function formacion_data(){
 
         $query = FormacionUser::where('user_id','2')->select('grado_id','especialidad','centro_estudios','fecha_expedicion')->get();
@@ -178,7 +178,7 @@ class PostulanteController extends Controller
         }
         return json_encode($data, true);  
 
-}
+} */
 
     public function guardarformacion(Request $data){
         
@@ -274,7 +274,15 @@ class PostulanteController extends Controller
         $el->save();
     
         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->get()->last();
-        return $query;
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+
+        return compact('query','suma_expgen','suma_expesp');
 
     }
 
@@ -282,10 +290,21 @@ class PostulanteController extends Controller
         
         $Exper = ExperienciaLabUser::find($data->id);
         $Exper->delete();
-        
-        return "eliminadoEXPERIENCIA";
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+        return compact('suma_expgen','suma_expesp');
+            
     }
     
+    public function editarformacion(Request $data){
+        $query = FormacionUser::where('id',$data->id)->get();
+        return $query;
+    }
     public function editarexperiencia(Request $data){
         $query = ExperienciaLabUser::where('id',$data->id)->get();
         return $query;
@@ -312,7 +331,15 @@ class PostulanteController extends Controller
         $Exper->save();
         
         $query = ExperienciaLabUser::where('id',$data->id)->get();
-        return $query;
+        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp');
+
+
+        return compact('query','suma_expgen','suma_expesp');
     }
 
     public function datosexpgenyesp(Request $data){
@@ -323,9 +350,25 @@ class PostulanteController extends Controller
         $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
+        $proceso = Proceso::where('id',$data->idproceso)->get();
+        $min_expgen = $proceso[0]->anios_exp_lab_gen;
+        $min_expesp = $proceso[0]->anios_exp_lab_esp;
 
-        return compact('suma_expgen','suma_expesp');
+       return compact('suma_expgen','suma_expesp','min_expgen','min_expesp');
+       
     }
-    
+    public function datosformacion_general(Request $data){
+
+        $miformacion_max=FormacionUser::select('grado_id')
+        ->where('user_id',auth()->user()->id)
+        ->max('grado_id');
+        $proceso = Proceso::where('id',$data->idproceso)->get();
+        $form_nivel_requerido = $proceso[0]->nivel_acad_convocar;
+       
+        
+       return compact('form_nivel_requerido','miformacion_max');
+       
+    }
+  
     
 }
