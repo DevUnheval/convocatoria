@@ -23,7 +23,7 @@
         <div class="alert alert-info" role="alert">
             <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
             @foreach ($proceso as $pro)
-            <div><input type="hidden" value="{{$proceso}}"  id="cod" ><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>n° plazas = {{$pro->n_plazas}}</small></div>
+            <div><input type="hidden" value="{{$proceso}}"  id="cod" ><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$pro->n_plazas}}</small></div>
             @endforeach     
             </h2></strong> 
             

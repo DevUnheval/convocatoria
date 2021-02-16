@@ -194,11 +194,16 @@ class ConvocatoriaController extends Controller
         $c=Comunicado::find($id);
         Storage::delete($c->archivo);
         Comunicado::destroy($id);
-    }      
+    }   
+
     public function destroy($id)
     {
-        $query = Postulante::where("proceso_id",$id)->first();
-        if($query){
+        $postulante = Postulante::where("proceso_id",$id)->first();
+
+        if(!$postulante){
+            $query = Proceso::find($id);
+            Storage::delete($query->archivo_bases);
+            Storage::delete($query->archivo_resolucion);
             Proceso::destroy($id);
             return "exito";
         }

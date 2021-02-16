@@ -34,13 +34,13 @@ Route::get('perfil', 'Auth\PerfilController@index')->name('perfil');
 Route::group(['prefix' => 'maestro'], function(){
  // Rutas ajustes
     Route::group(['prefix' => 'ajustes'], function(){
-        Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index');  
+        Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index')->middleware(['auth','Administrador']);  
         Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update');  
         Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
     });   
     Route::group(['prefix' => 'usuarios'], function(){
-        Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index');  
-        Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update');  
+        Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index')->middleware(['auth','Administrador']);  
+        Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update')->middleware(['auth','Administrador']);  
         Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
         Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 
