@@ -217,7 +217,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
+                                <button type="button" onclick="nueva_forma();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
@@ -314,11 +314,27 @@
                 <section>
                     
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            @foreach ($proceso as $item)
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Prac. Pre Profesionales: </strong> {{$item->consid_prac_preprof}}
+                            
+                        </div>
+                        @endforeach
+                        </div>
+                        <div class="col-md-4">
+                            @foreach ($proceso as $item)
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Prac. Profesionales: </strong> {{$item->consid_prac_prof}} 
+                            
+                        </div>
+                        @endforeach
                         </div>
                         
                     </div>

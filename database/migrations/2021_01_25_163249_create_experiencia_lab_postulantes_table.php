@@ -23,16 +23,15 @@ class CreateExperienciaLabPostulantesTable extends Migration
             //Tipo institución/centro laboral: 0: publico, 1: privado
             $table->string('tipo_institucion');
             // tipo experiencia 1: Regular; 2: practicas pre prof; 3: practicas profeionales;
-            $table->string('tipo_experiencia');
+            $table->integer('tipo_experiencia');
             //datos generales-obligatorios
             $table->string('centro_laboral');//nombre de la entidad o empresa
             $table->string('cargo_funcion');
             $table->string('desc_cargo_funcion')->nullable();//descripcion del cargo funcion
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->decimal('dias_exp_gen', 5, 2)->nullable(); 
-            $table->decimal('dias_exp_esp', 5, 2)->nullable(); 
-            $table->timestamps();
+            $table->integer('dias_exp_gen');
+            $table->integer('dias_exp_esp');
         });
     }
 

@@ -18,7 +18,7 @@
                               <!--<h4 class="card-title">Step wizard with validation</h4>
                               <h6 class="card-subtitle">You can us the validation like what we did</h6>
                               -->
-                              <form>
+                              <form class="needs-validation3" novalidate>
                                 @csrf  
                                     <div class="card-body wizard-content">
                                         <div class="row">
@@ -39,11 +39,11 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="tipo_experiencia">Tipo de Experiencia:<span class="danger">*</span> </label>
-                                                  <select class="custom-select form-control" id="tipo_experiencia" name="tipo_experiencia">
-                                                    <option value="0">*Seleccionar*</option>
-                                                    <option value="Experiencia Laboral">Experiencia Laboral</option>
-                                                    <option value="Prácticas Pre Profesionales">Prácticas Pre Profesionales</option>
-                                                    <option value="Prácticas Profesionales">Prácticas Profesionales</option>
+                                                  <select class="custom-select form-control" id="tipo_experiencia" name="tipo_experiencia" required>
+                                                    <option value="">*Seleccionar*</option>
+                                                    <option value=1>Experiencia Laboral</option>
+                                                    <option value=2>Prácticas Pre Profesionales</option>
+                                                    <option value=3>Prácticas Profesionales</option>
                                                     
                                                   </select>
                                               </div>
@@ -51,10 +51,10 @@
                                           <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tipo_entidad">Tipo Entidad:<span class="danger">*</span> </label>
-                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad">
-                                                  <option value="0">*Seleccionar*</option>
-                                                  <option value="Público">Público</option>
-                                                  <option value="Privado">Privado</option>
+                                                <select class="custom-select form-control" id="tipo_entidad" name="tipo_entidad" required>
+                                                  <option value="">*Seleccionar*</option>
+                                                  <option value="1">Público</option>
+                                                  <option value="2">Privado</option>
                                                   
                                                 </select>
                                             </div>
@@ -64,7 +64,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="nombre_entidad">Nombre de Entidad:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="nombre_entidad" name="nombre_entidad" > 
+                                                <input type="text" class="form-control required" id="nombre_entidad" name="nombre_entidad" required> 
                                             </div>
                                         </div>
                                      </div>
@@ -73,7 +73,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="cargo_exp">Cargo:<span class="danger">*</span> </label>
-                                                <input type="text" class="form-control required" id="cargo_exp" name="cargo_exp" > 
+                                                <input type="text" class="form-control required" id="cargo_exp" name="cargo_exp" required> 
                                             </div>
                                         </div>
                                      </div>
@@ -83,7 +83,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="funciones_princi">Funciones principales: <span class="danger">*</span> </label>
-                                                <textarea type="textarea" class="form-control required" id="funciones_princi" name="funciones_princi" ></textarea> 
+                                                <textarea type="textarea" class="form-control required" id="funciones_princi" name="funciones_princi" required></textarea> 
                                             </div>
                                         </div>
                                       </div>
@@ -91,13 +91,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_inicio_exp">Fecha Inicio: <span class="danger">*</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_inicio_exp" name="fecha_inicio_exp" > 
+                                                <input type="date" class="form-control required" id="fecha_inicio_exp" name="fecha_inicio_exp" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_fin_exp">Fecha fin: <span class="danger">*</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" > 
+                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" required> 
                                             </div>
                                         </div>
                                       </div>

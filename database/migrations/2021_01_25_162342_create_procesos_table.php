@@ -53,6 +53,9 @@ class CreateProcesosTable extends Migration
                 //nivel-grado academico a evaluar
                 $table->integer('nivel_acad_evaluar')->default(1);
                 $table->string('especialiad')->nullable(); 
+                //considerar o no practicas preprofesionales y profesionales
+                $table->boolean('consid_prac_preprof')->default(1);
+                $table->boolean('consid_prac_prof')->default(1);	
 
             //$table->decimal('pje_otro', 3, 2)->default(0);
             $table->decimal('pje_max_cv', 4, 2)->default(60.00);
@@ -65,8 +68,8 @@ class CreateProcesosTable extends Migration
             $table->decimal('peso_conoc', 4, 2)->default(0.0);
             $table->decimal('peso_entrev', 4, 2)->default(0.0);
                 //CV
-                $table->decimal('anios_exp_lab_gen', 5, 2)->default(3);
-                $table->decimal('anios_exp_lab_esp', 5, 2)->default(2);
+                $table->integer('anios_exp_lab_gen')->default(0);
+                $table->integer('anios_exp_lab_esp')->default(0);
                 $table->decimal('horas_cap_total', 5, 2)->default(0);
                 $table->decimal('horas_cap_ind', 5, 2)->default(0);
 

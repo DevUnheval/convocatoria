@@ -2,7 +2,7 @@
 <div id="modal_nueva_formacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
        <div class="modal-content">
-          <div class="modal-header bg-success">
+          <div id="header-formacion" class="modal-header bg-success">
              <h4 class="modal-title text-white" id="fullWidthModalLabel">Datos Formación Academica</h4>
              <button type="button" class="close" data-dismiss="modal"
              aria-hidden="true">×</button>
@@ -134,7 +134,7 @@
                                          <div class="form-group col-md-12">
                                              <button id="btn_can_formac" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                              </button>
-                                             <button id="btn_guardar_formacion" class="btn btn-success waves-effect waves-light" >Guardar </button>  
+                                             <span id="div_btn_formacion"></span>
                                          </div>
                                      </div>
                                    </div>

@@ -26,7 +26,7 @@
                                               <div class="form-group">
                                                   <label for="tipo_capacitacion">Tipo de estudio:<span class="danger">*</span> </label>
                                                   <select class="custom-select form-control" id="tipo_capacitacion" name="tipo_capacitacion" required>
-                                                    <option value="0">*Seleccione*</option>
+                                                    <option value="">*Seleccione*</option>
                                                     <option value="1">Curso/Especialización</option>
                                                     <option value="2">Offimática</option>
                                                     <option value="3">Idioma</option>

@@ -32,7 +32,8 @@ $(document).ready(function() {
             "<td>"+data[i].especialidad+"</td>"+
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
-            "<td><button class='btn btn-info' type='button'>ver</button>"+
+            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "    <button type='button' onclick=\"editar_form('tblform"+data[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminar('tblform"+data[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
@@ -82,35 +83,60 @@ $(document).ready(function() {
     var tabla3="";
     //var ttiempoexp_gen=0;
     //var ttiempoexp_esp=0;
-    $.get('/postulante/experiencias/data1',function (data3){
-        var marcadogeneral="";
+   
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/experiencias/data1/",
+        type: "GET" ,
+        datatype: "json",
+        data: {
+            idproceso: getParameterByName('idproceso'),
+            },
+        success:function(data3){
+            console.log(data3);
+            var marcadogeneral="";
         var marcadoespecifico="";
         var totaldias_gen=0;
         var totaldias_esp=0;
-        for (var i = 0; i < data3.length; i++) {
-            //ttiempoexp_gen = ttiempoexp_gen + parseFloat(data3[i].dias_exp_gen);
-            //ttiempoexp_esp = ttiempoexp_esp + parseFloat(data3[i].dias_exp_esp);
-             marcadogeneral="";
-             marcadoespecifico="";
-             totaldias_gen=totaldias_gen+parseInt(data3[i].dias_exp_gen);
-             totaldias_esp=totaldias_esp+parseInt(data3[i].dias_exp_esp);
-            if(data3[i].es_exp_gen==1){marcadogeneral="checked";}
-            if(data3[i].es_exp_esp==1){marcadoespecifico="checked";}
+        for (var i = 0; i < data3.query.length; i++) {
+            
+            totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+            totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+            /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
+                totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+                 totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+              }else if(data3.proceso.consid_prac_preprof == 0 && data3.proceso.consid_prac_prof == 1){
+                  if(data3.query[i].tipo_experiencia != 2){
+                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+                  }
+              }else if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 0){
+                if(data3.query[i].tipo_experiencia != 3){
+                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+                  }
+              }
+            */
+            marcadogeneral="";
+            marcadoespecifico="";
+ 
+            if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
+            if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
             
            
-            tabla3 += "<tr id='tblexp"+data3[i].id+"'>"+
-            "<td>"+data3[i].tipo_experiencia+"</td>"+
+            tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
+            "<td>"+data3.query[i].tipo_experiencia+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
-            "<td>"+data3[i].centro_laboral+"</td>"+
-            "<td>"+data3[i].cargo_funcion+"</td>"+
-            "<td>"+data3[i].fecha_inicio+"</td>"+
-            "<td>"+data3[i].fecha_fin+"</td>"+
-            "<td>"+anios_meses_dias(parseInt(data3[i].dias_exp_gen))+"</td>"+
+            "<td>"+data3.query[i].centro_laboral+"</td>"+
+            "<td>"+data3.query[i].cargo_funcion+"</td>"+
+            "<td>"+data3.query[i].fecha_inicio+"</td>"+
+            "<td>"+data3.query[i].fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data3.query[i].dias_exp_gen))+"</td>"+
             "<td><button class='btn btn-info' type='button'>ver</button></td>"+
-            "<td><button type='button' onclick=\"editar_expe('tblexp"+data3[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
-            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "<td><button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
@@ -122,8 +148,17 @@ $(document).ready(function() {
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
     //$('#total_exp_general').val(ttiempoexp_gen);
     //$('#total_exp_especifica').val(ttiempoexp_esp);
-     
+
+        },error: function(data){
+            alert("error!!");
+
+        }
+        
+       
+
     });
+        
+
 
     //_________________________INICIO TAB WIZARD________________________________________________
     var form = $(".validation-wizard").show();
@@ -229,13 +264,104 @@ function eliminar(transid){
             })
         },
         error: function(data){
-            alert("error!!"+data); }
+            alert("error!!"); }
 
     });
 
     $('#'+transid).remove();
  }
 
+//___________________nueva formacion , abrir modal y limpiar los campos____________
+
+function nueva_forma(){   
+    var htmlbotones="<button onclick=\"guardar_formac();\" class=\"btn btn-success waves-effect waves-light\" type=\"button\">Guardar</button>";
+    $("#header-formacion").addClass("bg-success");
+    $("#header-formacion").removeClass("bg-warning");
+    $('#div_btn_formacion').html(htmlbotones);
+   
+    $("#modal_nueva_formacion").modal("show");
+    
+        $('#especialidad').prop('disabled',false);
+        $('#especialidad').val("");    
+    
+    $("#tipo_estudio option[value='']").prop('selected',true);
+    $("#fecha_inicio").val("");
+   $("#fecha_fin").val("");
+     $("#fecha_exp").val("");
+   $("#centro_estudio_form").val("");
+    
+    $("#ciudad_form").val("");
+    $("#pais_form").val("");
+        
+    
+ }
+
+//________________________________editar formacion académica(abrir modal y cargar datos de la formación seleccionada)_________________________
+    function editar_form(transid){
+        var htmlbotones="<button onclick=\"actualizar_formac('"+transid+"');\" class=\"btn btn-warning waves-effect waves-light\" type=\"button\">Guardar</button>";
+    $("#header-formacion").removeClass("bg-success");
+    $("#header-formacion").addClass("bg-warning");
+    $('#div_btn_formacion').html(htmlbotones);
+    
+    $("#modal_nueva_formacion").modal("show");
+      var id=transid.substring(7);
+      
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/editarformacion",
+        type: "POST" ,
+        datatype: "json",
+        data: { id:id },
+        success:function(data){
+          
+            if(parseInt(data[0].grado_id) == 2 || parseInt(data[0].grado_id) == 3){
+                $('#especialidad').prop('disabled',true);
+            }else{
+                $('#especialidad').prop('disabled',false);
+                $('#especialidad').val(data[0].especialidad);
+            }
+            
+            $("#tipo_estudio option[value='"+data[0].grado_id+"']").prop('selected',true);
+            $("#fecha_inicio").val(data[0].fecha_inicio);
+           $("#fecha_fin").val(data[0].fecha_fin);
+             $("#fecha_exp").val(data[0].fecha_expedicion);
+           $("#centro_estudio_form").val(data[0].centro_estudios);
+            
+            $("#ciudad_form").val(data[0].ciudad);
+            $("#pais_form").val(data[0].pais);
+         
+        },
+        error: function(data){
+            alert("error!!"); }
+
+    });
+    }
+ //_________________actualizar formacion académica__________________
+ function actualizar_formac(transid){
+     alert('estas apunto de actualizar la formacion');
+ }
+/*
+function guardar_formac(){
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+                form.classList.add('was-validated');
+                
+            }else{
+                event.preventDefault();
+                guardar_formacion_acad();
+            }
+        
+            
+        }, false);
+    });
+
+
+}*/
 
  //________________________funcion eliminar capacitacion______________________________________
  function eliminarcapac(transid){
@@ -263,7 +389,7 @@ function eliminar(transid){
         })
         },
         error: function(data){
-            alert("error!!"+data); }
+            alert("error!!"); }
 
     });
 
@@ -282,6 +408,10 @@ function eliminar(transid){
         success:function(data){
            
            $('#'+transid).remove();
+           var totaldias_gen=parseInt(data.suma_expgen);
+           var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
            Swal.fire({
             position: 'top-end',
             type: 'error',
@@ -304,11 +434,11 @@ function nueva_expe(){
    
     $("#modal_nueva_experiencia").modal("show");
     
-          $('#exp_general').attr("checked",true);
-          $('#exp_especifica').removeAttr("checked");
+          $('#exp_general').prop("checked",true);
+          $('#exp_especifica').prop("checked",false);
           $("#nombre_entidad").val("");
-          $("#tipo_experiencia").val("0");
-          $("#tipo_entidad").val("0");
+          $("#tipo_experiencia").val("");
+          $("#tipo_entidad").val("");
           $("#cargo_exp").val("");
           $("#funciones_princi").val("");
           $("#fecha_inicio_exp").val("");
@@ -334,15 +464,16 @@ function nueva_expe(){
         datatype: "json",
         data: { id:id },
         success:function(data){
-           alert("datos recibidos");
-           console.log(data);
+          
+            //alert("datos recibidos");
+           //console.log(data);
           if(data[0].es_exp_gen==1){$('#exp_general').prop("checked",true);}else{
             $('#exp_general').prop("checked",false); 
           }
           if(data[0].es_exp_esp==1){$('#exp_especifica').prop("checked",true);}else{
             $('#exp_especifica').prop("checked",false);
           }
-
+          
           $("#tipo_entidad").val("'"+data[0].tipo_institucion+"'");
           $("#tipo_experiencia").val("'"+data[0].tipo_experiencia+"'");
           $("#nombre_entidad").val(data[0].centro_laboral);
@@ -350,11 +481,12 @@ function nueva_expe(){
           $("#funciones_princi").val(data[0].desc_cargo_funcion);
           $("#fecha_inicio_exp").val(data[0].fecha_inicio);
           $("#fecha_fin_exp").val(data[0].fecha_fin);
-          
+          $("#tipo_experiencia option[value='"+data[0].tipo_experiencia+"']").prop('selected',true);
+          $("#tipo_entidad option[value='"+data[0].tipo_institucion+"']").prop('selected',true);
 
         },
         error: function(data){
-            alert("error!!"+data); }
+            alert("error!!"); }
 
     });
  }
