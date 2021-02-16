@@ -9,9 +9,8 @@
 @section('menu_title_2','Nombre_Menu')
 
 @section('content')
-
-
-
+    @include('auth.m_contraseña')
+        
 <div class="container-fluid">
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
@@ -39,15 +38,16 @@
                                     <small class="text-muted">DNI</small> 
                                         <h6>{{auth()->user()->dni}}</h6> 
                                     <small class="text-muted">Fecha de Nacimiento</small> 
-                                        <h6></h6> 
+                                        <h6>fecha_nacimiento</h6> 
                                     <small class="text-muted pt-4 db">Celular</small> 
-                                        <h6>987654321</h6>
+                                        <h6>telefono_celular</h6>
                                     <small class="text-muted pt-4 db">Correo</small> 
                                         <h6>{{auth()->user()->email}}</h6>  
                                     <small class="text-muted pt-4 db">Dirección</small>
-                                        <h6>Calle alla sito, N° 20815</h6>
-                                    <br> 
-                                    <button type="button" class="btn btn-info btn-circle" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Editar"><i class="mdi mdi-account-edit font-20"></i></button>
+                                        <h6>domicilio Calle alla sito, N° 20815</h6>
+                                    <hr> 
+                                    <button type="button" class="btn btn-info btn-circle" data-toggle="modal" data-target="#m_contraseña"
+                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña"><i class="mdi mdi-account-key font-20"></i></button>
                                 <!-- <div class="map-box">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
                                 </div> 
@@ -319,6 +319,8 @@
 
 @endsection
 @section('js')
-
+    <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('/extra-libs/jqbootstrapvalidation/validation.js')}}"></script>
+    
 {{-- Ajustes de vista --}}
 @endsection

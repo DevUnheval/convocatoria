@@ -249,6 +249,8 @@ function ver_detalles(id){
            $("#ver_exp_lab_gen").html(response.anios_exp_lab_gen);
            $("#ver_exp_lab_esp").html(response.anios_exp_lab_esp);
            $("#ver_postulacion").html("Desde: "+response.fecha_inscripcion_inicio+" <br> Hasta: "+response.fecha_inscripcion_fin);
+           $("#ver_fecha_firma_contrato").html("Dia: "+response.fecha_firma_contrato);
+           $("#ver_duracion_contrato").html(response.duracion_contrato)
 
            if(response.capacitaciones!= null){
                 $("#ver_capacitaciones").html(response.capacitaciones);

@@ -149,9 +149,9 @@
                                                 <div class="">
                                                     <div class="checkbox checkbox-success pt-0">
                                                         <input id="checkbox-signup" type="checkbox" required class="chk-col-indigo material-inputs">
-                                                        <label for="checkbox-signup"> Estoy deacuerdo con los <a href="#">terminos</a></label>
+                                                        <label for="checkbox-signup"> Estoy de acuerdo con los <a href="#">términos</a></label>
                                                         <div class="invalid-feedback">
-                                                           Marque la opción "Estoy deacuerdo con los terminos"
+                                                           Marque la opción "Estoy de acuerdo con los términos"
                                                           </div> 
                                                     </div>
                                                 </div>

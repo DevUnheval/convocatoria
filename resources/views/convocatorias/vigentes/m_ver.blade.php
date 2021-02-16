@@ -48,9 +48,7 @@
                                     </div>
                                  </div>
                               </div>
-                           </div>
-                           
-
+                           </div>    
                            <!--modelo 2 
                            <div class="row">
                               <div class="col-md-12">
@@ -147,12 +145,24 @@
                            </div>
                            <hr>                           
                            <div class="row">    
-                              <div class="col-md-12">
+                              <div class="col-md-5">
                                  <div class="form-group">
-                                       <small class="text-info">Postulación</small>
+                                       <small class="text-info">Plazo para Postular</small>
                                        <h5 id="ver_postulacion"></h5>
                                  </div>
                               </div>  
+                              <div class="col-md-3 border-left">
+                                 <div class="form-group">
+                                       <small class="text-info">Duración del Contrato</small>
+                                       <h5 id="ver_duracion_contrato"></h5>
+                                 </div>
+                              </div>
+                              <div class="col-md-4">
+                                 <div class="form-group">
+                                       <small class="text-info">Inicio de contrato</small>
+                                       <h5 id="ver_fecha_firma_contrato"></h5>
+                                 </div>
+                              </div> 
                            </div>
                            <div class="row">
                               <div class="col-md-6">
