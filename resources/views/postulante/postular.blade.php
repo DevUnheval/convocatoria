@@ -104,7 +104,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="telefono_fijo" name="telefono_fijo"> </div>
+                                    <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -401,49 +401,102 @@
                 <!-- Step 5 -->
                 <h6>POSTULAR</h6>
                 <section>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>DECLARACIÓN JURADA</h3>
+                        </div>
+                    </div>
                     <br>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right text-right"> Declaración jurada <span class="text-danger">*</span> </label>
-                                
-                            </div>  
+                        <div class="col-md-2 ">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p1"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p1"  />
+                            <label for="no_discapacidad">No</label> 
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"/>
-                            </div>   
-                        </div>
-                                             
-                    </div>
+                        <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
+                    </div> 
+                    <hr>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right " > Anexo 1 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
+                        <div class="col-md-2">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p2"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p2"  />
+                            <label for="no_discapacidad">No</label>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group ">
-                                <input name=""  class="material-inputs"  type="file"  />
-                            </div>   
-                        </div>
-                                             
+                        <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
                     </div>
+                    <hr>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-right"> Anexo 2 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
+                        <div class="col-md-2">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p3"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p3"  />
+                            <label for="no_discapacidad">No</label>  
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"   />
-                            </div>   
+                        <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
+                    </div> 
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p4"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p4"  />
+                            <label for="no_discapacidad">No</label>  
                         </div>
-                                             
+                        <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
+                    </div>  
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p5"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p5"  />
+                            <label for="no_discapacidad">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios-CAS 2021</label>                                
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p6"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p6"  />
+                            <label for="no_discapacidad">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
+                    </div>  
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p7"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p7"  />
+                            <label for="no_discapacidad">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p8"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p8"  />
+                            <label for="no_discapacidad">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_p9"  />
+                            <label for="si_discapacidad">Si</label>
+                            <input name="group1" value="false" class=" group1 material-inputs required" value="0" type="radio" id="no_p9"  />
+                            <label for="no_discapacidad">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
+                    </div> 
+
 
                     
                     <br>

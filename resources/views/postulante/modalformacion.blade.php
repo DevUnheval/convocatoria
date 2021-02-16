@@ -25,7 +25,7 @@
                                        <div class="row">
                                            <div class="col-md-12">
                                                <div class="form-group">
-                                                   <label for="tipo_estudio">Grado:<span class="danger">*</span> </label>
+                                                   <label for="tipo_estudio">Grado: <span class="text-danger">*</span></label>
                                                    <select class="custom-select form-control" id="tipo_estudio" name="tipo_estudio" required>
                                                      <option value="">Seleccionar</option>
                                                      @foreach ($gradoformac as $gf)
@@ -43,7 +43,7 @@
                                       <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
-                                                 <label for="especialidad">Especialidad:<span class="danger">*</span> </label>
+                                                 <label for="especialidad">Especialidad: <span class="text-danger">*</span> </label>
                                                  <input type="text" id="especialidad" class="form-control" required/>
                                                  <div class="invalid-feedback">
                                                      Complete este campo
@@ -54,7 +54,7 @@
                                       <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
-                                                 <label for="centro_estudio_form">Centro de Estudio:<span class="danger">*</span> </label>
+                                                 <label for="centro_estudio_form">Centro de Estudio: <span class="text-danger">*</span> </label>
                                                  <input type="text" class="form-control" id="centro_estudio_form" name="centro_estudio_form" required> 
                                                  <div class="invalid-feedback">
                                                      Complete este campo
@@ -65,7 +65,7 @@
                                       <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="ciudad_form">Ciudad:<span class="danger">*</span> </label>
+                                                <label for="ciudad_form">Ciudad: <span class="text-danger">*</span> </label>
                                                 <input type="text" class="form-control " id="ciudad_form" name="ciudad_form" required> 
                                                 <div class="invalid-feedback">
                                                     Complete este campo
@@ -74,7 +74,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="pais_form">Pais:<span class="danger">*</span> </label>
+                                                <label for="pais_form">Pais: <span class="text-danger">*</span> </label>
                                                 <input type="text" class="form-control " id="pais_form" name="pais_form" required> 
                                                 <div class="invalid-feedback">
                                                     Complete este campo
@@ -87,7 +87,7 @@
                                      <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="fecha_exp">Fecha Expedición: <span class="danger">**</span> </label>
+                                                <label for="fecha_exp">Fecha Expedición: <span class="text-danger">**</span> </label>
                                                 <input type="date" class="form-control " id="fecha_exp" name="fecha_exp" required >
                                                 <div class="invalid-feedback">
                                                     Seleccione su fecha de expedición
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="fecha_inicio">Fecha Inicio: <span class="danger">*</span> </label>
+                                                <label for="fecha_inicio">Fecha Inicio: <span class="text-danger">*</span> </label>
                                                 <input type="date" class="form-control " id="fecha_inicio" name="fecha_inicio" required> 
                                                 <div class="invalid-feedback">
                                                 Seleccione su fecha de inicio
@@ -105,7 +105,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="fecha_fin">Fecha Fin: <span class="danger">*</span> </label>
+                                                <label for="fecha_fin">Fecha Fin: <span class="text-danger">*</span> </label>
                                                 <input type="date" class="form-control " id="fecha_fin" name="fecha_fin" required> 
                                                 <div class="invalid-feedback">
                                                 Seleccione su fecha fin
@@ -116,7 +116,7 @@
                                        <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
-                                                 <label for="documento_formac">Documento de sustento: <span class="danger">*</span> </label>
+                                                 <label for="documento_formac">Documento de sustento: <span class="text-danger">*</span> </label>
                                                  <input type="file" class="form-control " id="documento_formac" name="documento_formac"> 
                                              </div>
                                          </div>
