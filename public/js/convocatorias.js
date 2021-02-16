@@ -444,7 +444,6 @@ function eliminar_convocatoria(proceso_id){
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Si, eliminar'
     }).then((result) => {
-        
         if (result.value) {
             $.ajax({
                 headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
@@ -455,13 +454,25 @@ function eliminar_convocatoria(proceso_id){
 
                 },
                 success:  function (response){
-                    Swal.fire({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Se eliminó correctamente',
-                        showConfirmButton: false,
-                        timer: 1500
-                    }) 
+                    if(response=="error"){
+                        Swal.fire({
+                            //position: 'top-end',
+                            type: 'warning',
+                            title: 'No se puede eliminar',
+                            text: 'Este proceso/convocatoria tiene postulantes registrados',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }) 
+                    }else if(response=="exito"){
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Se eliminó correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }) 
+                    }
+                    
                     // ver_comunicados(proceso_id);
                     $('#zero_config').DataTable().ajax.reload();
                 },
