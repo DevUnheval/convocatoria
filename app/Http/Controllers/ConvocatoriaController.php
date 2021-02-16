@@ -111,6 +111,7 @@ class ConvocatoriaController extends Controller
     {
         
         $q = Proceso::create($r->all());
+        
         if($r->file('archivo_bases')){
             $name= $r->file('archivo_bases')->store('public/procesos/bases');
             $q->archivo_bases=$name;

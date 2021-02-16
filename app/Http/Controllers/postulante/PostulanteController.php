@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
 use Illuminate\Http\Request;
+use DB;
 
 
 class PostulanteController extends Controller
@@ -73,7 +74,11 @@ class PostulanteController extends Controller
         ->where("experiencia_lab_users.user_id", "=", auth()->user()->id)
         ->get();
 
-        return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia'));
+        $ubigeos = \App\Ubigeo::select(DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec) AS descripcion"), 'cod_ubigeo_reniec as ubigeo')
+        ->where("cod_ubigeo_reniec","<>","NA") 
+        ->pluck('descripcion','ubigeo');
+
+        return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
         
     }
 

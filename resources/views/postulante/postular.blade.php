@@ -6,7 +6,8 @@
 <link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
-   
+<link href="{{ asset('/material-pro/src/assets/libs/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
+<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 @endsection
 
 @section('content')
@@ -83,8 +84,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ubigeodni"> Ubigeo de Nacimiento : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni"> </div>
+                                    <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
+                                    <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
+                                    <select class="form-control select_2 required" name="" id="ubigeodni" name="ubigeodni"></select>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -106,7 +109,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio"> </div>
+                                    <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
+                                    <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
+                                </div>
                             </div>   
                         </div>
                         <div class="row">
@@ -446,5 +451,8 @@
 <script src="{{ asset('/js/postulante.js')}}"></script>
 <script src="{{ asset('/js/tablas_postular.js')}}"></script>
 <script src="{{ asset('/js/moment.min.js')}}"></script>
-
+<script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script> 
+<script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
 @endsection
+

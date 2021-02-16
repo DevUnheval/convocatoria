@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,13 +21,13 @@ Route::get('/', 'ConvocatoriaController@vigentes')->name('index');
 Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
-Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post')->middleware(['auth']);
 Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a post
 
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
 Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('perfil', 'Auth\PerfilController@index')->name('perfil');
+Route::get('perfil', 'Auth\PerfilController@index')->name('perfil')->middleware(['auth']);
  //JOSE AQUI TUS RUTAS
  //Fin Auth
 
@@ -72,7 +74,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
     Route::get('en_curso/data', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso.data'); 
     Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
-    Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store');  
+    Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
@@ -117,4 +119,13 @@ Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
         
    });
+
+   Route::get("/buscar_ubigeo_reniec",function(Request $r){
+       $search = $r->search;
+        $q = \App\Ubigeo::select( 'cod_ubigeo_reniec as id', DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec) AS text"))
+        ->where("cod_ubigeo_reniec","<>","NA")
+        ->where("desc_ubigeo_reniec","LIKE","%$search%")
+        ->get();
+        return response()->json($q);
+   })->middleware(['auth']);
 
