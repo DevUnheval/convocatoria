@@ -407,7 +407,7 @@
                         </div>
                     </div>
                     <br>
-                    <div class="row">
+                    <div class="row card-body bg-light">
                         <div class="col-md-2 ">
                             <input name="g1" class=" g1 material-inputs required"  value="1" type="radio" id="si_p1"  />
                             <label for="si_p1">Si</label>
@@ -416,8 +416,7 @@
                         </div>
                         <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
                     </div> 
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body">
                         <div class="col-md-2">
                             <input name="g2" class=" g2 material-inputs required"  value="1" type="radio" id="si_p2"  />
                             <label for="si_p2">Si</label>
@@ -426,8 +425,7 @@
                         </div>
                         <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
                     </div>
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body bg-light">
                         <div class="col-md-2">
                             <input name="g3" class=" g3 material-inputs required"  value="1" type="radio" id="si_p3"  />
                             <label for="si_p3">Si</label>
@@ -436,8 +434,7 @@
                         </div>
                         <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
                     </div> 
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body">
                         <div class="col-md-2">
                             <input name="g4" value="true"  class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
                             <label for="si_p4">Si</label>
@@ -445,9 +442,8 @@
                             <label for="no_p4">No</label>  
                         </div>
                         <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
-                    </div>  
-                    <hr>
-                    <div class="row">
+                    </div> 
+                    <div class="row card-body bg-light">
                         <div class="col-md-2 ">
                             <input name="g5" value="true"  class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
                             <label for="si_p5">Si</label>
@@ -456,8 +452,7 @@
                         </div>
                         <label class="col-md-10 border-left">5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios-CAS 2021</label>                                
                     </div>
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body">
                         <div class="col-md-2 ">
                             <input name="g6" value="true"  class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
                             <label for="si_p6">Si</label>
@@ -466,8 +461,7 @@
                         </div>
                         <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
                     </div>  
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body bg-light">
                         <div class="col-md-2 ">
                             <input name="g7" value="true"  class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
                             <label for="si_p7">Si</label>
@@ -476,8 +470,7 @@
                         </div>
                         <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
                     </div>
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body">
                         <div class="col-md-2 ">
                             <input name="g8" value="true"  class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
                             <label for="si_p8">Si</label>
@@ -486,8 +479,7 @@
                         </div>
                         <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
                     </div>
-                    <hr>
-                    <div class="row">
+                    <div class="row card-body bg-light">
                         <div class="col-md-2">
                             <input name="g9" value="true"  class=" g9 material-inputs required"  value="1" type="radio" id="si_p9"  />
                             <label for="si_p9">Si</label>
