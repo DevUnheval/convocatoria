@@ -90,9 +90,7 @@ $(document).ready(function() {
         url: "/postulante/experiencias/data1/",
         type: "GET" ,
         datatype: "json",
-        data: {
-            idproceso: getParameterByName('idproceso'),
-            },
+        data: {idproceso: $('#datospostulante').data('id')},
         success:function(data3){
             console.log(data3);
             var marcadogeneral="";
@@ -185,7 +183,7 @@ $(document).ready(function() {
                    
           switch(currentIndex){
                 case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
-                case 1: validar_paso = cumple_formacion(); break; 
+                case 1: validar_paso = cumple_formacion($('#datospostulante').data('id')); break; 
                 case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
                 case 3: validar_paso = cumple_exp_genyesp(); break;
             }
@@ -584,8 +582,7 @@ function guardardatos(){
     if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
     if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
     if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
-    var fd = new FormData();
-    fd.
+   
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizardatos",
@@ -643,7 +640,7 @@ function cumple_exp_genyesp(){
         type: "GET" ,
         async:false,
         datatype: "json",
-        data: {idproceso : getParameterByName('idproceso')},
+        data: {idproceso : $('#datospostulante').data('id')},
         success:function(data){
            res= data;
         }
@@ -675,17 +672,10 @@ function cumple_exp_genyesp(){
 
 }
 
-function getParameterByName(name) { //esta funcion recuepera la variable pasada por url ejemplo miVariable= getParameterByName('miVariable')
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-function cumple_formacion(){
+function cumple_formacion(id){
     var arrayExp={estado:"",msjok:"",msjerror:""};
 
-    var res;
+    var id = id;
     
     $.ajax({
         //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -693,8 +683,8 @@ function cumple_formacion(){
         type: "GET" ,
         async:false,
         datatype: "json",
-        data: {idproceso : getParameterByName('idproceso')},
-        success:function(data){
+        data: {idproceso : id},
+        success:function(data){ 
            respu= data;
         }
     });

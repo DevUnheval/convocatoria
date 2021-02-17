@@ -23,15 +23,15 @@
     <div class="card">
         <div class="alert alert-info" role="alert">
             <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
-            @foreach ($proceso as $pro)
-            <div><input type="hidden" value="{{$proceso}}"  id="cod" ><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$pro->n_plazas}}</small></div>
-            @endforeach     
+            
+            <div></i>{{$proceso->cod}} - {{$proceso->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$proceso->n_plazas}}</small></div>
+            
             </h2></strong> 
             
         </div>
         <div class="card-body wizard-content">
             
-            <form  id="datospostulante" class="validation-wizard wizard-circle mt-5">
+            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-5">
                 @csrf
                 <!-- Step 1 -->
                 <h6>Datos Personales</h6>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger">*</span> </label>
+                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger required">*</span> </label>
                                     <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
+                                    <label for="telefono_fijo"> Telefono fijo (opcional) : <span class="text-danger">*</span> </label>
                                     <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
@@ -283,11 +283,11 @@
                         </div>
                        
                           <div class="col-md-4">
-                            @foreach ($proceso as $item)
+                            
                             <div class="alert alert-danger text-center" role="alert">
-                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
+                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$proceso->horas_cap_ind.' Hrs'}}"> 
                             </div>
-                            @endforeach
+                            
                           </div>
                       
                     </div>
@@ -434,9 +434,9 @@
                             <input name="g5" value="false" class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
                             <label for="no_p5">No</label>  
                         </div>
-                            @foreach ($proceso as $pro) 
-                            <label class="col-md-10 border-left" value="{{$proceso}}" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$pro->cod}}</label>                        
-                            @endforeach                              
+                            
+                            <label class="col-md-10 border-left" value="" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$proceso->cod}}</label>                        
+                                                       
                     </div>
                     <div class="row card-body">
                         <div class="col-md-2 ">

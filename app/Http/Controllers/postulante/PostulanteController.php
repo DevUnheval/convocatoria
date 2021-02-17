@@ -53,7 +53,7 @@ class PostulanteController extends Controller
     public function postular($idproceso)
     {
         
-        $proceso = Proceso::where('id',$idproceso)->get();
+        $proceso = Proceso::where('id',$idproceso)->first();
         $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
         ->select("grado_formacions.nombre","procesos.especialidad")
         ->where("procesos.id",$idproceso)
