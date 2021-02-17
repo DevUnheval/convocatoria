@@ -450,7 +450,9 @@
                             <input name="g5" value="false" class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
                             <label for="no_p5">No</label>  
                         </div>
-                        <label class="col-md-10 border-left">5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios-CAS 2021</label>                                
+                            @foreach ($proceso as $pro) 
+                            <label class="col-md-10 border-left" value="{{$proceso}}" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$pro->cod}}</label>                        
+                            @endforeach                              
                     </div>
                     <div class="row card-body">
                         <div class="col-md-2 ">
@@ -488,12 +490,14 @@
                         </div>
                         <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
                     </div> 
-
-
-                    
                     <br>
+                    <div class="row card-body border alert alert-success" >          
+                        <div class="col-md-12">
+                            <h5>Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</h5>  
+                        </div>                             
+                    </div>                     
                     <br>
-                                        
+                    <br>                                        
                 </section>
             </form>
         </div>
