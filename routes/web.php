@@ -128,7 +128,9 @@ Route::group(['prefix' => 'postulantes'], function(){
        $search = $r->search;
         $q = \App\Ubigeo::select( 'cod_ubigeo_reniec as id', DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec) AS text"))
         ->where("cod_ubigeo_reniec","<>","NA")
-        ->where("desc_ubigeo_reniec","LIKE","%$search%")
+        //->where("desc_ubigeo_reniec","LIKE","%$search%")
+        ->where(DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec)"),"like","%$search%")
+        //->where(DB::raw("CONCAT(`nvp`, ' ', `vpv`)"), 'LIKE', "%".$this->searchNeedle."%");
         ->get();
         return response()->json($q);
    })->middleware(['auth']);
