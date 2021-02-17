@@ -138,7 +138,7 @@ class ConvocatoriaController extends Controller
 
   
     public function update(Request $r)
-    {
+    {   $p= Proceso::find($r->id);
         $q=Proceso::where('id', $r->id)    
                 ->update($r->all());
                 

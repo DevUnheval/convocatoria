@@ -6,7 +6,8 @@
 <link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
-   
+<link href="{{ asset('/material-pro/src/assets/libs/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
+<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 @endsection
 
 @section('content')
@@ -83,8 +84,10 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ubigeodni"> Ubigeo de Nacimiento : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni"> </div>
+                                    <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
+                                    <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
+                                    <select class="form-control select_2 required" name="" id="ubigeodni" name="ubigeodni"></select>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -101,12 +104,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="telefono_fijo" name="telefono_fijo"> </div>
+                                    <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio"> </div>
+                                    <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
+                                    <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
+                                </div>
                             </div>   
                         </div>
                         <div class="row">
@@ -380,54 +385,103 @@
                 <!-- Step 5 -->
                 <h6>POSTULAR</h6>
                 <section>
-                    <br>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right text-right"> Declaración jurada <span class="text-danger">*</span> </label>
-                                
-                            </div>  
+                        <div class="col-md-12">
+                            <h3>DECLARACIÓN JURADA</h3>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"/>
-                            </div>   
-                        </div>
-                                             
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right " > Anexo 1 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group ">
-                                <input name=""  class="material-inputs"  type="file"  />
-                            </div>   
-                        </div>
-                                             
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-right"> Anexo 2 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"   />
-                            </div>   
-                        </div>
-                                             
-                    </div>
-
-                    
                     <br>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g1" class=" g1 material-inputs required"  value="1" type="radio" id="si_p1"  />
+                            <label for="si_p1">Si</label>
+                            <input name="g1" class=" g1 material-inputs required" value="0" type="radio" id="no_p1"  />
+                            <label for="no_p1">No</label> 
+                        </div>
+                        <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
+                    </div> 
+                    <div class="row card-body">
+                        <div class="col-md-2">
+                            <input name="g2" class=" g2 material-inputs required"  value="1" type="radio" id="si_p2"  />
+                            <label for="si_p2">Si</label>
+                            <input name="g2" class=" g2 material-inputs required" value="0" type="radio" id="no_p2"  />
+                            <label for="no_p2">No</label>
+                        </div>
+                        <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
+                    </div>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2">
+                            <input name="g3" class=" g3 material-inputs required"  value="1" type="radio" id="si_p3"  />
+                            <label for="si_p3">Si</label>
+                            <input name="g3" class=" g3 material-inputs required" value="0" type="radio" id="no_p3"  />
+                            <label for="no_p3">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
+                    </div> 
+                    <div class="row card-body">
+                        <div class="col-md-2">
+                            <input name="g4" value="true"  class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
+                            <label for="si_p4">Si</label>
+                            <input name="g4" value="false" class=" g4 material-inputs required" value="0" type="radio" id="no_p4"  />
+                            <label for="no_p4">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
+                    </div> 
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g5" value="true"  class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
+                            <label for="si_p5">Si</label>
+                            <input name="g5" value="false" class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
+                            <label for="no_p5">No</label>  
+                        </div>
+                            @foreach ($proceso as $pro) 
+                            <label class="col-md-10 border-left" value="{{$proceso}}" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$pro->cod}}</label>                        
+                            @endforeach                              
+                    </div>
+                    <div class="row card-body">
+                        <div class="col-md-2 ">
+                            <input name="g6" value="true"  class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
+                            <label for="si_p6">Si</label>
+                            <input name="g6" value="false" class=" g6 material-inputs required" value="0" type="radio" id="no_p6"  />
+                            <label for="no_p6">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
+                    </div>  
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g7" value="true"  class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
+                            <label for="si_p7">Si</label>
+                            <input name="g7" value="false" class=" g7 material-inputs required" value="0" type="radio" id="no_p7"  />
+                            <label for="no_p7">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
+                    </div>
+                    <div class="row card-body">
+                        <div class="col-md-2 ">
+                            <input name="g8" value="true"  class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
+                            <label for="si_p8">Si</label>
+                            <input name="g8" value="false" class=" g8 material-inputs required" value="0" type="radio" id="no_p8"  />
+                            <label for="no_p8">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
+                    </div>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2">
+                            <input name="g9" value="true"  class=" g9 material-inputs required"  value="1" type="radio" id="si_p9"  />
+                            <label for="si_p9">Si</label>
+                            <input name="g9" value="false" class=" g9 material-inputs required" value="0" type="radio" id="no_p9"  />
+                            <label for="no_p9">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
+                    </div> 
                     <br>
-                                        
+                    <div class="row card-body border alert alert-success" >          
+                        <div class="col-md-12">
+                            <h5>Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</h5>  
+                        </div>                             
+                    </div>                     
+                    <br>
+                    <br>                                        
                 </section>
             </form>
         </div>
@@ -447,5 +501,8 @@
 <script src="{{ asset('/js/postulante.js')}}"></script>
 <script src="{{ asset('/js/tablas_postular.js')}}"></script>
 <script src="{{ asset('/js/moment.min.js')}}"></script>
-
+<script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+<script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script> 
+<script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
 @endsection
+

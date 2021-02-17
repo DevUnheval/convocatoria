@@ -14,12 +14,27 @@ class CreateUbigeosTable extends Migration
     public function up()
     {
         Schema::create('ubigeos', function (Blueprint $table) {
-            $table->primary('id');
-            $table->char('id',6);
-            $table->char('type', 2);
-            $table->string('descripcion');
-            $table->string('prov_id',4)->nullable();
-            $table->string('dep_id',2)->nullable();
+            $table->id();
+            $table->char('cod_dep_inei',2)->default("NA");
+            $table->string('desc_dep_inei')->default("NA");
+            $table->char('cod_prov_inei', 4)->default("NA");
+            $table->string('desc_prov_inei')->default("NA");
+            $table->char('cod_ubigeo_inei', 6)->default("NA");
+            $table->string('desc_ubigeo_inei')->default("NA");
+
+            $table->char('cod_dep_reniec',2)->default("NA");
+            $table->string('desc_dep_reniec')->default("NA");
+            $table->char('cod_prov_reniec', 4)->default("NA");
+            $table->string('desc_prov_reniec')->default("NA");
+            $table->char('cod_ubigeo_reniec', 6)->default("NA");
+            $table->string('desc_ubigeo_reniec')->default("NA");
+
+            $table->char('cod_dep_sunat',2)->default("NA");
+            $table->string('desc_dep_sunat')->default("NA");
+            $table->char('cod_prov_sunat', 4)->default("NA");
+            $table->string('desc_prov_sunat')->default("NA");
+            $table->char('cod_ubigeo_sunat', 6)->default("NA");
+            $table->string('desc_ubigeo_sunat')->default("NA");
             
         });
     }
