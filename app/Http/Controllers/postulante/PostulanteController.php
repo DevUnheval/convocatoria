@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 
 class PostulanteController extends Controller
 {
@@ -54,7 +54,7 @@ class PostulanteController extends Controller
         $idproceso =$_GET["idproceso"];
         $proceso = Proceso::where('id',$idproceso)->get();
         $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
-        ->select("grado_formacions.nombre")
+        ->select("grado_formacions.nombre","procesos.especialidad")
         ->where("procesos.id",$_GET["idproceso"])
         ->get();
         $gradoformac = GradoFormacion::get();
@@ -99,6 +99,7 @@ class PostulanteController extends Controller
         $datosuser->es_deportista = $data->deportista;
         $datosuser->nacionalidad = $data->nacionalidad;
         $datosuser->fecha_nacimiento = $data->fechanac;
+       // $datosuser->archivo_disc = $data->archivo_disc;
 
         $datosuser->archivo_dni = "";
         $datosuser->archivo_dni_tipo = "";
@@ -148,32 +149,10 @@ class PostulanteController extends Controller
         }
     public function experiencias_data1(Request $data){
             $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-            $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof')->where('id',$data->idproceso)->get();
+            $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
                 return compact('query','proceso'); //REVISAR CÓDIGO DESPUÉS
             }
-/*
-    public function formacion_data(){
 
-        $query = FormacionUser::where('user_id','2')->select('grado_id','especialidad','centro_estudios','fecha_expedicion')->get();
-       // if($query->count()<1)
-        //return $this->data_null;
-    
-        foreach ($query as $dato) {
-            
-                    $idproceso=$dato->id;
-                    $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
-                    $postular .= '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
-                
-            
-
-            
-                $data['aaData'][] = [ $dato->grado_id,$dato->especialidad,$dato->centro_estudios,$dato->fecha_expedicion,$postular];
-           
-            
-        }
-        return json_encode($data, true);  
-
-} */
 
     public function guardarformacion(Request $data){
         
@@ -263,6 +242,7 @@ class PostulanteController extends Controller
         $el->desc_cargo_funcion = $data->desc_cargo_funcion;
         $el->fecha_inicio = $data->fecha_inicio;
         $el->fecha_fin = $data->fecha_fin;
+        $el->num_pag = $data->num_pag;
         $el->dias_exp_gen =$data->dias_exp_gen;
         $el->dias_exp_esp = $data->dias_exp_esp;
         
@@ -300,6 +280,65 @@ class PostulanteController extends Controller
         $query = FormacionUser::where('id',$data->id)->get();
         return $query;
     }
+
+    public function editarcapacitacion(Request $data){
+        $query = CapacitacionUser::where('id',$data->id)->get();
+        return $query;
+    }
+
+    public function actualizar_formac_data(Request $data){
+        
+        $fu = FormacionUser::find($data->id); 
+                
+        $fu->user_id = auth()->user()->id;
+        $fu->grado_id = $data->grado_id;
+        $fu->fecha_inicio = $data->fecha_inicio;
+        $fu->fecha_fin = $data->fecha_fin;
+        $fu->fecha_expedicion = $data->fecha_expedicion;
+        $fu->centro_estudios = $data->centro_estudios;
+        $fu->especialidad = $data->especialidad;
+        $fu->ciudad = $data->ciudad;
+        $fu->pais = $data->pais;
+        $fu-> archivo ="null";
+        $fu->archivo_tipo = "null";
+        $fu->save();
+
+
+        $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
+        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->where("formacion_users.id",$data->id)->get();
+        //$query = FormacionUser::where('id',$data->id)->get();
+        return $query;
+
+    }
+    
+    public function actualizarcapacitacion_data(Request $data){
+        
+        $cu = CapacitacionUser::find($data->id); 
+                
+        $cu->user_id = auth()->user()->id;
+        $cu->es_curso_espec = $data->es_curso_espec;
+        $cu->es_ofimatica = $data->es_ofimatica;
+        $cu->es_idioma = $data->es_idioma;
+                
+        $cu->centro_estudios = $data->centro_estudios;
+        $cu->especialidad = $data->especialidad;
+        $cu->ciudad = $data->ciudad;
+        $cu->pais = $data->pais;
+        $cu->fecha_inicio = $data->fechainicio_capac;
+        $cu->fecha_fin = $data->fechafin_capac;
+        $cu->archivo ="null";
+        $cu->archivo_tipo = "null";
+        $cu->cantidad_horas = $data->cantidad_horas;
+        $cu->nivel = $data->nivel_capa;
+        $cu->save();
+    
+        $query = CapacitacionUser::where('id',$data->id)->get();
+        return $query;
+
+    }
+    
+
     public function editarexperiencia(Request $data){
         $query = ExperienciaLabUser::where('id',$data->id)->get();
         return $query;
@@ -320,6 +359,7 @@ class PostulanteController extends Controller
         $Exper->desc_cargo_funcion = $data->desc_cargo_funcion;
         $Exper->fecha_inicio = $data->fecha_inicio;
         $Exper->fecha_fin = $data->fecha_fin;
+        $Exper->num_pag = $data->num_pag;
         $Exper->dias_exp_gen =$data->dias_exp_gen;
         $Exper->dias_exp_esp = $data->dias_exp_esp;
         

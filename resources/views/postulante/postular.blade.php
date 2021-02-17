@@ -224,7 +224,7 @@
                         <div class="col-md-4">
                             @foreach ($proceso_formacion as $item)
                             <div class="alert alert-danger" role="alert">
-                                <strong>Formación requerida: </strong> {{$item->nombre}}
+                                <strong>Formación requerida: </strong> {{$item->nombre}} - {{$item->especialidad}}
                             </div>
                             @endforeach
                         </div>
@@ -265,15 +265,15 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
+                                <button type="button" onclick="nueva_capacitacion()" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
                         
                         <div class="col-md-4">
-                            <div class="alert alert-success text-center" role="alert">
+                          <!--  <div class="alert alert-success text-center" role="alert">
                                 <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
-                            </div>
+                            </div> -->
                             
                         </div>
                        
@@ -320,22 +320,7 @@
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            @foreach ($proceso as $item)
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Prac. Pre Profesionales: </strong> {{$item->consid_prac_preprof}}
-                            
-                        </div>
-                        @endforeach
-                        </div>
-                        <div class="col-md-4">
-                            @foreach ($proceso as $item)
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Prac. Profesionales: </strong> {{$item->consid_prac_prof}} 
-                            
-                        </div>
-                        @endforeach
-                        </div>
+                        
                         
                     </div>
 
@@ -355,12 +340,12 @@
                           
                       </div>
                       <div class="col-md-4">
-                        @foreach ($proceso as $item)
+                        
                         <div class="alert alert-danger" role="alert">
-                            <strong>Exper. General mínima: </strong> {{$item->anios_exp_lab_gen}}  <br>
-                            <strong>Exper. Específica mínima: </strong> {{$item->anios_exp_lab_esp}}
+                            <strong>Exper. General mínima: </strong><span id="exp_gen_pro">  </span> <br>
+                            <strong>Exper. Específica mínima: </strong><span id="exp_esp_pro">  </span> 
                         </div>
-                        @endforeach
+                        
                       </div>
                       
                     </div>
@@ -378,7 +363,6 @@
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
                                     <th>Tiempo Exper.</th>
-                                    <th>Documento</th>
                                     <th>Acciones</th>
                                     
                                 </tr>

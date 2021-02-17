@@ -50,7 +50,7 @@ $(document).ready(function() {
        
         for (var i = 0; i < data2.length; i++) {
             tipoestudio = "";
-            totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
+           // totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
 
             if(data2[i].es_curso_espec==1){
                 tipoestudio = "Curso/Especialización";
@@ -66,14 +66,15 @@ $(document).ready(function() {
             "<td>"+data2[i].especialidad+"</td>"+
             "<td>"+data2[i].centro_estudios+"</td>"+
             "<td>"+data2[i].cantidad_horas+"</td>"+
-            "<td><button class='btn btn-info' type='button'>ver</button>"+
+            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "    <button type='button' onclick=\"editar_capac('tblcapac"+data2[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
     
     $('#zeroconfig2_body').append(tabla2);
-    $('#total_horas').val(totalhoras);
+    //$('#total_horas').val(totalhoras);
         
     
     
@@ -134,15 +135,17 @@ $(document).ready(function() {
             "<td>"+data3.query[i].fecha_inicio+"</td>"+
             "<td>"+data3.query[i].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data3.query[i].dias_exp_gen))+"</td>"+
-            "<td><button class='btn btn-info' type='button'>ver</button></td>"+
-            "<td><button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
-            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "    <button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+            "    <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
     
     $('#zeroconfig3_body').append(tabla3);
-
+    
+    $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_gen)));
+    $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_esp)));
     
     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
@@ -159,7 +162,7 @@ $(document).ready(function() {
     });
         
 
-
+    //__________________________________________________________________________________________
     //_________________________INICIO TAB WIZARD________________________________________________
     var form = $(".validation-wizard").show();
     
@@ -240,7 +243,7 @@ $(document).ready(function() {
 
 })
 
- 
+ //______________________________________________________________________________________________________________
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 
 //____________________________funcion eliminar formacion academica_____________
@@ -336,32 +339,85 @@ function nueva_forma(){
 
     });
     }
- //_________________actualizar formacion académica__________________
- function actualizar_formac(transid){
-     alert('estas apunto de actualizar la formacion');
- }
-/*
-function guardar_formac(){
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.classList.add('was-validated');
-                
-            }else{
-                event.preventDefault();
-                guardar_formacion_acad();
-            }
+ 
+//_______________nueva capacitacion - abrir modal y limpiar campos___________________________________________
+function nueva_capacitacion(){   
+    var htmlbotones="<button onclick=\"guardar_capacitacion();\" class=\"btn btn-success waves-effect waves-light\" type=\"button\">Guardar</button>";
+$("#header-capacitacion").addClass("bg-success");
+$("#header-capacitacion").removeClass("bg-warning");
+$('#div_btn_capacitacion').html(htmlbotones);
+
+$("#modal_nuevo").modal("show");
+    
+$("#tipo_capacitacion option[value='']").prop('selected',true);
+$("#descripcion").val("");
+$("#institucion").val("");
+$("#pais_capacit").val("");
+$("#ciudad_capacit").val("");
+$("#fechainicio_capac").val("");
+$("#fechafin_capac").val("");
+$("#horaslectivas").val("");
+$('#nivel_capa').val("");
         
-            
-        }, false);
-    });
+    
+ }
 
 
-}*/
+
+//_______________________funcion editar capacitacion abrir modal y recuperar datos de la fila selccionada___________
+
+function editar_capac(transid){
+    var htmlbotones="<button onclick=\"actualizar_capac('"+transid+"');\" class=\"btn btn-warning waves-effect waves-light\" type=\"button\">Guardar</button>";
+$("#header-capacitacion").removeClass("bg-success");
+$("#header-capacitacion").addClass("bg-warning");
+$('#div_btn_capacitacion').html(htmlbotones);
+
+$("#modal_nuevo").modal("show");
+  var id=transid.substring(8);
+  
+$.ajax({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+    url: "/postulante/editarcapacitacion",
+    type: "POST" ,
+    datatype: "json",
+    data: { id:id },
+    success:function(data){
+      var tipocap_sel=0;
+        if(data[0].es_curso_espec==1){
+            tipocap_sel = 1;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
+        if(data[0].es_ofimatica==1){
+            tipocap_sel = 2;
+            $('#nivel_capa').prop('disabled',false);
+            $('#nivel_capa').prop('required',true);
+            $('#nivel_capa').val(data[0].nivel);
+        }
+        if(data[0].es_idioma==1){
+            tipocap_sel = 3;
+            $('#nivel_capa').prop('disabled',false);
+            $('#nivel_capa').prop('required',true);
+            $('#nivel_capa').val(data[0].nivel);
+        }
+
+        $("#tipo_capacitacion option[value='"+tipocap_sel+"']").prop('selected',true);
+        $("#descripcion").val(data[0].especialidad);
+        $("#institucion").val(data[0].centro_estudios);
+        $("#pais_capacit").val(data[0].pais);
+        $("#ciudad_capacit").val(data[0].ciudad);
+        $("#fechainicio_capac").val(data[0].fecha_inicio);
+        $("#fechafin_capac").val(data[0].fecha_fin);
+        $("#horaslectivas").val(data[0].cantidad_horas);
+           
+    },
+    error: function(data){
+        alert("error!!"); }
+
+});
+}
+
 
  //________________________funcion eliminar capacitacion______________________________________
  function eliminarcapac(transid){
@@ -378,7 +434,7 @@ function guardar_formac(){
            $('#'+transid).remove();
            
            //alert(data.cantidad_horas);
-           $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
+         //  $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
 
            Swal.fire({
             position: 'top-end',
@@ -443,6 +499,7 @@ function nueva_expe(){
           $("#funciones_princi").val("");
           $("#fecha_inicio_exp").val("");
           $("#fecha_fin_exp").val("");
+          $("#num_pag").val("");
         
     
  }
@@ -481,6 +538,7 @@ function nueva_expe(){
           $("#funciones_princi").val(data[0].desc_cargo_funcion);
           $("#fecha_inicio_exp").val(data[0].fecha_inicio);
           $("#fecha_fin_exp").val(data[0].fecha_fin);
+          $("#num_pag").val(data[0].num_pag);
           $("#tipo_experiencia option[value='"+data[0].tipo_experiencia+"']").prop('selected',true);
           $("#tipo_entidad option[value='"+data[0].tipo_institucion+"']").prop('selected',true);
 
@@ -526,7 +584,8 @@ function guardardatos(){
     if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
     if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
     if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
-
+    var fd = new FormData();
+    fd.
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizardatos",
@@ -542,6 +601,7 @@ function guardardatos(){
                 telfijo: $("#telefono_fijo").val(),
                 domicilio: $("#domicilio").val(),
                 ubigeo_domicilio:$("#ubigeo_domicilio").val(),
+               // file_discapacidad : $('#file_discapacidad').val(),////////////////////
                 dicapacidad: discap,
                 ffaa:ffaa,
                 deportista: depor
@@ -664,8 +724,8 @@ function cumple_formacion(){
     var meses;
     var dias;
     anios= Math.trunc(diasx/365); 
-    meses= Math.trunc((diasx%365)/30);
-    dias =(diasx%365)%30;
+    meses= Math.trunc((diasx%365)/30.4);
+    dias =(diasx%365)%30.4;
     
      
   return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
