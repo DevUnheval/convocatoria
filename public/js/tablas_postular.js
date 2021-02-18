@@ -1,28 +1,34 @@
 $(document).ready(function() {
 
-    /*console.log("hola entre");
-    
-    console.log($('#datospostulante').serialize());
-*/
+    $('#file_discapacidad').prop('disabled',true);
+    $('#file_discapacidad').val('');
+    $('#file_ffaa').prop('disabled',true);
+    $('#file_ffaa').val('');
+    $('#file_deportista').prop('disabled',true);
+    $('#file_deportista').val('');
+
     $('.group1').click(function(){
         if($(this).val()=='true'){
-            $('#file_discapacidad').removeAttr('disabled');
+            $('#file_discapacidad').prop('disabled',false);
         }else{
-            $('#file_discapacidad').attr('disabled','disabled');
+            $('#file_discapacidad').prop('disabled',true);
+            $('#file_discapacidad').val('');
         }
     })
     $('.group2').click(function(){
         if($(this).val()=='true'){
-            $('#file_ffaa').removeAttr('disabled');
+            $('#file_ffaa').prop('disabled',false);
         }else{
-            $('#file_ffaa').attr('disabled','disabled');
+            $('#file_ffaa').prop('disabled',true);
+            $('#file_ffaa').val('');
         }
     })
     $('.group3').click(function(){
         if($(this).val()=='true'){
-            $('#file_deportista').removeAttr('disabled');
+            $('#file_deportista').prop('disabled',false);
         }else{
-            $('#file_deportista').attr('disabled','disabled');
+            $('#file_deportista').prop('disabled',true);
+            $('#file_deportista').val('');
         }
     })
         
@@ -130,31 +136,39 @@ function actualizar_formac_data(transid){
         especialidad_tratada= $("#especialidad").val();
     }
 
+    var formData = new FormData();
+    formData.append('id',id);
+    formData.append('grado_id',$("#tipo_estudio").val());
+    formData.append('fecha_inicio',$("#fecha_inicio").val());
+    formData.append('fecha_fin', $("#fecha_fin").val());
+    formData.append('fecha_expedicion',$("#fecha_exp").val());
+    formData.append('centro_estudios',$("#centro_estudio_form").val());
+    formData.append( 'especialidad',especialidad_tratada);
+    formData.append('ciudad',$("#ciudad_form").val());
+    formData.append('pais',$("#pais_form").val());
+    formData.append('archivo_formacion',$("#documento_formac").prop('files')[0]);
+    
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizar_formac_data",
             type: "POST" ,
             datatype: "json",
-            data: {
-                id: id,
-                grado_id: $("#tipo_estudio").val(),
-                fecha_inicio:$("#fecha_inicio").val(),
-                fecha_fin: $("#fecha_fin").val(),
-                fecha_expedicion: $("#fecha_exp").val(),
-                centro_estudios: $("#centro_estudio_form").val(),
-                especialidad: especialidad_tratada,
-                ciudad: $("#ciudad_form").val(),
-                pais: $("#pais_form").val(),
-                    
-            },
+            data: formData,
+            cache:false,
+            contentType: false,
+            processData: false,
             success:function(data){
                 //console.log("dataform=>",data);
-              var filahtml = 
+                var href_form_ed="#";
+            if(data[0].archivo != null){
+                href_form_ed = data[0].archivo.replace('public/','/storage/');
+            }
+               var filahtml = 
               "<td>"+data[0].nombre+"</td>"+
               "<td>"+data[0].especialidad+"</td>"+
               "<td>"+data[0].centro_estudios+"</td>"+
               "<td>"+data[0].fecha_expedicion+"</td>"+
-              "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+              "<td><a href='"+href_form_ed+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_form('tblform"+data[0].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminar('tblform"+data[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
@@ -259,28 +273,30 @@ function actualizar_capacitacion_data(transid){
          es_idioma=1;
          nivel_tratada = $("#nivel_capa").val();
      }
- 
+     
+     var formData = new FormData();
+     formData.append('id', id);
+     formData.append('es_curso_espec', es_curso_espec);
+    formData.append('es_ofimatica', es_ofimatica);
+    formData.append('es_idioma', es_idioma);
+    formData.append('especialidad', $("#descripcion").val());
+    formData.append('centro_estudios', $("#institucion").val());
+    formData.append('pais', $("#pais_capacit").val());
+    formData.append('ciudad', $("#ciudad_capacit").val());
+    formData.append('fechainicio_capac', $("#fechainicio_capac").val());
+    formData.append('fechafin_capac', $("#fechafin_capac").val());
+    formData.append('nivel_capa', nivel_tratada);
+    formData.append('cantidad_horas', $("#horaslectivas").val());
+    formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
      $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
          url: "/postulante/actualizarcapacitacion_data",
          type: "POST" ,
          datatype: "json",
-         data: {
-            id: id,
-            es_curso_espec: es_curso_espec,
-            es_ofimatica: es_ofimatica,
-            es_idioma: es_idioma,
-            
-            especialidad:$("#descripcion").val(),
-            centro_estudios: $("#institucion").val(),
-            pais: $("#pais_capacit").val(),
-            ciudad: $("#ciudad_capacit").val(),
-            fechainicio_capac: $("#fechainicio_capac").val(),
-            fechafin_capac: $("#fechafin_capac").val(),
-            nivel_capa : nivel_tratada,
-            cantidad_horas: $("#horaslectivas").val(),  
-                 
-         },
+         data: formData,
+         cache:false,
+         contentType: false,
+         processData: false,
          success:function(data){
             console.log(data);
              //alert("datos guardados CAPACITACION!! ");
@@ -295,12 +311,17 @@ function actualizar_capacitacion_data(transid){
                  tipoestudio = "Idioma";
              } 
              
+             var href_cap="#";
+             if(data[0].archivo != ""){
+                href_cap=data[0].archivo.replace("public/", '/storage/');
+             }
+
            var filahtml = 
            "<td>"+tipoestudio+"</td>"+
            "<td>"+data[0].especialidad+"</td>"+
            "<td>"+data[0].centro_estudios+"</td>"+
            "<td>"+data[0].cantidad_horas+"</td>"+
-           "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+           "<td><a href='"+href_cap+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_capac('tblcapac"+data[0].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data[0].id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
            "</td>";
@@ -376,38 +397,45 @@ function guardar_experiencia_data(){
         exp_especifica=0;
     }
     
+    var formData = new FormData();
+    formData.append('es_exp_gen',exp_general);
+    formData.append('es_exp_esp',exp_especifica);
+    formData.append('tipo_institucion', $("#tipo_entidad").val());
+    formData.append('tipo_experiencia',$("#tipo_experiencia").val());
+    formData.append('centro_laboral', $("#nombre_entidad").val());
+    formData.append('cargo_funcion', $("#cargo_exp").val());
+    formData.append('desc_cargo_funcion', $("#funciones_princi").val());
+    formData.append('fecha_inicio', $("#fecha_inicio_exp").val());
+    formData.append('fecha_fin' , $("#fecha_fin_exp").val());
+    formData.append('num_pag' , $("#num_pag").val());
+    formData.append('dias_exp_gen', diasexpgen);
+    formData.append('dias_exp_esp', diasexpesp);
+    formData.append('archivo_experiencia',$("#documento_exp").prop('files')[0]);
+   
+
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/guardarexperiencia",
         type: "POST" ,
         datatype: "json",
-        data: {
-           
-            es_exp_gen:exp_general,
-            es_exp_esp:exp_especifica,
-            tipo_institucion: $("#tipo_entidad").val(),
-            tipo_experiencia:$("#tipo_experiencia").val(),
-            centro_laboral: $("#nombre_entidad").val(),
-            cargo_funcion: $("#cargo_exp").val(),
-            desc_cargo_funcion: $("#funciones_princi").val(),
-            fecha_inicio: $("#fecha_inicio_exp").val(),
-            fecha_fin : $("#fecha_fin_exp").val(),
-            num_pag : $("#num_pag").val(),
-            dias_exp_gen: diasexpgen,
-            dias_exp_esp: diasexpesp,  
-                
-        },
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
         success:function(data){
-            //console.log(data);
-            //alert("datos guardados EXPERIENCIA!! ");
             
             marcadogeneral="";
             marcadoespecifico="";
            if(data.query.es_exp_gen==1){marcadogeneral="checked";}
            if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
 
-          var fila = "<tr id='tblexp"+data.query.id+"'>"+
-          "<td>"+data.query.tipo_experiencia+"</td>"+
+           var href_exp="#";
+           if(data.query.archivo != ""){
+            href_exp=data.query.archivo.replace("public/", '/storage/');
+           }
+
+            var fila = "<tr id='tblexp"+data.query.id+"'>"+
+            "<td>"+data.query.tipo_experiencia+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
@@ -416,7 +444,7 @@ function guardar_experiencia_data(){
             "<td>"+data.query.fecha_inicio+"</td>"+
             "<td>"+data.query.fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data.query.dias_exp_gen))+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "<button type='button' onclick=\"editar_expe('tblexp"+data.query.id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
             "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query.id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
@@ -493,28 +521,31 @@ function actualizar_experiencia_data(transid){
         exp_especifica=0;
     }
     
+    var formData = new FormData();
+    formData.append('id',id);
+    formData.append('es_exp_gen',exp_general);
+    formData.append('es_exp_esp',exp_especifica);
+    formData.append('tipo_institucion', $("#tipo_entidad").val());
+    formData.append('tipo_experiencia',$("#tipo_experiencia").val());
+    formData.append('centro_laboral', $("#nombre_entidad").val());
+    formData.append('cargo_funcion', $("#cargo_exp").val());
+    formData.append('desc_cargo_funcion', $("#funciones_princi").val());
+    formData.append('fecha_inicio', $("#fecha_inicio_exp").val());
+    formData.append('fecha_fin' , $("#fecha_fin_exp").val());
+    formData.append('num_pag' , $("#num_pag").val());
+    formData.append('dias_exp_gen', diasexpgen);
+    formData.append('dias_exp_esp', diasexpesp);
+    formData.append('archivo_experiencia',$("#documento_exp").prop('files')[0]);
+    
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/actualizarexperiencia",
         type: "POST" ,
         datatype: "json",
-        data: {
-            id: id,
-            es_exp_gen:exp_general,
-            es_exp_esp:exp_especifica,
-            tipo_institucion: $("#tipo_entidad").val(),
-            tipo_experiencia:$("#tipo_experiencia").val(),
-            centro_laboral: $("#nombre_entidad").val(),
-            cargo_funcion: $("#cargo_exp").val(),
-            desc_cargo_funcion: $("#funciones_princi").val(),
-            fecha_inicio: $("#fecha_inicio_exp").val(),
-            fecha_fin : $("#fecha_fin_exp").val(),
-            num_pag : $("#num_pag").val(),
-            dias_exp_gen: diasexpgen,
-            dias_exp_esp: diasexpesp,  
-            
-            
-        },
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
         success:function(data){
             //console.log(data);
             //alert(data);
@@ -522,7 +553,12 @@ function actualizar_experiencia_data(transid){
             var marcadoespecifico="";
            if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
            if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
-        
+            
+           var href_exp="#";
+           if(data.query[0].archivo != ""){
+            href_exp=data.query[0].archivo.replace("public/", '/storage/');
+           }
+
           var filahtml =
             "<td>"+data.query[0].tipo_experiencia+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
@@ -533,7 +569,7 @@ function actualizar_experiencia_data(transid){
             "<td>"+data.query[0].fecha_inicio+"</td>"+
             "<td>"+data.query[0].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data.query[0].dias_exp_gen))+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "   <button type='button' onclick=\"editar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
             "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
@@ -584,7 +620,6 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
 
  function guardar_formacion_data(){
      
-
     var especialidad_tratada= "";
     if($("#tipo_estudio").val()==2 || $("#tipo_estudio").val()==3){
         especialidad_tratada = "-";
@@ -592,31 +627,39 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
         especialidad_tratada= $("#especialidad").val();
     }
 
+    var formData = new FormData();
+    formData.append('grado_id',$("#tipo_estudio").val());
+    formData.append('fecha_inicio',$("#fecha_inicio").val());
+    formData.append('fecha_fin', $("#fecha_fin").val());
+    formData.append('fecha_expedicion',$("#fecha_exp").val());
+    formData.append('centro_estudios',$("#centro_estudio_form").val());
+    formData.append( 'especialidad',especialidad_tratada);
+    formData.append('ciudad',$("#ciudad_form").val());
+    formData.append('pais',$("#pais_form").val());
+    formData.append('archivo_formacion',$("#documento_formac").prop('files')[0]);
+   
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/guardarformacion",
             type: "POST" ,
             datatype: "json",
-            data: {
-               // user_id: $("#di2").val(),
-                grado_id: $("#tipo_estudio").val(),
-                fecha_inicio:$("#fecha_inicio").val(),
-                fecha_fin: $("#fecha_fin").val(),
-                fecha_expedicion: $("#fecha_exp").val(),
-                centro_estudios: $("#centro_estudio_form").val(),
-                especialidad: especialidad_tratada,
-                ciudad: $("#ciudad_form").val(),
-                pais: $("#pais_form").val(),
-                    
-            },
+            data: formData,
+            cache:false,
+            contentType: false,
+            processData: false,
             success:function(data){
+             
+             var href_form="#";
+            if(data.archivo != ""){
+                href_form=data.archivo.replace("public/", '/storage/');
+            }
                 
               var fila = "<tr id='tblform"+data.id+"'>"+
               "<td>"+data.nombre+"</td>"+
               "<td>"+data.especialidad+"</td>"+
               "<td>"+data.centro_estudios+"</td>"+
               "<td>"+data.fecha_expedicion+"</td>"+
-              "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+              "<td><a href='"+href_form+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
               "   <button type='button' onclick=\"editar_form('tblform"+data.id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
               "   <button type='button' onclick=\"eliminar('tblform"+data.id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
 
@@ -681,30 +724,31 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
          nivel_tratada = $("#nivel_capa").val();
      }
  
-     $.ajax({
+     var formData = new FormData();
+     formData.append('es_curso_espec', es_curso_espec);
+    formData.append('es_ofimatica', es_ofimatica);
+    formData.append('es_idioma', es_idioma);
+    formData.append('especialidad', $("#descripcion").val());
+    formData.append('centro_estudios', $("#institucion").val());
+    formData.append('pais', $("#pais_capacit").val());
+    formData.append('ciudad', $("#ciudad_capacit").val());
+    formData.append('fechainicio_capac', $("#fechainicio_capac").val());
+    formData.append('fechafin_capac', $("#fechafin_capac").val());
+    formData.append('nivel_capa', nivel_tratada);
+    formData.append('cantidad_horas', $("#horaslectivas").val());
+    formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
+    
+    $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
          url: "/postulante/guardarcapacitacion",
          type: "POST" ,
          datatype: "json",
-         data: {
-            // user_id: $("#di2").val(),
-            es_curso_espec: es_curso_espec,
-            es_ofimatica: es_ofimatica,
-            es_idioma: es_idioma,
-            
-            especialidad:$("#descripcion").val(),
-            centro_estudios: $("#institucion").val(),
-            pais: $("#pais_capacit").val(),
-            ciudad: $("#ciudad_capacit").val(),
-            fechainicio_capac: $("#fechainicio_capac").val(),
-            fechafin_capac: $("#fechafin_capac").val(),
-            nivel_capa : nivel_tratada,
-            cantidad_horas: $("#horaslectivas").val(),  
-                 
-         },
+         data: formData,
+         cache:false,
+        contentType: false,
+        processData: false,
          success:function(data){
-            // console.log(data);
-             //alert("datos guardados CAPACITACION!! ");
+            
              var tipoestudio="";
              if(data.es_curso_espec==1){
                  tipoestudio = "Curso/Especialización";
@@ -716,12 +760,17 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
                  tipoestudio = "Idioma";
              } 
              
+             var href_form="#";
+             if(data.archivo != ""){
+                 href_form=data.archivo.replace("public/", '/storage/');
+             }
+
            var fila = "<tr id='tblcapac"+data.id+"'>"+
            "<td>"+tipoestudio+"</td>"+
            "<td>"+data.especialidad+"</td>"+
            "<td>"+data.centro_estudios+"</td>"+
            "<td>"+data.cantidad_horas+"</td>"+
-           "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+           "<td><a href='"+href_form+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_capac('tblcapac"+data.id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
            "</td>"+

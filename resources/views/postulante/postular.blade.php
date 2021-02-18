@@ -79,8 +79,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ruc"> RUC : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value=""  id="ruc" name="ruc"> </div>
+                                    <label for="ruc"> RUC (opcional):  </label>
+                                    <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -103,7 +103,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telefono_fijo"> Telefono fijo (opcional) : <span class="text-danger">*</span> </label>
+                                    <label for="telefono_fijo"> Telefono fijo (opcional) : </label>
                                     <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad"  />
+                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
                                 </div>   
                             </div>                               
                         </div>
@@ -161,7 +161,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file"  />
+                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
                                 </div>   
                             </div>
                                                 
@@ -183,7 +183,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" />
+                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
                                 </div>   
                             </div>
                                                 

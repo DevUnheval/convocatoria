@@ -104,8 +104,8 @@
                                       <div class="row">
                                         <div class="col-md-8">
                                             <div class="form-group">
-                                                <label for="documento">Documento sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                                <label for="documento_exp">Documento sustento: <span class="danger">*</span> </label>
+                                                <input type="file" class="form-control required" id="documento_exp" name="documento_exp" > 
                                             </div>
                                         </div>
                                         <div class="col-md-4">

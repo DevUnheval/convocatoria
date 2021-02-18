@@ -24,15 +24,20 @@ $(document).ready(function() {
     
     //___________________________llenar tabla formacion académica__________________
     var tabla="";
+    
     $.get('/postulante/formacion/data1',function (data){
         for (var i = 0; i < data.length; i++) {
             
+            var href_form_ll="#";
+            if(data[i].archivo != null){
+                href_form_ll = data[i].archivo.replace('public/','/storage/');
+            }
             tabla += "<tr id='tblform"+data[i].id+"'>"+
             "<td>"+data[i].nombre+"</td>"+
             "<td>"+data[i].especialidad+"</td>"+
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_form_ll+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_form('tblform"+data[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminar('tblform"+data[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
@@ -49,6 +54,12 @@ $(document).ready(function() {
     $.get('/postulante/capacitaciones/data1',function (data2){
        
         for (var i = 0; i < data2.length; i++) {
+
+            var href_form_ca="#";
+            if(data2[i].archivo != null){
+                href_form_ca = data2[i].archivo.replace('public/','/storage/');
+            }
+
             tipoestudio = "";
            // totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
 
@@ -66,7 +77,7 @@ $(document).ready(function() {
             "<td>"+data2[i].especialidad+"</td>"+
             "<td>"+data2[i].centro_estudios+"</td>"+
             "<td>"+data2[i].cantidad_horas+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_capac('tblcapac"+data2[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
@@ -92,13 +103,15 @@ $(document).ready(function() {
         datatype: "json",
         data: {idproceso: $('#datospostulante').data('id')},
         success:function(data3){
-            console.log(data3);
-            var marcadogeneral="";
+            //console.log(data3);
+        var marcadogeneral="";
         var marcadoespecifico="";
         var totaldias_gen=0;
         var totaldias_esp=0;
         for (var i = 0; i < data3.query.length; i++) {
             
+            
+
             totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
             totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
             /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
@@ -122,6 +135,10 @@ $(document).ready(function() {
             if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
             
+            var href_exp_ll="#";
+           if(data3.query[i].archivo != ""){
+            href_exp_ll=data3.query[i].archivo.replace("public/", '/storage/');
+           }
            
             tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
             "<td>"+data3.query[i].tipo_experiencia+"</td>"+
@@ -133,7 +150,7 @@ $(document).ready(function() {
             "<td>"+data3.query[i].fecha_inicio+"</td>"+
             "<td>"+data3.query[i].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data3.query[i].dias_exp_gen))+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_exp_ll+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
             "    <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
@@ -279,6 +296,8 @@ function nueva_forma(){
     $("#header-formacion").addClass("bg-success");
     $("#header-formacion").removeClass("bg-warning");
     $('#div_btn_formacion').html(htmlbotones);
+    $("#documento_formac").prop('required',true);
+    $("#documento_formac").val('');
    
     $("#modal_nueva_formacion").modal("show");
     
@@ -303,6 +322,8 @@ function nueva_forma(){
     $("#header-formacion").removeClass("bg-success");
     $("#header-formacion").addClass("bg-warning");
     $('#div_btn_formacion').html(htmlbotones);
+    $("#documento_formac").prop('required',false);
+    $("#documento_formac").val('');
     
     $("#modal_nueva_formacion").modal("show");
       var id=transid.substring(7);
@@ -344,6 +365,8 @@ function nueva_capacitacion(){
 $("#header-capacitacion").addClass("bg-success");
 $("#header-capacitacion").removeClass("bg-warning");
 $('#div_btn_capacitacion').html(htmlbotones);
+$("#documento_capa").prop('required',true);
+$("#documento_capa").val('');
 
 $("#modal_nuevo").modal("show");
     
@@ -369,6 +392,8 @@ function editar_capac(transid){
 $("#header-capacitacion").removeClass("bg-success");
 $("#header-capacitacion").addClass("bg-warning");
 $('#div_btn_capacitacion').html(htmlbotones);
+$("#documento_capa").prop('required',false);
+$("#documento_capa").val('');
 
 $("#modal_nuevo").modal("show");
   var id=transid.substring(8);
@@ -485,6 +510,8 @@ function nueva_expe(){
     $("#header-experiencia").addClass("bg-success");
     $("#header-experiencia").removeClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
+    $("#documento_exp").prop('required',true);
+    $("#documento_exp").val('');
    
     $("#modal_nueva_experiencia").modal("show");
     
@@ -509,6 +536,8 @@ function nueva_expe(){
     $("#header-experiencia").removeClass("bg-success");
     $("#header-experiencia").addClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
+    $("#documento_exp").prop('required',false);
+    $("#documento_exp").val('');
     
     $("#modal_nueva_experiencia").modal("show");
       var id=transid.substring(6);
@@ -558,8 +587,8 @@ function guardardatos(){
     var depor=0;
     var valor;
     
-    if($("#fecha_nacimiento").val()=="" || $("#ruc").val()=="" || $("#ubigeodni").val()=="" || 
-    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || $("#telefono_fijo").val()=="" || 
+    if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
+    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || 
     $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
         arrayExp.estado = false;
         arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
@@ -579,33 +608,54 @@ function guardardatos(){
         return arrayExp;
     }   
 
+    if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente su discapacidad";
+        return arrayExp;
+    }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
+        return arrayExp;
+    }else if($("#si_deportista").is(':checked') && $('#file_deportista').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
+        return arrayExp;
+    }   
+
     if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
     if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
     if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
+   
+    var formData = new FormData();
+    
+    formData.append('archivo_discapacidad',$('#file_discapacidad').prop('files')[0]);
+    formData.append('archivo_ffaa',$('#file_ffaa').prop('files')[0]);
+    formData.append('archivo_deport',$('#file_deportista').prop('files')[0]);
+    formData.append('fechanac',$("#fecha_nacimiento").val());
+    formData.append('ruc',$("#ruc").val());
+    formData.append('ubigeodni',$("#ubigeodni").val());
+    formData.append('nacionalidad',$("#nacionalidad").val());
+    formData.append('celular',$("#telefono_celular").val());
+    formData.append('telfijo',$("#telefono_fijo").val());
+    formData.append('domicilio',$("#domicilio").val());
+    formData.append('ubigeo_domicilio',$("#ubigeo_domicilio").val());
+    formData.append('dicapacidad',discap);
+    formData.append('ffaa',ffaa);
+    formData.append('deportista',depor);
+
    
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizardatos",
             type: "POST" ,
             datatype: "json",
-            data: {
-               // id: $("#di").val(),
-                fechanac: $("#fecha_nacimiento").val(),
-                ruc:$("#ruc").val(),
-                ubigeodni: $("#ubigeodni").val(),
-                nacionalidad: $("#nacionalidad").val(),
-                celular: $("#telefono_celular").val(),
-                telfijo: $("#telefono_fijo").val(),
-                domicilio: $("#domicilio").val(),
-                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
-               // file_discapacidad : $('#file_discapacidad').val(),////////////////////
-                dicapacidad: discap,
-                ffaa:ffaa,
-                deportista: depor
-
-            },
+            cache:false,
+            contentType: false,
+            processData: false,
+            data:formData, 
+            
             success:function(data){
-              /// console.log("correcto");
+               console.log("success= ",data);
             },
             error: function(data){
                 console.log("error");

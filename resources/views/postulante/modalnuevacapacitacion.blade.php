@@ -96,7 +96,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="documento_capa">Documento de sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control" id="documento_capa" name="documento_capa" > 
+                                                <input type="file" class="form-control" id="documento_capa" name="documento_capa" required> 
                                             </div>
                                         </div>
                                       </div>

@@ -84,14 +84,11 @@ class PostulanteController extends Controller
 
     public function actualizar_o_registrar(Request $data){
         
-        //$datap =$data->nacionalidad;
-        //return response()->json(['dataaa'=>$data->ruc]);
-        //$datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
-        //->select("*")
-        //->get();
         if(DatosUser::where('user_id',auth()->user()->id)->exists()){
         
           $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->get();
+
+                  
         $datosuser = DatosUser::find($idDatosUser[0]->id);
         $datosuser->telefono_celular = $data->celular;
         $datosuser->telefono_fijo = $data->telfijo;
@@ -104,11 +101,34 @@ class PostulanteController extends Controller
         $datosuser->es_deportista = $data->deportista;
         $datosuser->nacionalidad = $data->nacionalidad;
         $datosuser->fecha_nacimiento = $data->fechanac;
-       // $datosuser->archivo_disc = $data->archivo_disc;
-
+       
+        //$name= $data->file('archivo_bases')->store('public/procesos/bases');
+        //archivo discapacidad
         $datosuser->archivo_dni = "";
         $datosuser->archivo_dni_tipo = "";
 
+        if($data->file('archivo_discapacidad')){
+            $p= DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($p->archivo_disc); //eliminar archivo ya cargado
+            $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
+            $datosuser->archivo_disc_tipo = "local";
+            }else{$datosuser->archivo_disc = NULL; $datosuser->archivo_disc_tipo = NULL; }
+            //archivo discapacidad
+            if($data->file('archivo_ffaa')){
+                $q= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($q->archivo_ffaa); //eliminar archivo ya cargado
+                $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
+                $datosuser->archivo_ffaa_tipo = "local";
+                }else{$datosuser->archivo_ffaa = NULL; $datosuser->archivo_ffaa_tipo = NULL; }
+            //archivo discapacidad
+            if($data->file('archivo_deport')){
+                $r= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
+                $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
+                $datosuser->archivo_deport_tipo = "local";
+                }else{$datosuser->archivo_deport = NULL; $datosuser->archivo_deport_tipo = NULL; }
+        
+        
         $datosuser->save();
             
            
@@ -130,18 +150,35 @@ class PostulanteController extends Controller
         $datosuserno->archivo_dni = "";
         $datosuserno->archivo_dni_tipo = "";
 
+        //archivo discapacidad
+        if($data->file('archivo_discapacidad')){
+        $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
+        $datosuserno->archivo_disc_tipo = "local";
+        }else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
+        //archivo discapacidad
+        if($data->file('archivo_ffaa')){
+            $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
+            $datosuserno->archivo_ffaa_tipo = "local";
+            }else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
+        //archivo discapacidad
+        if($data->file('archivo_deport')){
+            $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
+            $datosuserno->archivo_deport_tipo = "local";
+            }else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
+                
+
         $datosuserno->save();
             
         }
 
-       
+   
         return response()->json(['mensaje'=>"Datos guardados con exito!!"]);
 
     }
    
     public function formacion_data1(){
         $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
-        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->select("formacion_users.archivo","formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
         ->where("formacion_users.user_id",auth()->user()->id)->get();
         //$query = FormacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
         return $query;
@@ -161,9 +198,6 @@ class PostulanteController extends Controller
 
     public function guardarformacion(Request $data){
         
-        //$datap =$data->nacionalidad;
-        //return response()->json(['dataaa'=>$data->ruc]);
-        
        $fu = new FormacionUser;
         
         $fu->user_id = auth()->user()->id;
@@ -175,12 +209,14 @@ class PostulanteController extends Controller
         $fu->especialidad = $data->especialidad;
         $fu->ciudad = $data->ciudad;
         $fu->pais = $data->pais;
-        $fu-> archivo ="null";
-        $fu->archivo_tipo = "null";
+        
+        $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/arch_formacion');
+        $fu->archivo_tipo = "local";
+        
         $fu->save();
     
         $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
-        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre","formacion_users.archivo")
         ->where("formacion_users.user_id",auth()->user()->id)->get()->last();
         //$query = FormacionUser::where('user_id',auth()->user()->id)->get()->last();
         return $query;
@@ -189,6 +225,9 @@ class PostulanteController extends Controller
 
     public function eliminarformacion(Request $data){
        
+        $q= FormacionUser::find($data->id);
+        Storage::delete($q->archivo); 
+
         $form = FormacionUser::find($data->id);
         $form->delete();
         return "eliminado";
@@ -213,8 +252,8 @@ class PostulanteController extends Controller
         $cu->pais = $data->pais;
         $cu->fecha_inicio = $data->fechainicio_capac;
         $cu->fecha_fin = $data->fechafin_capac;
-        $cu->archivo ="null";
-        $cu->archivo_tipo = "null";
+        $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/arch_capacitacion');
+        $cu->archivo_tipo = "local";
         $cu->cantidad_horas = $data->cantidad_horas;
         $cu->nivel = $data->nivel_capa;
         $cu->save();
@@ -225,6 +264,9 @@ class PostulanteController extends Controller
     }
 
     public function eliminarcapacitacion(Request $data){
+        $q= CapacitacionUser::find($data->id);
+        Storage::delete($q->archivo); 
+        
         $query = CapacitacionUser::where('id',$data->id)->get();
         $Capac = CapacitacionUser::find($data->id);
         $Capac->delete();
@@ -250,6 +292,9 @@ class PostulanteController extends Controller
         $el->num_pag = $data->num_pag;
         $el->dias_exp_gen =$data->dias_exp_gen;
         $el->dias_exp_esp = $data->dias_exp_esp;
+
+        $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/arch_exper');
+        $el->archivo_tipo = "local";
         
         $el->save();
     
@@ -267,6 +312,9 @@ class PostulanteController extends Controller
     }
 
     public function eliminarexperiencia(Request $data){
+        
+        $q= ExperienciaLabUser::find($data->id);
+        Storage::delete($q->archivo);   
         
         $Exper = ExperienciaLabUser::find($data->id);
         $Exper->delete();
@@ -293,8 +341,18 @@ class PostulanteController extends Controller
 
     public function actualizar_formac_data(Request $data){
         
+        //primero eliminar el archivo de formacion_academica
+       
+
         $fu = FormacionUser::find($data->id); 
-                
+           
+        if($data->file('archivo_formacion')){
+            $q= FormacionUser::find($data->id);
+            Storage::delete($q->archivo); 
+            $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/arch_formacion');
+            $fu->archivo_tipo = "local";
+        }
+
         $fu->user_id = auth()->user()->id;
         $fu->grado_id = $data->grado_id;
         $fu->fecha_inicio = $data->fecha_inicio;
@@ -304,13 +362,12 @@ class PostulanteController extends Controller
         $fu->especialidad = $data->especialidad;
         $fu->ciudad = $data->ciudad;
         $fu->pais = $data->pais;
-        $fu-> archivo ="null";
-        $fu->archivo_tipo = "null";
+       
         $fu->save();
 
 
         $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
-        ->select("formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->select("formacion_users.archivo","formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
         ->where("formacion_users.id",$data->id)->get();
         //$query = FormacionUser::where('id',$data->id)->get();
         return $query;
@@ -320,7 +377,14 @@ class PostulanteController extends Controller
     public function actualizarcapacitacion_data(Request $data){
         
         $cu = CapacitacionUser::find($data->id); 
-                
+
+        if($data->file('archivo_capacitacion')){
+            $q= CapacitacionUser::find($data->id);
+            Storage::delete($q->archivo); //eliminar archivo ya cargado
+            $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/arch_capacitacion');
+            $cu->archivo_tipo = "local";
+        }
+                        
         $cu->user_id = auth()->user()->id;
         $cu->es_curso_espec = $data->es_curso_espec;
         $cu->es_ofimatica = $data->es_ofimatica;
@@ -332,10 +396,9 @@ class PostulanteController extends Controller
         $cu->pais = $data->pais;
         $cu->fecha_inicio = $data->fechainicio_capac;
         $cu->fecha_fin = $data->fechafin_capac;
-        $cu->archivo ="null";
-        $cu->archivo_tipo = "null";
         $cu->cantidad_horas = $data->cantidad_horas;
         $cu->nivel = $data->nivel_capa;
+
         $cu->save();
     
         $query = CapacitacionUser::where('id',$data->id)->get();
@@ -353,7 +416,13 @@ class PostulanteController extends Controller
         
         $Exper = ExperienciaLabUser::find($data->id);
         
-        //$Exper->user_id = $data->user_id_exp;
+        if($data->file('archivo_experiencia')){
+            $q= ExperienciaLabUser::find($data->id);
+            Storage::delete($q->archivo); //eliminar archivo ya cargado
+            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/arch_exper');
+            $Exper->archivo_tipo = "local";
+        }
+
         $Exper->es_exp_gen = $data->es_exp_gen;
         $Exper->es_exp_esp = $data->es_exp_esp;
         $Exper->centro_laboral = $data->centro_laboral;
