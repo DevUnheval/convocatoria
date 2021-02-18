@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  
+          
+
    //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
     if(data.valor=="0"){
@@ -226,11 +227,58 @@ $(document).ready(function() {
            
         }, 
         onFinishing: function(event, currentIndex) {
-            alert('estoy en onFinishing');
-            return form.validate().settings.ignore = ":disabled", form.valid()
+            var msj_error="";
+            var dj = "";
+            if($('input:radio[name=g1]:checked').val()=="1"){
+                dj = "'SI' en el inciso 1";
+            } else if( $('input:radio[name=g2]:checked').val()=="1"){
+                dj = "'SI' en el inciso 2";
+            } else if( $('input:radio[name=g3]:checked').val()=="1"){
+                dj = "'SI' en el inciso 3";
+            } else if( $('input:radio[name=g4]:checked').val()=="1"){
+                dj = "'SI' en el inciso 4";
+            } else if( $('input:radio[name=g5]:checked').val()=="1"){
+                dj = "'SI' en el inciso 5";
+            } else if( $('input:radio[name=g6]:checked').val()=="1"){
+                dj = "'SI' en el inciso 6";
+            } else if( $('input:radio[name=g7]:checked').val()=="1"){
+                dj = "'SI' en el inciso 7";
+            } else if( $('input:radio[name=g8]:checked').val()=="1"){
+                dj = "'SI' en el inciso 8";
+            } else if( $('input:radio[name=g9]:checked').val()=="0"){
+                dj = "'NO' en el inciso 9";
+            }
+
+            msj_error = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
+            
+            if(dj == ""){
+                if(!$('#check_dj').prop('checked')){
+                    msj_error = "Debe de marcar que está deacerdo con el 'PRINCIPIO DE VERACIDAD";
+                    
+                    Swal.fire({
+                        type: 'warning',
+                        title: "¡INFORMACIÓN!",
+                        text: msj_error,
+                        timer: null
+                    })
+                    return false;
+                }else{
+                    return form.validate().settings.ignore = ":disabled", form.valid();
+                }
+                
+            }else {
+                Swal.fire({
+                    type: 'warning',
+                    title: "¡NO PUEDE POSTULAR!",
+                    text: msj_error,
+                    timer: null
+                })
+                return false;
+               }
+            
         },
         onFinished: function(event, currentIndex) {
-            alert('estoy en boto final');
+            alert('usted esta postulando a la plaza X');
         }, 
         
     }), $(".validation-wizard").validate({
@@ -771,4 +819,10 @@ function cumple_formacion(id){
   return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
  }
 
- 
+ function postular(){
+     if($('.g1').val()){
+        alert("estoy en si");
+     }else{
+         alert("estoy en no");
+     }
+ }

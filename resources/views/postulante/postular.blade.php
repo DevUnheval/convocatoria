@@ -420,18 +420,18 @@
                     </div> 
                     <div class="row card-body">
                         <div class="col-md-2">
-                            <input name="g4" value="true"  class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
+                            <input name="g4"   class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
                             <label for="si_p4">Si</label>
-                            <input name="g4" value="false" class=" g4 material-inputs required" value="0" type="radio" id="no_p4"  />
+                            <input name="g4"  class=" g4 material-inputs required" value="0" type="radio" id="no_p4"  />
                             <label for="no_p4">No</label>  
                         </div>
                         <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
                     </div> 
                     <div class="row card-body bg-light">
                         <div class="col-md-2 ">
-                            <input name="g5" value="true"  class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
+                            <input name="g5"   class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
                             <label for="si_p5">Si</label>
-                            <input name="g5" value="false" class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
+                            <input name="g5"  class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
                             <label for="no_p5">No</label>  
                         </div>
                             
@@ -440,43 +440,47 @@
                     </div>
                     <div class="row card-body">
                         <div class="col-md-2 ">
-                            <input name="g6" value="true"  class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
+                            <input name="g6"   class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
                             <label for="si_p6">Si</label>
-                            <input name="g6" value="false" class=" g6 material-inputs required" value="0" type="radio" id="no_p6"  />
+                            <input name="g6"  class=" g6 material-inputs required" value="0" type="radio" id="no_p6"  />
                             <label for="no_p6">No</label>  
                         </div>
                         <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
                     </div>  
                     <div class="row card-body bg-light">
                         <div class="col-md-2 ">
-                            <input name="g7" value="true"  class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
+                            <input name="g7"   class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
                             <label for="si_p7">Si</label>
-                            <input name="g7" value="false" class=" g7 material-inputs required" value="0" type="radio" id="no_p7"  />
+                            <input name="g7"  class=" g7 material-inputs required" value="0" type="radio" id="no_p7"  />
                             <label for="no_p7">No</label>  
                         </div>
                         <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
                     </div>
                     <div class="row card-body">
                         <div class="col-md-2 ">
-                            <input name="g8" value="true"  class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
+                            <input name="g8"   class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
                             <label for="si_p8">Si</label>
-                            <input name="g8" value="false" class=" g8 material-inputs required" value="0" type="radio" id="no_p8"  />
+                            <input name="g8"  class=" g8 material-inputs required" value="0" type="radio" id="no_p8"  />
                             <label for="no_p8">No</label>  
                         </div>
                         <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
                     </div>
                     <div class="row card-body bg-light">
                         <div class="col-md-2">
-                            <input name="g9" value="true"  class=" g9 material-inputs required"  value="1" type="radio" id="si_p9"  />
+                            <input name="g9"   class=" g9 material-inputs required"  value="1" type="radio" id="si_p9"  />
                             <label for="si_p9">Si</label>
-                            <input name="g9" value="false" class=" g9 material-inputs required" value="0" type="radio" id="no_p9"  />
+                            <input name="g9" class=" g9 material-inputs required" value="0" type="radio" id="no_p9"  />
                             <label for="no_p9">No</label>  
                         </div>
                         <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
                     </div> 
                     <br>
-                    <div class="row card-body border alert alert-success" >          
-                        <div class="col-md-12">
+                    <div id="veracidad" class="row card-body border alert alert-success" >          
+                        <div class="col-md-1 text-center" >
+                            <input style="width: 20px; height: 20px" id="check_dj" name="check_dj" value="1" type="checkbox" />
+                        </div> 
+                        
+                        <div class="col-md-11">
                             <h5>Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</h5>  
                         </div>                             
                     </div>                     
