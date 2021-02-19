@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  
+          
+
    //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
     if(data.valor=="0"){
@@ -24,15 +25,20 @@ $(document).ready(function() {
     
     //___________________________llenar tabla formacion académica__________________
     var tabla="";
+    
     $.get('/postulante/formacion/data1',function (data){
         for (var i = 0; i < data.length; i++) {
             
+            var href_form_ll="#";
+            if(data[i].archivo != null){
+                href_form_ll = data[i].archivo.replace('public/','/storage/');
+            }
             tabla += "<tr id='tblform"+data[i].id+"'>"+
             "<td>"+data[i].nombre+"</td>"+
             "<td>"+data[i].especialidad+"</td>"+
             "<td>"+data[i].centro_estudios+"</td>"+
             "<td>"+data[i].fecha_expedicion+"</td>"+
-            "<td><button class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></button>"+
+            "<td><a href='"+href_form_ll+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_form('tblform"+data[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminar('tblform"+data[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
@@ -49,8 +55,14 @@ $(document).ready(function() {
     $.get('/postulante/capacitaciones/data1',function (data2){
        
         for (var i = 0; i < data2.length; i++) {
+
+            var href_form_ca="#";
+            if(data2[i].archivo != null){
+                href_form_ca = data2[i].archivo.replace('public/','/storage/');
+            }
+
             tipoestudio = "";
-            totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
+           // totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
 
             if(data2[i].es_curso_espec==1){
                 tipoestudio = "Curso/Especialización";
@@ -66,14 +78,15 @@ $(document).ready(function() {
             "<td>"+data2[i].especialidad+"</td>"+
             "<td>"+data2[i].centro_estudios+"</td>"+
             "<td>"+data2[i].cantidad_horas+"</td>"+
-            "<td><button class='btn btn-info' type='button'>ver</button>"+
+            "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+            "    <button type='button' onclick=\"editar_capac('tblcapac"+data2[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
              "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
     
     $('#zeroconfig2_body').append(tabla2);
-    $('#total_horas').val(totalhoras);
+    //$('#total_horas').val(totalhoras);
         
     
     
@@ -89,17 +102,17 @@ $(document).ready(function() {
         url: "/postulante/experiencias/data1/",
         type: "GET" ,
         datatype: "json",
-        data: {
-            idproceso: getParameterByName('idproceso'),
-            },
+        data: {idproceso: $('#datospostulante').data('id')},
         success:function(data3){
-            console.log(data3);
-            var marcadogeneral="";
+            //console.log(data3);
+        var marcadogeneral="";
         var marcadoespecifico="";
         var totaldias_gen=0;
         var totaldias_esp=0;
         for (var i = 0; i < data3.query.length; i++) {
             
+            
+
             totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
             totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
             /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
@@ -123,6 +136,10 @@ $(document).ready(function() {
             if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
             
+            var href_exp_ll="#";
+           if(data3.query[i].archivo != ""){
+            href_exp_ll=data3.query[i].archivo.replace("public/", '/storage/');
+           }
            
             tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
             "<td>"+data3.query[i].tipo_experiencia+"</td>"+
@@ -134,15 +151,17 @@ $(document).ready(function() {
             "<td>"+data3.query[i].fecha_inicio+"</td>"+
             "<td>"+data3.query[i].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data3.query[i].dias_exp_gen))+"</td>"+
-            "<td><button class='btn btn-info' type='button'>ver</button></td>"+
-            "<td><button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
-            "   <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "<td><a href='"+href_exp_ll+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+            "    <button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+            "    <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
         }
     
     $('#zeroconfig3_body').append(tabla3);
-
+    
+    $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_gen)));
+    $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_esp)));
     
     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
@@ -159,7 +178,7 @@ $(document).ready(function() {
     });
         
 
-
+    //__________________________________________________________________________________________
     //_________________________INICIO TAB WIZARD________________________________________________
     var form = $(".validation-wizard").show();
     
@@ -182,7 +201,7 @@ $(document).ready(function() {
                    
           switch(currentIndex){
                 case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
-                case 1: validar_paso = cumple_formacion(); break; 
+                case 1: validar_paso = cumple_formacion($('#datospostulante').data('id')); break; 
                 case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
                 case 3: validar_paso = cumple_exp_genyesp(); break;
             }
@@ -208,11 +227,107 @@ $(document).ready(function() {
            
         }, 
         onFinishing: function(event, currentIndex) {
-            alert('estoy en onFinishing');
-            return form.validate().settings.ignore = ":disabled", form.valid()
+            var msj_error="";
+            var dj = "";
+            if($('input:radio[name=g1]:checked').val()=="1"){
+                dj = "'SI' en el inciso 1";
+            } else if( $('input:radio[name=g2]:checked').val()=="1"){
+                dj = "'SI' en el inciso 2";
+            } else if( $('input:radio[name=g3]:checked').val()=="1"){
+                dj = "'SI' en el inciso 3";
+            } else if( $('input:radio[name=g4]:checked').val()=="1"){
+                dj = "'SI' en el inciso 4";
+            } else if( $('input:radio[name=g5]:checked').val()=="1"){
+                dj = "'SI' en el inciso 5";
+            } else if( $('input:radio[name=g6]:checked').val()=="1"){
+                dj = "'SI' en el inciso 6";
+            } else if( $('input:radio[name=g7]:checked').val()=="1"){
+                dj = "'SI' en el inciso 7";
+            } else if( $('input:radio[name=g8]:checked').val()=="1"){
+                dj = "'SI' en el inciso 8";
+            } else if( $('input:radio[name=g9]:checked').val()=="0"){
+                dj = "'NO' en el inciso 9";
+            }
+
+            msj_error = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
+            
+            if(dj == ""){
+                if(!$('#check_dj').prop('checked')){
+                    msj_error = "Debe de marcar que está deacerdo con el 'PRINCIPIO DE VERACIDAD";
+                    
+                    Swal.fire({
+                        type: 'warning',
+                        title: "¡INFORMACIÓN!",
+                        text: msj_error,
+                        timer: null
+                    })
+                    return false;
+                }else{
+                    return form.validate().settings.ignore = ":disabled", form.valid();
+                }
+                
+            }else {
+                Swal.fire({
+                    type: 'warning',
+                    title: "¡NO PUEDE POSTULAR!",
+                    text: msj_error,
+                    timer: null
+                })
+                return false;
+               }
+            
         },
         onFinished: function(event, currentIndex) {
-            alert('estoy en boto final');
+
+           Swal.fire({
+                title: '¿Está seguro de registrar su postulación?',
+                text: "Recuerde que una vez registrado no podrá modificar ninguna información",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#d33',  
+                cancelButtonText: 'No, cerrar',              
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Si, registrar'
+            }).then((result) => {
+               
+
+                if(result.value){
+
+                    $.ajax({
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        url: "/postulante/registrofinal",
+                        type: "POST",
+                        datatype: "json",
+                        data: { 
+                            idproceso:$('#datospostulante').data('id'),
+                            dj1:$('input:radio[name=g1]:checked').val(),
+                            dj2:$('input:radio[name=g2]:checked').val(),
+                            dj3:$('input:radio[name=g3]:checked').val(),
+                            dj4:$('input:radio[name=g4]:checked').val(),
+                            dj5:$('input:radio[name=g5]:checked').val(),
+                            dj6:$('input:radio[name=g6]:checked').val(),
+                            dj7:$('input:radio[name=g7]:checked').val(),
+                            dj8:$('input:radio[name=g8]:checked').val(),
+                            dj9:$('input:radio[name=g9]:checked').val()
+                         },
+                        success:function(data){
+                            console.log(data);
+                        var url = "/postulante/registro/"+$('#datospostulante').data('id');
+                        $(location).attr('href',url);
+                        },
+                        error: function(data){
+                            alert("error!!"); }
+                
+                    });
+                   
+                   
+                   
+                    
+                }
+
+            })
+
+            
         }, 
         
     }), $(".validation-wizard").validate({
@@ -240,7 +355,7 @@ $(document).ready(function() {
 
 })
 
- 
+ //______________________________________________________________________________________________________________
 //________________________________FIN DE TAB WIZARD_____________________________________________________________-
 
 //____________________________funcion eliminar formacion academica_____________
@@ -278,6 +393,8 @@ function nueva_forma(){
     $("#header-formacion").addClass("bg-success");
     $("#header-formacion").removeClass("bg-warning");
     $('#div_btn_formacion').html(htmlbotones);
+    $("#documento_formac").prop('required',true);
+    $("#documento_formac").val('');
    
     $("#modal_nueva_formacion").modal("show");
     
@@ -302,6 +419,8 @@ function nueva_forma(){
     $("#header-formacion").removeClass("bg-success");
     $("#header-formacion").addClass("bg-warning");
     $('#div_btn_formacion').html(htmlbotones);
+    $("#documento_formac").prop('required',false);
+    $("#documento_formac").val('');
     
     $("#modal_nueva_formacion").modal("show");
       var id=transid.substring(7);
@@ -336,32 +455,89 @@ function nueva_forma(){
 
     });
     }
- //_________________actualizar formacion académica__________________
- function actualizar_formac(transid){
-     alert('estas apunto de actualizar la formacion');
- }
-/*
-function guardar_formac(){
-    var forms = document.getElementsByClassName('needs-validation');
-    // Loop over them and prevent submission
-    var validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-                form.classList.add('was-validated');
-                
-            }else{
-                event.preventDefault();
-                guardar_formacion_acad();
-            }
+ 
+//_______________nueva capacitacion - abrir modal y limpiar campos___________________________________________
+function nueva_capacitacion(){   
+    var htmlbotones="<button onclick=\"guardar_capacitacion();\" class=\"btn btn-success waves-effect waves-light\" type=\"button\">Guardar</button>";
+$("#header-capacitacion").addClass("bg-success");
+$("#header-capacitacion").removeClass("bg-warning");
+$('#div_btn_capacitacion').html(htmlbotones);
+$("#documento_capa").prop('required',true);
+$("#documento_capa").val('');
+
+$("#modal_nuevo").modal("show");
+    
+$("#tipo_capacitacion option[value='']").prop('selected',true);
+$("#descripcion").val("");
+$("#institucion").val("");
+$("#pais_capacit").val("");
+$("#ciudad_capacit").val("");
+$("#fechainicio_capac").val("");
+$("#fechafin_capac").val("");
+$("#horaslectivas").val("");
+$('#nivel_capa').val("");
         
-            
-        }, false);
-    });
+    
+ }
 
 
-}*/
+
+//_______________________funcion editar capacitacion abrir modal y recuperar datos de la fila selccionada___________
+
+function editar_capac(transid){
+    var htmlbotones="<button onclick=\"actualizar_capac('"+transid+"');\" class=\"btn btn-warning waves-effect waves-light\" type=\"button\">Guardar</button>";
+$("#header-capacitacion").removeClass("bg-success");
+$("#header-capacitacion").addClass("bg-warning");
+$('#div_btn_capacitacion').html(htmlbotones);
+$("#documento_capa").prop('required',false);
+$("#documento_capa").val('');
+
+$("#modal_nuevo").modal("show");
+  var id=transid.substring(8);
+  
+$.ajax({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+    url: "/postulante/editarcapacitacion",
+    type: "POST" ,
+    datatype: "json",
+    data: { id:id },
+    success:function(data){
+      var tipocap_sel=0;
+        if(data[0].es_curso_espec==1){
+            tipocap_sel = 1;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
+        if(data[0].es_ofimatica==1){
+            tipocap_sel = 2;
+            $('#nivel_capa').prop('disabled',false);
+            $('#nivel_capa').prop('required',true);
+            $('#nivel_capa').val(data[0].nivel);
+        }
+        if(data[0].es_idioma==1){
+            tipocap_sel = 3;
+            $('#nivel_capa').prop('disabled',false);
+            $('#nivel_capa').prop('required',true);
+            $('#nivel_capa').val(data[0].nivel);
+        }
+
+        $("#tipo_capacitacion option[value='"+tipocap_sel+"']").prop('selected',true);
+        $("#descripcion").val(data[0].especialidad);
+        $("#institucion").val(data[0].centro_estudios);
+        $("#pais_capacit").val(data[0].pais);
+        $("#ciudad_capacit").val(data[0].ciudad);
+        $("#fechainicio_capac").val(data[0].fecha_inicio);
+        $("#fechafin_capac").val(data[0].fecha_fin);
+        $("#horaslectivas").val(data[0].cantidad_horas);
+           
+    },
+    error: function(data){
+        alert("error!!"); }
+
+});
+}
+
 
  //________________________funcion eliminar capacitacion______________________________________
  function eliminarcapac(transid){
@@ -378,7 +554,7 @@ function guardar_formac(){
            $('#'+transid).remove();
            
            //alert(data.cantidad_horas);
-           $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
+         //  $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
 
            Swal.fire({
             position: 'top-end',
@@ -431,6 +607,8 @@ function nueva_expe(){
     $("#header-experiencia").addClass("bg-success");
     $("#header-experiencia").removeClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
+    $("#documento_exp").prop('required',true);
+    $("#documento_exp").val('');
    
     $("#modal_nueva_experiencia").modal("show");
     
@@ -443,6 +621,7 @@ function nueva_expe(){
           $("#funciones_princi").val("");
           $("#fecha_inicio_exp").val("");
           $("#fecha_fin_exp").val("");
+          $("#num_pag").val("");
         
     
  }
@@ -454,6 +633,8 @@ function nueva_expe(){
     $("#header-experiencia").removeClass("bg-success");
     $("#header-experiencia").addClass("bg-warning");
     $('#div_btns_exper').html(htmlbotones);
+    $("#documento_exp").prop('required',false);
+    $("#documento_exp").val('');
     
     $("#modal_nueva_experiencia").modal("show");
       var id=transid.substring(6);
@@ -481,6 +662,7 @@ function nueva_expe(){
           $("#funciones_princi").val(data[0].desc_cargo_funcion);
           $("#fecha_inicio_exp").val(data[0].fecha_inicio);
           $("#fecha_fin_exp").val(data[0].fecha_fin);
+          $("#num_pag").val(data[0].num_pag);
           $("#tipo_experiencia option[value='"+data[0].tipo_experiencia+"']").prop('selected',true);
           $("#tipo_entidad option[value='"+data[0].tipo_institucion+"']").prop('selected',true);
 
@@ -502,8 +684,8 @@ function guardardatos(){
     var depor=0;
     var valor;
     
-    if($("#fecha_nacimiento").val()=="" || $("#ruc").val()=="" || $("#ubigeodni").val()=="" || 
-    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || $("#telefono_fijo").val()=="" || 
+    if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
+    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || 
     $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
         arrayExp.estado = false;
         arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
@@ -523,32 +705,54 @@ function guardardatos(){
         return arrayExp;
     }   
 
+    if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente su discapacidad";
+        return arrayExp;
+    }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
+        return arrayExp;
+    }else if($("#si_deportista").is(':checked') && $('#file_deportista').val('')){
+        arrayExp.estado = false;
+        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
+        return arrayExp;
+    }   
+
     if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
     if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
     if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
+   
+    var formData = new FormData();
+    
+    formData.append('archivo_discapacidad',$('#file_discapacidad').prop('files')[0]);
+    formData.append('archivo_ffaa',$('#file_ffaa').prop('files')[0]);
+    formData.append('archivo_deport',$('#file_deportista').prop('files')[0]);
+    formData.append('fechanac',$("#fecha_nacimiento").val());
+    formData.append('ruc',$("#ruc").val());
+    formData.append('ubigeodni',$("#ubigeodni").val());
+    formData.append('nacionalidad',$("#nacionalidad").val());
+    formData.append('celular',$("#telefono_celular").val());
+    formData.append('telfijo',$("#telefono_fijo").val());
+    formData.append('domicilio',$("#domicilio").val());
+    formData.append('ubigeo_domicilio',$("#ubigeo_domicilio").val());
+    formData.append('dicapacidad',discap);
+    formData.append('ffaa',ffaa);
+    formData.append('deportista',depor);
 
+   
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizardatos",
             type: "POST" ,
             datatype: "json",
-            data: {
-               // id: $("#di").val(),
-                fechanac: $("#fecha_nacimiento").val(),
-                ruc:$("#ruc").val(),
-                ubigeodni: $("#ubigeodni").val(),
-                nacionalidad: $("#nacionalidad").val(),
-                celular: $("#telefono_celular").val(),
-                telfijo: $("#telefono_fijo").val(),
-                domicilio: $("#domicilio").val(),
-                ubigeo_domicilio:$("#ubigeo_domicilio").val(),
-                dicapacidad: discap,
-                ffaa:ffaa,
-                deportista: depor
-
-            },
+            cache:false,
+            contentType: false,
+            processData: false,
+            data:formData, 
+            
             success:function(data){
-              /// console.log("correcto");
+               console.log("success= ",data);
             },
             error: function(data){
                 console.log("error");
@@ -583,7 +787,7 @@ function cumple_exp_genyesp(){
         type: "GET" ,
         async:false,
         datatype: "json",
-        data: {idproceso : getParameterByName('idproceso')},
+        data: {idproceso : $('#datospostulante').data('id')},
         success:function(data){
            res= data;
         }
@@ -615,17 +819,10 @@ function cumple_exp_genyesp(){
 
 }
 
-function getParameterByName(name) { //esta funcion recuepera la variable pasada por url ejemplo miVariable= getParameterByName('miVariable')
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    results = regex.exec(location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-function cumple_formacion(){
+function cumple_formacion(id){
     var arrayExp={estado:"",msjok:"",msjerror:""};
 
-    var res;
+    var id = id;
     
     $.ajax({
         //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -633,8 +830,8 @@ function cumple_formacion(){
         type: "GET" ,
         async:false,
         datatype: "json",
-        data: {idproceso : getParameterByName('idproceso')},
-        success:function(data){
+        data: {idproceso : id},
+        success:function(data){ 
            respu= data;
         }
     });
@@ -664,11 +861,17 @@ function cumple_formacion(){
     var meses;
     var dias;
     anios= Math.trunc(diasx/365); 
-    meses= Math.trunc((diasx%365)/30);
-    dias =(diasx%365)%30;
+    meses= Math.trunc((diasx%365)/30.4);
+    dias =(diasx%365)%30.4;
     
      
   return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
  }
 
- 
+ function postular(){
+     if($('.g1').val()){
+        alert("estoy en si");
+     }else{
+         alert("estoy en no");
+     }
+ }

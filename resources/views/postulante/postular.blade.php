@@ -23,15 +23,15 @@
     <div class="card">
         <div class="alert alert-info" role="alert">
             <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
-            @foreach ($proceso as $pro)
-            <div><input type="hidden" value="{{$proceso}}"  id="cod" ><i class="fas fa-angle-double-right mr-2"></i>{{$pro->cod}} - {{$pro->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$pro->n_plazas}}</small></div>
-            @endforeach     
+            
+            <div></i>{{$proceso->cod}} - {{$proceso->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$proceso->n_plazas}}</small></div>
+            
             </h2></strong> 
             
         </div>
         <div class="card-body wizard-content">
             
-            <form  id="datospostulante" class="validation-wizard wizard-circle mt-5">
+            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-5" >
                 @csrf
                 <!-- Step 1 -->
                 <h6>Datos Personales</h6>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger">*</span> </label>
+                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger required">*</span> </label>
                                     <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
                         </div>
@@ -79,8 +79,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="ruc"> RUC : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value=""  id="ruc" name="ruc"> </div>
+                                    <label for="ruc"> RUC (opcional):  </label>
+                                    <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -103,8 +103,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telefono_fijo"> Telefono fijo : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="telefono_fijo" name="telefono_fijo"> </div>
+                                    <label for="telefono_fijo"> Telefono fijo (opcional) : </label>
+                                    <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad"  />
+                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
                                 </div>   
                             </div>                               
                         </div>
@@ -161,7 +161,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file"  />
+                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
                                 </div>   
                             </div>
                                                 
@@ -183,7 +183,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" />
+                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
                                 </div>   
                             </div>
                                                 
@@ -229,7 +229,7 @@
                         <div class="col-md-4">
                             @foreach ($proceso_formacion as $item)
                             <div class="alert alert-danger" role="alert">
-                                <strong>Formación requerida: </strong> {{$item->nombre}}
+                                <strong>Formación requerida: </strong> {{$item->nombre}} - {{$item->especialidad}}
                             </div>
                             @endforeach
                         </div>
@@ -270,24 +270,24 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
+                                <button type="button" onclick="nueva_capacitacion()" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
                         
                         <div class="col-md-4">
-                            <div class="alert alert-success text-center" role="alert">
+                          <!--  <div class="alert alert-success text-center" role="alert">
                                 <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
-                            </div>
+                            </div> -->
                             
                         </div>
                        
                           <div class="col-md-4">
-                            @foreach ($proceso as $item)
+                            
                             <div class="alert alert-danger text-center" role="alert">
-                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
+                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$proceso->horas_cap_ind.' Hrs'}}"> 
                             </div>
-                            @endforeach
+                            
                           </div>
                       
                     </div>
@@ -325,22 +325,7 @@
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            @foreach ($proceso as $item)
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Prac. Pre Profesionales: </strong> {{$item->consid_prac_preprof}}
-                            
-                        </div>
-                        @endforeach
-                        </div>
-                        <div class="col-md-4">
-                            @foreach ($proceso as $item)
-                        <div class="alert alert-danger" role="alert">
-                            <strong>Prac. Profesionales: </strong> {{$item->consid_prac_prof}} 
-                            
-                        </div>
-                        @endforeach
-                        </div>
+                        
                         
                     </div>
 
@@ -360,12 +345,12 @@
                           
                       </div>
                       <div class="col-md-4">
-                        @foreach ($proceso as $item)
+                        
                         <div class="alert alert-danger" role="alert">
-                            <strong>Exper. General mínima: </strong> {{$item->anios_exp_lab_gen}}  <br>
-                            <strong>Exper. Específica mínima: </strong> {{$item->anios_exp_lab_esp}}
+                            <strong>Exper. General mínima: </strong><span id="exp_gen_pro">  </span> <br>
+                            <strong>Exper. Específica mínima: </strong><span id="exp_esp_pro">  </span> 
                         </div>
-                        @endforeach
+                        
                       </div>
                       
                     </div>
@@ -383,7 +368,6 @@
                                     <th>Fecha Inicio</th>
                                     <th>Fecha Fin</th>
                                     <th>Tiempo Exper.</th>
-                                    <th>Documento</th>
                                     <th>Acciones</th>
                                     
                                 </tr>
@@ -401,54 +385,107 @@
                 <!-- Step 5 -->
                 <h6>POSTULAR</h6>
                 <section>
-                    <br>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right text-right"> Declaración jurada <span class="text-danger">*</span> </label>
-                                
-                            </div>  
+                        <div class="col-md-12">
+                            <h3>DECLARACIÓN JURADA</h3>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"/>
-                            </div>   
-                        </div>
-                                             
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-md-right " > Anexo 1 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group ">
-                                <input name=""  class="material-inputs"  type="file"  />
-                            </div>   
-                        </div>
-                                             
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group text-right">
-                                <label class="text-right"> Anexo 2 <span class="text-danger">*</span> </label>
-                                
-                            </div>  
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input name=""  class="material-inputs"  type="file"   />
-                            </div>   
-                        </div>
-                                             
-                    </div>
-
-                    
                     <br>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g1" class=" g1 material-inputs required"  value="1" type="radio" id="si_p1"  />
+                            <label for="si_p1">Si</label>
+                            <input name="g1" class=" g1 material-inputs required" value="0" type="radio" id="no_p1"checked  />
+                            <label for="no_p1">No</label> 
+                        </div>
+                        <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
+                    </div> 
+                    <div class="row card-body">
+                        <div class="col-md-2">
+                            <input name="g2" class=" g2 material-inputs required"  value="1" type="radio" id="si_p2"  />
+                            <label for="si_p2">Si</label>
+                            <input name="g2" class=" g2 material-inputs required" value="0" type="radio" id="no_p2" checked />
+                            <label for="no_p2">No</label>
+                        </div>
+                        <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
+                    </div>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2">
+                            <input name="g3" class=" g3 material-inputs required"  value="1" type="radio" id="si_p3"  />
+                            <label for="si_p3">Si</label>
+                            <input name="g3" class=" g3 material-inputs required" value="0" type="radio" id="no_p3" checked  />
+                            <label for="no_p3">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
+                    </div> 
+                    <div class="row card-body">
+                        <div class="col-md-2">
+                            <input name="g4"   class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
+                            <label for="si_p4">Si</label>
+                            <input name="g4"  class=" g4 material-inputs required" value="0" type="radio" id="no_p4" checked />
+                            <label for="no_p4">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
+                    </div> 
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g5"   class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
+                            <label for="si_p5">Si</label>
+                            <input name="g5"  class=" g5 material-inputs required" value="0" type="radio" id="no_p5" checked />
+                            <label for="no_p5">No</label>  
+                        </div>
+                            
+                            <label class="col-md-10 border-left" value="" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$proceso->cod}}</label>                        
+                                                       
+                    </div>
+                    <div class="row card-body">
+                        <div class="col-md-2 ">
+                            <input name="g6"   class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
+                            <label for="si_p6">Si</label>
+                            <input name="g6"  class=" g6 material-inputs required" value="0" type="radio" id="no_p6" checked  />
+                            <label for="no_p6">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
+                    </div>  
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2 ">
+                            <input name="g7"   class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
+                            <label for="si_p7">Si</label>
+                            <input name="g7"  class=" g7 material-inputs required" value="0" type="radio" id="no_p7" checked />
+                            <label for="no_p7">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
+                    </div>
+                    <div class="row card-body">
+                        <div class="col-md-2 ">
+                            <input name="g8"   class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
+                            <label for="si_p8">Si</label>
+                            <input name="g8"  class=" g8 material-inputs required" value="0" type="radio" id="no_p8" checked />
+                            <label for="no_p8">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
+                    </div>
+                    <div class="row card-body bg-light">
+                        <div class="col-md-2">
+                            <input name="g9"   class=" g9 material-inputs required"  value="1" type="radio" id="si_p9" checked />
+                            <label for="si_p9">Si</label>
+                            <input name="g9" class=" g9 material-inputs required" value="0" type="radio" id="no_p9"  />
+                            <label for="no_p9">No</label>  
+                        </div>
+                        <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
+                    </div> 
                     <br>
-                                        
+                    <div id="veracidad" class="row card-body border alert alert-success" >          
+                        <div class="col-md-1 text-center" >
+                            <input style="width: 20px; height: 20px" id="check_dj" name="check_dj" value="1" type="checkbox" />
+                        </div> 
+                        
+                        <div class="col-md-11">
+                            <h5>Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</h5>  
+                        </div>                             
+                    </div>                     
+                    <br>
+                    <br>                                        
                 </section>
             </form>
         </div>

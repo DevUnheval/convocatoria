@@ -2,7 +2,7 @@
 <div id="modal_nuevo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fullWidthModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
        <div class="modal-content">
-          <div class="modal-header bg-success">
+          <div id="header-capacitacion" class="modal-header bg-success">
              <h4 class="modal-title text-white" id="fullWidthModalLabel">Nuevo Curso y/o Programa de Especialización</h4>
              <button type="button" class="close" data-dismiss="modal"
              aria-hidden="true">×</button>
@@ -96,7 +96,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="documento_capa">Documento de sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control" id="documento_capa" name="documento_capa" > 
+                                                <input type="file" class="form-control" id="documento_capa" name="documento_capa" required> 
                                             </div>
                                         </div>
                                       </div>
@@ -112,10 +112,10 @@
                                         <div class="form-group col-md-12">
                                             <button id="btn_can_capacitacion" class="btn btn-danger waves-effect waves-light m-l-10" type="button">Cancelar
                                             </button>
-                                            <button id="btn_guardar_capacitacion" class="btn btn-success waves-effect waves-light" >Guardar
-                                            </button>  
+                                            <span id="div_btn_capacitacion"></span> 
                                         </div>
                                     </div>
+                                    
                                   </div>
                                       
                                     

@@ -89,7 +89,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
 //POSTULANTE
 Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
-    Route::get('postular', 'postulante\PostulanteController@postular')->name('postulante_postular');
+    Route::get('postular/{idproceso}', 'postulante\PostulanteController@postular')->where(['idproceso' => '[0-9]+'])->name('postulante_postular');
     Route::get('datosuser/data1', 'postulante\PostulanteController@datosuser_data1')->name('datosuser_data1');
     Route::get('formacion/data1', 'postulante\PostulanteController@formacion_data1')->name('formacion_data1');
     Route::get('formacion/data', 'postulante\PostulanteController@formacion_data')->name('formacion_data');
@@ -108,13 +108,13 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::get('datosexpgenyesp_proceso', 'postulante\PostulanteController@datosexpgenyesp_proceso')->name('datosexpgenyesp_proceso');
     Route::get('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');
     Route::post('editarformacion', 'postulante\PostulanteController@editarformacion')->name('editarformacion');
-    
-    
-    
-    //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
-
-        
+    Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
+    Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
+    Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
+    Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
+         
 });
+Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
@@ -128,7 +128,9 @@ Route::group(['prefix' => 'postulantes'], function(){
        $search = $r->search;
         $q = \App\Ubigeo::select( 'cod_ubigeo_reniec as id', DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec) AS text"))
         ->where("cod_ubigeo_reniec","<>","NA")
-        ->where("desc_ubigeo_reniec","LIKE","%$search%")
+        //->where("desc_ubigeo_reniec","LIKE","%$search%")
+        ->where(DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec)"),"like","%$search%")
+        //->where(DB::raw("CONCAT(`nvp`, ' ', `vpv`)"), 'LIKE', "%".$this->searchNeedle."%");
         ->get();
         return response()->json($q);
    })->middleware(['auth']);

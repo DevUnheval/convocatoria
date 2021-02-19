@@ -102,13 +102,18 @@
                                         </div>
                                       </div>
                                       <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-8">
                                             <div class="form-group">
-                                                <label for="documento">Documento sustento: <span class="danger">*</span> </label>
-                                                <input type="file" class="form-control required" id="documento" name="documento" > 
+                                                <label for="documento_exp">Documento sustento: <span class="danger">*</span> </label>
+                                                <input type="file" class="form-control required" id="documento_exp" name="documento_exp" > 
                                             </div>
                                         </div>
-                                        
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="num_pag">N° página donde señala inicio y fin de la experiencia: <span class="danger">*</span> </label>
+                                                <input type="number" class="form-control" id="num_pag" name="num_pag" required> 
+                                            </div>
+                                        </div>
                                       </div>
                                       
                                       <br>
