@@ -12,11 +12,13 @@ use App\FormacionPostulante;
 use App\FormacionUser;
 use App\GradoFormacion;
 use App\Http\Controllers\Controller;
+use App\Mail\ConstPostulacionMailable;
 use App\Postulante;
 use App\Proceso;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PostulanteController extends Controller
@@ -551,12 +553,23 @@ class PostulanteController extends Controller
      }
     
      public function registro_postular($idproceso){
+
+        // PARA QUE SE ENVÍE EL CORREO ES NECESARIO VERIFICAR 
+        // QUE EL USUARIO TIENE UNA POSTULACIÓN AL PROCESO ACTUAL
+        // DE LO CONTRARIO NO SE ENVIARÁ
+        // FALTA INCLUIR CONDICIONAL.
+        
         $proceso = Proceso::where('id',$idproceso)->first();
         $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         ->select("*")
         ->where("datos_users.user_id", "=", auth()->user()->id)
         ->first();
         //$datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+       
+       //Envio de constancia al correo electronico
+        $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
+        Mail::to($datos_usuario->email)->send($correo);
+
 
         return view('postulante.finpostular',compact('proceso','datos_usuario'));
      }
