@@ -278,7 +278,56 @@ $(document).ready(function() {
             
         },
         onFinished: function(event, currentIndex) {
-            alert('usted esta postulando a la plaza X');
+
+           Swal.fire({
+                title: '¿Está seguro de registrar su postulación?',
+                text: "Recuerde que una vez registrado no podrá modificar ninguna información",
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#d33',  
+                cancelButtonText: 'No, cerrar',              
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Si, registrar'
+            }).then((result) => {
+               
+
+                if(result.value){
+
+                    $.ajax({
+                        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                        url: "/postulante/registrofinal",
+                        type: "POST",
+                        datatype: "json",
+                        data: { 
+                            idproceso:$('#datospostulante').data('id'),
+                            dj1:$('input:radio[name=g1]:checked').val(),
+                            dj2:$('input:radio[name=g2]:checked').val(),
+                            dj3:$('input:radio[name=g3]:checked').val(),
+                            dj4:$('input:radio[name=g4]:checked').val(),
+                            dj5:$('input:radio[name=g5]:checked').val(),
+                            dj6:$('input:radio[name=g6]:checked').val(),
+                            dj7:$('input:radio[name=g7]:checked').val(),
+                            dj8:$('input:radio[name=g8]:checked').val(),
+                            dj9:$('input:radio[name=g9]:checked').val()
+                         },
+                        success:function(data){
+                            console.log(data);
+                        var url = "/postulante/registro/"+$('#datospostulante').data('id');
+                        $(location).attr('href',url);
+                        },
+                        error: function(data){
+                            alert("error!!"); }
+                
+                    });
+                   
+                   
+                   
+                    
+                }
+
+            })
+
+            
         }, 
         
     }), $(".validation-wizard").validate({

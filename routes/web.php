@@ -111,14 +111,10 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
-    
-    
-    
-    
-    //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
-
-        
+    Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
+         
 });
+Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){

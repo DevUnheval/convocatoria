@@ -31,7 +31,7 @@
         </div>
         <div class="card-body wizard-content">
             
-            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-5">
+            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-5" >
                 @csrf
                 <!-- Step 1 -->
                 <h6>Datos Personales</h6>
@@ -395,7 +395,7 @@
                         <div class="col-md-2 ">
                             <input name="g1" class=" g1 material-inputs required"  value="1" type="radio" id="si_p1"  />
                             <label for="si_p1">Si</label>
-                            <input name="g1" class=" g1 material-inputs required" value="0" type="radio" id="no_p1"  />
+                            <input name="g1" class=" g1 material-inputs required" value="0" type="radio" id="no_p1"checked  />
                             <label for="no_p1">No</label> 
                         </div>
                         <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
@@ -404,7 +404,7 @@
                         <div class="col-md-2">
                             <input name="g2" class=" g2 material-inputs required"  value="1" type="radio" id="si_p2"  />
                             <label for="si_p2">Si</label>
-                            <input name="g2" class=" g2 material-inputs required" value="0" type="radio" id="no_p2"  />
+                            <input name="g2" class=" g2 material-inputs required" value="0" type="radio" id="no_p2" checked />
                             <label for="no_p2">No</label>
                         </div>
                         <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
@@ -413,7 +413,7 @@
                         <div class="col-md-2">
                             <input name="g3" class=" g3 material-inputs required"  value="1" type="radio" id="si_p3"  />
                             <label for="si_p3">Si</label>
-                            <input name="g3" class=" g3 material-inputs required" value="0" type="radio" id="no_p3"  />
+                            <input name="g3" class=" g3 material-inputs required" value="0" type="radio" id="no_p3" checked  />
                             <label for="no_p3">No</label>  
                         </div>
                         <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
@@ -422,7 +422,7 @@
                         <div class="col-md-2">
                             <input name="g4"   class=" g4 material-inputs required"  value="1" type="radio" id="si_p4"  />
                             <label for="si_p4">Si</label>
-                            <input name="g4"  class=" g4 material-inputs required" value="0" type="radio" id="no_p4"  />
+                            <input name="g4"  class=" g4 material-inputs required" value="0" type="radio" id="no_p4" checked />
                             <label for="no_p4">No</label>  
                         </div>
                         <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
@@ -431,7 +431,7 @@
                         <div class="col-md-2 ">
                             <input name="g5"   class=" g5 material-inputs required"  value="1" type="radio" id="si_p5"  />
                             <label for="si_p5">Si</label>
-                            <input name="g5"  class=" g5 material-inputs required" value="0" type="radio" id="no_p5"  />
+                            <input name="g5"  class=" g5 material-inputs required" value="0" type="radio" id="no_p5" checked />
                             <label for="no_p5">No</label>  
                         </div>
                             
@@ -442,7 +442,7 @@
                         <div class="col-md-2 ">
                             <input name="g6"   class=" g6 material-inputs required"  value="1" type="radio" id="si_p6"  />
                             <label for="si_p6">Si</label>
-                            <input name="g6"  class=" g6 material-inputs required" value="0" type="radio" id="no_p6"  />
+                            <input name="g6"  class=" g6 material-inputs required" value="0" type="radio" id="no_p6" checked  />
                             <label for="no_p6">No</label>  
                         </div>
                         <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
@@ -451,7 +451,7 @@
                         <div class="col-md-2 ">
                             <input name="g7"   class=" g7 material-inputs required"  value="1" type="radio" id="si_p7"  />
                             <label for="si_p7">Si</label>
-                            <input name="g7"  class=" g7 material-inputs required" value="0" type="radio" id="no_p7"  />
+                            <input name="g7"  class=" g7 material-inputs required" value="0" type="radio" id="no_p7" checked />
                             <label for="no_p7">No</label>  
                         </div>
                         <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
@@ -460,14 +460,14 @@
                         <div class="col-md-2 ">
                             <input name="g8"   class=" g8 material-inputs required"  value="1" type="radio" id="si_p8"  />
                             <label for="si_p8">Si</label>
-                            <input name="g8"  class=" g8 material-inputs required" value="0" type="radio" id="no_p8"  />
+                            <input name="g8"  class=" g8 material-inputs required" value="0" type="radio" id="no_p8" checked />
                             <label for="no_p8">No</label>  
                         </div>
                         <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
                     </div>
                     <div class="row card-body bg-light">
                         <div class="col-md-2">
-                            <input name="g9"   class=" g9 material-inputs required"  value="1" type="radio" id="si_p9"  />
+                            <input name="g9"   class=" g9 material-inputs required"  value="1" type="radio" id="si_p9" checked />
                             <label for="si_p9">Si</label>
                             <input name="g9" class=" g9 material-inputs required" value="0" type="radio" id="no_p9"  />
                             <label for="no_p9">No</label>  
