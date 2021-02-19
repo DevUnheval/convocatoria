@@ -18,7 +18,7 @@
                             <div class="card-body">
                             {{-- modal --}}
                                                        
-                          
+                                @include('convocatorias.en_curso.m_comunicados')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                    
                             {{--Fin modal --}}
@@ -37,17 +37,9 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Nº <br>plazas</th>
-                                <th>Inscripción<br> (inicio - fin)</th>
-                                <th>Comunicados</th>
-                                <th>Bases</th>
-                                <th>
-                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
-                                        Postulantes
-                                    @else
-                                        Postular
-                                    @endif
-                                </th>
+                                <th>Comunicados</th>                                
+                                <th>Evaluacion</th>
+                                <th>Resultados</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,17 +52,9 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Nº <br>plazas</th>
-                                <th>Inscripción <br>(inicio - fin)</th>
-                                <th>Comunicados</th>
-                                <th>Bases</th>
-                                <th>
-                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
-                                        Postulantes
-                                    @else
-                                        Postular
-                                    @endif
-                                </th>
+                                <th>Comunicados</th>                                
+                                <th>Evaluacion</th>
+                                <th>Resultados</th>                              
                             </tr>
                         </tfoot>
                     </table>
@@ -78,4 +62,13 @@
             </div>
         </div>
 
+@endsection
+@section('js')
+<!--This page plugins -->
+    <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
+
+    <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
+    <script src="{{ asset('/js/convocatorias_encurso.js')}}"></script>
 @endsection
