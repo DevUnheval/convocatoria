@@ -65,6 +65,7 @@ Puede ver su postulación ingresando <a href="#">Aquí</a>
                             </tbody>
                             
                         </table>
+                        <div>Puede ver su postulación ingresando <a href="#">Aquí</a></div>
                     </div>
                 </div>
             </div>
