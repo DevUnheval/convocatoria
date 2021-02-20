@@ -256,7 +256,7 @@ $(document).ready(function() {
             
             if(dj == ""){
                 if(!$('#check_dj').prop('checked')){
-                    msj_error = "Debe de marcar que está deacerdo con el 'PRINCIPIO DE VERACIDAD";
+                    msj_error = "Debe de marcar que está de acuerdo con el 'PRINCIPIO DE VERACIDAD";
                     
                     Swal.fire({
                         type: 'warning',
