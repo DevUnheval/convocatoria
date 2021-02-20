@@ -56,6 +56,7 @@ $(document).ready(function() {
        
         for (var i = 0; i < data2.length; i++) {
 
+           if(data2[i].cantidad_horas >= parseInt($('#horas_cap_ind').val())){
             var href_form_ca="#";
             if(data2[i].archivo != null){
                 href_form_ca = data2[i].archivo.replace('public/','/storage/');
@@ -83,6 +84,8 @@ $(document).ready(function() {
              "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
+            }
+
         }
     
     $('#zeroconfig2_body').append(tabla2);
@@ -253,7 +256,7 @@ $(document).ready(function() {
             
             if(dj == ""){
                 if(!$('#check_dj').prop('checked')){
-                    msj_error = "Debe de marcar que está deacerdo con el 'PRINCIPIO DE VERACIDAD";
+                    msj_error = "Debe de marcar que está de acuerdo con el 'PRINCIPIO DE VERACIDAD";
                     
                     Swal.fire({
                         type: 'warning',
@@ -752,7 +755,7 @@ function guardardatos(){
             data:formData, 
             
             success:function(data){
-               console.log("success= ",data);
+               //console.log("success= ",data);
             },
             error: function(data){
                 console.log("error");

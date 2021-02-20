@@ -18,8 +18,8 @@
                         <div class="card-body">
                            <!--modelo 1 --borde --> 
                            <div class="row">
-                              <div class="col-md-12 card border-ligth border bg-ligth-warning ">
-                                 <div class="row mb-0 py-2">
+                              <div class="col-md-12 card border-ligth border bg-ligth-warning  alert alert-secondary">
+                                 <div class="row ">
                                     <div class="col-md-3 ">
                                        <div class="form-group">
                                              <b><small class="text-info">Cód. convocatoria:</small></b><br>
