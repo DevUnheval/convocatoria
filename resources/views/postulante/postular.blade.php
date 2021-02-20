@@ -99,7 +99,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="nacionalidad" name="nacionalidad"> </div>
+                                    <input type="text" class="form-control required" value="" id="nacionalidad" name="nacionalidad" placeholder="EJM: PERUANO, ARGENTINO, ETC."> </div>
                             </div>   
                         </div>
                         <div class="row">
@@ -112,21 +112,22 @@
                                 <div class="form-group">
                                     <label for="telefono_fijo"> Telefono fijo (opcional) : </label>
                                     <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
-                                    <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
-                                    <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
-                                </div>
-                            </div>   
+                            </div>  
                         </div>
+                        <hr>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
                                     <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
-                            </div>   
+                            </div> 
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="ubigeo_domicilio"> Ubigeo-Domicilio Actual: <span class="text-danger">*</span> </label>
+                                    <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
+                                    <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
+                                </div>
+                            </div>  
                         </div>
                         <br>
                         <br>

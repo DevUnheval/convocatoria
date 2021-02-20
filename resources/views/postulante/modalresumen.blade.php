@@ -9,7 +9,7 @@
             </div>
             {{-- wizard --}}
             <div class="modal-body">                
-                <div class="card col-12">
+                <div class="card col-md-12">
                     <div class="row">
                         <div class="col-2 border form-group">
                             <img src="{{ asset(Auth::user()->img)}}" alt="user" width="80">
