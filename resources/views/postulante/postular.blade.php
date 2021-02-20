@@ -17,6 +17,7 @@
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
+@include('postulante.modalresumen')
 
 
 <div class="col-12">
@@ -37,6 +38,12 @@
                 <h6>Datos Personales</h6>
                 <section id="section1">
                     <div >
+                    <div class="col-md-8">
+                            <div class="form-group">
+                                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_resumen">
+                                <i class="fa fa-plus"></i> Nuevo</button>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -476,7 +483,7 @@
                     </div> 
                     <br>
                     <div id="veracidad" class="row card-body border alert alert-success" >          
-                        <div class="col-md-1 text-center" >
+                        <div class="col-md-1 text-center justify-content-center align-items-center" >
                             <input style="width: 20px; height: 20px" id="check_dj" name="check_dj" value="1" type="checkbox" />
                         </div> 
                         
