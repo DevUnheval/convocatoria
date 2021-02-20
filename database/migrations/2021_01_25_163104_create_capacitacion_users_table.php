@@ -30,7 +30,8 @@ class CreateCapacitacionUsersTable extends Migration
             $table->string('pais');
             $table->string('archivo');
             $table->string('archivo_tipo');
-            $table->decimal('cantidad_horas', 5, 2)->nullable();
+            //$table->decimal('cantidad_horas', 5, 2)->nullable();
+            $table->integer('cantidad_horas');
             //Nivel.-si es idiomas o ofimatica
             $table->string('nivel')->nullable(); //básico,intermedio, avanzado
             $table->timestamps();

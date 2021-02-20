@@ -70,8 +70,8 @@ class CreateProcesosTable extends Migration
                 //CV
                 $table->integer('anios_exp_lab_gen')->default(0);
                 $table->integer('anios_exp_lab_esp')->default(0);
-                $table->decimal('horas_cap_total', 5, 2)->default(0);
-                $table->decimal('horas_cap_ind', 5, 2)->default(0);
+                $table->integer('horas_cap_total')->default(0); //cambiado a integer
+                $table->integer('horas_cap_ind')->default(0); //cambiado a integer
 
             //Cronograma
             $table->date('fecha_aprobacion')->nullable();
