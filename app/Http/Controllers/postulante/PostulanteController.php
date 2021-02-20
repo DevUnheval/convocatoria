@@ -528,14 +528,20 @@ class PostulanteController extends Controller
          }
         
          //Almacenar capacitaciones de usuario a postulante
+         $hrs_min_cap_ind = Proceso::select('horas_cap_ind')->where('id',$data->idproceso)->first();
+         $hrs_ind = intval($hrs_min_cap_ind['horas_cap_ind']);
+
          $cant2 = CapacitacionUser::where("user_id",auth()->user()->id)->get()->count();
          $datos_capacitacion = CapacitacionUser::where("user_id",auth()->user()->id)->get();
          
          for($i=0 ; $i<$cant2 ; $i++){
+
+            if(intval($datos_capacitacion[$i]->cantidad_horas) >= $hrs_ind){
              unset($datos_capacitacion[$i]->id); 
              unset($datos_capacitacion[$i]->user_id);
              $datos_capacitacion[$i]->postulante_id = $pos->id;
              CapacitacionPostulante::create($datos_capacitacion[$i]->toArray());
+            }
          }
      
          //Almacenar experiencias de usuario a postulante

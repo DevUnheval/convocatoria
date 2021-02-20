@@ -60,16 +60,17 @@ $('#btn_cancelar_exper').on('click',function(){
 })
 
 //select de crear una una formacion academica
-$("#tipo_estudio").on('click',function(){
+$("#tipo_estudio").on('change',function(){
     if($("#tipo_estudio").val()==2 || $("#tipo_estudio").val()==3){
         $('#especialidad').attr('disabled',true);
+        $("#especialidad").val('');
     }else{
         $('#especialidad').removeAttr('disabled');
     }
 })
 
 //select de crear una nueva capacitacion/curso/idioma/ofimatica academica
-$("#tipo_capacitacion").on('click',function(){
+$("#tipo_capacitacion").on('change',function(){
     if($("#tipo_capacitacion").val()==2 || $("#tipo_capacitacion").val()==3){
         $('#nivel_capa').prop('disabled',false);
         $('#nivel_capa').prop('required',true);
@@ -85,7 +86,7 @@ $("#tipo_capacitacion").on('click',function(){
 
 })
 
-//______________________FUNCIONES________________________________
+//______________________FUNCIONES TABLA POSTULAR________________________________
 
 //_______________________________GUARDAR NUEVA FORMACION ACADÉMICA_________________________
 function guardar_formac(){

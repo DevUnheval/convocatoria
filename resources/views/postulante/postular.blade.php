@@ -277,7 +277,7 @@
                         
                         <div class="col-md-4">
                           <!--  <div class="alert alert-success text-center" role="alert">
-                                <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind.' Hrs'}}"> 
+                                <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind}}"> 
                             </div> -->
                             
                         </div>
@@ -285,7 +285,7 @@
                           <div class="col-md-4">
                             
                             <div class="alert alert-danger text-center" role="alert">
-                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$proceso->horas_cap_ind.' Hrs'}}"> 
+                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$proceso->horas_cap_ind}}">  
                             </div>
                             
                           </div>
