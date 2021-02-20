@@ -67,12 +67,12 @@ Route::group(['prefix' => 'maestro'], function(){
 Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
-    Route::get('en_curso', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso');
+    Route::get('en_curso', 'ConvocatoriaEnCursoController@en_curso')->name('convocatoria.en_curso');
     Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
-    Route::get('en_curso/data', 'ConvocatoriaController@en_curso')->name('convocatoria.en_curso.data'); 
+    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@encurso_data')->name('convocatoria.en_curso.data'); 
     Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
@@ -111,14 +111,10 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
-    
-    
-    
-    
-    //Route::get('postular', 'postulante\PostulanteController@index')->name('postulante_postular');
-
-        
+    Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
+         
 });
+Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){

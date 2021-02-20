@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\postulante;
 
+use App\CapacitacionPostulante;
 use App\CapacitacionUser;
+use App\DatosPostulante;
 use App\DatosUser;
+use App\ExperienciaLabPostulante;
 use App\ExperienciaLabUser;
+use App\FormacionPostulante;
 use App\FormacionUser;
 use App\GradoFormacion;
 use App\Http\Controllers\Controller;
+use App\Mail\ConstPostulacionMailable;
+use App\Postulante;
 use App\Proceso;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class PostulanteController extends Controller
@@ -478,6 +485,94 @@ class PostulanteController extends Controller
        return compact('form_nivel_requerido','miformacion_max');
        
     }
+
+    public function registrofinal(Request $data){
+        
+        //REgistro de la declaración jurada
+        $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->get();
+        $datosuser = DatosUser::find($idDatosUser[0]->id);
+        $datosuser->dj1 = $data->dj1;
+        $datosuser->dj2 = $data->dj2;
+        $datosuser->dj3 = $data->dj3;
+        $datosuser->dj4 = $data->dj4;
+        $datosuser->dj5 = $data->dj5;
+        $datosuser->dj6 = $data->dj6;
+        $datosuser->dj7 = $data->dj7;
+        $datosuser->dj8 = $data->dj8;
+        $datosuser->dj9 = $data->dj9;
+        $datosuser->save();
+
+        //Registro la postulacion
+        $pos = new Postulante;
+        $pos->user_id = auth()->user()->id;
+        $pos->proceso_id = $data->idproceso;
+        $pos->save();
+
+        
+         //Almacena los datos de usuario a postulante
+         $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+         unset($datos_usuario[0]->id); 
+         unset($datos_usuario[0]->user_id);
+         $datos_usuario[0]->postulante_id = $pos->id;
+         DatosPostulante::create($datos_usuario[0]->toArray()); 
+   
+         //Almacenar formacion de usuario a postulante
+         $cant1 = FormacionUser::where("user_id",auth()->user()->id)->get()->count();
+         $datos_formacion = FormacionUser::where("user_id",auth()->user()->id)->get();
+         
+         for($i=0 ; $i<$cant1 ; $i++){
+             unset($datos_formacion[$i]->id); 
+             unset($datos_formacion[$i]->user_id);
+             $datos_formacion[$i]->postulante_id = $pos->id;
+             FormacionPostulante::create($datos_formacion[$i]->toArray());
+         }
+        
+         //Almacenar capacitaciones de usuario a postulante
+         $cant2 = CapacitacionUser::where("user_id",auth()->user()->id)->get()->count();
+         $datos_capacitacion = CapacitacionUser::where("user_id",auth()->user()->id)->get();
+         
+         for($i=0 ; $i<$cant2 ; $i++){
+             unset($datos_capacitacion[$i]->id); 
+             unset($datos_capacitacion[$i]->user_id);
+             $datos_capacitacion[$i]->postulante_id = $pos->id;
+             CapacitacionPostulante::create($datos_capacitacion[$i]->toArray());
+         }
+     
+         //Almacenar experiencias de usuario a postulante
+         $cant3 = ExperienciaLabUser::where("user_id",auth()->user()->id)->get()->count();
+         $datos_experiencia = ExperienciaLabUser::where("user_id",auth()->user()->id)->get();
+         
+         for($i=0 ; $i<$cant3 ; $i++){
+             unset($datos_experiencia[$i]->id); 
+             unset($datos_experiencia[$i]->user_id);
+             $datos_experiencia[$i]->postulante_id = $pos->id;
+             ExperienciaLabPostulante::create($datos_experiencia[$i]->toArray());
+         }
+             
+         return "Registro de convocatoria con exito = ID = ";//.$pos->id;
+     }
+    
+     public function registro_postular($idproceso){
+
+        // PARA QUE SE ENVÍE EL CORREO ES NECESARIO VERIFICAR 
+        // QUE EL USUARIO TIENE UNA POSTULACIÓN AL PROCESO ACTUAL
+        // DE LO CONTRARIO NO SE ENVIARÁ
+        // FALTA INCLUIR CONDICIONAL.
+        
+        $proceso = Proceso::where('id',$idproceso)->first();
+        $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
+        ->select("*")
+        ->where("datos_users.user_id", "=", auth()->user()->id)
+        ->first();
+        //$datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+       
+       //Envio de constancia al correo electronico
+        $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
+        Mail::to($datos_usuario->email)->send($correo);
+
+
+        return view('postulante.finpostular',compact('proceso','datos_usuario'));
+     }
   
     
 }
