@@ -9,7 +9,7 @@ class CapacitacionUser extends Model
     protected $table = 'capacitacion_users';
 	protected $primaryKey = 'id';
     protected $fillable = ['user_id','es_curso_espec','es_ofimatica','es_idioma','centro_estudios','especialidad',
-                            'ciudad','pais','archivo','archivo_tipo','cantidad_horas','nivel'];
+                            'ciudad','fecha_inicio','fecha_fin','pais','archivo','archivo_tipo','cantidad_horas','nivel'];
     public $timestamps = False;
     
     public function user() {

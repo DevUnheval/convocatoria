@@ -116,8 +116,8 @@
                                        <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
-                                                 <label for="documento_formac">Documento de sustento: <span class="text-danger">*</span> </label>
-                                                 <input type="file" class="form-control " id="documento_formac" name="documento_formac"> 
+                                                 <label for="documento_formac">Documento de sustento:<small>(solo archivos .pdf)</small> <span class="text-danger">*</span> </label>
+                                                 <input type="file" class="form-control " id="documento_formac" name="documento_formac" required> 
                                              </div>
                                          </div>
                                        </div>
