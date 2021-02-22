@@ -514,7 +514,7 @@
                                     <img src="{{ asset(Auth::user()->img)}}" alt="user" width="80">
                                 </div>
                                 <div class="col-5 border form-group alert-warning">
-                                    <small class="text-center text-dark-info font-weight-bold "><strong>PROCESO: </strong></small> <br>{{$proceso->cod}}                                                
+                                    <small class="text-center text-dark-info font-weight-bold "><strong>ESTAS POSTULANDO AL PROCESO: </strong></small> <br>{{$proceso->cod}}                                                
                                     <br>
                                     <small><strong  class="text-dark-info font-weight-bold">N° Plazas = </strong> </small><br>{{$proceso->n_plazas}}
                                 </div>                                        
