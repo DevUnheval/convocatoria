@@ -122,11 +122,13 @@ Route::group(['prefix' => 'postulante'], function(){
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
-        Route::get('/{proceso_id}/{etapa?}/listar', 'PostulantesController@index')
-                ->where(['proceso_id' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
-        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
+        Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
+                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
+        Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[0-9]+'])->name('postulantes.data'); 
+        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
         
-   });
+});
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){
        $search = $r->search;
@@ -138,4 +140,10 @@ Route::group(['prefix' => 'postulantes'], function(){
         ->get();
         return response()->json($q);
    })->middleware(['auth']);
+
+Route::group(['prefix' => 'reportes'], function(){
+    Route::get('/{id}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->name('reportes.pdf');
+    Route::get('/{id}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->name('reportes.excel');   
+    
+});
 

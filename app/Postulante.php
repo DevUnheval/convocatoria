@@ -17,11 +17,12 @@ class Postulante extends Model
 	public function proceso() {
 		return $this->belongsTo(proceso::class);
 	}
-	public function datospostulantes() {
-		return $this->hasMany(DatosPostulante::class);
+	public function datos_postulante() {
+		return $this->hasOne(DatosPostulante::class);
 	}
-	public function formacionpostulantes() {
+	public function formacion_postulante() {
 		return $this->hasMany(FormacionPostulante::class);
+		//return $this->hasOne(Phone::class, 'foreign_key', 'local_key');
 	}
 	public function capacitacionpostulantes() {
 		return $this->hasMany(CapacitacionPostulante::class);
