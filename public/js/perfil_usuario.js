@@ -1,40 +1,72 @@
 $(document).ready(function() {
       
+    $("#nacionalidad").on('change',function(){
+       
+        if($('#nacionalidad').val() == "Peruano(a)"){
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac2').hide();
+            $('#html_lugar_nac').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+                     
+        }
+
+        if($('#nacionalidad').val() == "Extranjero(a)"){
+        
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac').hide();
+            $('#html_lugar_nac2').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+           
+        }
+
+        if($('#nacionalidad').val() == ""){
+           
+            }
+    })
+   
+    $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
+        if(data.nacionalidad == "Peruano(a)"){
+            //$('#ubigeodni').prop('id','nose');
+            $('#html_lugar_nac2').hide();
+            $('#html_lugar_nac').show();
+            $("#nacionalidad option[value='Peruano(a)']").prop('selected',true);
+            
+            var html_nac = "<option value='"+data.cod_nac+"'>"+data.desc_u_nac+"</option>";
+            if(data.cod_nac != ""){
+                $('#ubigeodni').html(html_nac);
+            }
+        }else  if(data.nacionalidad == "Extranjero(a)"){
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac').hide();
+            $('#html_lugar_nac2').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+            
+            $("#nacionalidad option[value='Extranjero(a)']").prop('selected',true);
+            $('#ubigeodni').val(data.cod_nac);
+            
+        }else{
+            $("#nacionalidad option[value='']").prop('selected',true);
+        }
+        
+        
+        var html_dom = "<option value='"+data.cod_dom+"'>"+data.desc_u_dom+"</option>";
+       
+        if(data.cod_dom != ""){
+        $('#ubigeo_domicilio').html(html_dom);
+        }
+    }); 
     //__________________________________INICIO TABLAS POSTULAR_______________________________________________________________
     
-    $('#file_discapacidad').prop('disabled',true);
-    $('#file_discapacidad').val('');
-    $('#file_ffaa').prop('disabled',true);
-    $('#file_ffaa').val('');
-    $('#file_deportista').prop('disabled',true);
-    $('#file_deportista').val('');
-
-    $('.group1').click(function(){
-        if($(this).val()=='true'){
-            $('#file_discapacidad').prop('disabled',false);
-        }else{
-            $('#file_discapacidad').prop('disabled',true);
-            $('#file_discapacidad').val('');
-        }
-    })
-    $('.group2').click(function(){
-        if($(this).val()=='true'){
-            $('#file_ffaa').prop('disabled',false);
-        }else{
-            $('#file_ffaa').prop('disabled',true);
-            $('#file_ffaa').val('');
-        }
-    })
-    $('.group3').click(function(){
-        if($(this).val()=='true'){
-            $('#file_deportista').prop('disabled',false);
-        }else{
-            $('#file_deportista').prop('disabled',true);
-            $('#file_deportista').val('');
-        }
-    })
-        
-
+    
 
 
 //_________________________________ guardar formacion académica - section 2___________________________________
@@ -88,13 +120,54 @@ $("#tipo_capacitacion").on('change',function(){
 
 
     //____________________________________FIN INICIO TABLAS POSTULAR
+   /* $('#file_discapacidad').prop('disabled',true);
+    $('#file_discapacidad').val('');
+    $('#file_ffaa').prop('disabled',true);
+    $('#file_ffaa').val('');
+    $('#file_deportista').prop('disabled',true);
+    $('#file_deportista').val('');*/
+
+    $('.group1').click(function(){
+        if($(this).val()=='true'){
+            $('#file_discapacidad').prop('disabled',false);
+           
+        }else{
+            $('#file_discapacidad').prop('disabled',true);
+            $('#btn_doc_disc').html('');
+            $('#file_discapacidad').val('');
+            $('#input_hide_disc').val('0');
+        }
+    })
+    $('.group2').click(function(){
+        if($(this).val()=='true'){
+            $('#file_ffaa').prop('disabled',false);
+        }else{
+            $('#file_ffaa').prop('disabled',true);
+            $('#btn_doc_ffaa').html('');
+            $('#file_ffaa').val('');
+            $('#input_hide_ffaa').val('0');
+        }
+    })
+    $('.group3').click(function(){
+        if($(this).val()=='true'){
+            $('#file_deportista').prop('disabled',false);
+        }else{
+            $('#file_deportista').prop('disabled',true);
+            $('#btn_doc_deport').html('');
+            $('#file_deportista').val('');
+            $('#input_hide_deport').val('0');
+        }
+    })
+        
+
 
     //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
      $.get('/postulante/datosuser/data1',function (data){
      if(data.valor=="0"){
          console.log("esta vacio");
+         $('#input_hide').val('0');
      }else{
-         //console.log(data);
+         console.log(data);
          $('#ruc').val(data[0].ruc);
          $('#ubigeodni').val(data[0].ubigeo_nacimiento);
          $('#nacionalidad').val(data[0].nacionalidad);
@@ -103,10 +176,51 @@ $("#tipo_capacitacion").on('change',function(){
          $('#domicilio').val(data[0].domicilio);
          $('#fecha_nacimiento').val(data[0].fecha_nacimiento);
          $('#ubigeo_domicilio').val(data[0].ubigeo_domicilio);
- 
-         if(data[0].es_lic_ffaa==1){$("#si_ffaa").prop("checked", true);}else{$("#no_ffaa").prop("checked", true);}
-         if(data[0].es_deportista==1){$("#si_deportista").prop("checked", true);}else{$("#no_deportista").prop("checked", true);}
-         if(data[0].es_pers_disc==1){$("#si_discapacidad").prop("checked", true);}else{$("#no_discapacidad").prop("checked", true);}
+        
+         
+         var href_dni="#";
+         var href_deport="#";
+         var href_disc="#";
+         var href_ffaa="#";
+
+         if(data[0].archivo_dni != null){
+          href_dni=data[0].archivo_dni.replace("public/", '/storage/');
+          var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+             $('#btn_doc_dni').html(htmldni);
+             $('#input_hide_dni').val('1');
+         }
+  
+        
+         if(data[0].es_lic_ffaa==1){
+             $("#si_ffaa").prop("checked", true);
+             if(data[0].archivo_ffaa != null){
+                href_ffaa=data[0].archivo_ffaa.replace("public/", '/storage/');
+                var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_ffaa').html(htmlffaa);
+                    $('#input_hide_ffaa').val('1');
+                }
+
+        }else{$("#no_ffaa").prop("checked", true); $('#file_ffaa').prop('disabled',true);}
+         
+        if(data[0].es_deportista==1){
+             $("#si_deportista").prop("checked", true);
+             if(data[0].archivo_deport != null){
+                href_deport=data[0].archivo_deport.replace("public/", '/storage/');
+                var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_deport').html(htmldeport);
+                    $('#input_hide_deport').val('1');
+                }
+        }else{$("#no_deportista").prop("checked", true); $('#file_deportista').prop('disabled',true);}
+
+         if(data[0].es_pers_disc==1){
+             $("#si_discapacidad").prop("checked", true);
+             if(data[0].archivo_disc != null){
+                href_disc=data[0].archivo_disc.replace("public/", '/storage/');
+                var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_disc').html(htmldisc);
+                    $('#input_hide_disc').val('1');
+                }  
+        }else{$("#no_discapacidad").prop("checked", true); $('#file_discapacidad').prop('disabled',true);}
      
      } 
  });    
@@ -223,6 +337,14 @@ $("#tipo_capacitacion").on('change',function(){
   
              if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
              if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
+
+             if(data3.query[i].tipo_experiencia == '1'){
+                tipo_exp="Experiencia Laboral";
+              }else if(data3.query[i].tipo_experiencia == '2'){
+                tipo_exp="Prácticas Pre Profesionales";
+              }else if(data3.query[i].tipo_experiencia == '3'){
+                tipo_exp="Prácticas Profesionales";
+              }
              
              var href_exp_ll="#";
             if(data3.query[i].archivo != ""){
@@ -230,7 +352,7 @@ $("#tipo_capacitacion").on('change',function(){
             }
             
              tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
-             "<td>"+data3.query[i].tipo_experiencia+"</td>"+
+             "<td>"+tipo_exp+"</td>"+
              "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
              "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
              
@@ -760,54 +882,70 @@ $("#tipo_capacitacion").on('change',function(){
      
  function guardardatos(){
     
-     
-    // var arrayExp={estado:"",msjok:"",msjerror:""};
      var discap=0;
      var ffaa=0;
      var depor=0;
-     var valor;
-   /*  
+     var msj_error = "";
+     
+
+     if($('#input_hide_dni').val() == "0" && $('#cargar_dni').val() == ""){
+        
+         msj_error = "Debe de cargar su documento de Identidad";
+         
+     }else 
+
      if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
-     $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || 
+     $("#nacionalidad").val()=="" || $("#telefono_celular").val()=="" || 
      $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
+         
+         msj_error = "Debe de completar todos lo campos requeridos";
          ///////////////////////////////d$('.micheckbox').prop('checked')
-         return arrayExp;
+         
      }else if(!$("#si_discapacidad").is(':checked') && !$("#no_discapacidad").is(':checked')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de seleccionar si es discapacitado o no";
-         return arrayExp;
+         
+         msj_error = "Debe de seleccionar si es discapacitado o no";
+         
      }else if(!$("#si_ffaa").is(':checked') && !$("#no_ffaa").is(':checked')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de seleccionar si es licenciado de las Fuerzas Armadas";
-         return arrayExp;
+         
+         msj_error = "Debe de seleccionar si es licenciado de las Fuerzas Armadas";
+         
      }else if(!$("#si_deportista").is(':checked') && !$("#no_deportista").is(':checked')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de seleccionar si es Deportista Calificado";
-         return arrayExp;
-     }   
- 
-     if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val('')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de cargar su archivo que fundamente su discapacidad";
-         return arrayExp;
-     }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val('')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
-         return arrayExp;
-     }else if($("#si_deportista").is(':checked') && $('#file_deportista').val('')){
-         arrayExp.estado = false;
-         arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
-         return arrayExp;
-     }   
- */
+         
+         msj_error = "Debe de seleccionar si es Deportista Calificado";
+         
+     }else 
+     
+     if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val() == "" && $('#input_hide_disc').val() == "0"){
+         
+         msj_error = "Debe de cargar su archivo que fundamente su discapacidad";
+         
+     }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val() =="" && $('#input_hide_ffaa').val() == "0"){
+         
+         msj_error = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
+         
+     }else if($("#si_deportista").is(':checked') && $('#file_deportista').val() == "" && $('#input_hide_deport').val() == "0"){
+         
+         msj_error = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
+         
+     }
+     
+     if(msj_error != ""){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: msj_error,
+            timer: null
+        })
+        return false;
+     }
+     
      if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
      if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
      if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
     
      var formData = new FormData();
      
+     formData.append('archivo_dni',$('#cargar_dni').prop('files')[0]);
      formData.append('archivo_discapacidad',$('#file_discapacidad').prop('files')[0]);
      formData.append('archivo_ffaa',$('#file_ffaa').prop('files')[0]);
      formData.append('archivo_deport',$('#file_deportista').prop('files')[0]);
@@ -843,6 +981,37 @@ $("#tipo_capacitacion").on('change',function(){
                 showConfirmButton: false,
                 timer: 2000
             });
+            
+            
+                        var href_dni="#";
+                        var href_deport="#";
+                        var href_disc="#";
+                        var href_ffaa="#";
+
+                        if(data.archivo_dni != null){
+                        href_dni=data.archivo_dni.replace("public/", '/storage/');
+                        var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                            $('#btn_doc_dni').html(htmldni);
+                            $('#input_hide_dni').val('1');
+                        }           
+                        if(data.archivo_deport != null && data.es_deportista == 1){
+                            href_deport=data.archivo_deport.replace("public/", '/storage/');
+                            var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                                $('#btn_doc_deport').html(htmldeport);
+                                $('#input_hide_deport').val('1');
+                            }
+                        if(data.archivo_disc != null && data.es_pers_disc == 1){
+                            href_disc=data.archivo_disc.replace("public/", '/storage/');
+                            var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                                $('#btn_doc_disc').html(htmldisc);
+                                $('#input_hide_disc').val('1');
+                            }    
+                        if(data.archivo_ffaa != null && data.es_lic_ffaa == 1){
+                            href_ffaa=data.archivo_ffaa.replace("public/", '/storage/');
+                            var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                                $('#btn_doc_ffaa').html(htmlffaa);
+                                $('#input_hide_ffaa').val('1');
+                            }        
              },
              error: function(data){
                  console.log("error");
@@ -946,17 +1115,47 @@ $("#tipo_capacitacion").on('change',function(){
  
  }*/
  
-  function anios_meses_dias(diasx){
-     var anios;
-     var meses;
-     var dias;
-     anios= Math.trunc(diasx/365); 
-     meses= Math.trunc((diasx%365)/30.4);
-     dias =(diasx%365)%30.4;
+ function anios_meses_dias(diasx){
+    var anios;
+    var meses;
+    var dias;
+    var anios_desc="";
+    var meses_desc="";
+    var dias_desc="";
+    anios= Math.trunc(diasx/365); 
+    meses= Math.trunc((diasx%365)/30.4);
+    dias =Math.round((diasx%365)%30.4);
+
+    if(anios == 0){
+        anios_desc = "";
+        anios = "";
+    }else if(anios == 1){
+        anios_desc = "año";
+    }else if(anios > 1){
+        anios_desc = "años";
+    }
+
+    if(meses == 0){
+        meses_desc = "";
+        meses = "";
+    }else if(meses == 1){
+        meses_desc = "mes";
+    }else if(meses > 1){
+        meses_desc = "meses";
+    }
+
+    if(dias == 0){
+        dias_desc = "";
+        dias = "";
+    }else if(dias == 1){
+        dias_desc = "dia";
+    }else if(dias > 1){
+        dias_desc = "dias";
+    }
+  
      
-      
-   return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
-  }
+  return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
+ }
  
  
   //______________________FUNCIONES TABLA_POSTULAR________________________________
@@ -1297,11 +1496,19 @@ function guardar_experiencia_data(){
         contentType: false,
         processData: false,
         success:function(data){
-            
+           var tipo_exp; 
             marcadogeneral="";
             marcadoespecifico="";
            if(data.query.es_exp_gen==1){marcadogeneral="checked";}
            if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
+          
+           if(data3.query[i].tipo_experiencia == '1'){
+            tipo_exp="Experiencia Laboral";
+          }else if(data.query.tipo_experiencia == '2'){
+            tipo_exp="Prácticas Pre Profesionales";
+          }else if(data.query.tipo_experiencia == '3'){
+            tipo_exp="Prácticas Profesionales";
+          }
 
            var href_exp="#";
            if(data.query.archivo != ""){
@@ -1309,7 +1516,7 @@ function guardar_experiencia_data(){
            }
 
             var fila = "<tr id='tblexp"+data.query.id+"'>"+
-            "<td>"+data.query.tipo_experiencia+"</td>"+
+            "<td>"+tipo_exp+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
@@ -1423,18 +1630,27 @@ function actualizar_experiencia_data(transid){
         success:function(data){
             //console.log(data);
             //alert(data);
+            var tipo_exp;
           var marcadogeneral="";
             var marcadoespecifico="";
            if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
            if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
             
+           if(data.query[0].tipo_experiencia == '1'){
+            tipo_exp="Experiencia Laboral";
+          }else if(data.query[0].tipo_experiencia == '2'){
+            tipo_exp="Prácticas Pre Profesionales";
+          }else if(data.query[0].tipo_experiencia == '3'){
+            tipo_exp="Prácticas Profesionales";
+          }
+
            var href_exp="#";
            if(data.query[0].archivo != ""){
             href_exp=data.query[0].archivo.replace("public/", '/storage/');
            }
 
           var filahtml =
-            "<td>"+data.query[0].tipo_experiencia+"</td>"+
+            "<td>"+tipo_exp+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             

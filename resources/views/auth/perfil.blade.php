@@ -1,6 +1,7 @@
 @extends('layouts.material')
 
 @section('css')
+<link href="{{ asset('/material-pro/src/assets/libs/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('title','Ajustes')
@@ -35,19 +36,19 @@
                                     </div> -->
                                 </center>
                             </div>
-                            <div></div>
+                            
+                            <div class="card-body align-content-center">
+                                <small class="text-muted align-content-center">Subir Fotografía</small> 
+                                <small> <input class="align-content-center" type="file" > </small>
+                            </div>
                                 <hr> 
                                 <div class="card-body"> 
                                     <small class="text-muted">DNI</small> 
                                         <h6>{{auth()->user()->dni}}</h6> 
-                                    <small class="text-muted">Fecha de Nacimiento</small> 
-                                        <h6>fecha_nacimiento</h6> 
-                                    <small class="text-muted pt-4 db">Celular</small> 
-                                        <h6>telefono_celular</h6>
+                                    
                                     <small class="text-muted pt-4 db">Correo</small> 
                                         <h6>{{auth()->user()->email}}</h6>  
-                                    <small class="text-muted pt-4 db">Dirección</small>
-                                        <h6>domicilio Calle alla sito, N° 20815</h6>
+                                    
                                     <hr> 
                                     <button type="button" class="btn btn-info btn-circle" data-toggle="modal" data-target="#m_contraseña"
                                     data-placement="bottom" title="" data-original-title="Modificar Contaseña"><i class="mdi mdi-account-key font-20"></i></button>
@@ -87,29 +88,21 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form-material">
                                             <div class="card-body">
+                                               
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md">
                                                         <div class="form-group">
-                                                            <label for="apellido_paterno"> Apellido Paterno : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control" value="{{auth()->user()->apellido_paterno}}" id="apellido_paterno" name="apellido_paterno" disabled> </div>
-                                                            
+                                                            <label for="cargar_dni"> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro):<small class="mr-5"> .pdf</small></label>
+                                                           <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf"> </div>
+                                                           <input type="hidden" id="input_hide_dni" value="0">
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="apellido_materno"> Apellido Materno : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control" value="{{auth()->user()->apellido_materno}}" id="apellido_materno" name="apellido_materno" disabled> </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="nombres"> Nombres : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control" value="{{auth()->user()->nombres}}" id="nombres" name="nombres" disabled> </div>
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label for="dni"> DNI : <span class="text-danger">*</span> </label>
-                                                            <input type="text" value="{{auth()->user()->dni}}" class="form-control" id="dni" name="dni" disabled> </div>
+                                                            <label for="ruc"> RUC (opcional):  </label>
+                                                            <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -127,49 +120,59 @@
                                                     
                                                 
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="ruc"> RUC (opcional):  </label>
-                                                            <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
-                                                            <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
-                                                            <select class="form-control select_2 required" name="" id="ubigeodni" name="ubigeodni"></select>
+                                                   
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
+                                                                <select class="form-control required" id="nacionalidad" name="nacionalidad" >
+                                                                    <option value="">Seleccionar</option>
+                                                                    <option value="Peruano(a)">Peruano(a)</option>
+                                                                    <option value="Extranjero(a)">Extranjero(a)</option>
+                                                                </select>
+                                                            </div>    
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control required" value="" id="nacionalidad" name="nacionalidad"> </div>
-                                                    </div>   
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
+                                                                <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
+                                                                <div id="html_lugar_nac">
+                                                                    <select class="form-control select_2 required" id="ubigeodni" name="ubigeodni"></select>
+                                                                </div>
+                                                                <div id="html_lugar_nac2">
+                                                                        <input type="text" class="form-control"  id="ubigeodni_alt">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                       
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular"> </div>
+                                                            <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular">
+                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="telefono_fijo"> Telefono fijo (opcional) : </label>
-                                                            <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
+                                                            <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo">
+                                                         </div>
                                                     </div>
-                                                    <div class="col-md-4">
+                                                      
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
+                                                            <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
+                                                    </div>   
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
                                                             <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
                                                             <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
                                                         </div>
-                                                    </div>   
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                            <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
-                                                    </div>   
+                                                    </div> 
                                                 </div>
                                                 <br>
                                                 <br>
@@ -191,6 +194,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
+                                                            <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
                                                         </div>   
                                                     </div>                               
                                                 </div>
@@ -212,6 +216,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
+                                                            <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                                         </div>   
                                                     </div>
                                                                         
@@ -234,6 +239,7 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
+                                                            <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                                         </div>   
                                                     </div>
                                                                         
@@ -444,5 +450,8 @@
     <script src="{{ asset('/extra-libs/jqbootstrapvalidation/validation.js')}}"></script>
     <script src="{{ asset('/js/perfil_usuario.js')}}"></script>
     <script src="{{ asset('/js/moment.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
 {{-- Ajustes de vista --}}
 @endsection

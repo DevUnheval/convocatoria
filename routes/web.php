@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+//use SebastianBergmann\Environment\Console;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -112,7 +114,8 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
     Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
-         
+    Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
+       
 });
 Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
 
@@ -132,6 +135,7 @@ Route::group(['prefix' => 'postulantes'], function(){
         ->where(DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec)"),"like","%$search%")
         //->where(DB::raw("CONCAT(`nvp`, ' ', `vpv`)"), 'LIKE', "%".$this->searchNeedle."%");
         ->get();
+       
         return response()->json($q);
    })->middleware(['auth']);
 

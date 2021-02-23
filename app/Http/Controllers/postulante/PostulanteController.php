@@ -15,11 +15,13 @@ use App\Http\Controllers\Controller;
 use App\Mail\ConstPostulacionMailable;
 use App\Postulante;
 use App\Proceso;
+use App\Ubigeo;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+
 
 class PostulanteController extends Controller
 {
@@ -44,6 +46,26 @@ class PostulanteController extends Controller
         return json_encode($dataform, true);
     }
 */
+    public function recuperar_ubigeo(){
+        $du = DatosUser::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('user_id',auth()->user()->id)->first();
+        $nacionalidad = $du->nacionalidad;
+        if($nacionalidad == "Peruano(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $u_nac = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_nacimiento))->first();
+            $desc_u_nac = $u_nac->desc_ubigeo_reniec.' - '.$u_nac->desc_prov_reniec.' - '.$u_nac->desc_dep_reniec;
+        }else if($du->nacionalidad == "Extranjero(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $desc_u_nac = null;
+        }
+
+        $cod_dom= $du->ubigeo_domicilio;
+        $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_domicilio))->first();
+        $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
+
+        return compact('nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+
+    }
+
     public function datosuser_data1(){
         
         if(DatosUser::where('user_id',auth()->user()->id)->exists()){
@@ -101,40 +123,58 @@ class PostulanteController extends Controller
         $datosuser->telefono_fijo = $data->telfijo;
         $datosuser->ruc = $data->ruc;
         $datosuser->domicilio = $data->domicilio;
+        $datosuser->es_pers_disc = $data->dicapacidad;
         $datosuser->ubigeo_nacimiento = $data->ubigeodni;
         $datosuser->ubigeo_domicilio = $data->ubigeo_domicilio;
-        $datosuser->es_pers_disc = $data->dicapacidad;
         $datosuser->es_lic_ffaa = $data->ffaa;
         $datosuser->es_deportista = $data->deportista;
         $datosuser->nacionalidad = $data->nacionalidad;
         $datosuser->fecha_nacimiento = $data->fechanac;
        
-        //$name= $data->file('archivo_bases')->store('public/procesos/bases');
+       //archivo DNI
+        if($data->file('archivo_dni')){
+            $s= DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($s->archivo_dni); //eliminar archivo ya cargado
+            $datosuser->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes');
+            $datosuser->archivo_dni_tipo = "local";
+            }//else{$datosuser->archivo_dni = NULL; $datosuser->archivo_dni_tipo = NULL; }
+    
         //archivo discapacidad
-        $datosuser->archivo_dni = "";
-        $datosuser->archivo_dni_tipo = "";
-
         if($data->file('archivo_discapacidad')){
             $p= DatosUser::find($idDatosUser[0]->id);
             Storage::delete($p->archivo_disc); //eliminar archivo ya cargado
             $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
             $datosuser->archivo_disc_tipo = "local";
-            }else{$datosuser->archivo_disc = NULL; $datosuser->archivo_disc_tipo = NULL; }
-            //archivo discapacidad
+            }else if($data->dicapacidad == 0){
+                $pp= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($pp->archivo_disc); //eliminar archivo ya cargado
+                $datosuser->archivo_disc = NULL;
+                $datosuser->archivo_disc_tipo = NULL;
+            }
+          
             if($data->file('archivo_ffaa')){
                 $q= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($q->archivo_ffaa); //eliminar archivo ya cargado
                 $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
                 $datosuser->archivo_ffaa_tipo = "local";
-                }else{$datosuser->archivo_ffaa = NULL; $datosuser->archivo_ffaa_tipo = NULL; }
-            //archivo discapacidad
+                }else if($data->ffaa == 0){
+                    $qq= DatosUser::find($idDatosUser[0]->id);
+                    Storage::delete($qq->archivo_ffaa); //eliminar archivo ya cargado
+                    $datosuser->archivo_ffaa = NULL;
+                    $datosuser->archivo_ffaa_tipo = NULL;
+                }
+
             if($data->file('archivo_deport')){
                 $r= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
                 $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
                 $datosuser->archivo_deport_tipo = "local";
-                }else{$datosuser->archivo_deport = NULL; $datosuser->archivo_deport_tipo = NULL; }
-        
+                }else if($data->deportista == 0){
+                    $r= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
+                $datosuser->archivo_deport = NULL;
+                $datosuser->archivo_deport_tipo = NULL;
+                }
         
         $datosuser->save();
             
@@ -154,32 +194,35 @@ class PostulanteController extends Controller
         $datosuserno->nacionalidad = $data->nacionalidad;
         $datosuserno->fecha_nacimiento = $data->fechanac;
         
-        $datosuserno->archivo_dni = "";
-        $datosuserno->archivo_dni_tipo = "";
-
+        //archivo DNI
+        if($data->file('archivo_dni')){
+            $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes');
+            $datosuserno->archivo_dni_tipo = "local";
+            }//else{$datosuserno->archivo_dni = NULL; $datosuserno->archivo_dni_tipo = NULL; }
+        
         //archivo discapacidad
         if($data->file('archivo_discapacidad')){
         $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
         $datosuserno->archivo_disc_tipo = "local";
-        }else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
+        }//else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_ffaa')){
             $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
             $datosuserno->archivo_ffaa_tipo = "local";
-            }else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
+            }//else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_deport')){
             $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
             $datosuserno->archivo_deport_tipo = "local";
-            }else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
+            }//else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
                 
 
         $datosuserno->save();
             
         }
 
-   
-        return response()->json(['mensaje'=>"Datos guardados con exito!!"]);
+        $query = DatosUser::where('user_id',auth()->user()->id)->first();
+        return $query;
 
     }
    

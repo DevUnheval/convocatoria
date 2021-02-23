@@ -45,6 +45,15 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label for="cargar_dni"> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro):<small class="mr-5"> .pdf</small></label>
+                                   <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf"> </div>
+                                   <input type="hidden" id="input_hide_dni" value="0">
+                            </div>
+                            
+                        </div>
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="apellido_paterno"> Apellido Paterno : <span class="text-danger">*</span> </label>
@@ -73,55 +82,72 @@
                                     <label for="email"> Correo electrónico : <span class="text-danger">*</span> </label>
                                     <input type="email" class="form-control" id="email" value="{{auth()->user()->email}}" name="email" disabled> </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger required">*</span> </label>
-                                    <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
-                            </div>
+                            
                         </div>
                         
                         
                             
                         
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ruc"> RUC (opcional):  </label>
-                                    <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
+                                    <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger required">*</span> </label>
+                                    <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
-                                    <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
-                                    <select class="form-control select_2 required" name="" id="ubigeodni" name="ubigeodni"></select>
-                                </div>
+                                    <label for="ruc"> RUC<small> (opcional):</small> </label>
+                                    <input type="text" class="form-control" value=""  id="ruc" name="ruc">
+                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control required" value="" id="nacionalidad" name="nacionalidad" placeholder="EJM: PERUANO, ARGENTINO, ETC."> </div>
-                            </div>   
+                            
+                               
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
+                                        <select class="form-control required" id="nacionalidad" name="nacionalidad" >
+                                            <option value="">Seleccionar</option>
+                                            <option value="Peruano(a)">Peruano(a)</option>
+                                            <option value="Extranjero(a)">Extranjero(a)</option>
+                                        </select>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
+                                        <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
+                                        <div id="html_lugar_nac">
+                                        <select class="form-control select_2 required" id="ubigeodni" name="ubigeodni"></select>
+                                        </div>
+                                        <div id="html_lugar_nac2">
+                                            <input type="text" class="form-control"  id="ubigeodni_alt">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
                                     <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular"> </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="telefono_fijo"> Telefono fijo (opcional) : </label>
+                                    <label for="telefono_fijo"> Telefono fijo <small> (opcional)</small> : </label>
                                     <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>  
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
                                     <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
                             </div> 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="ubigeo_domicilio"> Ubigeo-Domicilio Actual: <span class="text-danger">*</span> </label>
                                     <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
@@ -149,6 +175,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
+                                    <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
                                 </div>   
                             </div>                               
                         </div>
@@ -170,6 +197,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
+                                    <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                 </div>   
                             </div>
                                                 
@@ -192,6 +220,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
+                                    <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                 </div>   
                             </div>
                                                 
@@ -391,7 +420,7 @@
                 </section>
 
                 <!-- Step 5 -->
-                <h6>POSTULAR</h6>
+                <h6>Declaración Jurada</h6>
                 <section>
                     <div class="row">
                         <div class="col-md-12">
@@ -494,6 +523,107 @@
                     </div>                     
                     <br>
                     <br>                                        
+                </section>
+                <!-- Step 6 -->
+                <h6>Postular</h6>
+                <section>
+                    
+                    <h2> RESUMEN DE POSTULACIÓN AL PROCESO <strong>{{$proceso->cod}} - {{$proceso->nombre}} </strong></h2>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><strong> Documento de identidad : </strong> 71539325</label><br>
+                                <label><strong> Apellido Paterno : </strong> AHUANLLA</label><br>
+                                <label><strong> Apellido Materno : </strong> SANTIAGO</label><br>
+                                <label><strong> Nombres : </strong> FRANZ</label><br>
+                                <label><strong> Correo Electrónico : </strong> franz_sistem@gmail.com</label><br>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><strong> Documento de identidad : </strong> 71539325</label><br>
+                                <label><strong> Apellido Paterno : </strong> AHUANLLA</label><br>
+                                <label><strong> Apellido Materno : </strong> SANTIAGO</label><br>
+                                <label><strong> Nombres : </strong> FRANZ</label><br>
+                                <label><strong> Correo Electrónico : </strong> franz_sistem@gmail.com</label><br>
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <h3> FORMACIÓN ACADÉMICA</h3>
+                    <div class="table-responsive">
+                        <table id="res_formacion" class="table table-striped table-bordered">
+                            <thead class="text-white bg-info">
+                                <tr>
+                                    <th>Grado de estudio</th>
+                                    <th>Especialidad</th>
+                                    <th>Centro de Estudios</th>
+                                    <th>Fecha Expedición</th>
+                                    <th>Acciones</th>
+                                     
+                                </tr>
+                            </thead>
+                                    <tbody id="res_formacion_body">
+                                        
+                                    </tbody>
+                            
+                        </table>
+                    </div>
+                    <br><br>
+                    <h3> CURSOS/CAPACITACIONES</h3>
+                    <div class="table-responsive">
+                        <table id="res_capa" class="table table-striped table-bordered">
+                            <thead class="text-white bg-info">
+                                <tr>
+                                    <th>Tipo de estudio</th>
+                                    <th>Descripción</th>
+                                    <th>Institución</th>
+                                    <th>Horas lectivas<br></th>
+                                    <th>Acciones</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="res_capa_body">
+                                    <!-- Cuerpo vacio -->
+                                   
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                    <br><br>
+                    <h3>EXPERIENCÍA GENERAL Y ESPECÍFICA</h3>
+                    <div class="table-responsive">
+                        <table id="res_exper" class="table table-striped table-bordered">
+                            <thead class="text-white bg-info">
+                                <tr>
+                                    <th>Tipo de Experiencia</th>
+                                    <th>Es experiencia</th>
+                                    
+                                    <th>Nombre Entidad</th>
+                                    <th>Cargo<br></th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Fin</th>
+                                    <th>Tiempo Exper.</th>
+                                    <th>Acciones</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="res_exper_body">
+                                    <!-- Cuerpo vacio -->
+                                    
+                            </tbody>
+                            
+                        </table>
+                    </div>
+
+                    <br><br>
+
+                    
+                    <br><br><br>                      
                 </section>
             </form>
         </div>

@@ -1,36 +1,67 @@
 $(document).ready(function() {
 
-    $('#file_discapacidad').prop('disabled',true);
-    $('#file_discapacidad').val('');
-    $('#file_ffaa').prop('disabled',true);
-    $('#file_ffaa').val('');
-    $('#file_deportista').prop('disabled',true);
-    $('#file_deportista').val('');
+    $("#nacionalidad").on('change',function(){
+        
+       
+        if($('#nacionalidad').val() == "Peruano(a)"){
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac2').hide();
+            $('#html_lugar_nac').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+                     
+        }
 
-    $('.group1').click(function(){
-        if($(this).val()=='true'){
-            $('#file_discapacidad').prop('disabled',false);
-        }else{
-            $('#file_discapacidad').prop('disabled',true);
-            $('#file_discapacidad').val('');
+        if($('#nacionalidad').val() == "Extranjero(a)"){
+        
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac').hide();
+            $('#html_lugar_nac2').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+           
         }
+
+        if($('#nacionalidad').val() == ""){
+           
+            }
     })
-    $('.group2').click(function(){
-        if($(this).val()=='true'){
-            $('#file_ffaa').prop('disabled',false);
-        }else{
-            $('#file_ffaa').prop('disabled',true);
-            $('#file_ffaa').val('');
-        }
-    })
-    $('.group3').click(function(){
-        if($(this).val()=='true'){
-            $('#file_deportista').prop('disabled',false);
-        }else{
-            $('#file_deportista').prop('disabled',true);
-            $('#file_deportista').val('');
-        }
-    })
+
+$('.group1').click(function(){
+    if($(this).val()=='true'){
+        $('#file_discapacidad').prop('disabled',false);
+       
+    }else{
+        $('#file_discapacidad').prop('disabled',true);
+        $('#btn_doc_disc').html('');
+        $('#file_discapacidad').val('');
+        $('#input_hide_disc').val('0');
+    }
+})
+$('.group2').click(function(){
+    if($(this).val()=='true'){
+        $('#file_ffaa').prop('disabled',false);
+    }else{
+        $('#file_ffaa').prop('disabled',true);
+        $('#btn_doc_ffaa').html('');
+        $('#file_ffaa').val('');
+        $('#input_hide_ffaa').val('0');
+    }
+})
+$('.group3').click(function(){
+    if($(this).val()=='true'){
+        $('#file_deportista').prop('disabled',false);
+    }else{
+        $('#file_deportista').prop('disabled',true);
+        $('#btn_doc_deport').html('');
+        $('#file_deportista').val('');
+        $('#input_hide_deport').val('0');
+    }
+})
         
 
 
@@ -424,11 +455,19 @@ function guardar_experiencia_data(){
         contentType: false,
         processData: false,
         success:function(data){
-            
+          var tipo_exp;  
             marcadogeneral="";
             marcadoespecifico="";
            if(data.query.es_exp_gen==1){marcadogeneral="checked";}
            if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
+
+           if(data.query.tipo_experiencia == '1'){
+            tipo_exp="Experiencia Laboral";
+          }else if(data.query.tipo_experiencia == '2'){
+            tipo_exp="Prácticas Pre Profesionales";
+          }else if(data.query.tipo_experiencia == '3'){
+            tipo_exp="Prácticas Profesionales";
+          }
 
            var href_exp="#";
            if(data.query.archivo != ""){
@@ -436,7 +475,7 @@ function guardar_experiencia_data(){
            }
 
             var fila = "<tr id='tblexp"+data.query.id+"'>"+
-            "<td>"+data.query.tipo_experiencia+"</td>"+
+            "<td>"+tipo_exp+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
@@ -550,18 +589,27 @@ function actualizar_experiencia_data(transid){
         success:function(data){
             //console.log(data);
             //alert(data);
+            var tipo_exp;
           var marcadogeneral="";
             var marcadoespecifico="";
            if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
            if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
-            
+           
+           if(data.query[0].tipo_experiencia == '1'){
+            tipo_exp="Experiencia Laboral";
+          }else if(data.query[0].tipo_experiencia == '2'){
+            tipo_exp="Prácticas Pre Profesionales";
+          }else if(data.query[0].tipo_experiencia == '3'){
+            tipo_exp="Prácticas Profesionales";
+          }
+
            var href_exp="#";
            if(data.query[0].archivo != ""){
             href_exp=data.query[0].archivo.replace("public/", '/storage/');
            }
 
           var filahtml =
-            "<td>"+data.query[0].tipo_experiencia+"</td>"+
+            "<td>"+tipo_exp+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
