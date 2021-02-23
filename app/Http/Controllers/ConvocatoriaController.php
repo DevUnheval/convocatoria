@@ -71,7 +71,7 @@ class ConvocatoriaController extends Controller
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
                 if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
-                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
+                    $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
                 }else if(auth()->check() && auth()->user()->hasRoles(['Postulante'])){
                     $idproceso=$dato->id;
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
@@ -98,7 +98,7 @@ class ConvocatoriaController extends Controller
     }
     public function historico()
     {
-        return view('convocatorias.historico');
+        return view('convocatorias.historico.index');
     }
     public function showme($id)
     {
@@ -115,7 +115,7 @@ class ConvocatoriaController extends Controller
             $name= $r->file('archivo_bases')->store('public/procesos/bases');
             $q->archivo_bases=$name;
             $q->save(); 
-        }  
+        }   
         if($r->file('archivo_resolucion')){
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
             $q->archivo_resolucion=$name;
@@ -195,7 +195,7 @@ class ConvocatoriaController extends Controller
         Storage::delete($c->archivo);
         Comunicado::destroy($id);
     }   
-
+    
     public function destroy($id)
     {
         $postulante = Postulante::where("proceso_id",$id)->first();

@@ -19,14 +19,16 @@
                             {{-- modal --}}
                                                        
                                 @include('convocatorias.en_curso.m_comunicados')
+                                @include('convocatorias.en_curso.m_evaluacion')
+                                @include('convocatorias.en_curso.m_resultado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                    
                             {{--Fin modal --}}
 
-            <h4 class="card-title">
+            {{-- <h4 class="card-title">
                 <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
                 <i class="fa fa-plus"></i> Nuevo</button>
-            </h4>
+            </h4> --}}
             @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">

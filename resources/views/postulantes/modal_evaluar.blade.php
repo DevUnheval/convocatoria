@@ -15,11 +15,11 @@
                     </div>
                     <div class="form-group">
                       <label for="formGroupExampleInput2">Evaluación de Conocimientos</label>
-                      <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Conocimientos">
+                      <input type="text" class="form-control" placeholder="Conocimientos">
                     </div>
                     <div class="form-group">
                         <label for="formGroupExampleInput2">Evaluación de Entrevista</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Entrevista">
+                        <input type="text" class="form-control" placeholder="Entrevista">
                       </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                   </form>

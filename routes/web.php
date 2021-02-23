@@ -69,21 +69,31 @@ Route::group(['prefix' => 'maestro'], function(){
 Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
-    Route::get('en_curso', 'ConvocatoriaEnCursoController@en_curso')->name('convocatoria.en_curso');
+    Route::get('en_curso', 'ConvocatoriaEnCursoController@index')->name('convocatoria.en_curso');
     Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
+    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
+    
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
-    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@encurso_data')->name('convocatoria.en_curso.data'); 
-    Route::get('historico/data', 'ConvocatoriaController@vigentes')->name('convocatoria.historico.data'); 
+    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');    
+    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');  
+    Route::get('historico/data', 'ConvocatoriaController@data')->name('convocatoria.historico.data'); 
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
+    Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado');  
+    Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado'); 
+
     //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
     Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');   
+    Route::get('show_evaluacion/{proceso_id}', 'ConvocatoriaEnCursoController@show_evaluacion')->name('convocatoria.en:curso.comunicados');     
     Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar');  
+    Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion');     
     Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
-
+    Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar');
+       
+    
     Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
     
 });
@@ -121,11 +131,13 @@ Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@r
 
 //POSTULANTES
 Route::group(['prefix' => 'postulantes'], function(){
-        Route::get('/{proceso_id}/{etapa?}/listar', 'PostulantesController@index')
-                ->where(['proceso_id' => '[0-9]+'], ['etapa' => '[0-9]+'])->name('postulantes.index');
-        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.data');  
+        Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
+                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
+        Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[0-9]+'])->name('postulantes.data'); 
+        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
         
-   });
+});
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){
        $search = $r->search;
@@ -138,4 +150,10 @@ Route::group(['prefix' => 'postulantes'], function(){
        
         return response()->json($q);
    })->middleware(['auth']);
+
+Route::group(['prefix' => 'reportes'], function(){
+    Route::get('/{id}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->name('reportes.pdf');
+    Route::get('/{id}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->name('reportes.excel');   
+    
+});
 
