@@ -1,6 +1,6 @@
 .accordion {
-  background-color: rgb(41, 113, 196);
-  color: rgb(255, 255, 255);
+  background-color: #eee;
+  color: #444;
   cursor: pointer;
   padding: 18px;
   width: 100%;
@@ -12,7 +12,7 @@
 }
 
 .active, .accordion:hover {
-  background-color: rgb(106, 155, 211);
+  background-color: #ccc;
 }
 
 .accordion:after {
