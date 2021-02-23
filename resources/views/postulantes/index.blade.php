@@ -3,6 +3,7 @@
 @section('css')
 <!-- This Page CSS -->
 <link href="{{ asset('/material-pro/src/assets/libs/magnific-popup/dist/magnific-popup.css')}}" rel="stylesheet">
+<link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 <style>
 .note-has-grid .single-note-pendiente.note-no-califica .side-stick {background-color: rgba(252, 75, 108, 0.5); }
 .note-no-califica .point {  color: rgba(252, 75, 108, 0.5); }
@@ -31,86 +32,114 @@
 
 
 
-<div class="container-fluid note-has-grid">
-    <div class="row justify-content-center h-100">
-        
-        <div class="form-check form-check-inline">
-        @foreach($etapas as $key => $e)
-            <input class="form-check-input material-inputs" type="radio"  name="etapa" id="etapa_{{$key}}"
-                    {{ $e['etapa']>$proceso->etapa_evaluacion ? "disabled" : ''}}
-                    value="{{ $e['etapa'] }}" for="a_{{$e['etapa']}}" data-etapa="{{$e['etapa']}}" data-proceso="{{$proceso->id}}"
-                    {{ $e["etapa"]==$etapa_actual["etapa"] ? "checked" : ''}} data-url="{{route('postulantes.index',[$proceso->id,$e['etapa'] ])}}">
-            <label class="form-check-label" for="etapa_{{$key}}" style = "{{ $e["etapa"]==$etapa_actual["etapa"] ? 'font-weight: bold' : ''}} ">{{$e['descripcion']}}</label> &nbsp;&nbsp;&nbsp;   
-        @endforeach
+<div class="container-fluid note-has-grid"><hr>
+    <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    <div class="row">
+        <div class="col-sm-4 col-xs-12 justify-content-center row">
+            <div class="form-check form-check-inline ">
+
+                    <input class="material-inputs check-vista" type="radio"  name="vista" id="vista_tablas" value="1" {{$vista=='1'?'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$proceso->etapa_evaluacion}}" data-vista="1" data-div_id="ver-tablas">
+                    <label class="form-check-label" for="vista_tablas">Ver en tablas</label> &nbsp;&nbsp;&nbsp;     
+
+                    <input class="material-inputs  check-vista" type="radio"  name="vista" id="vista_tarjetas" value="2" {{$vista == '2' ? 'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$proceso->etapa_evaluacion}}" data-vista="2" data-div_id="ver-tarjetas">
+                    <label class="form-check-label" for="vista_tarjetas">Ver en tarjetas </label> &nbsp;&nbsp;&nbsp;       
+            </div><br>
+        </div> 
+        <div class="col-sm-6 justify-content-center row">
+            <div class="form-check form-check-inline">
+                @foreach($etapas as $key => $e)
+                <input class="form-check-input material-inputs" type="radio"  name="etapa" id="etapa_{{$key}}"
+                        {{ $e['etapa']>$proceso->etapa_evaluacion ? "disabled" : ''}}
+                        value="{{ $e['etapa'] }}" for="a_{{$e['etapa']}}" data-etapa="{{$e['etapa']}}" data-proceso="{{$proceso->id}}"
+                        {{ $e["etapa"]==$etapa_actual["etapa"] ? "checked" : ''}} data-url="{{route('postulantes.index',[$proceso->id,$e['etapa'] ])}}">
+                <label class="form-check-label" for="etapa_{{$key}}" style = "{{ $e["etapa"]==$etapa_actual["etapa"] ? 'font-weight: bold' : ''}} ">{{$e['descripcion']}}</label> &nbsp;&nbsp;&nbsp;   
+                @endforeach
+            </div>
         </div>
-    </div>
-    <ul class="nav nav-pills p-3 bg-light mb-3 rounded-pill align-items-center">
-        <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center active px-2 px-md-3 mr-0 mr-md-2"  id="all-category">
-            <i class="icon-layers mr-1"></i><span class="d-none d-md-block">Todos ({{$grupo['total']}})</span></a> 
-        </li>
-        <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-pendiente">
-            <i class="icon-clock mr-1"></i><span class="d-none d-md-block">Pendientes ({{$grupo['pendientes']}})</span></a> 
-        </li>
-        <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-no-califica">
-            <i class="icon-close mr-1"></i><span class="d-none d-md-block">No califica ({{$grupo['noCalifica']}})</span></a> 
-        </li>
-        <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-califica">
-            <i class="icon-check mr-1"></i><span class="d-none d-md-block">Califica ({{$grupo['califica']}})</span></a> 
-        </li>
-        <li class="nav-item ml-auto">
+        <div class="col-sm-2 justify-content-center row">
             <div class="btn-group">
-                <label class="nav-link btn-success rounded-pill d-flex align-items-center px-3 " id="add-notes"  data-toggle="dropdown" aria-haspopup="true">
-                    <i class="fa fa-file-excel m-1"></i><span class="d-none d-md-block font-14">Datos</span>
+                <label class="nav-link btn-success rounded-pill d-flex align-items-center px-3 " data-toggle="dropdown" aria-haspopup="true">
+                    <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14"> Exportar</span>
                 </label> 
                 <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                    <a class='dropdown-item' href='javascript:void(0)'><i class='ti-eye'></i> Exportar </a>
-                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Inportar</a>
+                    <a class='dropdown-item' href='{{route("reportes.excel",$proceso->id)}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar a excel</a>
+                    <a class='dropdown-item' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar a pdf</a>
                 </div>
             </div>
-        </li>
-
-    </ul>
-    <div class="tab-content">
-        <div  id="note-full-container" class="note-has-grid row">
-               
-                @include('postulantes.modal_cv')
-                @include('postulantes.modal_evaluar')
-                @foreach($postulantes as $key => $p)
-                <div class="col-md-3 single-note-pendiente container-fluid all-category {{array_key_exists($p->$calificacion_etapa_actual, $estado) ? $estado[$p->$calificacion_etapa_actual]['clase'] : 'note-pendiente'}}">
-                    <div class="card card-body el-element-overlay">
-                        <span class="side-stick"></span>
-                        <h5 class="note-title text-truncate w-75 mb-0"> {{array_key_exists($p->$calificacion_etapa_actual, $estado) ? $estado[$p->$calificacion_etapa_actual]['nombre'] : 'Pendiente'}}  <i class="point fas fa-circle ml-1 font-10" ></i></h5>
-                        <p class="note-date font-12 text-muted">11 March 2009</p>
-                        <div class="note-content">
-                            <div class="el-card-item pb-3">
-                                <div class="el-card-avatar mb-3 el-overlay-1 w-100 overflow-hidden position-relative text-center"> 
-                                    <img src="{{Url('material-pro/src/assets/images/users/'.($key%7+1).'.jpg')}}" alt="user" class="d-block position-relative w-100" />
-                                    <div class="el-overlay w-100 overflow-hidden">
-                                        <ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">
-                                            <li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="{{url('material-pro/src/assets/images/users/'.($key%7+1).'.jpg')}}" title="ver foto"><i class="icon-picture"></i></a></li>
-                                            <li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="CV"><i class="fas fa-address-card" ></i></button></li> 
-                                            <li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="evaluar"><i class="fas fa-calculator"></i></button></li>
-
-                                        </ul>
-                                    </div>
-                                  
-                                </div>
-                                <div class="el-card-content text-center">
-                                    <h4 class="mb-0">{{$p->user->nombres.' '.$p->user->apellido_paterno.' '.$p->user->apellido_materno}} (25)</h4> <span class="text-muted">Ingenieria Civil</span>
-                                </div>
-                            </div>
-                            <div class="el-card-content text-left">
-                                    <span class="text-muted"><b>Curricular:</b> 34</span><br>
-                                    <span class="text-muted"><b>Conoc/Psic/Hab:</b> 34</span><br>
-                                    <span class="text-muted"><b>Entrevista:</b> 34</span>
-                            </div>
-                          
-                        </div>
-                    </div>
-                </div>
-                @endforeach
         </div>
-    </div>				
+       
+    </div><hr> 
+    <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    @include('postulantes.modal_cv')
+    @include('postulantes.modal_evaluar')
+    <div id="ver-tarjetas" class="ver-div" hidden>
+        <ul class="nav nav-pills p-3 bg-light mb-3 rounded-pill align-items-center">
+            <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center active px-2 px-md-3 mr-0 mr-md-2"  id="all-category">
+                <i class="icon-layers mr-1"></i><span class="d-none d-md-block" id="grupo_total">Todos </span></a> 
+            </li>
+            <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-pendiente">
+                <i class="icon-clock mr-1"></i><span class="d-none d-md-block"  id="grupo_pendientes">Pendientes </span></a> 
+            </li>
+            <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-no-califica">
+                <i class="icon-close mr-1"></i><span class="d-none d-md-block"  id="grupo_noCalifica">No califica </span></a> 
+            </li>
+            <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center px-2 px-md-3 mr-0 mr-md-2" id="note-califica">
+                <i class="icon-check mr-1"></i><span class="d-none d-md-block"  id="grupo_calificia">Califica </span></a> 
+            </li>
+        </ul>
+        
+        <div class="tab-content">
+            <div  id="note-full-container" class="note-has-grid row">
+                    <!-- Code from script -->
+            </div>
+        </div>	
+    </div>
+    <div id="ver-tablas" class="ver-div" hidden>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">
+                    POSTULANTES AL PROCESO
+                </h4>
+                <div class="table-responsive">
+                    <table id="data_table" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>DNI</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>CV</th>
+                                <th>Ev. Curricular</th> 
+                                @if($proceso->evaluar_conocimientos)
+                                <th>Ev. Conoc/ Psic/Hab: </th>   
+                                @endif
+                                <th>Ev. entrevista</th>
+                                <th title="Bonificación">Bon+</th>
+                                <th>Total </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <!-- Cuerpo vacio -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Estado</th>
+                                <th>DNI</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>CV</th>
+                                <th>Ev. Curricular</th> 
+                                @if($proceso->evaluar_conocimientos)
+                                <th>Ev. Conoc/ Psic/Hab: </th>   
+                                @endif
+                                <th>Ev. entrevista</th>
+                                <th title="Bonificación">Bon+</th>
+                                <th>Total </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>			
 </div>
 
 
@@ -122,7 +151,28 @@
 	<!--This page JavaScript -->
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/meg.init.js')}}"></script>
-    <script src="{{ asset('/js/postulantes.js')}}"></script>
+    <script src="{{ asset('/js/postulantes/tarjetas_postulantes.js')}}"></script>
+    <script src="{{ asset('/js/postulantes/postulantes.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
+    <script>               
+        $(document).ready(function() {
+            
+            
+            $(".check-vista").change(function(){
+               
+                const vista   = $(this).data("vista");
+                const proceso = $(this).data("proceso");
+                const etapa   =  $(this).data("etapa");
+                const div     =  $(this).data("div_id");
+                console.log("vista_",vista);
+                Postulantes.init(proceso, etapa, vista, div);
+                
+            });
+            $("#vista_tablas").change();
+
+        })
+    </script>
     
 
 {{-- Ajustes de vista --}}
