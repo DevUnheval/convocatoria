@@ -210,12 +210,12 @@
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('convocatoria.en_curso')}}" aria-expanded="false"><i class="ti-time"></i><span class="hide-menu">En curso</span></a>
                         </li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="{{route('convocatoria.historico')}}" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
                                 <span class="hide-menu">Histórico</span>
                             </a>
                             <ul aria-expanded="false" class="collapse first-level">
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Concluidas</span></a></li>
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Canceladas</span></a></li>
+                                <li class="sidebar-item"><a href="{{route('convocatorias.historico.concluidos.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Concluidas</span></a></li>
+                                <li class="sidebar-item"><a href="{{route('convocatorias.historico.cancelados.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Canceladas</span></a></li>
                                 
                             </ul>
                         </li>

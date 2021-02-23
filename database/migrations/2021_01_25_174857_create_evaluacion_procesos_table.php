@@ -19,7 +19,7 @@ class CreateEvaluacionProcesosTable extends Migration
             $table->foreign('proceso_id')->references('id')->on('procesos')->onDelete('cascade');
             $table->string('nombre')->nullable();
             $table->string('archivo');
-            $table->string('archivo_tipo'); //local o web
+            $table->string('archivo_tipo')->default('local'); //local o web
             $table->timestamps();
         });
     }

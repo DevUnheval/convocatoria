@@ -98,7 +98,7 @@ class ConvocatoriaController extends Controller
     }
     public function historico()
     {
-        return view('convocatorias.historico');
+        return view('convocatorias.historico.index');
     }
     public function showme($id)
     {
@@ -115,7 +115,7 @@ class ConvocatoriaController extends Controller
             $name= $r->file('archivo_bases')->store('public/procesos/bases');
             $q->archivo_bases=$name;
             $q->save(); 
-        }  
+        }   
         if($r->file('archivo_resolucion')){
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
             $q->archivo_resolucion=$name;
@@ -195,7 +195,7 @@ class ConvocatoriaController extends Controller
         Storage::delete($c->archivo);
         Comunicado::destroy($id);
     }   
-
+    
     public function destroy($id)
     {
         $postulante = Postulante::where("proceso_id",$id)->first();
