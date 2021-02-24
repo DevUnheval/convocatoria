@@ -228,19 +228,19 @@
                                             <div class="col-md-3 border-left" >
                                                 <div class="form-group">
                                                     <b><small>Evaluación Curricular:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control fila_curricular required"   name="pje_min_cv" value="14">
+                                                    <input type="number" class="form-control fila_curricular required"   name="pje_min_cv" value="40">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Evaluación Curricular:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_curricular required"   name="pje_max_cv" value="20">
+                                                    <input type="number" class="form-control fila_curricular required"   name="pje_max_cv" value="60">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Evaluación Curricular:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_curricular required"   name="peso_cv" value="40">
+                                                    <input type="number" class="form-control fila_curricular required"   name="peso_cv" value="1">
                                                 </div>
                                             </div>
                                         </div> 
@@ -278,19 +278,19 @@
                                             <div class="col-md-3 border-left">
                                                 <div class="form-group">
                                                     <b><small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_min_entrev" value="14">
+                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_min_entrev" value="20">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_max_entrev" value="20">
+                                                    <input type="number" class="form-control fila_entrevista required"   name="pje_max_entrev" value="40">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Ev. Entrevista Personal:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control fila_entrevista required"   name="peso_entrev" value="60">
+                                                    <input type="number" class="form-control fila_entrevista required"   name="peso_entrev" value="1">
                                                 </div>
                                             </div>
                                         </div>

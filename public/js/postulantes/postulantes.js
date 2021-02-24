@@ -1,3 +1,33 @@
+var  modal_evaluar_todos = function($etapa, $proceso_id,$ev_con,$vista){
+    //modal_evaluar_todos(2,1,0,1)
+    //postulantes/postulantes_evaluados/1/2/0
+    $.ajax({
+        url:   `/postulantes/postulantes_evaluados/${$proceso_id}/${$etapa}/${$ev_con}`,
+        type: 'GET',
+        beforeSend: function () {
+        console.log('enviando....');
+        },
+        success:  function (response){
+            $('#postulantes_evaluados tbody').html(response);
+        },
+        error: function (response){
+            console.log("Error",response.data);
+        Swal.fire({
+            title: "¡Error!",
+            text: response.responseJSON.message,
+            icon: "error",
+            timer: 3500,
+        })
+        }
+    });
+    $("#btn_guardar_evalauacion").attr("data-proceso_id",$proceso_id);
+    $("#btn_guardar_evalauacion").attr("data-etapa",$etapa);
+    $("#btn_guardar_evalauacion").attr("data-ev_con",$ev_con);
+    $("#btn_guardar_evalauacion").attr("data-vista",$vista);
+    
+    $("#modal_evaluar_todos").modal("show");
+}
+
 var dataTable = function(proceso,etapa){
     $('#data_table').DataTable( {
                     bProcessing: true,
@@ -6,7 +36,31 @@ var dataTable = function(proceso,etapa){
                     iDisplayLength: 15,
                     aLengthMenu: [15, 25,50, 100],
                     bAutoWidth: true,
-                    order: []
+                    //order: [[ 2, "asc" ]],
+                    order: [],
+                    columnDefs: [
+                                    {
+                                        "targets": 1, // your case first column
+                                        "className": "text-center",
+                                        //"width": "4%"
+                                    },
+                                    {
+                                        "targets": 4,
+                                        "className": "text-center",
+                                    },
+                                    {
+                                        "targets": 5,
+                                        "className": "text-center",
+                                    },
+                                    {
+                                        "targets": 6,
+                                        "className": "text-center",
+                                    },
+                                    {
+                                            "targets": 7,
+                                            "className": "text-center",
+                                    },
+                                ],
     })
 }
 
@@ -111,20 +165,96 @@ var cargar_vistas = function (proceso, etapa, vista, div) {
     $("#"+div).attr("hidden",false);
 
     if(vista == "1"){
-       dataTable(proceso,etapa);
-       $("#note-full-container").empty();
-    }else{
-        dataTajetas(proceso,etapa);
         $('#data_table').DataTable().destroy();
+       dataTable(proceso,etapa);
+       
+    }else{
+        $("#note-full-container").empty();
+        dataTajetas(proceso,etapa);
+        
     }
 
 
 }
-var Postulantes = (function () {
-    "use strict";
-    return {
-        init: function (proceso, etapa, vista, div) {
-            cargar_vistas(proceso, etapa, vista, div);
-        },
-    };
-})();
+// var Postulantes = (function () {
+//     "use strict";
+//     return {
+//         init: function (proceso, etapa, vista, div) {
+//             cargar_vistas(proceso, etapa, vista, div);
+//         },
+//     };
+// })();
+
+//=========================================INICIAR============================================v
+$(document).ready(function() {
+    $("#btn_guardar_evalauacion").click(function(){
+        const $proceso_id= $(this).data("proceso_id");
+        const $etapa= $(this).data("etapa");
+        const $ev_con= $(this).data("ev_con");
+        const $vista= $(this).data("vista");
+        const $data = $("#form_postulantes_evaluados").serialize();
+        
+        $.ajax({
+            async:false, //para dejar que termine el ajax, antes que continue y sacar variables del succes
+            url:  `/postulantes/actualizar_evaluacion/${$proceso_id}/${$etapa}/${$ev_con}`,
+            headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type: 'GET',
+            data:$data,
+            beforeSend: function () {
+            console.log('enviando....');
+            },
+            success:  function (response){
+                var $nueva_etapa = response;
+                if($etapa == $nueva_etapa){
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Se actualizó correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }) 
+                }else{
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Avanzamos a la siguiente etapa',
+                        showConfirmButton: false,
+                        timer: 2000
+                    }) 
+                    $(location).attr('href', `/postulantes/${$proceso_id}/${$nueva_etapa}/${$vista}/listar`);
+                }
+                
+                
+            },
+            error: function (response){
+                console.log("Error",response.data);
+            Swal.fire({
+                title: "¡Error!",
+                text: response.responseJSON.message,
+                icon: "error",
+                timer: 3500,
+            })
+            }
+        });
+        $("#modal_evaluar_todos").modal("hide");
+        iniciar_pagina();
+    })
+
+    $(".check-vista").change(function(){
+        const vista   = $(this).data("vista");
+        const proceso = $(this).data("proceso");
+        const etapa   =  $(this).data("etapa");
+        const div     =  $(this).data("div_id");
+        console.log(proceso, etapa, vista, div);
+        cargar_vistas(proceso, etapa, vista, div);
+        
+    });
+    function iniciar_pagina(){
+        if( $('#vista_tablas').attr('checked') ) {
+            $("#vista_tablas").change();
+        }else{
+            $("#vista_tarjetas").change();
+        }
+    }
+    iniciar_pagina();
+})
