@@ -1,5 +1,5 @@
 .accordion {
-  background-color: #eee;
+  background-color: #ffb22b;
   color: #444;
   cursor: pointer;
   padding: 18px;
@@ -11,8 +11,8 @@
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
-  background-color: #ccc;
+.active2, .accordion:hover {
+  background-color: rgb(133, 161, 87);
 }
 
 .accordion:after {
@@ -23,7 +23,7 @@
   margin-left: 5px;
 }
 
-.active:after {
+.active2:after {
   content: "\2212";
 }
 

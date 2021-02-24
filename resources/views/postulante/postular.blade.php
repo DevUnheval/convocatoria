@@ -635,8 +635,12 @@
                         <div id="accordion">
                             <!-- 1ro -->
                             <div class="card">
-                                <div class="icono-cerrado glyphicon glyphicon-collapse-down card-header bg-warning cursor-hand" id="headingOne">
-                                    <button type="button" type="button" class="btn text-dark text-left col-12" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <button class="accordion">Section 2</button>
+                                <div class="panel">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                </div>
+                                <div class="icono-cerrado glyphicon glyphicon-collapse-down card-header bg-warning cursor-hand" onclick="" id="headingOne">
+                                    <button type="button" type="button" class="accordion btn text-dark text-left col-12" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <strong>I. DATOS PERSONALES</strong> 
                                         <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
                                     </button>
