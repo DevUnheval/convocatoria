@@ -20,7 +20,70 @@
 @include('postulante.modalnuevacapacitacion')
 @include('postulante.modalnuevaexperiencia')
 
+<!-- INICIO ACORDION ....NO DA :'( -->
+    <button class="accordion">I. DATOS PERSONALES</button>
+    <div class="panel">
+    <div class="table-responsive border border-warning">
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Apellidos y Nombres</th>
+                    <td colspan="3">{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}}, {{auth()->user()->nombres}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
+                    <td>{{auth()->user()->dni}}</td>
+                    <th scope="row" class="alert alert-secondary">RUC:</th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Fecha de Nacimiento</th>
+                    <td>{{auth()->user()->dni}}</td>
+                    <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Celular N° </th>
+                    <td>{{auth()->user()->dni}}</td>
+                    <th scope="row" class="alert alert-secondary">Correo Electrónico</th>
+                    <td>{{auth()->user()->email}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Dirección Actual </th>
+                    <td>{{auth()->user()->dni}}</td>
+                    <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="4" class=""></th>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="3" class="alert alert-secondary">¿Cuenta con certificado de discapacidad y/o registro en CONADIS? (Ley N° 29973) </th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="3" class="alert alert-secondary">¿Es licenciado de las FFAA ? (Ley Nº 29248) </th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+                <tr>
+                    <th scope="row" colspan="3" class="alert alert-secondary">¿Es deportista calificado? </th>
+                    <td>{{auth()->user()->dni}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
 
+    <button class="accordion">Section 2</button>
+    <div class="panel">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+
+    <button class="accordion">Section 3</button>
+    <div class="panel">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+       <!-- FIIIN -->
 
 <div class="col-12">
     <div class="card">
@@ -549,7 +612,8 @@
                                 </div>
                             </div>                   
                         </div>
-                        <!-- INICIO ACORDION ....NO DA :'( 
+                        
+<!--------------------------- INICIO ACORDION ....NO DA :'(    
                         <button class="accordion">I. DATOS PERSONALES</button>
                         <div class="panel">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -564,7 +628,8 @@
                         <div class="panel">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         </div>
-                         FIIIN -->
+
+ --------------------INICIO ACORDION ....NO DA :'(     --------------------------------------------->
 
                         <!-- ACORDION 2-->
                         <div id="accordion">
