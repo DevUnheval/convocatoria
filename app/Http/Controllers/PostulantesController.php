@@ -232,10 +232,11 @@ class PostulantesController extends Controller
         $campo_calificacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc_bd"];
         $api =  $this->get_data($proceso_id, $etapa);
         $proceso = $api["proceso"];
-
+        //return $r->evaluacion;
+        //return Postulante::where("proceso_id",$proceso_id)->where("id",1)->first();
         foreach($r->evaluacion as $key => $valor){
-            $q = Postulante::where("proceso_id",$proceso_id)->where("user_id",$key)->first();
-            $q->$campo_evaluacion = $valor;
+            $q = Postulante::find($key);
+            $q->$campo_evaluacion =  $valor;
             if( (int) $valor > 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 0;
             }else if( $valor >= (int) $proceso->$campo_pje_min ){
