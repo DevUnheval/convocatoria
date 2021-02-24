@@ -635,8 +635,8 @@
                         <div id="accordion">
                             <!-- 1ro -->
                             <div class="card">
-                                <div class="card-header bg-warning" id="headingOne">
-                                    <button type="button" type="button" class="btn text-dark text-center" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="icono-cerrado glyphicon glyphicon-collapse-down card-header bg-warning cursor-hand" id="headingOne">
+                                    <button type="button" type="button" class="btn text-dark text-left col-12" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                         <strong>I. DATOS PERSONALES</strong> 
                                         <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
                                     </button>
@@ -696,7 +696,7 @@
                             <!--2do -->
                             <div class="card">
                                 <div class="card-header bg-warning" id="headingTwo">
-                                    <button type="button" class="btn text-dark text-center collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <button type="button" class="btn text-dark text-left collapsed col-12" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                         <strong>II. FORMACIÓN ACADEMICA</strong> 
                                         <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
                                     </button>
@@ -724,7 +724,7 @@
                             <!-- 3ro -->
                             <div class="card">
                                 <div class="card-header bg-warning" id="headingThree">
-                                    <button type="button" class="btn text-dark text-center collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <button type="button" class="btn text-dark text-left collapsed col-12" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                         <strong>III. CURSOS Y/O ESPECIALIZACIONES</strong> 
                                         <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
                                     </button>
@@ -751,9 +751,9 @@
                             <!--4to -->
                             <div class="card">
                                 <div class="card-header bg-warning" id="heading4">
-                                    <button type="button" class="btn text-dark text-center collapsed" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                    <button type="button" class="btn text-dark text-left collapsed col-12" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
                                         <strong>IV. EXPERIENCIA LABORAL</strong> 
-                                        <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-circle-right text-dark aling align-items-rigth" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordion">
@@ -781,7 +781,7 @@
                             <!-- 5TO--> 
                             <div class="card">
                                 <div class="card-header bg-warning" id="heading5">
-                                    <button type="button" class="btn text-dark text-center collapsed" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                    <button type="button" class="btn text-dark text-left collapsed col-12" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
                                         <strong>V. DECLARACIÓN JURADA</strong> 
                                         <i class="fa fa-arrow-circle-right text-dark align-items-center" aria-hidden="true"></i>
                                     </button>
@@ -811,7 +811,7 @@
                                                     <td id="res_dj4"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" colspan="3" class="alert alert-secondary">5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$proceso->cod}}</th>
+                                                    <th scope="row" colspan="3" class="alert alert-secondary">5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - {{$proceso->cod}}</th>
                                                     <td id="res_dj5"></td>
                                                 </tr>
                                                 <tr>
@@ -876,5 +876,6 @@
 
 <script src="{{ asset('/material-pro/src/assets/extra-libs/prism/prism.js')}}"></script>
 <script src="{{ asset('/js/acordion.js')}}"></script>
+<script src="{{ asset('/js/acordion2.js')}}"></script>
 @endsection
 
