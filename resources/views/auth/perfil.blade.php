@@ -126,7 +126,7 @@
                                                                 <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
                                                                 <select class="form-control required" id="nacionalidad" name="nacionalidad" >
                                                                     <option value="">Seleccionar</option>
-                                                                    <option value="Peruano(a)">Peruano(a)</option>
+                                                                    <option value="Peruano(a)" selected>Peruano(a)</option>
                                                                     <option value="Extranjero(a)">Extranjero(a)</option>
                                                                 </select>
                                                             </div>    

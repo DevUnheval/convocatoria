@@ -301,7 +301,7 @@ $("#tipo_capacitacion").on('change',function(){
     
      $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-         url: "/postulante/experiencias/data1/",
+         url: "/postulante/experiencias/data1/perfil",
          type: "GET" ,
          datatype: "json",
          data: {idproceso: $('#datospostulante').data('id')},

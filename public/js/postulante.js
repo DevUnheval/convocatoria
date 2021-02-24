@@ -2,8 +2,7 @@ $(document).ready(function() {
           
     
 
-   //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
-   
+      
    $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
        // console.log(data); 
         
@@ -40,7 +39,7 @@ $(document).ready(function() {
         $('#ubigeo_domicilio').html(html_dom);
         }
     }); 
-
+//___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
         if(data.valor=="0"){
             //console.log("esta vacio");
@@ -194,27 +193,27 @@ $(document).ready(function() {
         var tipo_exp= "";
         var totaldias_gen=0;
         var totaldias_esp=0;
+        var html_select_tip_exp="";
+               
+        if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option><option value=3>Prácticas Profesionales</option>";
+        }else if(data3.proceso.consid_prac_preprof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option>";
+        }else if(data3.proceso.consid_prac_prof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=3>Prácticas Profesionales</option>";
+        }else {
+            html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option>";
+        }
+        
+        $('#tipo_experiencia').html(html_select_tip_exp);
+
         for (var i = 0; i < data3.query.length; i++) {
             
             
 
             totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
             totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-            /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
-                totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                 totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-              }else if(data3.proceso.consid_prac_preprof == 0 && data3.proceso.consid_prac_prof == 1){
-                  if(data3.query[i].tipo_experiencia != 2){
-                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                  }
-              }else if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 0){
-                if(data3.query[i].tipo_experiencia != 3){
-                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                  }
-              }
-            */
+           
             marcadogeneral="";
             marcadoespecifico="";
             tipo_exp="";  
@@ -311,7 +310,11 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 2000
                 })*/
+                if(currentIndex == 4){
+                    cargar_resumen_postulante();
+                }
                    return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+                   
             } else{
                 Swal.fire({
                     type: 'warning',
@@ -341,35 +344,27 @@ $(document).ready(function() {
                 confirmButtonText: 'Si, registrar'
             }).then((result) => {
                
-
                 if(result.value){
 
-                    $.ajax({
+                    var url = "/postulante/"+$('#datospostulante').data('id')+"/registro";
+                    $(location).attr('href',url);
+                   /* $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         url: "/postulante/registrofinal",
                         type: "POST",
                         datatype: "json",
                         data: { 
-                            idproceso:$('#datospostulante').data('id'),
-                            dj1:$('input:radio[name=g1]:checked').val(),
-                            dj2:$('input:radio[name=g2]:checked').val(),
-                            dj3:$('input:radio[name=g3]:checked').val(),
-                            dj4:$('input:radio[name=g4]:checked').val(),
-                            dj5:$('input:radio[name=g5]:checked').val(),
-                            dj6:$('input:radio[name=g6]:checked').val(),
-                            dj7:$('input:radio[name=g7]:checked').val(),
-                            dj8:$('input:radio[name=g8]:checked').val(),
-                            dj9:$('input:radio[name=g9]:checked').val()
+                            idproceso:$('#datospostulante').data('id')
                          },
                         success:function(data){
-                            console.log(data);
+                           // console.log(data);
                         var url = "/postulante/registro/"+$('#datospostulante').data('id');
                         $(location).attr('href',url);
-                        },
-                        error: function(data){
+                        }
+                        ,error: function(data){
                             alert("error!!"); }
                 
-                    });
+                    });  */
                    
                    
                    
@@ -1028,21 +1023,176 @@ function cumple_formacion(id){
     arrayExp.msjerror = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
     
     if(dj == ""){
-        if(!$('#check_dj').prop('checked')){
-            arrayExp.msjerror = "Debe de marcar que está de acuerdo con el 'PRINCIPIO DE VERACIDAD";
-            arrayExp.estado = false;
-            return arrayExp;
-        }else{
-            arrayExp.estado = true;
-            return arrayExp;
-        }
         
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/postulante/declaracionjurada",
+            type: "POST",
+            datatype: "json",
+            data: { 
+                //idproceso:$('#datospostulante').data('id'),
+                dj1:$('input:radio[name=g1]:checked').val(),
+                dj2:$('input:radio[name=g2]:checked').val(),
+                dj3:$('input:radio[name=g3]:checked').val(),
+                dj4:$('input:radio[name=g4]:checked').val(),
+                dj5:$('input:radio[name=g5]:checked').val(),
+                dj6:$('input:radio[name=g6]:checked').val(),
+                dj7:$('input:radio[name=g7]:checked').val(),
+                dj8:$('input:radio[name=g8]:checked').val(),
+                dj9:$('input:radio[name=g9]:checked').val()
+             },
+            success:function(data){
+                //console.log(data);
+            },
+            error: function(data){
+                alert("error!!"); 
+            }
+    
+        });    
+        
+        
+        arrayExp.estado = true;
+            return arrayExp;
+         
     }else {
         arrayExp.estado = false;
             return arrayExp;
        }
  }
 
- 
+ function cargar_resumen_postulante(){
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/datosuser/cargar_resumen_postulante",
+        type: "GET" ,
+        datatype: "json",
+        data:{idproceso: $('#datospostulante').data('id')
+       
+        },success:function(data){ 
+         // console.log(data);
+          var esdisc = "";
+          var esffaa = "";
+          var esdep = "";
+            $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
+           $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
+           $('#res_ruc').html(data.qdatos.ruc);
+           $('#res_celular').html(data.qdatos.telefono_celular);
+           $('#res_direccion').html(data.qdatos.domicilio);
+           $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
+           if(data.qdatos.es_pers_disc == 1){esdisc = "SI"}else{esdisc = "NO"}
+           if(data.qdatos.es_lic_ffaa == 1){esffaa= "SI"}else{esffaa = "NO"}
+           if(data.qdatos.es_deportista == 1){esdep = "SI"}else{esdep = "NO"}
+           $('#res_disc').html(esdisc);
+           $('#res_ffaa').html(esffaa);
+           $('#res_depor').html(esdep);
+
+            //llenar formacion
+            var html_resform = "";
+            for (var i = 0; i < data.qform.length; i++) {
+               
+                var href_form="#";
+                if(data.qform[i].archivo != null){
+                    href_form = data.qform[i].archivo.replace('public/','/storage/');
+                }
+                html_resform += "<tr>"+
+                "<td>"+data.qform[i].nombre+"</td>"+
+                "<td>"+data.qform[i].especialidad+"</td>"+
+                "<td>"+data.qform[i].centro_estudios+"</td>"+
+                "<td>"+data.qform[i].fecha_expedicion+"</td>"+
+                "<td><a href='"+href_form+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+                 "</td>"+
+                "</tr>";
+            }
+            $('#res_tbl_form').html(html_resform);
+
+            
+            //llenar capacitaciones
+            var html_rescap = "";
+            for (var i = 0; i < data.qcapa.length; i++) {
+
+                  tipoestudio = "";
+                 if(data.qcapa[i].es_curso_espec==1){
+                     tipoestudio = "Curso/Especialización";
+                 }
+                 if(data.qcapa[i].es_ofimatica==1){
+                     tipoestudio = "Ofimática";
+                 }
+                 if(data.qcapa[i].es_idioma==1){
+                     tipoestudio = "Idioma";
+                 }
+                 
+                 var href_form_ca="#";
+                 if(data.qcapa[i].archivo != null){
+                     href_form_ca = data.qcapa[i].archivo.replace('public/','/storage/');
+                 }
+                 html_rescap += "<tr>"+
+                 "<td>"+tipoestudio+"</td>"+
+                 "<td>"+data.qcapa[i].especialidad+"</td>"+
+                 "<td>"+data.qcapa[i].centro_estudios+"</td>"+
+                 "<td>"+data.qcapa[i].cantidad_horas+"</td>"+
+                 "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+                 "</td>"+
+                 "</tr>";
+                 }
+                 
+                 $('#res_tbl_capa').html(html_rescap);
+             
+           
+             //llenar experiencias
+             var html_resexp = "";
+            var marcadogeneral="";
+            var marcadoespecifico="";
+            var tipo_exp="";  
+            
+            for (var i = 0; i < data.qexp.length; i++) {
+            
+            if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
+            if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
+            
+                if(data.qexp[i].tipo_experiencia == '1'){
+                tipo_exp="Experiencia Laboral";
+                }else if(data.qexp[i].tipo_experiencia == '2'){
+                tipo_exp="Prácticas Pre Profesionales";
+                }else if(data.qexp[i].tipo_experiencia == '3'){
+                tipo_exp="Prácticas Profesionales";
+                }
+
+            var href_exp="#";
+            if(data.qexp[i].archivo != null){
+                href_exp = data.qexp[i].archivo.replace('public/','/storage/');
+            }
+
+            html_resexp += "<tr>"+
+            "<td>"+tipo_exp+"</td>"+
+            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
+            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            "<td>"+data.qexp[i].centro_laboral+"</td>"+
+            "<td>"+data.qexp[i].cargo_funcion+"</td>"+
+            "<td>"+data.qexp[i].fecha_inicio+"</td>"+
+            "<td>"+data.qexp[i].fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data.qexp[i].dias_exp_gen))+"</td>"+
+            "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+            "</td>"+
+            "</tr>";
+        }
+        $('#res_tbl_exp').html(html_resexp);
+
+        //DECLARACION JURADA
+        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "SI" : "NO");
+        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "SI" : "NO");
+        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "SI" : "NO");
+        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "SI" : "NO");
+        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "SI" : "NO");
+        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "SI" : "NO");
+        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
+        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
+        $('#res_dj9').html(data.qdatos.dj9 == 1 ? "SI" : "NO");
+
+        },
+        error:function(data){
+            console.log("error en resumen posulante");
+        }
+    }); 
+ }
 
  

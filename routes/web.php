@@ -112,6 +112,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('guardarcapacitacion', 'postulante\PostulanteController@guardarcapacitacion')->name('guardarcapacitacion');
     Route::post('eliminarcapacitacion', 'postulante\PostulanteController@eliminarcapacitacion')->name('eliminarcapacitacion');
     Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1');
+    Route::get('experiencias/data1/perfil', 'postulante\PostulanteController@experiencias_data1_perfil')->name('experiencias_data1_perfil');
     Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia');
     Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia');
     Route::post('editarexperiencia', 'postulante\PostulanteController@editarexperiencia')->name('editarexperiencia');
@@ -123,21 +124,24 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
-    Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
+    Route::post('declaracionjurada', 'postulante\PostulanteController@declaracionjurada')->name('declaracionjurada');
+    //Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
     Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
-       
-});
-Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
+    Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
+    
+    });
+    Route::get('postulante/{idproceso}/registro/', 'postulante\PostulanteController@registrofinal')->where(['idproceso' => '[0-9]+'])->name('registrando');
+    //Route::post('postulante/postular/storage/', 'postulante\PostulanteController@registro_postular')->name('registro_postular');
 
-//POSTULANTES
-Route::group(['prefix' => 'postulantes'], function(){
+    //POSTULANTES
+    Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
                 ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
         Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[0-9]+'])->name('postulantes.data'); 
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
         
-});
+    });
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){
        $search = $r->search;
