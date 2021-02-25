@@ -42,6 +42,7 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
+                                <th>Postular</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +57,8 @@
                                 <th>Convocatoria</th>
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
-                                <th>Resultados</th>                              
+                                <th>Resultados</th>
+                                <th>Postular</th>                              
                             </tr>
                         </tfoot>
                     </table>
