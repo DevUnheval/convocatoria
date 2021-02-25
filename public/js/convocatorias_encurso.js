@@ -76,6 +76,9 @@ $(document).ready(function() {
     })
 
 })
+
+
+
 function ver_comunicados(id){
     $.ajax({
         url:   "/convocatorias/show_comunicados/"+id,

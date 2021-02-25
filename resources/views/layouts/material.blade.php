@@ -220,7 +220,7 @@
                             </ul>
                         </li>
                         <li class="sidebar-item"> 
-                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="{{route('convocatoria.historico')}}" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
                                 <span class="hide-menu">Maestro</span>
                             </a>
                             <ul aria-expanded="false" class="collapse first-level">

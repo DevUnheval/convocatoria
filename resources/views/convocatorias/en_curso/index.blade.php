@@ -21,7 +21,9 @@
                                 @include('convocatorias.en_curso.m_comunicados')
                                 @include('convocatorias.en_curso.m_evaluacion')
                                 @include('convocatorias.en_curso.m_resultado')
+                                
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                
                                    
                             {{--Fin modal --}}
 
