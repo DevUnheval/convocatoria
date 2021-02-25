@@ -1,8 +1,6 @@
 $(document).ready(function() {
           
-    
-
-      
+         
    $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
        // console.log(data); 
         
@@ -333,6 +331,8 @@ $(document).ready(function() {
         },
         onFinished: function(event, currentIndex) {
 
+            if($('#check_dj').prop('checked')){
+
            Swal.fire({
                 title: '¿Está seguro de registrar su postulación?',
                 text: "Recuerde que una vez registrado no podrá modificar ninguna información",
@@ -346,9 +346,7 @@ $(document).ready(function() {
                
                 if(result.value){
 
-                    var url = "/postulante/"+$('#datospostulante').data('id')+"/registro";
-                    $(location).attr('href',url);
-                   /* $.ajax({
+                     $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         url: "/postulante/registrofinal",
                         type: "POST",
@@ -358,13 +356,13 @@ $(document).ready(function() {
                          },
                         success:function(data){
                            // console.log(data);
-                        var url = "/postulante/registro/"+$('#datospostulante').data('id');
+                        var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
                         $(location).attr('href',url);
                         }
                         ,error: function(data){
                             alert("error!!"); }
                 
-                    });  */
+                    });  
                    
                    
                    
@@ -372,7 +370,14 @@ $(document).ready(function() {
                 }
 
             })
-
+            }else{
+                Swal.fire({
+                    type: 'warning',
+                    title: "¡Información!",
+                    text: "Debe de aceptar el principio de veracidad",
+                    timer: null
+                })
+            }
             
         }, 
         

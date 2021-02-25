@@ -80,8 +80,31 @@ class PostulanteController extends Controller
        
 
     public function postular($idproceso)
-    {
-        
+    {// 0: pre-cargado, 1: publicado, 2: en curso, 3: concluido, 4: cancelado 
+      /*  $data = Postulante::join("procesos","procesos.id","=","postulantes.proceso_id")
+        ->select("procesos.estado")
+        ->where("postulantes.user_id",2)
+        ->where("postulantes.proceso_id",10)
+        ->first();
+*/
+        $si_pos=0;
+        $mis_post = Postulante::select('proceso_id')->where('user_id',auth()->user()->id)->get();//busco mis postulaciones
+        foreach($mis_post as $mp){//recorro mis postulaciones y verifico si alguno está ene estado "1=publicado"
+            $mi = Proceso::select('estado')->where('id',$mp->proceso_id)->first();
+            if($mi['estado'] == 1 || $mi['estado'] == 2){
+                $si_pos = $mp->proceso_id;
+            }
+        }
+
+        if($si_pos != 0){
+            return redirect()->route('registro_postular',['idproceso' => $si_pos]); 
+        } else { 
+
+        //___________________
+       /* if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$idproceso)->exists()){
+            return redirect()->route('registro_postular',['idproceso' => $idproceso]);               
+            } */
+    
         $proceso = Proceso::where('id',$idproceso)->first();
         $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
         ->select("grado_formacions.nombre","procesos.especialidad")
@@ -108,7 +131,7 @@ class PostulanteController extends Controller
         ->pluck('descripcion','ubigeo');
 
         return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
-        
+        } 
     }
 
     public function actualizar_o_registrar(Request $data){
@@ -667,28 +690,42 @@ class PostulanteController extends Controller
          }
           
          
-        // return redirect()->route('registro_postular', ['idpost' => $pos->id, 'idproceso' => $data->idproceso]);//.$pos->id;
+        return $pos->id;//.$pos->id;
+       
+     }
+    
+     public function registro_postular(Request $data){
+        
         $proceso = Proceso::where('id',$data->idproceso)->first();
         $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         ->select("*")
         ->where("datos_users.user_id", "=", auth()->user()->id)
         ->first();
-        //$datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+
+        $mensaje = "";
        
-       //Envio de constancia al correo electronico
-        $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
-        Mail::to($datos_usuario->email)->send($correo);
-        
-        return view('postulante.finpostular',compact('proceso','datos_usuario'));
-     }
-    
-     public function registro_postular(Request $data){
-        //$data->idpost;
-        // PARA QUE SE ENVÍE EL CORREO ES NECESARIO VERIFICAR 
-        // QUE EL USUARIO TIENE UNA POSTULACIÓN AL PROCESO ACTUAL
-        // DE LO CONTRARIO NO SE ENVIARÁ
-        // FALTA INCLUIR CONDICIONAL. 
-       
+        if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->exists()){
+            $pos = Postulante::select('id','estado_pos')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
+            
+            if($pos['estado_pos'] == 0){
+                $pp = Postulante::find($pos['id']);
+                $pp->estado_pos = 1;
+                $pp->save();
+                //Envio de constancia al correo electronico
+                $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
+                Mail::to($datos_usuario->email)->send($correo);
+
+                
+            } else{
+                 
+               $mensaje = "usted ya se encuentra postulando al proceso ".$proceso->cod." - ".$proceso->nombre;
+            }
+            
+        }else{
+       return redirect()->route('postulante_postular',['idproceso' => $data->idproceso]);
      } 
+     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje'));
     
+}
+
 }
