@@ -89,12 +89,6 @@ class PruebaTableSeeder extends Seeder
             $query->bon_otros1 = '0.5';
             $query->bon_otros2 = '0.5';
             //$query->pje_otro = '0.5';
-            $query->pje_max_cv = '0.5';
-            $query->pje_min_cv = '0.5';
-            $query->pje_max_conoc = '0.5';
-            $query->pje_min_conoc = '0.5';
-            $query->pje_max_entrev = '0.5';
-            $query->pje_min_entrev = '0.5';
             $query->anios_exp_lab_gen = '0.5';
             $query->anios_exp_lab_esp = '0.5';
             $query->horas_cap_ind = '0.5';
@@ -112,7 +106,7 @@ class PruebaTableSeeder extends Seeder
         }
 
         //POSTULANTE
-        foreach( User::all() as $key => $k){
+        foreach( User::where("id","<>",1)->get() as $key => $k){
             $query = new Postulante; 
             $query->user_id=$k->id;
             $query->proceso_id=1;

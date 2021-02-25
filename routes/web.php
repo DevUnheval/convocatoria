@@ -142,8 +142,12 @@ Route::group(['prefix' => 'postulante'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
                 ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
         Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
-                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[0-9]+'])->name('postulantes.data'); 
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[1-2]'])->name('postulantes.data'); 
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
+        Route::get('postulantes_evaluados/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@postulantes_evaluados')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados');  
+        Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion');
         
     });
 
