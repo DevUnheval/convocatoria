@@ -5,7 +5,6 @@ use App\User;
 use App\UserRol;
 use App\Proceso;
 use App\Postulante;
-use Illuminate\Support\Facades\DB;
 
 class PruebaTableSeeder extends Seeder
 {
@@ -48,14 +47,7 @@ class PruebaTableSeeder extends Seeder
             ],
         ];
 
-        DB::table('datos_users')->insert([
-                'user_id' => '2',
-                'archivo_dni' => '#',
-                'archivo_dni_tipo' => 'local',
-                'domicilio' => 'Jr dos de mayo 2021',
-                'ubigeo_domicilio' => '90101',
-        ]);
-        
+               
         //USUARIOS y ROLES
         foreach($users as $u){
             $query = new User;
