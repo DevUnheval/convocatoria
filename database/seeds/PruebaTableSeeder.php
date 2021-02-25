@@ -5,6 +5,7 @@ use App\User;
 use App\UserRol;
 use App\Proceso;
 use App\Postulante;
+
 class PruebaTableSeeder extends Seeder
 {
     /**
@@ -45,6 +46,8 @@ class PruebaTableSeeder extends Seeder
                 'email'=>'48315656@mail.com',
             ],
         ];
+
+               
         //USUARIOS y ROLES
         foreach($users as $u){
             $query = new User;
@@ -99,8 +102,6 @@ class PruebaTableSeeder extends Seeder
             $query->fecha_resultados = '2021-06-29';
             $query->archivo_preliminar = 'dt';
             $query->archivo_preliminar_tipo = 'th';
-            $query->archivo_resultado = 'fg';
-            $query->archivo_resultado_tipo = 'gh';
             $query->save();
             unset($query);
         }
@@ -110,6 +111,7 @@ class PruebaTableSeeder extends Seeder
             $query = new Postulante; 
             $query->user_id=$k->id;
             $query->proceso_id=1;
+            $query->estado_pos=1;
             $query->save();
             unset($query);
         }

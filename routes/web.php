@@ -23,7 +23,7 @@ Route::get('/', 'ConvocatoriaController@vigentes')->name('index');
 Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
-Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post')->middleware(['auth']);
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
 Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a post
 
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
@@ -70,17 +70,16 @@ Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaEnCursoController@index')->name('convocatoria.en_curso');
-    Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
-    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
-    
+    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');
+    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
-    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');    
-    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');  
-    Route::get('historico/data', 'ConvocatoriaController@data')->name('convocatoria.historico.data'); 
+    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');   
+    Route::get('historico/concluido/data', 'ConvocatoriaHistoricoController@data_concluidos')->name('convocatoria.historico.concluidos.data_concluidos');
+    Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
-    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
+    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit'); 
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado');  
     Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado'); 
@@ -92,10 +91,9 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion');     
     Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
     Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar');
-       
-    
     Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
-    
+    Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar');
+    Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir');
 });
 
 //POSTULANTE

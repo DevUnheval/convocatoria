@@ -308,7 +308,8 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 2000
                 })*/
-                if(currentIndex == 4){
+                
+                if(newIndex == 5){
                     cargar_resumen_postulante();
                 }
                    return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
@@ -1191,7 +1192,7 @@ function cumple_formacion(id){
         $('#res_dj6').html(data.qdatos.dj6 == 1 ? "SI" : "NO");
         $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
         $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
-        $('#res_dj9').html(data.qdatos.dj9 == 1 ? "SI" : "NO");
+        
 
         },
         error:function(data){

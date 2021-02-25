@@ -25,7 +25,7 @@ class ConvocatoriaController extends Controller
     //vistas
     public function vigentes()
     {
-        
+       $this->actualizar_estados_vigentes_y_enCruso();
        $datos = [
             'tipos_proc'=>TipoProceso::pluck('nombre','id'),
             'grado_formacion'=>GradoFormacion::pluck('nombre','id')
@@ -34,8 +34,8 @@ class ConvocatoriaController extends Controller
     }
     
     public function vigentes_data(){
-      
-        $query = Proceso::orderBy('id','desc')->get();
+        $this->actualizar_estados_vigentes_y_enCruso();
+        $query = Proceso::where("estado","1")->orderBy('id','desc')->get();
         if($query->count()<1)
         return $this->data_null;
     
@@ -49,7 +49,8 @@ class ConvocatoriaController extends Controller
                 $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)' onclick='eliminar_convocatoria($dato->id)'><i class='fa fa-trash'></i> Eliminar</a>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='eliminar_convocatoria($dato->id)'><i class='fa fa-trash'></i> Eliminar</a><hr  class='my-0'>
+                                    <a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar</a>
                                 </div>
                             </div>";
                 $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
@@ -94,13 +95,10 @@ class ConvocatoriaController extends Controller
 
     public function en_curso()
     {
+        $this->actualizar_estados_vigentes_y_enCruso();
         return view('convocatorias.en_curso.index');
     }
-    public function historico()
-    {
-        return view('convocatorias.historico.index');
-    }
-    public function showme($id)
+     public function showme($id)
     {
         return Proceso::find($id);
     }
@@ -145,14 +143,14 @@ class ConvocatoriaController extends Controller
         if($r->file('archivo_bases')){
             Storage::delete($p->archivo_bases);//primero eliminamos el archivo anterior
             $name= $r->file('archivo_bases')->store('public/procesos/bases');
-            $q->archivo_bases=$name;
-            $q->save(); 
+            $p->archivo_bases=$name;
+            $p->save(); 
         }  
         if($r->file('archivo_resolucion')){
             Storage::delete($p->archivo_resolucion);//primero eliminamos el archivo anterior
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
-            $q->archivo_resolucion=$name;
-            $q->save(); 
+            $p->archivo_resolucion=$name;
+            $p->save(); 
         }
 
     }
@@ -200,7 +198,7 @@ class ConvocatoriaController extends Controller
     {
         $postulante = Postulante::where("proceso_id",$id)->first();
 
-        if(!$postulante){
+        if(!$postulante){//verificamos si hay postulante
             $query = Proceso::find($id);
             Storage::delete($query->archivo_bases);
             Storage::delete($query->archivo_resolucion);
@@ -209,5 +207,31 @@ class ConvocatoriaController extends Controller
         }
         return "error";
         
+    }
+    public function cancelar_convocatoria($id){
+        $query = Proceso::find($id);
+        $query->estado = '5';
+        $query->save();
+    }
+
+    private function actualizar_estados_vigentes_y_enCruso(){
+        $paraEnCurso=Proceso::where("estado","1")->where("fecha_inscripcion_fin","<",date('Y-m-d'))->get();
+        $paraEnvigentes = Proceso::where("estado","2")->where(function($query) {
+                                                                $query->where("fecha_inscripcion_fin",">",date('Y-m-d'))
+                                                                ->where("fecha_inscripcion_inicio",">",date('Y-m-d'));
+                                                        })->get();
+        foreach($paraEnCurso as $pe){
+            Proceso::where('id', $pe->id)    
+                ->update(["estado"=>"1"]);
+        }
+
+        foreach($paraEnCurso as $pe){
+            Proceso::where('id', $pe->id)    
+                ->update(["estado"=>"2"]);
+        }
+        foreach($paraEnvigentes as $pv){
+            Proceso::where('id', $pv->id)    
+                ->update(["estado"=>"1"]);
+        }
     }
 }

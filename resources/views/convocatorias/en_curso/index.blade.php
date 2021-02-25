@@ -10,8 +10,8 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Convocatorias vigentes')
-@section('menu_title_2','Vigentes')
+@section('menu_title_1','Convocatorias en curso')
+@section('menu_title_2','En curso')
 
 @section('content')
                         <div class="card">
@@ -22,7 +22,7 @@
                                 @include('convocatorias.en_curso.m_evaluacion')
                                 @include('convocatorias.en_curso.m_resultado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                   
+                                @include('convocatorias.vigentes.m_editar')
                             {{--Fin modal --}}
 
             {{-- <h4 class="card-title">
@@ -42,6 +42,7 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
+                                <th>Postular</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -56,7 +57,8 @@
                                 <th>Convocatoria</th>
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
-                                <th>Resultados</th>                              
+                                <th>Resultados</th>
+                                <th>Postular</th>                              
                             </tr>
                         </tfoot>
                     </table>
