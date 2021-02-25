@@ -22,7 +22,7 @@
                                 @include('convocatorias.en_curso.m_evaluacion')
                                 @include('convocatorias.en_curso.m_resultado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                   
+                                @include('convocatorias.vigentes.m_editar')
                             {{--Fin modal --}}
 
             {{-- <h4 class="card-title">
@@ -69,7 +69,7 @@
 <!--This page plugins -->
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
-
+    
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/convocatorias_encurso.js')}}"></script>
