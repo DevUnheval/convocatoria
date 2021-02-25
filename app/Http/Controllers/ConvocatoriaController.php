@@ -145,14 +145,14 @@ class ConvocatoriaController extends Controller
         if($r->file('archivo_bases')){
             Storage::delete($p->archivo_bases);//primero eliminamos el archivo anterior
             $name= $r->file('archivo_bases')->store('public/procesos/bases');
-            $q->archivo_bases=$name;
-            $q->save(); 
+            $p->archivo_bases=$name;
+            $p->save(); 
         }  
         if($r->file('archivo_resolucion')){
             Storage::delete($p->archivo_resolucion);//primero eliminamos el archivo anterior
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
-            $q->archivo_resolucion=$name;
-            $q->save(); 
+            $p->archivo_resolucion=$name;
+            $p->save(); 
         }
 
     }
