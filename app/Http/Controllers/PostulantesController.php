@@ -94,7 +94,7 @@ class PostulantesController extends Controller
            //pintar la columna
            
            if($api["proceso"]->evaluar_conocimientos){
-            return $etapa;
+            
                 $total = $p->ev_entrevista + $p->ev_curricular + $p->ev_conocimiento;
                 $ev_conocimiento = (int) $p->ev_conocimiento;
                 $bonificacion = $total*10/100;
@@ -249,18 +249,19 @@ class PostulantesController extends Controller
                  
     }
     private function actualizar_etapa_evaluacion($campo_calificacion, $proceso_id,$etapa){
-       $postulantes =  $this->get_data($proceso_id, ($etapa-1) )["postulantes"]; //consultamos nuevamente
+       $api = $this->get_data($proceso_id, $etapa );
+       $postulantes =  $api["postulantes"]; //consultamos nuevamente
+       $n_etapas = count($api["etapas"]);
        $sensor = true;
        foreach($postulantes as $p){
             //$evaluacion = (int) $p->$fila_evaluacion;
             if( is_null($p->$campo_calificacion) ){
-                
                 $sensor = false;
                 break;
             }
        }
             $query = Proceso::find($proceso_id);
-       if($sensor){
+       if($sensor && $etapa<$n_etapas){
             $nueva_etapa =  (int) $etapa + 1;
             $query->etapa_evaluacion = $nueva_etapa;
             $query->save();
