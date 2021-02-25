@@ -9,7 +9,7 @@ class Proceso extends Model
 {
     protected $table = 'procesos';
 	  protected $primaryKey = 'id';
-    protected $fillable = ['tipo_id','etapa_evaluacion','proceso','cod','nombre','especialidad',
+    protected $fillable = ['tipo_id','etapa_evaluacion','estado','cod','nombre','especialidad',
                            'habilidades','capacitaciones','remuneracion',
                            'descripcion','n_plazas','oficina','archivo_bases','archivo_bases_tipo',
                            'archivo_resolucion','archivo_resolucion_tipo','contrato_inicio','evaluar_conocimientos',

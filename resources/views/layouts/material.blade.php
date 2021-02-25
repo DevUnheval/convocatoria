@@ -219,6 +219,7 @@
                                 
                             </ul>
                         </li>
+                        @if (auth()->check() && auth()->user()->hasRoles(['Administrador']))   
                         <li class="sidebar-item"> 
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-notification-clear-all"></i>
                                 <span class="hide-menu">Maestro</span>
@@ -229,6 +230,7 @@
                                 <li class="sidebar-item"><a href="{{route('maestro.formacion.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Formacion Académica</span></a></li>
                             </ul>
                         </li>
+                        @endif   
                         @if (auth()->check() && auth()->user()->hasRoles(['Postulante']))   
                         <li class="sidebar-item"> 
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('mispostulaciones')}}" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Mis postulaciones</span></a>

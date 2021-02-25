@@ -35,7 +35,7 @@ class ConvocatoriaEnCursoController extends Controller
 
     
     public function data(){
-        $query = Proceso::orderBy("id","desc")->get();
+        $query = Proceso::where("estado","2")->orderBy("id","desc")->get();
         if($query->count()<1)
         return $this->data_null;
         foreach ($query as $dato) {
@@ -49,8 +49,14 @@ class ConvocatoriaEnCursoController extends Controller
                             <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='ver_evaluacion($dato->id)'><i class='fa fa-calculator'></i> Evaluacion</a>
-                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-trophy'></i> Resultados</a>
-                            </div>
+                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-trophy'></i> Resultados</a><hr  class='my-0'>";
+            if($dato->archivo_resultado){
+                $config.=   "<a class='dropdown-item text-success' href='javascript:void(0)' onclick='concluir_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-check'></i> Concluir</a>";   
+            }else{
+                $config.=   "<a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar </a>";
+            }
+                           
+            $config.=  " </div>
                             </div>";//no existe esa funcion
             
             $comunicados = ""; 
@@ -175,6 +181,15 @@ class ConvocatoriaEnCursoController extends Controller
          }
          $query->save();
          //Comunicado::create($r->all());
+    }
+
+    public function concluir_convocatoria($id){
+        $query = Proceso::find($id);
+        if($query->archivo_resultado){            
+            $query->estado = '4';
+            $query->save();
+        }
+            
     }
 
   

@@ -99,8 +99,6 @@ class PruebaTableSeeder extends Seeder
             $query->fecha_resultados = '2021-06-29';
             $query->archivo_preliminar = 'dt';
             $query->archivo_preliminar_tipo = 'th';
-            $query->archivo_resultado = 'fg';
-            $query->archivo_resultado_tipo = 'gh';
             $query->save();
             unset($query);
         }

@@ -70,8 +70,8 @@ Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaEnCursoController@index')->name('convocatoria.en_curso');
-    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.cancelados.index');
-    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.concluidos.index');
+    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');
+    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
@@ -91,10 +91,9 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion');     
     Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
     Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar');
-       
-    
     Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
-    
+    Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar');
+    Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir');
 });
 
 //POSTULANTE

@@ -10,8 +10,8 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Convocatorias vigentes')
-@section('menu_title_2','Vigentes')
+@section('menu_title_1','Convocatorias en curso')
+@section('menu_title_2','En curso')
 
 @section('content')
                         <div class="card">
