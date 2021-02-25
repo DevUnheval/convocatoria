@@ -19,12 +19,7 @@ class UsuarioController extends Controller
     
     public function __construct()
     {
-        $this->data_null='{
-            "sEcho": 1,
-            "iTotalRecords": "0",
-            "iTotalDisplayRecords": "0",
-            "aaData": []
-        }';
+      
     }
 
     public function index()
@@ -40,11 +35,10 @@ class UsuarioController extends Controller
             'password' =>'required|confirmed|min:8',
         ]);
 
-
         if ($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
-        }    
-        
+        }  
+                
         $Usuario = new User();
         $Usuario->dni = $request->dni;
         $Usuario->nombres = $request->nombres;
@@ -68,8 +62,8 @@ class UsuarioController extends Controller
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
  
         $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
-       
-        return redirect()->route('postulante_inicio');
+        return redirect('/email/verify')->with('correo',$Usuario->email);
+        //return redirect()->route('postulante_inicio');
     }
     
     public function api_reniec($dni)
