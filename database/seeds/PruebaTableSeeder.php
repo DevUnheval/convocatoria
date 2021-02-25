@@ -5,6 +5,7 @@ use App\User;
 use App\UserRol;
 use App\Proceso;
 use App\Postulante;
+
 class PruebaTableSeeder extends Seeder
 {
     /**
@@ -45,6 +46,8 @@ class PruebaTableSeeder extends Seeder
                 'email'=>'48315656@mail.com',
             ],
         ];
+
+               
         //USUARIOS y ROLES
         foreach($users as $u){
             $query = new User;
@@ -108,6 +111,7 @@ class PruebaTableSeeder extends Seeder
             $query = new Postulante; 
             $query->user_id=$k->id;
             $query->proceso_id=1;
+            $query->estado_pos=1;
             $query->save();
             unset($query);
         }

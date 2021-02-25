@@ -98,11 +98,7 @@ class ConvocatoriaController extends Controller
         $this->actualizar_estados_vigentes_y_enCruso();
         return view('convocatorias.en_curso.index');
     }
-    public function historico()
-    {
-        return view('convocatorias.historico.index');
-    }
-    public function showme($id)
+     public function showme($id)
     {
         return Proceso::find($id);
     }
