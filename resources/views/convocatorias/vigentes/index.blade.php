@@ -103,9 +103,7 @@
                 //$(".fila_conocimiento").removeAttr( "required" );
             }
         });
-    });
-    
-    $(document).ready(function() {
+        
         $('.form-check-input').on('change', function() {
            
             //alert( valor);

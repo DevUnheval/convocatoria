@@ -15,11 +15,13 @@ use App\Http\Controllers\Controller;
 use App\Mail\ConstPostulacionMailable;
 use App\Postulante;
 use App\Proceso;
+use App\Ubigeo;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+
 
 class PostulanteController extends Controller
 {
@@ -44,6 +46,26 @@ class PostulanteController extends Controller
         return json_encode($dataform, true);
     }
 */
+    public function recuperar_ubigeo(){
+        $du = DatosUser::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('user_id',auth()->user()->id)->first();
+        $nacionalidad = $du->nacionalidad;
+        if($nacionalidad == "Peruano(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $u_nac = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_nacimiento))->first();
+            $desc_u_nac = $u_nac->desc_ubigeo_reniec.' - '.$u_nac->desc_prov_reniec.' - '.$u_nac->desc_dep_reniec;
+        }else if($du->nacionalidad == "Extranjero(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $desc_u_nac = null;
+        }
+
+        $cod_dom= $du->ubigeo_domicilio;
+        $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_domicilio))->first();
+        $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
+
+        return compact('nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+
+    }
+
     public function datosuser_data1(){
         
         if(DatosUser::where('user_id',auth()->user()->id)->exists()){
@@ -58,8 +80,31 @@ class PostulanteController extends Controller
        
 
     public function postular($idproceso)
-    {
-        
+    {// 0: pre-cargado, 1: publicado, 2: en curso, 3: concluido, 4: cancelado 
+      /*  $data = Postulante::join("procesos","procesos.id","=","postulantes.proceso_id")
+        ->select("procesos.estado")
+        ->where("postulantes.user_id",2)
+        ->where("postulantes.proceso_id",10)
+        ->first();
+*/
+        $si_pos=0;
+        $mis_post = Postulante::select('proceso_id')->where('user_id',auth()->user()->id)->get();//busco mis postulaciones
+        foreach($mis_post as $mp){//recorro mis postulaciones y verifico si alguno está ene estado "1=publicado"
+            $mi = Proceso::select('estado')->where('id',$mp->proceso_id)->first();
+            if($mi['estado'] == 1 || $mi['estado'] == 2){
+                $si_pos = $mp->proceso_id;
+            }
+        }
+
+        if($si_pos != 0){
+            return redirect()->route('registro_postular',['idproceso' => $si_pos]); 
+        } else { 
+
+        //___________________
+       /* if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$idproceso)->exists()){
+            return redirect()->route('registro_postular',['idproceso' => $idproceso]);               
+            } */
+    
         $proceso = Proceso::where('id',$idproceso)->first();
         $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
         ->select("grado_formacions.nombre","procesos.especialidad")
@@ -86,7 +131,7 @@ class PostulanteController extends Controller
         ->pluck('descripcion','ubigeo');
 
         return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
-        
+        } 
     }
 
     public function actualizar_o_registrar(Request $data){
@@ -101,40 +146,58 @@ class PostulanteController extends Controller
         $datosuser->telefono_fijo = $data->telfijo;
         $datosuser->ruc = $data->ruc;
         $datosuser->domicilio = $data->domicilio;
+        $datosuser->es_pers_disc = $data->dicapacidad;
         $datosuser->ubigeo_nacimiento = $data->ubigeodni;
         $datosuser->ubigeo_domicilio = $data->ubigeo_domicilio;
-        $datosuser->es_pers_disc = $data->dicapacidad;
         $datosuser->es_lic_ffaa = $data->ffaa;
         $datosuser->es_deportista = $data->deportista;
         $datosuser->nacionalidad = $data->nacionalidad;
         $datosuser->fecha_nacimiento = $data->fechanac;
        
-        //$name= $data->file('archivo_bases')->store('public/procesos/bases');
+       //archivo DNI
+        if($data->file('archivo_dni')){
+            $s= DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($s->archivo_dni); //eliminar archivo ya cargado
+            $datosuser->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes');
+            $datosuser->archivo_dni_tipo = "local";
+            }//else{$datosuser->archivo_dni = NULL; $datosuser->archivo_dni_tipo = NULL; }
+    
         //archivo discapacidad
-        $datosuser->archivo_dni = "";
-        $datosuser->archivo_dni_tipo = "";
-
         if($data->file('archivo_discapacidad')){
             $p= DatosUser::find($idDatosUser[0]->id);
             Storage::delete($p->archivo_disc); //eliminar archivo ya cargado
             $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
             $datosuser->archivo_disc_tipo = "local";
-            }else{$datosuser->archivo_disc = NULL; $datosuser->archivo_disc_tipo = NULL; }
-            //archivo discapacidad
+            }else if($data->dicapacidad == 0){
+                $pp= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($pp->archivo_disc); //eliminar archivo ya cargado
+                $datosuser->archivo_disc = NULL;
+                $datosuser->archivo_disc_tipo = NULL;
+            }
+          
             if($data->file('archivo_ffaa')){
                 $q= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($q->archivo_ffaa); //eliminar archivo ya cargado
                 $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
                 $datosuser->archivo_ffaa_tipo = "local";
-                }else{$datosuser->archivo_ffaa = NULL; $datosuser->archivo_ffaa_tipo = NULL; }
-            //archivo discapacidad
+                }else if($data->ffaa == 0){
+                    $qq= DatosUser::find($idDatosUser[0]->id);
+                    Storage::delete($qq->archivo_ffaa); //eliminar archivo ya cargado
+                    $datosuser->archivo_ffaa = NULL;
+                    $datosuser->archivo_ffaa_tipo = NULL;
+                }
+
             if($data->file('archivo_deport')){
                 $r= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
                 $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
                 $datosuser->archivo_deport_tipo = "local";
-                }else{$datosuser->archivo_deport = NULL; $datosuser->archivo_deport_tipo = NULL; }
-        
+                }else if($data->deportista == 0){
+                    $r= DatosUser::find($idDatosUser[0]->id);
+                Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
+                $datosuser->archivo_deport = NULL;
+                $datosuser->archivo_deport_tipo = NULL;
+                }
         
         $datosuser->save();
             
@@ -154,32 +217,35 @@ class PostulanteController extends Controller
         $datosuserno->nacionalidad = $data->nacionalidad;
         $datosuserno->fecha_nacimiento = $data->fechanac;
         
-        $datosuserno->archivo_dni = "";
-        $datosuserno->archivo_dni_tipo = "";
-
+        //archivo DNI
+        if($data->file('archivo_dni')){
+            $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes');
+            $datosuserno->archivo_dni_tipo = "local";
+            }//else{$datosuserno->archivo_dni = NULL; $datosuserno->archivo_dni_tipo = NULL; }
+        
         //archivo discapacidad
         if($data->file('archivo_discapacidad')){
         $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad');
         $datosuserno->archivo_disc_tipo = "local";
-        }else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
+        }//else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_ffaa')){
             $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa');
             $datosuserno->archivo_ffaa_tipo = "local";
-            }else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
+            }//else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_deport')){
             $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista');
             $datosuserno->archivo_deport_tipo = "local";
-            }else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
+            }//else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
                 
 
         $datosuserno->save();
             
         }
 
-   
-        return response()->json(['mensaje'=>"Datos guardados con exito!!"]);
+        $query = DatosUser::where('user_id',auth()->user()->id)->first();
+        return $query;
 
     }
    
@@ -197,9 +263,29 @@ class PostulanteController extends Controller
             return $query;
         }
     public function experiencias_data1(Request $data){
-            $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-            $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
-                return compact('query','proceso'); //REVISAR CÓDIGO DESPUÉS
+        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+        //$query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       
+       //$query = ExperienciaLabUser::where('user_id',2)->whereIn('tipo_experiencia',[2])->orderBy('id','DESC')->get();
+                return compact('query','proceso'); //REVISAR CÓDIGO DESPUÉS de PERFIL
+            }
+    
+    public function experiencias_data1_perfil(Request $data){
+        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+        $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       
+                return compact('query'); //REVISAR CÓDIGO DESPUÉS de PERFIL
             }
 
 
@@ -486,22 +572,57 @@ class PostulanteController extends Controller
        
     }
 
+     public function declaracionjurada(Request $data){
+        //Primero registramos la declaración jurada
+       $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->get();
+       $datosuser = DatosUser::find($idDatosUser[0]->id);
+       $datosuser->dj1 = $data->dj1;
+       $datosuser->dj2 = $data->dj2;
+       $datosuser->dj3 = $data->dj3;
+       $datosuser->dj4 = $data->dj4;
+       $datosuser->dj5 = $data->dj5;
+       $datosuser->dj6 = $data->dj6;
+       $datosuser->dj7 = $data->dj7;
+       $datosuser->dj8 = $data->dj8;
+       $datosuser->dj9 = $data->dj9;
+       $datosuser->save();
+       return "realizado";
+     }
+
+     public function cargar_resumen_postulante(Request $data){
+      
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof')->where('id',$data->idproceso)->get();
+       
+        //Experiencia
+        if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+         $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+        }else if($proceso[0]->consid_prac_preprof == 1){
+          $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+        }else if($proceso[0]->consid_prac_prof == 1){
+         $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+        }else{
+         $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+        }
+        //CApacitaciones
+        $hrs_min_cap_ind = Proceso::select('horas_cap_ind')->where('id',$data->idproceso)->first();
+        $hrs_ind = intval($hrs_min_cap_ind['horas_cap_ind']);
+
+        $qcapa= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$hrs_ind)->get();
+        
+        //Datospersonales
+        $qdatos = DatosUser::where('user_id', auth()->user()->id)->first();
+        
+        //Formacion
+        $qform = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
+        ->select("formacion_users.archivo","formacion_users.fecha_expedicion","formacion_users.centro_estudios","formacion_users.especialidad","formacion_users.id","grado_formacions.nombre")
+        ->where("formacion_users.user_id",auth()->user()->id)->get();
+        
+        return compact('qexp','qform','qdatos','qcapa','proceso');
+    }
+
     public function registrofinal(Request $data){
         
-        //REgistro de la declaración jurada
-        $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->get();
-        $datosuser = DatosUser::find($idDatosUser[0]->id);
-        $datosuser->dj1 = $data->dj1;
-        $datosuser->dj2 = $data->dj2;
-        $datosuser->dj3 = $data->dj3;
-        $datosuser->dj4 = $data->dj4;
-        $datosuser->dj5 = $data->dj5;
-        $datosuser->dj6 = $data->dj6;
-        $datosuser->dj7 = $data->dj7;
-        $datosuser->dj8 = $data->dj8;
-        $datosuser->dj9 = $data->dj9;
-        $datosuser->save();
-
+        
         //Registro la postulacion
         $pos = new Postulante;
         $pos->user_id = auth()->user()->id;
@@ -544,9 +665,22 @@ class PostulanteController extends Controller
             }
          }
      
-         //Almacenar experiencias de usuario a postulante
-         $cant3 = ExperienciaLabUser::where("user_id",auth()->user()->id)->get()->count();
-         $datos_experiencia = ExperienciaLabUser::where("user_id",auth()->user()->id)->get();
+         //Almacenar experiencias de usuario a postulante CORREGIDO CON FILTRO DE PRACTICAS PRE Y PRO FESIONALES
+         $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+         if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+            $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->get();
+           }else if($proceso[0]->consid_prac_preprof == 1){
+             $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->get();  
+           }else if($proceso[0]->consid_prac_prof == 1){
+            $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->get();   
+           }else{
+            $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->get();    
+           }
+        
+           $cant3 = $qexp->count();
+         //$cant3 = ExperienciaLabUser::where("user_id",auth()->user()->id)->get()->count();
+         $datos_experiencia = $qexp;
+        // $datos_experiencia = ExperienciaLabUser::where("user_id",auth()->user()->id)->get();
          
          for($i=0 ; $i<$cant3 ; $i++){
              unset($datos_experiencia[$i]->id); 
@@ -554,31 +688,44 @@ class PostulanteController extends Controller
              $datos_experiencia[$i]->postulante_id = $pos->id;
              ExperienciaLabPostulante::create($datos_experiencia[$i]->toArray());
          }
-             
-         return "Registro de convocatoria con exito = ID = ";//.$pos->id;
+          
+         
+        return $pos->id;//.$pos->id;
+       
      }
     
-     public function registro_postular($idproceso){
-
-        // PARA QUE SE ENVÍE EL CORREO ES NECESARIO VERIFICAR 
-        // QUE EL USUARIO TIENE UNA POSTULACIÓN AL PROCESO ACTUAL
-        // DE LO CONTRARIO NO SE ENVIARÁ
-        // FALTA INCLUIR CONDICIONAL.
+     public function registro_postular(Request $data){
         
-        $proceso = Proceso::where('id',$idproceso)->first();
+        $proceso = Proceso::where('id',$data->idproceso)->first();
         $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         ->select("*")
         ->where("datos_users.user_id", "=", auth()->user()->id)
         ->first();
-        //$datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+
+        $mensaje = "";
        
-       //Envio de constancia al correo electronico
-        $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
-        Mail::to($datos_usuario->email)->send($correo);
+        if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->exists()){
+            $pos = Postulante::select('id','estado_pos')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
+            
+            if($pos['estado_pos'] == 0){
+                $pp = Postulante::find($pos['id']);
+                $pp->estado_pos = 1;
+                $pp->save();
+                //Envio de constancia al correo electronico
+                $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
+                Mail::to($datos_usuario->email)->send($correo);
 
-
-        return view('postulante.finpostular',compact('proceso','datos_usuario'));
-     }
-  
+                
+            } else{
+                 
+               $mensaje = "usted ya se encuentra postulando al proceso ".$proceso->cod." - ".$proceso->nombre;
+            }
+            
+        }else{
+       return redirect()->route('postulante_postular',['idproceso' => $data->idproceso]);
+     } 
+     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje'));
     
+}
+
 }

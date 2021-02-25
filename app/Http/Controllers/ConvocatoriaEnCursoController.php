@@ -48,8 +48,8 @@ class ConvocatoriaEnCursoController extends Controller
             $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                            <a class='dropdown-item' href='javascript:void(0)' onclick='ver_evaluacion($dato->id)'><i class=' fas fa-check-circle'></i> Evaluacion</a>
-                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-bag'></i> Resultados</a>
+                            <a class='dropdown-item' href='javascript:void(0)' onclick='ver_evaluacion($dato->id)'><i class='fa fa-calculator'></i> Evaluacion</a>
+                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-trophy'></i> Resultados</a>
                             </div>
                             </div>";//no existe esa funcion
             

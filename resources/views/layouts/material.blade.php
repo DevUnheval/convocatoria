@@ -229,6 +229,12 @@
                                 <li class="sidebar-item"><a href="{{route('maestro.formacion.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Formacion Académica</span></a></li>
                             </ul>
                         </li>
+                        @if (auth()->check() && auth()->user()->hasRoles(['Postulante']))   
+                        <li class="sidebar-item"> 
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{route('mispostulaciones')}}" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Mis postulaciones</span></a>
+                        </li> 
+                        @endif
+                        
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->

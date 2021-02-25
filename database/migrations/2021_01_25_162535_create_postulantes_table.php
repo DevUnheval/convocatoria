@@ -28,6 +28,7 @@ class CreatePostulantesTable extends Migration
             $table->boolean('cal_entrevista')->nullable();//Calificación curricular: Califica - No Califica
             $table->decimal('bonificacion', 5, 2)->nullable();
             $table->decimal('total', 5, 2)->nullable();
+            $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no
 
             $table->timestamps();
         });

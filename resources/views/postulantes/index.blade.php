@@ -38,10 +38,10 @@
         <div class="col-sm-4 col-xs-12 justify-content-center row">
             <div class="form-check form-check-inline ">
 
-                    <input class="material-inputs check-vista" type="radio"  name="vista" id="vista_tablas" value="1" {{$vista=='1'?'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$proceso->etapa_evaluacion}}" data-vista="1" data-div_id="ver-tablas">
+                    <input class="material-inputs check-vista" type="radio"  name="vista" id="vista_tablas" value="1" {{ ($vista=='1' || $vista=='0')?'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$etapa}}" data-vista="1" data-div_id="ver-tablas">
                     <label class="form-check-label" for="vista_tablas">Ver en tablas</label> &nbsp;&nbsp;&nbsp;     
 
-                    <input class="material-inputs  check-vista" type="radio"  name="vista" id="vista_tarjetas" value="2" {{$vista == '2' ? 'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$proceso->etapa_evaluacion}}" data-vista="2" data-div_id="ver-tarjetas">
+                    <input class="material-inputs  check-vista" type="radio"  name="vista" id="vista_tarjetas" value="2" {{$vista == '2' ? 'checked' : ''}} data-proceso="{{$proceso->id}}" data-etapa="{{$etapa}}" data-vista="2" data-div_id="ver-tarjetas">
                     <label class="form-check-label" for="vista_tarjetas">Ver en tarjetas </label> &nbsp;&nbsp;&nbsp;       
             </div><br>
         </div> 
@@ -51,7 +51,7 @@
                 <input class="form-check-input material-inputs" type="radio"  name="etapa" id="etapa_{{$key}}"
                         {{ $e['etapa']>$proceso->etapa_evaluacion ? "disabled" : ''}}
                         value="{{ $e['etapa'] }}" for="a_{{$e['etapa']}}" data-etapa="{{$e['etapa']}}" data-proceso="{{$proceso->id}}"
-                        {{ $e["etapa"]==$etapa_actual["etapa"] ? "checked" : ''}} data-url="{{route('postulantes.index',[$proceso->id,$e['etapa'] ])}}">
+                        {{ $e["etapa"]==$etapa_actual["etapa"] ? "checked" : ''}} data-url="{{route('postulantes.index',[$proceso->id,$e['etapa'],$vista ])}}">
                 <label class="form-check-label" for="etapa_{{$key}}" style = "{{ $e["etapa"]==$etapa_actual["etapa"] ? 'font-weight: bold' : ''}} ">{{$e['descripcion']}}</label> &nbsp;&nbsp;&nbsp;   
                 @endforeach
             </div>
@@ -72,6 +72,7 @@
     <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
     @include('postulantes.modal_cv')
     @include('postulantes.modal_evaluar')
+    @include('postulantes.m_evaluacion_todos')
     <div id="ver-tarjetas" class="ver-div" hidden>
         <ul class="nav nav-pills p-3 bg-light mb-3 rounded-pill align-items-center">
             <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center active px-2 px-md-3 mr-0 mr-md-2"  id="all-category">
@@ -106,10 +107,10 @@
                             <tr>
                                 <th>Estado</th>
                                 <th>DNI</th>
-                                <th>Nombres y Apellidos</th>
+                                <th>Apellidos y Nombres</th>
                                 <th>CV</th>
                                 <th>Ev. Curricular</th> 
-                                @if($proceso->evaluar_conocimientos)
+                                @if($proceso->evaluar_conocimientos=="1")
                                 <th>Ev. Conoc/ Psic/Hab: </th>   
                                 @endif
                                 <th>Ev. entrevista</th>
@@ -124,10 +125,10 @@
                             <tr>
                                 <th>Estado</th>
                                 <th>DNI</th>
-                                <th>Nombres y Apellidos</th>
+                                <th>Apellidos y Nombres</th>
                                 <th>CV</th>
                                 <th>Ev. Curricular</th> 
-                                @if($proceso->evaluar_conocimientos)
+                                @if($proceso->evaluar_conocimientos=="1")
                                 <th>Ev. Conoc/ Psic/Hab: </th>   
                                 @endif
                                 <th>Ev. entrevista</th>
@@ -156,22 +157,7 @@
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
     <script>               
-        $(document).ready(function() {
-            
-            
-            $(".check-vista").change(function(){
-               
-                const vista   = $(this).data("vista");
-                const proceso = $(this).data("proceso");
-                const etapa   =  $(this).data("etapa");
-                const div     =  $(this).data("div_id");
-                console.log("vista_",vista);
-                Postulantes.init(proceso, etapa, vista, div);
-                
-            });
-            $("#vista_tablas").change();
-
-        })
+        
     </script>
     
 

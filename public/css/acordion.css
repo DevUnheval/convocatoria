@@ -1,21 +1,21 @@
-.accordion {
-  background-color: rgb(41, 113, 196);
-  color: rgb(255, 255, 255);
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
+.btn-accordion {
+  background-color: #eee;
+  color: #444;
   border: none;
   text-align: left;
   outline: none;
   font-size: 15px;
-  transition: 0.4s;
+  transition: 0.6s;
+}
+.btn:focus{
+box-shadow:none;
 }
 
-.active, .accordion:hover {
-  background-color: rgb(106, 155, 211);
+.active,.btn-accordion:hover {
+  background-color: #ccc;
 }
 
-.accordion:after {
+.btn-accordion:after {
   content: '\002B';
   color: #777;
   font-weight: bold;
@@ -25,12 +25,4 @@
 
 .active:after {
   content: "\2212";
-}
-
-.panel {
-  padding: 0 18px;
-  background-color: white;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out;
 }

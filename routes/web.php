@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+//use SebastianBergmann\Environment\Console;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -110,6 +112,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('guardarcapacitacion', 'postulante\PostulanteController@guardarcapacitacion')->name('guardarcapacitacion');
     Route::post('eliminarcapacitacion', 'postulante\PostulanteController@eliminarcapacitacion')->name('eliminarcapacitacion');
     Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1');
+    Route::get('experiencias/data1/perfil', 'postulante\PostulanteController@experiencias_data1_perfil')->name('experiencias_data1_perfil');
     Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia');
     Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia');
     Route::post('editarexperiencia', 'postulante\PostulanteController@editarexperiencia')->name('editarexperiencia');
@@ -121,20 +124,32 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
+    Route::post('declaracionjurada', 'postulante\PostulanteController@declaracionjurada')->name('declaracionjurada');
     Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
-         
-});
-Route::get('postulante/registro/{idproceso}', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
-
-//POSTULANTES
-Route::group(['prefix' => 'postulantes'], function(){
+    Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
+    Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
+    
+    });
+    Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
+    
+    //MIS POSTULACIONES
+    Route::group(['prefix' => 'mispostulaciones'], function(){
+    Route::get('/', 'postulante\mispostulacionesController@index')->name('mispostulaciones');
+    Route::get('datatabla', 'postulante\mispostulacionesController@datatabla')->name('datatabla');
+    });
+    //POSTULANTES
+    Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
                 ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
         Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
-                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[0-9]+'])->name('postulantes.data'); 
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[1-2]'])->name('postulantes.data'); 
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
+        Route::get('postulantes_evaluados/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@postulantes_evaluados')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados');  
+        Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion');
         
-});
+    });
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){
        $search = $r->search;
@@ -144,6 +159,7 @@ Route::group(['prefix' => 'postulantes'], function(){
         ->where(DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec)"),"like","%$search%")
         //->where(DB::raw("CONCAT(`nvp`, ' ', `vpv`)"), 'LIKE', "%".$this->searchNeedle."%");
         ->get();
+       
         return response()->json($q);
    })->middleware(['auth']);
 

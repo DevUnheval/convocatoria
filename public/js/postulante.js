@@ -1,27 +1,105 @@
 $(document).ready(function() {
           
-
-   //___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
+         
+   $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
+       // console.log(data); 
+        
+        if(data.nacionalidad == "Peruano(a)"){
+            //$('#ubigeodni').prop('id','nose');
+            $('#html_lugar_nac2').hide();
+            $('#html_lugar_nac').show();
+            $("#nacionalidad option[value='Peruano(a)']").prop('selected',true);
+            
+            var html_nac = "<option value='"+data.cod_nac+"'>"+data.desc_u_nac+"</option>";
+            if(data.cod_nac != ""){
+                $('#ubigeodni').html(html_nac);
+            }
+        }else  if(data.nacionalidad == "Extranjero(a)"){
+            $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('id','vacio');
+            $('#html_lugar_nac').hide();
+            $('#html_lugar_nac2').show();
+            $('#ubigeodni_alt').prop('id','ubigeodni');
+            $('#ubigeodni').addClass('required');
+            $('#vacio').prop('id','ubigeodni_alt');
+            
+            $("#nacionalidad option[value='Extranjero(a)']").prop('selected',true);
+            $('#ubigeodni').val(data.cod_nac);
+            
+        }else{
+            $("#nacionalidad option[value='']").prop('selected',true);
+        }
+        
+        
+        var html_dom = "<option value='"+data.cod_dom+"'>"+data.desc_u_dom+"</option>";
+       
+        if(data.cod_dom != ""){
+        $('#ubigeo_domicilio').html(html_dom);
+        }
+    }); 
+//___________________________RECUPERAR DATOS DEL USUARIO EN CASO HUBIERA__________________
     $.get('/postulante/datosuser/data1',function (data){
-    if(data.valor=="0"){
-        console.log("esta vacio");
-    }else{
-        //console.log(data);
-        $('#ruc').val(data[0].ruc);
-        $('#ubigeodni').val(data[0].ubigeo_nacimiento);
-        $('#nacionalidad').val(data[0].nacionalidad);
-        $('#telefono_celular').val(data[0].telefono_celular);
-        $('#telefono_fijo').val(data[0].telefono_fijo);
-        $('#domicilio').val(data[0].domicilio);
-        $('#fecha_nacimiento').val(data[0].fecha_nacimiento);
-        $('#ubigeo_domicilio').val(data[0].ubigeo_domicilio);
-
-        if(data[0].es_lic_ffaa==1){$("#si_ffaa").prop("checked", true);}else{$("#no_ffaa").prop("checked", true);}
-        if(data[0].es_deportista==1){$("#si_deportista").prop("checked", true);}else{$("#no_deportista").prop("checked", true);}
-        if(data[0].es_pers_disc==1){$("#si_discapacidad").prop("checked", true);}else{$("#no_discapacidad").prop("checked", true);}
-    
-    } 
-});    
+        if(data.valor=="0"){
+            //console.log("esta vacio");
+            $('#input_hide').val('0');
+        }else{
+            //console.log(data);
+            $('#ruc').val(data[0].ruc);
+            $('#ubigeodni').val(data[0].ubigeo_nacimiento);
+            $('#nacionalidad').val(data[0].nacionalidad);
+            $('#telefono_celular').val(data[0].telefono_celular);
+            $('#telefono_fijo').val(data[0].telefono_fijo);
+            $('#domicilio').val(data[0].domicilio);
+            $('#fecha_nacimiento').val(data[0].fecha_nacimiento);
+            $('#ubigeo_domicilio').val(data[0].ubigeo_domicilio);
+           
+            
+            var href_dni="#";
+            var href_deport="#";
+            var href_disc="#";
+            var href_ffaa="#";
+   
+            if(data[0].archivo_dni != null){
+             href_dni=data[0].archivo_dni.replace("public/", '/storage/');
+             var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                $('#btn_doc_dni').html(htmldni);
+                $('#input_hide_dni').val('1');
+            }
+     
+           
+            if(data[0].es_lic_ffaa==1){
+                $("#si_ffaa").prop("checked", true);
+                if(data[0].archivo_ffaa != null){
+                   href_ffaa=data[0].archivo_ffaa.replace("public/", '/storage/');
+                   var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                       $('#btn_doc_ffaa').html(htmlffaa);
+                       $('#input_hide_ffaa').val('1');
+                   }
+   
+           }else{$("#no_ffaa").prop("checked", true); $('#file_ffaa').prop('disabled',true);}
+            
+           if(data[0].es_deportista==1){
+                $("#si_deportista").prop("checked", true);
+                if(data[0].archivo_deport != null){
+                   href_deport=data[0].archivo_deport.replace("public/", '/storage/');
+                   var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                       $('#btn_doc_deport').html(htmldeport);
+                       $('#input_hide_deport').val('1');
+                   }
+           }else{$("#no_deportista").prop("checked", true); $('#file_deportista').prop('disabled',true);}
+   
+            if(data[0].es_pers_disc==1){
+                $("#si_discapacidad").prop("checked", true);
+                if(data[0].archivo_disc != null){
+                   href_disc=data[0].archivo_disc.replace("public/", '/storage/');
+                   var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                       $('#btn_doc_disc').html(htmldisc);
+                       $('#input_hide_disc').val('1');
+                   }  
+           }else{$("#no_discapacidad").prop("checked", true); $('#file_discapacidad').prop('disabled',true);}
+        
+        } 
+    });  
     
     //___________________________llenar tabla formacion académica__________________
     var tabla="";
@@ -110,42 +188,54 @@ $(document).ready(function() {
             //console.log(data3);
         var marcadogeneral="";
         var marcadoespecifico="";
+        var tipo_exp= "";
         var totaldias_gen=0;
         var totaldias_esp=0;
+        var html_select_tip_exp="";
+               
+        if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option><option value=3>Prácticas Profesionales</option>";
+        }else if(data3.proceso.consid_prac_preprof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option>";
+        }else if(data3.proceso.consid_prac_prof == 1){
+                html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=3>Prácticas Profesionales</option>";
+        }else {
+            html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option>";
+        }
+        
+        $('#tipo_experiencia').html(html_select_tip_exp);
+
         for (var i = 0; i < data3.query.length; i++) {
             
             
 
             totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
             totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-            /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
-                totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                 totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-              }else if(data3.proceso.consid_prac_preprof == 0 && data3.proceso.consid_prac_prof == 1){
-                  if(data3.query[i].tipo_experiencia != 2){
-                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                  }
-              }else if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 0){
-                if(data3.query[i].tipo_experiencia != 3){
-                    totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                    totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                  }
-              }
-            */
+           
             marcadogeneral="";
             marcadoespecifico="";
- 
+            tipo_exp="";  
             if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
-            
+            //<option value=1>Experiencia Laboral</option>
+            //<option value=2>Prácticas Pre Profesionales</option>
+            //<option value=3>Prácticas Profesionales</option>
+              if(data3.query[i].tipo_experiencia == '1'){
+                tipo_exp="Experiencia Laboral";
+              }else if(data3.query[i].tipo_experiencia == '2'){
+                tipo_exp="Prácticas Pre Profesionales";
+              }else if(data3.query[i].tipo_experiencia == '3'){
+                tipo_exp="Prácticas Profesionales";
+              }
+
             var href_exp_ll="#";
            if(data3.query[i].archivo != ""){
             href_exp_ll=data3.query[i].archivo.replace("public/", '/storage/');
            }
            
+
             tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
-            "<td>"+data3.query[i].tipo_experiencia+"</td>"+
+            "<td>"+tipo_exp+"</td>"+
             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
             
@@ -207,6 +297,7 @@ $(document).ready(function() {
                 case 1: validar_paso = cumple_formacion($('#datospostulante').data('id')); break; 
                 case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
                 case 3: validar_paso = cumple_exp_genyesp(); break;
+                case 4: validar_paso = declaracion_jurada(); break;
             }
            
             if(validar_paso.estado){
@@ -217,7 +308,11 @@ $(document).ready(function() {
                     showConfirmButton: false,
                     timer: 2000
                 })*/
+                if(currentIndex == 4){
+                    cargar_resumen_postulante();
+                }
                    return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
+                   
             } else{
                 Swal.fire({
                     type: 'warning',
@@ -230,57 +325,13 @@ $(document).ready(function() {
            
         }, 
         onFinishing: function(event, currentIndex) {
-            var msj_error="";
-            var dj = "";
-            if($('input:radio[name=g1]:checked').val()=="1"){
-                dj = "'SI' en el inciso 1";
-            } else if( $('input:radio[name=g2]:checked').val()=="1"){
-                dj = "'SI' en el inciso 2";
-            } else if( $('input:radio[name=g3]:checked').val()=="1"){
-                dj = "'SI' en el inciso 3";
-            } else if( $('input:radio[name=g4]:checked').val()=="1"){
-                dj = "'SI' en el inciso 4";
-            } else if( $('input:radio[name=g5]:checked').val()=="1"){
-                dj = "'SI' en el inciso 5";
-            } else if( $('input:radio[name=g6]:checked').val()=="1"){
-                dj = "'SI' en el inciso 6";
-            } else if( $('input:radio[name=g7]:checked').val()=="1"){
-                dj = "'SI' en el inciso 7";
-            } else if( $('input:radio[name=g8]:checked').val()=="1"){
-                dj = "'SI' en el inciso 8";
-            } else if( $('input:radio[name=g9]:checked').val()=="0"){
-                dj = "'NO' en el inciso 9";
-            }
-
-            msj_error = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
             
-            if(dj == ""){
-                if(!$('#check_dj').prop('checked')){
-                    msj_error = "Debe de marcar que está de acuerdo con el 'PRINCIPIO DE VERACIDAD";
-                    
-                    Swal.fire({
-                        type: 'warning',
-                        title: "¡INFORMACIÓN!",
-                        text: msj_error,
-                        timer: null
-                    })
-                    return false;
-                }else{
-                    return form.validate().settings.ignore = ":disabled", form.valid();
-                }
-                
-            }else {
-                Swal.fire({
-                    type: 'warning',
-                    title: "¡NO PUEDE POSTULAR!",
-                    text: msj_error,
-                    timer: null
-                })
-                return false;
-               }
+            return form.validate().settings.ignore = ":disabled", form.valid();
             
         },
         onFinished: function(event, currentIndex) {
+
+            if($('#check_dj').prop('checked')){
 
            Swal.fire({
                 title: '¿Está seguro de registrar su postulación?',
@@ -293,35 +344,25 @@ $(document).ready(function() {
                 confirmButtonText: 'Si, registrar'
             }).then((result) => {
                
-
                 if(result.value){
 
-                    $.ajax({
+                     $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         url: "/postulante/registrofinal",
                         type: "POST",
                         datatype: "json",
                         data: { 
-                            idproceso:$('#datospostulante').data('id'),
-                            dj1:$('input:radio[name=g1]:checked').val(),
-                            dj2:$('input:radio[name=g2]:checked').val(),
-                            dj3:$('input:radio[name=g3]:checked').val(),
-                            dj4:$('input:radio[name=g4]:checked').val(),
-                            dj5:$('input:radio[name=g5]:checked').val(),
-                            dj6:$('input:radio[name=g6]:checked').val(),
-                            dj7:$('input:radio[name=g7]:checked').val(),
-                            dj8:$('input:radio[name=g8]:checked').val(),
-                            dj9:$('input:radio[name=g9]:checked').val()
+                            idproceso:$('#datospostulante').data('id')
                          },
                         success:function(data){
-                            console.log(data);
-                        var url = "/postulante/registro/"+$('#datospostulante').data('id');
+                           // console.log(data);
+                        var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
                         $(location).attr('href',url);
-                        },
-                        error: function(data){
+                        }
+                        ,error: function(data){
                             alert("error!!"); }
                 
-                    });
+                    });  
                    
                    
                    
@@ -329,7 +370,14 @@ $(document).ready(function() {
                 }
 
             })
-
+            }else{
+                Swal.fire({
+                    type: 'warning',
+                    title: "¡Información!",
+                    text: "Debe de aceptar el principio de veracidad",
+                    timer: null
+                })
+            }
             
         }, 
         
@@ -685,49 +733,72 @@ function guardardatos(){
     var discap=0;
     var ffaa=0;
     var depor=0;
-    var valor;
     
-    if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
-    $("#nacionalidad").val()=="" || $("#tele2fono_celular").val()=="" || 
-    $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
-        ///////////////////////////////d$('.micheckbox').prop('checked')
-        return arrayExp;
-    }else if(!$("#si_discapacidad").is(':checked') && !$("#no_discapacidad").is(':checked')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de seleccionar si es discapacitado o no";
-        return arrayExp;
-    }else if(!$("#si_ffaa").is(':checked') && !$("#no_ffaa").is(':checked')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de seleccionar si es licenciado de las Fuerzas Armadas";
-        return arrayExp;
-    }else if(!$("#si_deportista").is(':checked') && !$("#no_deportista").is(':checked')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de seleccionar si es Deportista Calificado";
-        return arrayExp;
-    }   
-
-    if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val('')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de cargar su archivo que fundamente su discapacidad";
-        return arrayExp;
-    }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val('')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
-        return arrayExp;
-    }else if($("#si_deportista").is(':checked') && $('#file_deportista').val('')){
-        arrayExp.estado = false;
-        arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
-        return arrayExp;
-    }   
+    
+        if($('#input_hide_dni').val() == "0" && $('#cargar_dni').val() == ""){
+        
+            arrayExp.msjerror = "Debe de cargar su documento de Identidad";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else 
+   
+        if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
+        $("#nacionalidad").val()=="" || $("#telefono_celular").val()=="" || 
+        $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
+            
+            arrayExp.msjerror = "Debe de completar todos lo campos requeridos";
+            arrayExp.estado = false;
+            return arrayExp;
+            ///////////////////////////////d$('.micheckbox').prop('checked')
+            
+        }else if(!$("#si_discapacidad").is(':checked') && !$("#no_discapacidad").is(':checked')){
+            
+            arrayExp.msjerror = "Debe de seleccionar si es discapacitado o no";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else if(!$("#si_ffaa").is(':checked') && !$("#no_ffaa").is(':checked')){
+            
+            arrayExp.msjerror = "Debe de seleccionar si es licenciado de las Fuerzas Armadas";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else if(!$("#si_deportista").is(':checked') && !$("#no_deportista").is(':checked')){
+            
+            arrayExp.msjerror = "Debe de seleccionar si es Deportista Calificado";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else 
+        
+        if($("#si_discapacidad").is(':checked') && $('#file_discapacidad').val() == "" && $('#input_hide_disc').val() == "0"){
+            
+            arrayExp.msjerror = "Debe de cargar su archivo que fundamente su discapacidad";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else if($("#si_ffaa").is(':checked') && $('#file_ffaa').val() =="" && $('#input_hide_ffaa').val() == "0"){
+            
+            arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es licenciado de las fuerzas armadas";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        }else if($("#si_deportista").is(':checked') && $('#file_deportista').val() == "" && $('#input_hide_deport').val() == "0"){
+            
+            arrayExp.msjerror = "Debe de cargar su archivo que fundamente que es Deportista Calificado";
+            arrayExp.estado = false;
+            return arrayExp;
+            
+        } 
 
     if($("#si_discapacidad").is(':checked')){ discap=1;}else{discap=0; }
     if($("#si_ffaa").is(':checked')){ ffaa=1;}else{ffaa=0; }
     if($("#si_deportista").is(':checked')){ depor=1;}else{depor=0; }
    
     var formData = new FormData();
-    
+
+    formData.append('archivo_dni',$('#cargar_dni').prop('files')[0]);
     formData.append('archivo_discapacidad',$('#file_discapacidad').prop('files')[0]);
     formData.append('archivo_ffaa',$('#file_ffaa').prop('files')[0]);
     formData.append('archivo_deport',$('#file_deportista').prop('files')[0]);
@@ -756,6 +827,35 @@ function guardardatos(){
             
             success:function(data){
                //console.log("success= ",data);
+                    var href_dni="#";
+                    var href_deport="#";
+                    var href_disc="#";
+                    var href_ffaa="#";
+
+                    if(data.archivo_dni != null){
+                    href_dni=data.archivo_dni.replace("public/", '/storage/');
+                    var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_dni').html(htmldni);
+                        $('#input_hide_dni').val('1');
+                    }           
+                    if(data.archivo_deport != null && data.es_deportista == 1){
+                        href_deport=data.archivo_deport.replace("public/", '/storage/');
+                        var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                            $('#btn_doc_deport').html(htmldeport);
+                            $('#input_hide_deport').val('1');
+                        }
+                    if(data.archivo_disc != null && data.es_pers_disc == 1){
+                        href_disc=data.archivo_disc.replace("public/", '/storage/');
+                        var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                            $('#btn_doc_disc').html(htmldisc);
+                            $('#input_hide_disc').val('1');
+                        }    
+                    if(data.archivo_ffaa != null && data.es_lic_ffaa == 1){
+                        href_ffaa=data.archivo_ffaa.replace("public/", '/storage/');
+                        var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                            $('#btn_doc_ffaa').html(htmlffaa);
+                            $('#input_hide_ffaa').val('1');
+                        }
             },
             error: function(data){
                 console.log("error");
@@ -863,18 +963,241 @@ function cumple_formacion(id){
     var anios;
     var meses;
     var dias;
+    var anios_desc="";
+    var meses_desc="";
+    var dias_desc="";
     anios= Math.trunc(diasx/365); 
     meses= Math.trunc((diasx%365)/30.4);
-    dias =(diasx%365)%30.4;
-    
+    dias =Math.round((diasx%365)%30.4);
+
+    if(anios == 0){
+        anios_desc = "";
+        anios = "";
+    }else if(anios == 1){
+        anios_desc = "año";
+    }else if(anios > 1){
+        anios_desc = "años";
+    }
+
+    if(meses == 0){
+        meses_desc = "";
+        meses = "";
+    }else if(meses == 1){
+        meses_desc = "mes";
+    }else if(meses > 1){
+        meses_desc = "meses";
+    }
+
+    if(dias == 0){
+        dias_desc = "";
+        dias = "";
+    }else if(dias == 1){
+        dias_desc = "dia";
+    }else if(dias > 1){
+        dias_desc = "dias";
+    }
+  
      
-  return anios+" año(s) "+meses+" mes(es) "+dias+" dia(s)";
+  return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
  }
 
- function postular(){
-     if($('.g1').val()){
-        alert("estoy en si");
-     }else{
-         alert("estoy en no");
-     }
+    function declaracion_jurada(){
+    var arrayExp={estado:"",msjok:"",msjerror:""};
+    
+    var dj = "";
+    if($('input:radio[name=g1]:checked').val()=="1"){
+        dj = "'SI' en el inciso 1";
+    } else if( $('input:radio[name=g2]:checked').val()=="1"){
+        dj = "'SI' en el inciso 2";
+    } else if( $('input:radio[name=g3]:checked').val()=="1"){
+        dj = "'SI' en el inciso 3";
+    } else if( $('input:radio[name=g4]:checked').val()=="1"){
+        dj = "'SI' en el inciso 4";
+    } else if( $('input:radio[name=g5]:checked').val()=="1"){
+        dj = "'SI' en el inciso 5";
+    } else if( $('input:radio[name=g6]:checked').val()=="1"){
+        dj = "'SI' en el inciso 6";
+    } else if( $('input:radio[name=g7]:checked').val()=="1"){
+        dj = "'SI' en el inciso 7";
+    } else if( $('input:radio[name=g8]:checked').val()=="1"){
+        dj = "'SI' en el inciso 8";
+    } else if( $('input:radio[name=g9]:checked').val()=="0"){
+        dj = "'NO' en el inciso 9";
+    }
+
+    arrayExp.msjerror = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
+    
+    if(dj == ""){
+        
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            url: "/postulante/declaracionjurada",
+            type: "POST",
+            datatype: "json",
+            data: { 
+                //idproceso:$('#datospostulante').data('id'),
+                dj1:$('input:radio[name=g1]:checked').val(),
+                dj2:$('input:radio[name=g2]:checked').val(),
+                dj3:$('input:radio[name=g3]:checked').val(),
+                dj4:$('input:radio[name=g4]:checked').val(),
+                dj5:$('input:radio[name=g5]:checked').val(),
+                dj6:$('input:radio[name=g6]:checked').val(),
+                dj7:$('input:radio[name=g7]:checked').val(),
+                dj8:$('input:radio[name=g8]:checked').val(),
+                dj9:$('input:radio[name=g9]:checked').val()
+             },
+            success:function(data){
+                //console.log(data);
+            },
+            error: function(data){
+                alert("error!!"); 
+            }
+    
+        });    
+        
+        
+        arrayExp.estado = true;
+            return arrayExp;
+         
+    }else {
+        arrayExp.estado = false;
+            return arrayExp;
+       }
  }
+
+ function cargar_resumen_postulante(){
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/datosuser/cargar_resumen_postulante",
+        type: "GET" ,
+        datatype: "json",
+        data:{idproceso: $('#datospostulante').data('id')
+       
+        },success:function(data){ 
+         // console.log(data);
+          var esdisc = "";
+          var esffaa = "";
+          var esdep = "";
+            $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
+           $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
+           $('#res_ruc').html(data.qdatos.ruc);
+           $('#res_celular').html(data.qdatos.telefono_celular);
+           $('#res_direccion').html(data.qdatos.domicilio);
+           $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
+           if(data.qdatos.es_pers_disc == 1){esdisc = "SI"}else{esdisc = "NO"}
+           if(data.qdatos.es_lic_ffaa == 1){esffaa= "SI"}else{esffaa = "NO"}
+           if(data.qdatos.es_deportista == 1){esdep = "SI"}else{esdep = "NO"}
+           $('#res_disc').html(esdisc);
+           $('#res_ffaa').html(esffaa);
+           $('#res_depor').html(esdep);
+
+            //llenar formacion
+            var html_resform = "";
+            for (var i = 0; i < data.qform.length; i++) {
+               
+                var href_form="#";
+                if(data.qform[i].archivo != null){
+                    href_form = data.qform[i].archivo.replace('public/','/storage/');
+                }
+                html_resform += "<tr>"+
+                "<td>"+data.qform[i].nombre+"</td>"+
+                "<td>"+data.qform[i].especialidad+"</td>"+
+                "<td>"+data.qform[i].centro_estudios+"</td>"+
+                "<td>"+data.qform[i].fecha_expedicion+"</td>"+
+                "<td><a href='"+href_form+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+                 "</td>"+
+                "</tr>";
+            }
+            $('#res_tbl_form').html(html_resform);
+
+            
+            //llenar capacitaciones
+            var html_rescap = "";
+            for (var i = 0; i < data.qcapa.length; i++) {
+
+                  tipoestudio = "";
+                 if(data.qcapa[i].es_curso_espec==1){
+                     tipoestudio = "Curso/Especialización";
+                 }
+                 if(data.qcapa[i].es_ofimatica==1){
+                     tipoestudio = "Ofimática";
+                 }
+                 if(data.qcapa[i].es_idioma==1){
+                     tipoestudio = "Idioma";
+                 }
+                 
+                 var href_form_ca="#";
+                 if(data.qcapa[i].archivo != null){
+                     href_form_ca = data.qcapa[i].archivo.replace('public/','/storage/');
+                 }
+                 html_rescap += "<tr>"+
+                 "<td>"+tipoestudio+"</td>"+
+                 "<td>"+data.qcapa[i].especialidad+"</td>"+
+                 "<td>"+data.qcapa[i].centro_estudios+"</td>"+
+                 "<td>"+data.qcapa[i].cantidad_horas+"</td>"+
+                 "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+                 "</td>"+
+                 "</tr>";
+                 }
+                 
+                 $('#res_tbl_capa').html(html_rescap);
+             
+           
+             //llenar experiencias
+             var html_resexp = "";
+            var marcadogeneral="";
+            var marcadoespecifico="";
+            var tipo_exp="";  
+            
+            for (var i = 0; i < data.qexp.length; i++) {
+            
+            if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
+            if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
+            
+                if(data.qexp[i].tipo_experiencia == '1'){
+                tipo_exp="Experiencia Laboral";
+                }else if(data.qexp[i].tipo_experiencia == '2'){
+                tipo_exp="Prácticas Pre Profesionales";
+                }else if(data.qexp[i].tipo_experiencia == '3'){
+                tipo_exp="Prácticas Profesionales";
+                }
+
+            var href_exp="#";
+            if(data.qexp[i].archivo != null){
+                href_exp = data.qexp[i].archivo.replace('public/','/storage/');
+            }
+
+            html_resexp += "<tr>"+
+            "<td>"+tipo_exp+"</td>"+
+            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
+            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            "<td>"+data.qexp[i].centro_laboral+"</td>"+
+            "<td>"+data.qexp[i].cargo_funcion+"</td>"+
+            "<td>"+data.qexp[i].fecha_inicio+"</td>"+
+            "<td>"+data.qexp[i].fecha_fin+"</td>"+
+            "<td>"+anios_meses_dias(parseInt(data.qexp[i].dias_exp_gen))+"</td>"+
+            "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+            "</td>"+
+            "</tr>";
+        }
+        $('#res_tbl_exp').html(html_resexp);
+
+        //DECLARACION JURADA
+        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "SI" : "NO");
+        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "SI" : "NO");
+        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "SI" : "NO");
+        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "SI" : "NO");
+        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "SI" : "NO");
+        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "SI" : "NO");
+        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
+        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
+        $('#res_dj9').html(data.qdatos.dj9 == 1 ? "SI" : "NO");
+
+        },
+        error:function(data){
+            console.log("error en resumen posulante");
+        }
+    }); 
+ }
+
+ 
