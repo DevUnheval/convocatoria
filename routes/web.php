@@ -125,14 +125,18 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data');
     Route::post('declaracionjurada', 'postulante\PostulanteController@declaracionjurada')->name('declaracionjurada');
-    //Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
+    Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
     Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
     Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
     
     });
-    Route::get('postulante/{idproceso}/registro/', 'postulante\PostulanteController@registrofinal')->where(['idproceso' => '[0-9]+'])->name('registrando');
-    //Route::post('postulante/postular/storage/', 'postulante\PostulanteController@registro_postular')->name('registro_postular');
-
+    Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
+    
+    //MIS POSTULACIONES
+    Route::group(['prefix' => 'mispostulaciones'], function(){
+    Route::get('/', 'postulante\mispostulacionesController@index')->name('mispostulaciones');
+    Route::get('datatabla', 'postulante\mispostulacionesController@datatabla')->name('datatabla');
+    });
     //POSTULANTES
     Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
