@@ -70,17 +70,16 @@ Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaEnCursoController@index')->name('convocatoria.en_curso');
-    Route::get('historico', 'ConvocatoriaController@historico')->name('convocatoria.historico');
-    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
-    
+    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.cancelados.index');
+    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.concluidos.index');
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
-    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');    
-    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');  
-    Route::get('historico/data', 'ConvocatoriaController@data')->name('convocatoria.historico.data'); 
+    Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');   
+    Route::get('historico/concluido/data', 'ConvocatoriaHistoricoController@data_concluidos')->name('convocatoria.historico.concluidos.data_concluidos');
+    Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
-    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');  
+    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit'); 
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado');  
     Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado'); 

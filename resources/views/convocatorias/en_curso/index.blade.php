@@ -22,7 +22,7 @@
                                 @include('convocatorias.en_curso.m_evaluacion')
                                 @include('convocatorias.en_curso.m_resultado')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                   
+                                @include('convocatorias.vigentes.m_editar')
                             {{--Fin modal --}}
 
             {{-- <h4 class="card-title">
