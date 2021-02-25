@@ -80,7 +80,6 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit'); 
-    Route::get('edit/{id}', 'ConvocatoriaEnCursoController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.edit');   
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
     Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado');  
     Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado'); 
