@@ -23,7 +23,7 @@ Route::get('/', 'ConvocatoriaController@vigentes')->name('index');
 Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
-Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post')->middleware(['auth']);
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
 Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a post
 
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');

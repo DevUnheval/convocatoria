@@ -199,10 +199,7 @@
                                 <th scope="row" colspan="3" class="alert alert-secondary">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</th>
                                 <td id="res_dj8"></td>
                             </tr>
-                            <tr>
-                                <th scope="row" colspan="3" class="alert alert-secondary">9. Los documentos que declaro y presento son verídicos y fidedignos.</th>
-                                <td id="res_dj9"></td>
-                            </tr>
+                            
                         <tbody> 
                     </table>
                 </div>

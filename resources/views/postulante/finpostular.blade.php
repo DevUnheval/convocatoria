@@ -17,13 +17,13 @@
 
     <h4 class="modal-title text-black text-center  font-weight-bold" id="fullWidthModalLabel">CONSTANCIA DE POSTULACIÓN</h4>
 </div>
-<div class="card border-left border-info">
+<div class="card border-left border-info ">
     <div class="card-body">
         <div class="d-flex align-items-center">
             <div>
                 <!--<h2>CONSTANCIA DE POSTULACIÓN</h2> -->
                <div class="modal-body">                
-                    <div class="card col-md-12">
+                    <div class="card col-md ">
                         <div class="row">
                             <div class="col-md-12 form-row">
                                 <div class="col-2 border form-group">
