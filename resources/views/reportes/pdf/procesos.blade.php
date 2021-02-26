@@ -57,7 +57,8 @@
     <h1>
       <table>
         <tr  width="100%">
-          <td> col 1: logo 1</td>
+          <td><img src="{{ asset('\imagenes\ajustes\logo.png')}}" alt="">
+          </td>
           <td> texto</td>
           <td style="text-align: right;"> col 3: logo 1</td>
         </tr>
@@ -92,7 +93,7 @@
         @endfor
         
     </p>
-    <p style="page-break-before: always;">
+    <p style="page-break-before: always;"> <!-- salto de pagina -->
     Podemos romper la página en cualquier momento...</p>
     </p><p>
     Praesent pharetra enim sit amet...

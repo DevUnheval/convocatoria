@@ -26,7 +26,7 @@
                                                 <th>Nº</th>
                                                 <th>DNI</th>
                                                 <th>Apellidos y Nombres</th>
-                                                <th>Evalauación</th>
+                                                <th>Evaluación</th>
                                             <tr>
                                         </thead>
                                         <tbody>
@@ -34,7 +34,7 @@
                                                 <td>Nº</td>
                                                 <td>DNI</td>
                                                 <td>Apellidos y Nombres</td>
-                                                <td>Evalauación</td>
+                                                <td>Evaluación</td>
                                             <tr>
                                         </tbody>
                                     </table>         
