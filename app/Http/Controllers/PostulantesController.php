@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\CapacitacionPostulante;
+use App\DatosPostulante;
+use App\DatosUser;
+use App\ExperienciaLabPostulante;
+use App\FormacionPostulante;
 use Illuminate\Http\Request;
 use App\Postulante;
 use App\Proceso;
-use App\DatosPostulante;
+use App\Ubigeo;
+use App\User;
 use Carbon\Carbon;
 
 class PostulantesController extends Controller
@@ -103,7 +109,7 @@ class PostulantesController extends Controller
         $bd_califica = $api["etapa_actual"]["desc_bd"];
         foreach ( $api["postulantes"] as $p) {
            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
-           $cv = "<button class='btn btn-info btn-circle' onclick=\"mostrar_modalcv(".$p->id.")\" ><span> <i class='fas fa-id-card'></i></span></button>";
+           $cv = "<button class='btn btn-info btn-circle' onclick=\"mostrar_modalcv(".$p->id.",".$p->user_id.")\" ><span> <i class='fas fa-id-card'></i></span></button>";
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
@@ -318,6 +324,58 @@ class PostulantesController extends Controller
         return $bonificacion;
     }
     
+    public function cargar_cv($postulanteid,$userid){
+    //________________________________ubigeo_______________________________________________________
+    if(DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->exists()){
+    $du = DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->first();
+        $nacionalidad = $du->nacionalidad;
+        if($nacionalidad == "Peruano(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $u_nac = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_nacimiento))->first();
+            $desc_u_nac = $u_nac->desc_ubigeo_reniec.' - '.$u_nac->desc_prov_reniec.' - '.$u_nac->desc_dep_reniec;
+        }else if($du->nacionalidad == "Extranjero(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $desc_u_nac = null;
+        }
+
+        $cod_dom= $du->ubigeo_domicilio;
+        $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_domicilio))->first();
+        $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
+    }else{
+        $nacionalidad="";
+        $desc_u_nac="";
+        $desc_u_dom="";
+        $cod_nac="";
+        $cod_dom="";
+    }
+        //return compact('nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+        
+    
+    //______________________________fin ubigeo_______________________________________________________
+    //Experiencia
+    $qexp = ExperienciaLabPostulante::select('tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
+    ->where('postulante_id',$postulanteid)->get();
+
+    //CApacitaciones
+    $qcapa= CapacitacionPostulante::select('es_curso_espec','es_ofimatica','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
+    ->where('postulante_id',$postulanteid)->get();
+    
+    //Datospersonales
+    $qdatos =DatosPostulante::select('archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
+    ->where('postulante_id',$postulanteid)->first();
+    
+    //Datos usuario
+    $quser = User::select('dni','nombres','apellido_paterno','apellido_materno','email')
+    ->where('id',$userid)->first();
+    
+    //Formacion
+    $qform = FormacionPostulante::join("grado_formacions", "grado_formacions.id", "=", "formacion_postulantes.grado_id")
+    ->select("formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
+    ->where("formacion_postulantes.postulante_id",$postulanteid)->get();
+    
+    return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+
+    }
 
 
 }

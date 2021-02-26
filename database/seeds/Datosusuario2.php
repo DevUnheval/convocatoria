@@ -18,7 +18,18 @@ class Datosusuario2 extends Seeder
             'archivo_dni_tipo' => 'local',
             'domicilio' => 'Jr dos de mayo 2021',
             'ubigeo_domicilio' => '90101',
+            'nacionalidad' => 'Peruano(a)',
+            'ubigeo_nacimiento' => '90101',
     ]);
+    DB::table('datos_postulantes')->insert([
+        'postulante_id' => '1',
+        'archivo_dni' => '#',
+        'archivo_dni_tipo' => 'local',
+        'domicilio' => 'Jr dos de mayo 2021',
+        'ubigeo_domicilio' => '90101',
+        'nacionalidad' => 'Peruano(a)',
+        'ubigeo_nacimiento' => '90101',
+]);
     
     }
 }

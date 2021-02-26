@@ -2,30 +2,30 @@
 <!--  Modal content for the above example -->
 <div class="modal fade" id="modal_cv" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-full-width">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center">
-                <h4 class="modal-title" id="myLargeModalLabel">Curriculum Vitae</h4>
+                <h4 class="modal-title" id="myLargeModalLabel"><span class="text-white bg-success pl-3 pr-3 pt-2 pb-2 mr-5 mdi-cursor-default" > CURRICULUM VITAE</span><small>Postulante:</small><span id="postulante" class="ml-3 mr-3"></span><small>Doc. Identidad:</small><span id="dnicab" class="ml-3"></h4>
                 <button type="button" class="close ml-auto" data-dismiss="modal"
                     aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
                  <!-- Column -->
-                 <div class="col-lg-9 col-xlg-9 col-md-7">
+                 <div class="col-lg col-xlg col-md">
                     <div class="card">
                         <!-- Tabs -->
                         <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Datos Usuario</a>
+                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true"><strong> POSTULANTE</strong></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false">Formación Académica</a>
+                                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false"><strong>FORMACIÓN ACADÉMICA</strong></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false">Capacitaciones</a>
+                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#previous-month" role="tab" aria-controls="pills-setting" aria-selected="false"><strong>CURSOS/CAPACITACIONES</strong></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#hi-month" role="tab" aria-controls="pills-setting" aria-selected="false">Experiencia Laboral</a>
+                                <a class="nav-link" id="pills-setting-tab" data-toggle="pill" href="#hi-month" role="tab" aria-controls="pills-setting" aria-selected="false"><strong>EXPERIENCIA LABORAL</strong></a>
                             </li>
                         </ul>
                         <!-- Tabs -->
@@ -39,11 +39,11 @@
                                                 <tbody>
                                                     <tr>
                                                         <th scope="row" class="alert alert-secondary">Apellidos y Nombres</th>
-                                                        <td colspan="3">{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}}, {{auth()->user()->nombres}}</td>
+                                                        <td colspan="3" id="apellidosynombres"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
-                                                        <td>{{auth()->user()->dni}}</td>
+                                                        <td id="dni"></td>
                                                         <th scope="row" class="alert alert-secondary">RUC:</th>
                                                         <td id="res_ruc"></td>
                                                     </tr>
@@ -57,7 +57,7 @@
                                                         <th scope="row" class="alert alert-secondary">Celular N° </th>
                                                         <td id="res_celular"></td>
                                                         <th scope="row" class="alert alert-secondary">Correo Electrónico</th>
-                                                        <td>{{auth()->user()->email}}</td>
+                                                        <td id="email"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="alert alert-secondary">Dirección Actual </th>
@@ -91,18 +91,7 @@
                                 <div class="card-body">
                                     <form class="form-horizontal form-material">
                                         <div id="div_act">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="form-group">
-                                                        <button type="button" onclick="nueva_forma();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
-                                                        <i class="fa fa-plus"></i> Nuevo</button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                 
-                                                </div>
-                                                
-                                            </div>                    
+                                                               
                                             <div class="table-responsive">
                                                 <table id="zeroconfig1" class="table table-striped table-bordered">
                                                     <thead class="text-white bg-info">
@@ -111,13 +100,13 @@
                                                             <th>Especialidad</th>
                                                             <th>Centro de Estudios</th>
                                                             <th>Fecha Expedición</th>
-                                                            <th>Acciones</th>
+                                                            <th>Ver documento</th>
                                                             
                                                             
                                                             
                                                         </tr>
                                                     </thead>
-                                                            <tbody id="zeroconfig1_body">
+                                                            <tbody id="tbl_cv2">
                                                                 
                                                             </tbody>
                                                         
@@ -136,25 +125,6 @@
                                 <div class="card-body">
                                     <form class="form-horizontal form-material">
                                         <br>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <button type="button" onclick="nueva_capacitacion()" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
-                                                    <i class="fa fa-plus"></i> Nuevo</button>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="col-md-4">
-                                             
-                                                
-                                            </div>
-                                           
-                                              <div class="col-md-4">
-                                                
-                                                
-                                              </div>
-                                          
-                                        </div>
                                         
                                         <div class="table-responsive">
                                             <table id="zero_config2" class="table table-striped table-bordered">
@@ -164,11 +134,11 @@
                                                         <th>Descripción</th>
                                                         <th>Institución</th>
                                                         <th>Horas lectivas<br></th>
-                                                        <th>Acciones</th>
+                                                        <th>Ver documento</th>
                                                         
                                                     </tr>
                                                 </thead>
-                                                <tbody id="zeroconfig2_body">
+                                                <tbody id="tbl_cv3">
                                                         <!-- Cuerpo vacio -->
                                                        
                                                 </tbody>
@@ -182,35 +152,23 @@
                                 
                                 <div class="card-body">
                                     <form class="form-horizontal form-material">
+                                       
                                         <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
-                                                    <i class="fa fa-plus"></i> Nuevo</button>
-                                                </div>
-                                            </div>
-                                            
-                                            
-                                        </div>
-                    
-                                        <div class="row">
-                                            
+                                                
                                             <div class="col-md-6">
                                                 <div class="alert alert-success text-center" role="alert">
-                                                    <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                                    <strong>Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                                                 </div>
                                                 
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="alert alert-success text-center" role="alert">
-                                                    <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                                    <strong>Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                                                 </div>
                        
                                           </div>
                                           
                                         </div>
-                                       
-                                        
                                         <div class="table-responsive">
                                             <table id="zero_config3" class="table table-striped table-bordered">
                                                 <thead class="text-white bg-info">
@@ -223,11 +181,11 @@
                                                         <th>Fecha Inicio</th>
                                                         <th>Fecha Fin</th>
                                                         <th>Tiempo Exper.</th>
-                                                        <th>Acciones</th>
+                                                        <th>Ver documento</th>
                                                         
                                                     </tr>
                                                 </thead>
-                                                <tbody id="zeroconfig3_body">
+                                                <tbody id="tbl_cv4">
                                                         <!-- Cuerpo vacio -->
                                                        
                                                 </tbody>

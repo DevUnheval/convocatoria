@@ -317,21 +317,7 @@ $("#tipo_capacitacion").on('change',function(){
  
              totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
              totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-             /*   if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
-                 totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                  totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-               }else if(data3.proceso.consid_prac_preprof == 0 && data3.proceso.consid_prac_prof == 1){
-                   if(data3.query[i].tipo_experiencia != 2){
-                     totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                     totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                   }
-               }else if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 0){
-                 if(data3.query[i].tipo_experiencia != 3){
-                     totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-                     totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
-                   }
-               }
-             */
+             
              marcadogeneral="";
              marcadoespecifico="";
   
