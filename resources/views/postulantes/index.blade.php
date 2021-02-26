@@ -110,11 +110,11 @@
                                 <th>DNI</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>CV</th>
-                                <th>Ev. Curricular</th> 
+                                <th>Ev. Curricular <br> <small> peso {{100*$proceso->peso_cv}}%</small></th> 
                                 @if($proceso->evaluar_conocimientos=="1")
-                                <th>Ev. Conoc/ Psic/Hab: </th>   
+                                <th>Ev. Conoc/ Psic/Hab  <br> <small> peso {{100*$proceso->peso_conoc}}%</small> </th>   
                                 @endif
-                                <th>Ev. entrevista</th>
+                                <th>Ev. entrevista <br><small> peso {{100*$proceso->peso_entrev}}%</small></th>
                                 <th title="Bonificación">Bon+</th>
                                 <th>Total </th>
                             </tr>
