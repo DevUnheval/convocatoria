@@ -8,6 +8,7 @@ use App\Proceso;
 use App\TipoProceso;
 use App\GradoFormacion;
 use App\EvaluacionProceso;
+use Illuminate\Support\Facades\Storage;
 
 class ConvocatoriaHistoricoController extends Controller{
 
@@ -46,24 +47,24 @@ class ConvocatoriaHistoricoController extends Controller{
             }                
             $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
             $evaluaciones="";//$dato->evaluaciones; 
-            // if($dato->evaluacionprocesos->count() > 0 ){
-            //     foreach($dato->evaluacionprocesos as $ev){
-            //         $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a><br>';
-            //     }
+            if($dato->evaluacionprocesos->count() > 0 ){
+                foreach($dato->evaluacionprocesos as $ev){
+                    $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs my-1"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a>';
+                }
                
-            // } 
+            } 
             $resultados="";  
-            // if($dato->archivo_resultado != '' ){
-            //     if($dato->archivo_resultado_tipo=="web"){
-            //         $href = $dato->archivo_resultado;
-            //     }
-            //     else{
-            //         $href=Storage::url($dato->archivo_resultado);
-            //     }
-            //     $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a><br>';
+            if($dato->archivo_resultado != '' ){
+                if($dato->archivo_resultado_tipo=="web"){
+                    $href = $dato->archivo_resultado;
+                }
+                else{
+                    $href=Storage::url($dato->archivo_resultado);
+                }
+                $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a>';
                 
                
-            // }                      
+            }                      
          
             if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
                 $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];
@@ -96,8 +97,6 @@ class ConvocatoriaHistoricoController extends Controller{
         if($query->count()<1)
         return $this->data_null;
         foreach ($query as $dato) {
-        
-                      
             $comunicados = ""; 
             if($dato->comunicados->count() > 0 ){
                 $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
@@ -105,24 +104,23 @@ class ConvocatoriaHistoricoController extends Controller{
             }                
             $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
             $evaluaciones="";//$dato->evaluaciones; 
-            // if($dato->evaluacionprocesos->count() > 0 ){
-            //     foreach($dato->evaluacionprocesos as $ev){
-            //         $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a><br>';
-            //     }
-               
-            // } 
+            if($dato->evaluacionprocesos->count() > 0 ){
+                foreach($dato->evaluacionprocesos as $ev){
+                    $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs my-1"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a>';
+                }
+            } 
             $resultados="";  
-            // if($dato->archivo_resultado != '' ){
-            //     if($dato->archivo_resultado_tipo=="web"){
-            //         $href = $dato->archivo_resultado;
-            //     }
-            //     else{
-            //         $href=Storage::url($dato->archivo_resultado);
-            //     }
-            //     $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a><br>';
+            if($dato->archivo_resultado != '' ){
+                if($dato->archivo_resultado_tipo=="web"){
+                    $href = $dato->archivo_resultado;
+                }
+                else{
+                    $href=Storage::url($dato->archivo_resultado);
+                }
+                $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a>';
                 
                
-            // }                      
+            }                      
          
             if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
                 $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];

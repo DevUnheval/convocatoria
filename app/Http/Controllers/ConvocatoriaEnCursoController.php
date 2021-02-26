@@ -68,7 +68,7 @@ class ConvocatoriaEnCursoController extends Controller
             $evaluaciones="";//$dato->evaluaciones; 
             if($dato->evaluacionprocesos->count() > 0 ){
                 foreach($dato->evaluacionprocesos as $ev){
-                    $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a><br>';
+                    $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs my-1"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a>';
                 }
                
             } 

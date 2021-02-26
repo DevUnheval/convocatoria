@@ -59,11 +59,12 @@
         <div class="col-sm-2 justify-content-center row">
             <div class="btn-group">
                 <label class="nav-link btn-success rounded-pill d-flex align-items-center px-3 " data-toggle="dropdown" aria-haspopup="true">
-                    <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14"> Exportar</span>
+                    <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14">&nbsp;Exportar</span>
                 </label> 
                 <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                    <a class='dropdown-item' href='{{route("reportes.excel",$proceso->id)}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar a excel</a>
-                    <a class='dropdown-item' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar a pdf</a>
+                    <a class='dropdown-item text-success' href='{{route("reportes.excel",$proceso->id)}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar a excel</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar a pdf</a><hr class="my-0">
+                    <a class='dropdown-item text-info' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar otro</a>
                 </div>
             </div>
         </div>
