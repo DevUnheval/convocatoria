@@ -52,14 +52,7 @@
                                     <hr> 
                                     <button type="button" class="btn btn-info btn-circle" data-toggle="modal" data-target="#m_contraseña"
                                     data-placement="bottom" title="" data-original-title="Modificar Contaseña"><i class="mdi mdi-account-key font-20"></i></button>
-                                <!-- <div class="map-box">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508" width="100%" height="150" frameborder="0" style="border:0" allowfullscreen=""></iframe>
-                                </div> 
-                                    <small class="text-muted pt-4 db">Redes Sociales</small>
-                                    <br>
-                                    <button class="btn btn-circle btn-secondary"><i class="fab fa-twitter"></i></button>
-                                    <button class="btn btn-circle btn-secondary"><i class="fab fa-youtube"></i></button> 
-                                -->
+                                
                             </div>
                         </div>
                     </div>
@@ -382,13 +375,13 @@
                                                 
                                                 <div class="col-md-6">
                                                     <div class="alert alert-success text-center" role="alert">
-                                                        <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                                        <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled> 
                                                     </div>
                                                     
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="alert alert-success text-center" role="alert">
-                                                        <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                                        <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled> 
                                                     </div>
                            
                                               </div>
