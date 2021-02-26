@@ -52,18 +52,41 @@ class PostulantesController extends Controller
 
     private function etapas_evaluacion($evaluar_conocimientos){
         $etapa = 1;
-        $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_curricular','desc2_bd'=>'ev_curricular', 'desc3_bd'=>'pje_min_cv','descripcion'=>'Curricular']; $etapa++;
+        $etapas[] = 
+                    [   'etapa'=>$etapa,
+                        'desc_bd'=>'cal_curricular',
+                        'desc2_bd'=>'ev_curricular', 
+                        'desc3_bd'=>'pje_min_cv',
+                        'peso_bd'=>'peso_cv',
+                        'descripcion'=>'Curricular'
+                    ]; 
+                    $etapa++;
         if((boolean) $evaluar_conocimientos){
-            $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_conocimientos','desc2_bd'=>'ev_conocimiento','desc3_bd'=>'pje_min_conoc','descripcion'=>'Conocimientos']; $etapa++;
+            $etapas[] = [
+                            'etapa'=>$etapa,
+                            'desc_bd'=>'cal_conocimientos',
+                            'desc2_bd'=>'ev_conocimiento',
+                            'desc3_bd'=>'pje_min_conoc',
+                            'peso_bd'=>'peso_conoc',
+                            'descripcion'=>'Conocimientos'
+                        ]; 
+                            $etapa++;
         }
-        $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_entrevista','desc2_bd'=>'ev_entrevista','desc3_bd'=>'pje_min_entrev','descripcion'=>'Entrevista'];
+        $etapas[] = [
+                        'etapa'=>$etapa,
+                        'desc_bd'=>'cal_entrevista',
+                        'desc2_bd'=>'ev_entrevista',
+                        'desc3_bd'=>'pje_min_entrev',
+                        'peso_bd'=>'peso_entrev',
+                        'descripcion'=>'Entrevista'
+                    ];
         return $etapas;
     }
 
     private function estado(){
         return [
             ['nombre'=>'No califica','clase'=>'note-no-califica','array'=>'noCalifica'],
-            ['nombre'=>'Califica','clase'=>'note-califica','array'=>'califica']
+            ['nombre'=>'Califica','clase'=>'note-califica','array'=>'califica'],
         ];
     }
 
@@ -90,9 +113,9 @@ class PostulantesController extends Controller
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
-           $total = $p->ev_entrevista + $p->ev_curricular + $p->ev_conocimiento;
+           $total = (int) $p->total;
+           $bonificacion = (int) $p->bonificacion;
            $ev_conocimiento = $p->ev_conocimiento;
-           $bonificacion = $total*10/100;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
                case "1"   : $estado = "Califica"; break;
@@ -101,10 +124,7 @@ class PostulantesController extends Controller
            //pintar la columna
            
            if($api["proceso"]->evaluar_conocimientos){
-            
-                $total = $p->ev_entrevista + $p->ev_curricular + $p->ev_conocimiento;
                 $ev_conocimiento = (int) $p->ev_conocimiento;
-                $bonificacion = $total*10/100;
                 switch($etapa){
                     case "1": $ev_curricular = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
                     case "2": $ev_conocimiento = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
@@ -233,7 +253,6 @@ class PostulantesController extends Controller
     }
 
     public function actualizar_evaluacion(Request $r,$proceso_id,$etapa,$ev_con){
-
         $campo_pje_min = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc3_bd"];
         $campo_evaluacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc2_bd"];
         $campo_calificacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc_bd"];
@@ -242,6 +261,7 @@ class PostulantesController extends Controller
         //return $r->evaluacion;
         //return Postulante::where("proceso_id",$proceso_id)->where("id",1)->first();
         foreach($r->evaluacion as $key => $valor){
+            //cargar entrante
             $q = Postulante::find($key);
             $q->$campo_evaluacion =  $valor;
             if( (int) $valor > 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
@@ -249,6 +269,18 @@ class PostulantesController extends Controller
             }else if( $valor >= (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 1;
             }
+            $q->save();
+
+            //actualizar BON+ (bonificacion) y total
+            $sum_evaluaciones =[];
+            foreach($api["etapas"]   as $e){
+                $ev_etapa=$e['desc2_bd'];
+                $peso_bd =$e['peso_bd'];
+                $sum_evaluaciones[]= $q->$ev_etapa*($proceso->$peso_bd);
+            }
+            $bono = $this->calcular_bonificacion(array_sum($sum_evaluaciones),$key, $proceso); //mandamos el total bruto, el id del postulante y proceso
+            $q->bonificacion = $bono;
+            $q->total = array_sum($sum_evaluaciones) + $bono;
             $q->save();
             unset($q);
         }
@@ -274,6 +306,22 @@ class PostulantesController extends Controller
             $query->save();
        }
        return $query->etapa_evaluacion;
+    }
+
+    private function calcular_bonificacion($sub_total,$postulante_id,$proceso){
+        $datos = DatosPostulante::find($postulante_id);
+        $bonificacion = 0;
+        if(!$datos) return $bonificacion;
+        if($datos->es_pers_disc){
+            $bonificacion +=$sub_total*$proceso->bon_pers_disc;
+        }
+        if($datos->es_lic_ffaa){
+            $bonificacion +=$sub_total*$proceso->bon_ffaa;
+        }
+        if($datos->es_deportista){
+            $bonificacion +=$sub_total*$proceso->bon_deport;
+        }
+        return $bonificacion;
     }
     
     public function cargar_cv($postulanteid,$userid){
