@@ -107,8 +107,8 @@ class PostulantesController extends Controller
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
-           $total = (int) $p->total;
-           $bonificacion = (int) $p->bonificacion;
+           $total = (float) $p->total;
+           $bonificacion = (float) $p->bonificacion;
            $ev_conocimiento = $p->ev_conocimiento;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
@@ -303,7 +303,7 @@ class PostulantesController extends Controller
     }
 
     private function calcular_bonificacion($sub_total,$postulante_id,$proceso){
-        $datos = DatosPostulante::find($postulante_id);
+        $datos = DatosPostulante::where("postulante_id",$postulante_id)->first();
         $bonificacion = 0;
         if(!$datos) return $bonificacion;
         if($datos->es_pers_disc){

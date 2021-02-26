@@ -146,7 +146,7 @@ class ConvocatoriaController extends Controller
         else  $p->bon_ffaa=0;
 
         if($r->hay_bon_deport) $p->bon_deport="0.1";
-        else  $p->on_deport=0;
+        else  $p->bon_deport=0;
 
         $p->save();
                 
