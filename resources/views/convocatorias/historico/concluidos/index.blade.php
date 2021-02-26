@@ -17,17 +17,8 @@
                         <div class="card">
                             <div class="card-body">
                             {{-- modal --}}
-                                                       
-                               
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                   
+                            @include('convocatorias.vigentes.m_comunicados')
                             {{--Fin modal --}}
-
-            {{-- <h4 class="card-title">
-                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
-                <i class="fa fa-plus"></i> Nuevo</button>
-            </h4> --}}
-            @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
                         <thead class="">

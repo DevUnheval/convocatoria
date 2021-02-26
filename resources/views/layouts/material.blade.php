@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="es">
+@php
 
+$vigentes=\App\Proceso::where("estado","1")->count();
+$enCurso=\App\Proceso::where("estado","2")->count();
+@endphp
+<html dir="ltr" lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -266,7 +270,7 @@
                         <div class="d-flex mr-3 ml-2">
                             <div class="chart-text mr-2">
                                 <h6 class="mb-0"><small>Vigentes</small></h6>
-                                <h4 class="mt-0 text-info">10</h4>
+                                <h4 class="mt-0 text-info">{{$vigentes}}</h4>
                             </div>
                             <div class="spark-chart">
                                 <div id="monthchart"></div>
@@ -274,8 +278,8 @@
                         </div>
                         <div class="d-flex ml-2">
                             <div class="chart-text mr-2">
-                                <h6 class="mb-0"><small>En proceso</small></h6>
-                                <h4 class="mt-0 text-primary">30</h4>
+                                <h6 class="mb-0"><small>En curso</small></h6>
+                                <h4 class="mt-0 text-primary">{{$enCurso}}</h4>
                             </div>
                             <div class="spark-chart">
                                 <div id="lastmonthchart"></div>
