@@ -5366,13 +5366,6 @@
                 "test double",
                 "testing"
             ],
-<<<<<<< HEAD
-            "support": {
-                "issues": "https://github.com/mockery/mockery/issues",
-                "source": "https://github.com/mockery/mockery/tree/1.4.3"
-            },
-=======
->>>>>>> acd02e42adf82564433cb96fd43c02454efa2c6e
             "time": "2021-02-24T09:51:49+00:00"
         },
         {
@@ -5594,13 +5587,6 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
-<<<<<<< HEAD
-            "support": {
-                "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.0"
-            },
-=======
->>>>>>> acd02e42adf82564433cb96fd43c02454efa2c6e
             "time": "2021-02-23T14:00:09+00:00"
         },
         {

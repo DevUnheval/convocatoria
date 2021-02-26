@@ -139,6 +139,16 @@ class ConvocatoriaController extends Controller
     {   $p= Proceso::find($r->id);
         $q=Proceso::where('id', $r->id)    
                 ->update($r->all());
+        if($r->hay_bon_pers_disc) $p->bon_pers_disc="0.15";
+        else  $p->bon_pers_disc=0;
+
+        if($r->hay_bon_ffaa) $p->bon_ffaa="0.1";
+        else  $p->bon_ffaa=0;
+
+        if($r->hay_bon_deport) $p->bon_deport="0.1";
+        else  $p->on_deport=0;
+
+        $p->save();
                 
         if($r->file('archivo_bases')){
             Storage::delete($p->archivo_bases);//primero eliminamos el archivo anterior
