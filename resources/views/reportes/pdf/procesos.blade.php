@@ -57,7 +57,7 @@
     <h1>
       <table>
         <tr  width="100%">
-          <td> col 1: logo 1</td>
+          <td> col 1: logo unheval</td>
           <td>"Año del Bicentenario del Perú: 200 años de Independencia"</td>
           <td style="text-align: right;"> col 3: logo 1</td>
         </tr>
@@ -68,7 +68,7 @@
     <b style="color:blue">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN CURRICULAR</b>
     <ul></ul> 
   </header>
-<br><br><br>
+<br><br><br><br>
     <table border="1" style="border solid">
         <thead >
             <tr>
@@ -85,8 +85,17 @@
                 <th>Hora</th>                                                  
             </tr>
         </thead>
-        <tbody id="zeroconfig3_body">
-                <!-- Cuerpo vacio -->                                                
+        <tbody>
+            <tr>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+            </tr>
+              
         </tbody>                                            
     </table>
 
