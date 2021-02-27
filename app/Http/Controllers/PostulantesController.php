@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\CapacitacionPostulante;
+use App\DatosPostulante;
+use App\DatosUser;
+use App\ExperienciaLabPostulante;
+use App\FormacionPostulante;
 use Illuminate\Http\Request;
 use App\Postulante;
 use App\Proceso;
+use App\Ubigeo;
+use App\User;
 use Carbon\Carbon;
 
 class PostulantesController extends Controller
@@ -45,18 +52,41 @@ class PostulantesController extends Controller
 
     private function etapas_evaluacion($evaluar_conocimientos){
         $etapa = 1;
-        $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_curricular','desc2_bd'=>'ev_curricular', 'desc3_bd'=>'pje_min_cv','descripcion'=>'Curricular']; $etapa++;
+        $etapas[] = 
+                    [   'etapa'=>$etapa,
+                        'desc_bd'=>'cal_curricular',
+                        'desc2_bd'=>'ev_curricular', 
+                        'desc3_bd'=>'pje_min_cv',
+                        'peso_bd'=>'peso_cv',
+                        'descripcion'=>'Curricular'
+                    ]; 
+                    $etapa++;
         if((boolean) $evaluar_conocimientos){
-            $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_conocimientos','desc2_bd'=>'ev_conocimiento','desc3_bd'=>'pje_min_conoc','descripcion'=>'Conocimientos']; $etapa++;
+            $etapas[] = [
+                            'etapa'=>$etapa,
+                            'desc_bd'=>'cal_conocimientos',
+                            'desc2_bd'=>'ev_conocimiento',
+                            'desc3_bd'=>'pje_min_conoc',
+                            'peso_bd'=>'peso_conoc',
+                            'descripcion'=>'Conocimientos'
+                        ]; 
+                            $etapa++;
         }
-        $etapas[] = ['etapa'=>$etapa,'desc_bd'=>'cal_entrevista','desc2_bd'=>'ev_entrevista','desc3_bd'=>'pje_min_entrev','descripcion'=>'Entrevista'];
+        $etapas[] = [
+                        'etapa'=>$etapa,
+                        'desc_bd'=>'cal_entrevista',
+                        'desc2_bd'=>'ev_entrevista',
+                        'desc3_bd'=>'pje_min_entrev',
+                        'peso_bd'=>'peso_entrev',
+                        'descripcion'=>'Entrevista'
+                    ];
         return $etapas;
     }
 
     private function estado(){
         return [
             ['nombre'=>'No califica','clase'=>'note-no-califica','array'=>'noCalifica'],
-            ['nombre'=>'Califica','clase'=>'note-califica','array'=>'califica']
+            ['nombre'=>'Califica','clase'=>'note-califica','array'=>'califica'],
         ];
     }
 
@@ -79,13 +109,13 @@ class PostulantesController extends Controller
         $bd_califica = $api["etapa_actual"]["desc_bd"];
         foreach ( $api["postulantes"] as $p) {
            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
-           $cv = "<button class='btn btn-info btn-circle' onclick=\"mostrar_modalcv(".$p->id.")\" ><span> <i class='fas fa-id-card'></i></span></button>";
+           $cv = "<button class='btn btn-info btn-circle' onclick=\"mostrar_modalcv(".$p->id.",".$p->user_id.")\" ><span> <i class='fas fa-id-card'></i></span></button>";
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
-           $total = $p->ev_entrevista + $p->ev_curricular + $p->ev_conocimiento;
+           $total = (float) $p->total;
+           $bonificacion = (float) $p->bonificacion;
            $ev_conocimiento = $p->ev_conocimiento;
-           $bonificacion = $total*10/100;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
                case "1"   : $estado = "Califica"; break;
@@ -94,10 +124,7 @@ class PostulantesController extends Controller
            //pintar la columna
            
            if($api["proceso"]->evaluar_conocimientos){
-            
-                $total = $p->ev_entrevista + $p->ev_curricular + $p->ev_conocimiento;
                 $ev_conocimiento = (int) $p->ev_conocimiento;
-                $bonificacion = $total*10/100;
                 switch($etapa){
                     case "1": $ev_curricular = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
                     case "2": $ev_conocimiento = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
@@ -226,7 +253,6 @@ class PostulantesController extends Controller
     }
 
     public function actualizar_evaluacion(Request $r,$proceso_id,$etapa,$ev_con){
-
         $campo_pje_min = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc3_bd"];
         $campo_evaluacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc2_bd"];
         $campo_calificacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc_bd"];
@@ -235,6 +261,7 @@ class PostulantesController extends Controller
         //return $r->evaluacion;
         //return Postulante::where("proceso_id",$proceso_id)->where("id",1)->first();
         foreach($r->evaluacion as $key => $valor){
+            //cargar entrante
             $q = Postulante::find($key);
             $q->$campo_evaluacion =  $valor;
             if( (int) $valor > 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
@@ -242,6 +269,18 @@ class PostulantesController extends Controller
             }else if( $valor >= (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 1;
             }
+            $q->save();
+
+            //actualizar BON+ (bonificacion) y total
+            $sum_evaluaciones =[];
+            foreach($api["etapas"]   as $e){
+                $ev_etapa=$e['desc2_bd'];
+                $peso_bd =$e['peso_bd'];
+                $sum_evaluaciones[]= $q->$ev_etapa*($proceso->$peso_bd);
+            }
+            $bono = $this->calcular_bonificacion(array_sum($sum_evaluaciones),$key, $proceso); //mandamos el total bruto, el id del postulante y proceso
+            $q->bonificacion = $bono;
+            $q->total = array_sum($sum_evaluaciones) + $bono;
             $q->save();
             unset($q);
         }
@@ -268,7 +307,75 @@ class PostulantesController extends Controller
        }
        return $query->etapa_evaluacion;
     }
+
+    private function calcular_bonificacion($sub_total,$postulante_id,$proceso){
+        $datos = DatosPostulante::where("postulante_id",$postulante_id)->first();
+        $bonificacion = 0;
+        if(!$datos) return $bonificacion;
+        if($datos->es_pers_disc){
+            $bonificacion +=$sub_total*$proceso->bon_pers_disc;
+        }
+        if($datos->es_lic_ffaa){
+            $bonificacion +=$sub_total*$proceso->bon_ffaa;
+        }
+        if($datos->es_deportista){
+            $bonificacion +=$sub_total*$proceso->bon_deport;
+        }
+        return $bonificacion;
+    }
     
+    public function cargar_cv($postulanteid,$userid){
+    //________________________________ubigeo_______________________________________________________
+    if(DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->exists()){
+    $du = DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->first();
+        $nacionalidad = $du->nacionalidad;
+        if($nacionalidad == "Peruano(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $u_nac = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_nacimiento))->first();
+            $desc_u_nac = $u_nac->desc_ubigeo_reniec.' - '.$u_nac->desc_prov_reniec.' - '.$u_nac->desc_dep_reniec;
+        }else if($du->nacionalidad == "Extranjero(a)"){
+            $cod_nac = $du->ubigeo_nacimiento;
+            $desc_u_nac = null;
+        }
+
+        $cod_dom= $du->ubigeo_domicilio;
+        $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_domicilio))->first();
+        $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
+    }else{
+        $nacionalidad="";
+        $desc_u_nac="";
+        $desc_u_dom="";
+        $cod_nac="";
+        $cod_dom="";
+    }
+        //return compact('nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+        
+    
+    //______________________________fin ubigeo_______________________________________________________
+    //Experiencia
+    $qexp = ExperienciaLabPostulante::select('tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
+    ->where('postulante_id',$postulanteid)->get();
+
+    //CApacitaciones
+    $qcapa= CapacitacionPostulante::select('es_curso_espec','es_ofimatica','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
+    ->where('postulante_id',$postulanteid)->get();
+    
+    //Datospersonales
+    $qdatos =DatosPostulante::select('archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
+    ->where('postulante_id',$postulanteid)->first();
+    
+    //Datos usuario
+    $quser = User::select('dni','nombres','apellido_paterno','apellido_materno','email')
+    ->where('id',$userid)->first();
+    
+    //Formacion
+    $qform = FormacionPostulante::join("grado_formacions", "grado_formacions.id", "=", "formacion_postulantes.grado_id")
+    ->select("formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
+    ->where("formacion_postulantes.postulante_id",$postulanteid)->get();
+    
+    return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+
+    }
 
 
 }

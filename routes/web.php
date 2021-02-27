@@ -70,8 +70,8 @@ Route::group(['prefix' => 'convocatorias'], function(){
     // Vistas 
     Route::get('vigentes', 'ConvocatoriaController@vigentes')->name('convocatoria.vigentes'); 
     Route::get('en_curso', 'ConvocatoriaEnCursoController@index')->name('convocatoria.en_curso');
-    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.cancelados.index');
-    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.concluidos.index');
+    Route::get('historico/cancelado', 'ConvocatoriaHistoricoController@index_cancelados')->name('convocatorias.historico.cancelados.index');
+    Route::get('historico/concluido', 'ConvocatoriaHistoricoController@index_concluidos')->name('convocatorias.historico.concluidos.index');
     
     //CRUD
     Route::get('vigentes/data', 'ConvocatoriaController@vigentes_data')->name('convocatoria.vigentes.data');
@@ -91,10 +91,9 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion');     
     Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
     Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar');
-       
-    
     Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
-    
+    Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar');
+    Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir');
 });
 
 //POSTULANTE
@@ -147,6 +146,7 @@ Route::group(['prefix' => 'postulante'], function(){
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados');  
         Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion');
+        Route::get('datosuser/cargar_cv/{postulanteid}/{userid}', 'PostulantesController@cargar_cv')->name('cargar_cv');        
         
     });
 

@@ -88,10 +88,10 @@ class PruebaTableSeeder extends Seeder
             $query->evaluar_conocimientos = false;
             $query->bon_ffaa = '0.1';
             $query->bon_pers_disc = '0.5';
-            $query->bon_deport = '0.5';
-            $query->bon_otros1 = '0.5';
-            $query->bon_otros2 = '0.5';
-            //$query->pje_otro = '0.5';
+            $query->bon_deport = '0.1';
+            $query->hay_bon_pers_disc = true;
+            $query->hay_bon_ffaa = true;
+            $query->hay_bon_deport = false;
             $query->anios_exp_lab_gen = '0.5';
             $query->anios_exp_lab_esp = '0.5';
             $query->horas_cap_ind = '0.5';
@@ -102,8 +102,6 @@ class PruebaTableSeeder extends Seeder
             $query->fecha_resultados = '2021-06-29';
             $query->archivo_preliminar = 'dt';
             $query->archivo_preliminar_tipo = 'th';
-            $query->archivo_resultado = 'fg';
-            $query->archivo_resultado_tipo = 'gh';
             $query->save();
             unset($query);
         }

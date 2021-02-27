@@ -487,6 +487,48 @@ function eliminar_convocatoria(proceso_id){
             });
         }
     });
+}
 
+function cancelar_convocatoria(proceso_id,cod) {
+    Swal.fire({
+        title: "¿Está seguro de desea CANCELAR el PROCESO "+cod+"?",
+        text: "Se trasladará a procesos históricos > cancelados",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',  
+        cancelButtonText: 'No, cerrar',              
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Si, estoy seguro'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                url:   "/convocatorias/cancelar_convocatoria/"+proceso_id,
+                type: 'POST',
+                beforeSend: function () {
+                  console.log('enviando....');
 
+                },
+                success:  function (response){
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Se CANCELÓ el proceso '+ cod,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }) 
+                    $('#zero_config').DataTable().ajax.reload();
+                },
+                error: function (response){
+                    console.log("Error",response.data);
+                  Swal.fire({
+                      title: "¡Error!",
+                      text: response.responseJSON.message,
+                      icon: "error",
+                      timer: 3500,
+                  })
+                }
+            });
+        }
+    });
 }

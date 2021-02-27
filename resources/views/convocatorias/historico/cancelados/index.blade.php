@@ -10,24 +10,15 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Convocatorias vigentes')
-@section('menu_title_2','Vigentes')
+@section('menu_title_1','Convocatorias canceladas')
+@section('menu_title_2','Histórico > Canceladas')
 
 @section('content')
                         <div class="card">
                             <div class="card-body">
                             {{-- modal --}}
-                                                       
-                               
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
-                                   
+                            @include('convocatorias.vigentes.m_comunicados')
                             {{--Fin modal --}}
-
-            {{-- <h4 class="card-title">
-                <button type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" data-toggle="modal" data-target="#modal_nuevo">
-                <i class="fa fa-plus"></i> Nuevo</button>
-            </h4> --}}
-            @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
                         <thead class="">

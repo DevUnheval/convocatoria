@@ -10,8 +10,8 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Convocatorias vigentes')
-@section('menu_title_2','Vigentes')
+@section('menu_title_1','Convocatorias en curso')
+@section('menu_title_2','En curso')
 
 @section('content')
                         <div class="card">
@@ -34,7 +34,7 @@
                     <table id="zero_config" class="table table-striped table-bordered">
                         <thead class="">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -42,7 +42,9 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
-                                <th>Postular</th>
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                <th>Postulantes</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +52,7 @@
                         </tbody>
                         <tfoot  class="">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -58,7 +60,9 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
-                                <th>Postular</th>                              
+                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                <th>Postulantes</th>  
+                                @endif                            
                             </tr>
                         </tfoot>
                     </table>

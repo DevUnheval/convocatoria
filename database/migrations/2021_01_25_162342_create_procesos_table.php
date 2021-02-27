@@ -64,9 +64,9 @@ class CreateProcesosTable extends Migration
             $table->decimal('pje_min_conoc', 5, 2)->default(0);
             $table->decimal('pje_max_entrev', 5, 2)->default(40);
             $table->decimal('pje_min_entrev', 5, 2)->default(20);
-            $table->decimal('peso_cv', 4, 2)->default(0.0);
-            $table->decimal('peso_conoc', 4, 2)->default(0.0);
-            $table->decimal('peso_entrev', 4, 2)->default(0.0);
+            $table->decimal('peso_cv', 4, 2)->default(1);
+            $table->decimal('peso_conoc', 4, 2)->default(1);
+            $table->decimal('peso_entrev', 4, 2)->default(1);
                 //CV
                 $table->integer('anios_exp_lab_gen')->default(0);
                 $table->integer('anios_exp_lab_esp')->default(0);
