@@ -39,7 +39,7 @@ class PerfilController extends Controller
         ->where("cod_ubigeo_reniec","<>","NA") 
         ->pluck('descripcion','ubigeo');
 
-        return view('auth.perfil',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));  
+        return view('auth.perfil',compact('datos_formacion','gradoformac','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));  
 
     }
   

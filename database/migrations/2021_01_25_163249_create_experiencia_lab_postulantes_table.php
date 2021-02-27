@@ -35,6 +35,7 @@ class CreateExperienciaLabPostulantesTable extends Migration
             $table->integer('dias_exp_esp');
             $table->string('archivo');
             $table->string('archivo_tipo');
+            $table->boolean('validacion')->default(false);
             $table->timestamps();
         });
     }
