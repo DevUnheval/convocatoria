@@ -23,7 +23,7 @@
                                <form class="needs-validation" novalidate>  
                                      <div class="card-body wizard-content">
                                        <div class="row">
-                                           <div class="col-md-12">
+                                           <div class="col-md-6">
                                                <div class="form-group">
                                                    <label for="tipo_estudio">Grado: <span class="text-danger">*</span></label>
                                                    <select class="custom-select form-control" id="tipo_estudio" name="tipo_estudio" required>
@@ -38,10 +38,19 @@
                                                     
                                                </div>
                                            </div>
-                                           
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="especialidad">Especialidad: <span class="text-danger">*</span> </label>
+                                                    <input type="text" id="especialidad" class="form-control" required/>
+                                                    <div class="invalid-feedback">
+                                                        Complete este campo
+                                                    </div> 
+                                                </div>
+                                            </div>                                           
                                       </div>
+                                      <!--
                                       <div class="row">
-                                         <div class="col-md-12">
+                                         <div class="col-md-6">
                                              <div class="form-group">
                                                  <label for="especialidad">Especialidad: <span class="text-danger">*</span> </label>
                                                  <input type="text" id="especialidad" class="form-control" required/>
@@ -50,7 +59,7 @@
                                                    </div> 
                                              </div>
                                          </div>
-                                      </div>
+                                      </div>-->
                                       <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">

@@ -1,6 +1,6 @@
 .btn-accordion {
-  background-color: #eee;
-  color: #444;
+  background-color: #1e81b0;
+  color: rgb(255, 255, 255);
   border: none;
   text-align: left;
   outline: none;
@@ -12,12 +12,14 @@ box-shadow:none;
 }
 
 .active,.btn-accordion:hover {
-  background-color: #ccc;
+  background-color: #3da0ce;
+  color: #ffffff;
+  font-weight: bold;  
 }
 
 .btn-accordion:after {
   content: '\002B';
-  color: #777;
+  color: #ffffff;
   font-weight: bold;
   float: right;
   margin-left: 5px;

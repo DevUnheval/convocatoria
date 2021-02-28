@@ -15,7 +15,7 @@
                         <div class="card">
                             <!-- Inicio de los Tabs -->
                             <div class="card-body">
-                                <h4 class="card-title mb-3">CAS - 011-2021</h4>
+                                <!--<h4 class="card-title mb-3">CAS - 011-2021</h4>-->
                                 
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <form id="form_comunicados">

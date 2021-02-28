@@ -24,7 +24,7 @@
                                       <div class="row">
                                           <div class="col-md-12">
                                               <div class="form-group">
-                                                  <label for="tipo_capacitacion">Tipo de estudio:<span class="danger">*</span> </label>
+                                                  <label for="tipo_capacitacion">Tipo de estudio:<span class="text-danger"> *</span> </label>
                                                   <select class="custom-select form-control" id="tipo_capacitacion" name="tipo_capacitacion" required>
                                                     <option value="">*Seleccione*</option>
                                                     <option value="1">Curso/Especialización</option>
@@ -37,7 +37,7 @@
                                      <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="descripcion">Descripción:<span class="danger">*</span> </label>
+                                                <label for="descripcion">Descripción:<span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control" id="descripcion" name="descripcion" required> 
                                             </div>
                                         </div>
@@ -45,7 +45,7 @@
                                      <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="institucion">Institución:<span class="danger">*</span> </label>
+                                                <label for="institucion">Institución:<span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control" id="institucion" name="institucion" required> 
                                             </div>
                                         </div>
@@ -53,13 +53,13 @@
                                      <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="pais_capacit">Pais: <span class="danger">*</span> </label>
+                                                <label for="pais_capacit">Pais: <span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control " id="pais_capacit" name="pais_capacit" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="ciudad_capacit">Ciudad :<span class="danger">*</span> </label>
+                                                <label for="ciudad_capacit">Ciudad :<span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control " id="ciudad_capacit" name="ciudad_capacit" required>
                                             </div>
                                         </div>
@@ -67,13 +67,13 @@
                                       <div class="row">
                                           <div class="col-md-6">
                                               <div class="form-group">
-                                                  <label for="fechainicio_capac">Fecha de inicio: <span class="danger">*</span> </label>
+                                                  <label for="fechainicio_capac">Fecha de inicio: <span class="text-danger"> *</span> </label>
                                                   <input type="date" class="form-control " id="fechainicio_capac" name="fechainicio_capac"  required> 
                                               </div>
                                           </div>
                                           <div class="col-md-6">
                                               <div class="form-group">
-                                                  <label for="fechafin_capac">Fecha de fin :<span class="danger">*</span> </label>
+                                                  <label for="fechafin_capac">Fecha de fin :<span class="text-danger"> *</span> </label>
                                                   <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" required>
                                               </div>
                                           </div>
@@ -81,13 +81,13 @@
                                       <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="horaslectivas">Horas lectivas: <span class="danger">*</span> </label>
+                                                <label for="horaslectivas">Horas lectivas: <span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control " id="horaslectivas" name="horaslectivas" required > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="nivel_capa">Nivel: <span class="danger">*</span> </label>
+                                                <label for="nivel_capa">Nivel: <span class="text-danger"> *</span> </label>
                                                 <input type="text" class="form-control " id="nivel_capa" name="nivel_capa" required> 
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                       <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="documento_capa">Documento de sustento: <span class="danger">*</span> </label>
+                                                <label for="documento_capa">Documento de sustento: <span class="text-danger"> *</span> </label>
                                                 <input type="file" class="form-control" id="documento_capa" name="documento_capa" required> 
                                             </div>
                                         </div>
