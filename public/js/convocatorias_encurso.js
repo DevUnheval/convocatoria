@@ -50,6 +50,8 @@ $(document).ready(function() {
             }) 
             
             $('#zero_config').DataTable().ajax.reload();
+            $("#modal_resultado").modal("hide");
+            $("#id_proceso_r").val(id);
         },
         error: function (response){
             console.log("Error",response.data);
@@ -616,6 +618,7 @@ function editar(id){
 
 
 function resultado(id){ //esto se abrirá directo desde el boton, como no está cargando datos...
+   
     $("#modal_resultado").modal("show");
     $("#id_proceso_r").val(id);
 }

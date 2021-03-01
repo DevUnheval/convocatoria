@@ -1,13 +1,19 @@
-
 <!--  Modal content for the above example -->
 <div class="modal fade" id="modal_cv" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-full-width">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center">
-                <h4 class="modal-title" id="myLargeModalLabel"><span class="text-white bg-success pl-3 pr-3 pt-2 pb-2 mr-5 mdi-cursor-default" > CURRICULUM VITAE</span><small>Postulante:</small><span id="postulante" class="ml-3 mr-3"></span><small>Doc. Identidad:</small><span id="dnicab" class="ml-3"></h4>
-                <button type="button" class="close ml-auto" data-dismiss="modal"
+                <h4 class="modal-title" id="myLargeModalLabel"><span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3 mdi-cursor-default" > CURRICULUM VITAE</span><small>Postulante:</small><span id="postulante" class="ml-2 mr-2"></span>
+                <small>Doc. Identidad:</small><span id="dnicab" class="ml-3"></h4>
+                    <button type="button" class="close ml-auto" data-dismiss="modal"
                     aria-hidden="true">×</button>
+            </div>
+            <div >
+                <div class="justify-content-right">
+                    <button type="button" class="btn btn-success float-right mr-5" id="btn_guardar_validación">Guardar  <i class=" far fa-save"></i></button>
+                    <input class="w-25 form-control float-right" type="text" placeholder="Puntaje de eval. curricular"/>
+                </div>
             </div>
             <div class="modal-body">
                  <!-- Column -->
@@ -32,7 +38,8 @@
                         <div class="tab-content" id="pills-tabContent">
                             <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
                                 <div class="card-body">
-                                    <form class="form-horizontal form-material">
+                                    <!-- <form class="form-horizontal form-material"> -->
+                                        
                                         <div class="card-body">
                                            
                                             <table class="table table-bordered">
@@ -83,13 +90,14 @@
                                                 </tbody>
                                             </table> 
                                         </div>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
                                 
                                 <div class="card-body">
-                                    <form class="form-horizontal form-material">
+                                    <!-- <form class="form-horizontal form-material"> -->
+                                        
                                         <div id="div_act">
                                                                
                                             <div class="table-responsive">
@@ -117,13 +125,14 @@
                                                 </table>
                                             </div>
                                          </div>
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="previous-month" role="tabpanel" aria-labelledby="pills-setting-tab">
                                 
                                 <div class="card-body">
-                                    <form class="form-horizontal form-material">
+                                    <!-- <form class="form-horizontal form-material"> -->
+                                        
                                         <br>
                                         
                                         <div class="table-responsive">
@@ -145,28 +154,32 @@
                                                 
                                             </table>
                                         </div>    
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="hi-month" role="tabpanel" aria-labelledby="pills-setting-tab">
                                 
                                 <div class="card-body">
-                                    <form class="form-horizontal form-material">
+                                    <!-- <form class="form-horizontal form-material"> -->
+                                        
                                        
                                         <div class="row">
                                                 
                                             <div class="col-md-6">
                                                 <div class="alert alert-success text-center" role="alert">
-                                                    <strong>Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
+                                                    <input type="hidden" id="hidden_expgen_t" value="0">
+                                                    <strong>Exper. General Validada: </strong><br><input id="total_exp_general" name="total_exp_general" value="0" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                                                 </div>
                                                 
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="alert alert-success text-center" role="alert">
-                                                    <strong>Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
+                                                    <input type="hidden" id="hidden_expesp_t" value="0">
+                                                    <strong>Exper. Específica Validada: </strong><br><input id="total_exp_especifica" name="total_exp_especifica" value="0" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                                                 </div>
                        
                                           </div>
+                                          
                                           
                                         </div>
                                         <div class="table-responsive">
@@ -178,10 +191,11 @@
                                                         
                                                         <th>Nombre Entidad</th>
                                                         <th>Cargo<br></th>
-                                                        <th>Fecha Inicio</th>
-                                                        <th>Fecha Fin</th>
+                                                        <th>Fecha Inicio<br><small>(Año-Mes-Dia)</small></th>
+                                                        <th>Fecha Fin<br><small>(Año-Mes-Dia)</small></th>
                                                         <th>Tiempo Exper.</th>
-                                                        <th>Ver documento</th>
+                                                        <th>Ver</th>
+                                                        <th>Validar</th>
                                                         
                                                     </tr>
                                                 </thead>
@@ -192,7 +206,7 @@
                                                 
                                             </table>
                                         </div>          
-                                    </form>
+                                    <!-- </form> -->
                                 </div>
                             </div>
                         </div>

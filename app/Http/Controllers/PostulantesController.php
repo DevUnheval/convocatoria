@@ -326,8 +326,8 @@ class PostulantesController extends Controller
     
     public function cargar_cv($postulanteid,$userid){
     //________________________________ubigeo_______________________________________________________
-    if(DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->exists()){
-    $du = DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$userid)->first();
+    if(DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$postulanteid)->exists()){
+    $du = DatosPostulante::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('postulante_id',$postulanteid)->first();
         $nacionalidad = $du->nacionalidad;
         if($nacionalidad == "Peruano(a)"){
             $cod_nac = $du->ubigeo_nacimiento;
@@ -353,7 +353,7 @@ class PostulantesController extends Controller
     
     //______________________________fin ubigeo_______________________________________________________
     //Experiencia
-    $qexp = ExperienciaLabPostulante::select('tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
+    $qexp = ExperienciaLabPostulante::select('id','validacion','tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
     ->where('postulante_id',$postulanteid)->get();
 
     //CApacitaciones
@@ -376,6 +376,14 @@ class PostulantesController extends Controller
     return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
 
     }
+
+    public function guardar_validacion($idexp,$valor_validacion){
+        
+        $val = ExperienciaLabPostulante::find($idexp);
+        $val->validacion = $valor_validacion;
+        $val->save();
+        return "validacion ok";
+    } 
 
 
 }

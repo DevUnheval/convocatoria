@@ -3,7 +3,7 @@
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header bg-warning" >
-               <h4 class="modal-title text-white" id="fullWidthModalLabel">Detalles de la Convocatoria</h4>
+               <h4 class="modal-title text-dark" id="fullWidthModalLabel">Detalles de la Convocatoria</h4>
                <button type="button" class="close btn-light" data-dismiss="modal"
                aria-hidden="true">×</button>
             </div>
@@ -151,13 +151,13 @@
                                        <h5 id="ver_postulacion"></h5>
                                  </div>
                               </div>  
-                              <div class="col-md-3 border-left">
+                              <div class="col-md-3 border-left ocultar_elemento" id="div_ver_duracion_contrato">
                                  <div class="form-group">
                                        <small class="text-info">Duración del Contrato</small>
                                        <h5 id="ver_duracion_contrato"></h5>
                                  </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 ocultar_elemento" id="div_ver_firma_contrato">
                                  <div class="form-group">
                                        <small class="text-info">Inicio de contrato</small>
                                        <h5 id="ver_fecha_firma_contrato"></h5>

@@ -13,11 +13,11 @@
 @endif
 <br><br>
 
-<div class="header bg-ligth-warning btn-rounded alert alert-primary col-md">
+<div class="header bg-ligth-warning btn-rounded alert alert-primary col-md-8 offset-2">
 
     <h4 class="modal-title text-black text-center  font-weight-bold" id="fullWidthModalLabel">CONSTANCIA DE POSTULACIÓN</h4>
 </div>
-<div class="card border-left border-info ">
+<div class="card border-left border-info col-md-8 offset-2">
     <div class="card-body">
         <div class="d-flex align-items-center">
             <div>
@@ -81,9 +81,8 @@
                             </table>
                         </div>                    
                         <div>
-                            <h5 class="text-info mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$datos_usuario->email}}</strong><br>
-                            Puede ver su postulación ingresando <a href="{{ route('mispostulaciones')}}">Aquí</a>
-                            </h5>
+                            <h6 class="text-info mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$datos_usuario->email}}</strong></h6>
+                            <h5 class="text-info mb-0">Puede ver su postulación haciendo click <strong ><a href="{{ route('mispostulaciones')}}">Aquí</a></strong></h5>
                         </div>
                     </div>
                 </div>

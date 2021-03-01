@@ -307,8 +307,7 @@ $("#tipo_capacitacion").on('change',function(){
          data: {idproceso: $('#datospostulante').data('id')},
          success:function(data3){
              //console.log(data3);
-         var marcadogeneral="";
-         var marcadoespecifico="";
+         
          var totaldias_gen=0;
          var totaldias_esp=0;
          for (var i = 0; i < data3.query.length; i++) {
@@ -318,8 +317,9 @@ $("#tipo_capacitacion").on('change',function(){
              totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
              totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
              
-             marcadogeneral="";
-             marcadoespecifico="";
+           var  marcadogeneral="";
+            var marcadoespecifico="";
+            var tipo_exp="";
   
              if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
              if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}

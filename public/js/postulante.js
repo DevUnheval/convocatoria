@@ -295,7 +295,12 @@ $(document).ready(function() {
           switch(currentIndex){
                 case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
                 case 1: validar_paso = cumple_formacion($('#datospostulante').data('id')); break; 
-                case 2: return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
+                case 2: 
+                if(newIndex == 5){
+                    cargar_resumen_postulante();
+                }
+
+                return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
                 case 3: validar_paso = cumple_exp_genyesp(); break;
                 case 4: validar_paso = declaracion_jurada(); break;
             }
@@ -1067,6 +1072,7 @@ function cumple_formacion(id){
  }
 
  function cargar_resumen_postulante(){
+ //    alert('entre a resumen');
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/datosuser/cargar_resumen_postulante",
@@ -1146,12 +1152,12 @@ function cumple_formacion(id){
            
              //llenar experiencias
              var html_resexp = "";
-            var marcadogeneral="";
-            var marcadoespecifico="";
-            var tipo_exp="";  
+             
             
             for (var i = 0; i < data.qexp.length; i++) {
-            
+                var marcadogeneral="";
+                var marcadoespecifico="";
+                var tipo_exp=""; 
             if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
             if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
             
@@ -1193,7 +1199,7 @@ function cumple_formacion(id){
         $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
         $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
         
-
+        //alert('terminé');
         },
         error:function(data){
             console.log("error en resumen posulante");

@@ -22,7 +22,7 @@
             </a>
         </div>
         <div class="col-md-9">
-            <h4 style="background: red">Se registro correctamente su postulación!</h4>
+            <h4>Se registro correctamente su postulación!</h4>
             <label for="">Estimado(a) Sr(a): <strong>{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}}, {{auth()->user()->nombres}}</strong></label> <br>
             <label for="">Gracias por su participación. Su correo ha sido recibido con éxito y la documentación que adjunte será evaluada según lo establecido en las bases de la convocatoria a la cual postula.</label>
             

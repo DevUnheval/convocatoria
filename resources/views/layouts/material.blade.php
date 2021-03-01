@@ -131,7 +131,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                                         <div class="dw-user-box p-3 d-flex">
                                             <div class="u-img"><img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded" width="80"></div>
                                             <div class="u-text ml-2">
-                                                <h4 class="mb-0">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno}}</h4>
+                                                <h4 class="mb-0">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                                 <p class="text-muted mb-1 font-14">{{auth()->user()->email}}</p>
                                                 @foreach(auth()->user()->roles as $rol)
                                                 <label class="btn btn-rounded btn-danger btn-sm text-white d-inline-block" title="{{$rol->descripcion}}">

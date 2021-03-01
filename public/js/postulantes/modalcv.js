@@ -1,13 +1,59 @@
+function validar_exp(idbtn,dias_gen,dias_esp){
+    var totaldias_gen=parseInt($('#hidden_expgen_t').val());
+    var totaldias_esp=parseInt($('#hidden_expesp_t').val());
+    var valor_validacion=0;
+   // console.log(dias_gen+" "+dias_esp+" "+idbtn);
+
+    if($('#'+idbtn).hasClass('ti-layout-width-full')){
+         
+         $('#'+idbtn).removeClass('ti-layout-width-full');
+         $('#'+idbtn).addClass('fa fa-check');
+         totaldias_gen= totaldias_gen + parseInt(dias_gen);
+         totaldias_esp= totaldias_esp + parseInt(dias_esp);
+         valor_validacion= 1;
+
+    }else if($('#'+idbtn).hasClass('fa fa-check')){
+
+        $('#'+idbtn).removeClass('fa fa-check');
+         $('#'+idbtn).addClass('ti-layout-width-full');
+         totaldias_gen= totaldias_gen - parseInt(dias_gen);
+         totaldias_esp= totaldias_esp - parseInt(dias_esp);
+         valor_validacion= 0;
+    }
+    //ti-layout-width-full - fas fa-check
+    $('#hidden_expgen_t').val(totaldias_gen);
+    $('#hidden_expesp_t').val(totaldias_esp);
+    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+
+    $.ajax({
+       // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulantes/datosuser/"+idbtn+"/"+valor_validacion+"/guardar_validacion",
+        type: "GET",
+        datatype: "json",
+        success:function(data){
+           // console.log("validación guardada");
+        },error:function(data){
+            console.log("validación error");
+        } 
+    })
+
+    
+
+}
+
 function mostrar_modalcv(idpostulante,iduser){
  //alert(idpostulante);
- 
+ $('#total_exp_general').val("0");
+ $('#total_exp_especifica').val("0");
+
  $.ajax({
     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
     url: "/postulantes/datosuser/cargar_cv/"+idpostulante+"/"+iduser,
     type: "GET" ,
     datatype: "json",
     success:function(data){ 
-      console.log(data);
+      //console.log(data);
       var esdisc = "";
       var esffaa = "";
       var esdep = "";
@@ -27,15 +73,15 @@ function mostrar_modalcv(idpostulante,iduser){
     
     if(data.qdatos!=null){
        $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
-      // $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
+             $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
        $('#res_ruc').html(data.qdatos.ruc);
        $('#res_celular').html(data.qdatos.telefono_celular);
        $('#res_direccion').html(data.qdatos.domicilio);
-      // $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
+             $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
        //_______________________TRANSFORMAR UBIGEOS_________________________
        if(data.nacionalidad == "Peruano(a)"){
                 
-        var html_nac =data.desc_u_nac;
+        var html_nac = data.desc_u_nac;
         if(data.cod_nac != ""){
             $('#res_ubigeo_nac').html(html_nac);
         }
@@ -155,17 +201,17 @@ function mostrar_modalcv(idpostulante,iduser){
          //llenar experiencias
          if(data.qexp[0]!=null){  
          var html_resexp = "";
-        var marcadogeneral="";
-        var marcadoespecifico="";
-        var tipo_exp="";
+       
+        
         var totaldias_gen=0;
         var totaldias_esp=0;  
         
         for (var i = 0; i < data.qexp.length; i++) {
 
-            totaldias_gen=totaldias_gen+parseInt(data.qexp[i].dias_exp_gen);
-            totaldias_esp=totaldias_esp+parseInt(data.qexp[i].dias_exp_esp);
-
+           
+           var marcadogeneral="";
+           var marcadoespecifico="";
+           var tipo_exp="";
         if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
         if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
         
@@ -181,8 +227,17 @@ function mostrar_modalcv(idpostulante,iduser){
         if(data.qexp[i].archivo != null){
             href_exp = data.qexp[i].archivo.replace('public/','/storage/');
         }
+        var icono = 0;
+        if(data.qexp[i].validacion == 0){
+        icono = "ti-layout-width-full";
+        }else if(data.qexp[i].validacion == 1){
+        totaldias_gen=totaldias_gen+parseInt(data.qexp[i].dias_exp_gen);
+        totaldias_esp=totaldias_esp+parseInt(data.qexp[i].dias_exp_esp);
+        icono = "fa fa-check";
+        }
+        
 
-        html_resexp += "<tr>"+
+        html_resexp += "<tr class=\"\">"+
         "<td>"+tipo_exp+"</td>"+
         "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
         "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
@@ -191,14 +246,23 @@ function mostrar_modalcv(idpostulante,iduser){
         "<td>"+data.qexp[i].fecha_inicio+"</td>"+
         "<td>"+data.qexp[i].fecha_fin+"</td>"+
         "<td>"+anios_meses_dias(parseInt(data.qexp[i].dias_exp_gen))+"</td>"+
-        "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+        "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-outline-info' type='button'><i class=\"fas fa-download\"></i></a>"+
         "</td>"+
+        "<td class='alert-info border-black'><div  >"+
+        //"<input style=\"width: 20px; height: 20px\" id=\"check_dj"+i+"\" name=\"check_dj\" value=\"1\" type=\"checkbox\" />"+
+        "<button type='button' onclick=\"validar_exp("+data.qexp[i].id+","+data.qexp[i].dias_exp_gen+","+data.qexp[i].dias_exp_esp+")\" class='btn'><i id='"+data.qexp[i].id+"' class=\""+icono+"\"></i></button>"+
+        //"<button type='button' onclick='validar_exp()' class='btn bg-white-box'><i class=\"ti-layout-width-full\"></i></button>"+
+        //"<button class='btn-outline '><i class=\"\"></i></button>"+far fa-square - ti-layout-width-full - fas fa-check
+        "</div></td>"+
         "</tr>";
     }
+
     $('#tbl_cv4').html(html_resexp);
+    $('#hidden_expgen_t').val(totaldias_gen);
+    $('#hidden_expesp_t').val(totaldias_esp);
     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
-
+    
     }else{
         $('#tbl_cv4').html("");
         $('#total_exp_general').val("");
