@@ -13,6 +13,6 @@ class CapacitacionPostulante extends Model
     public $timestamps = False;
     
     public function postulante() {
-		return $this->belongsTo(postulante::class);
+		return $this->belongsTo(Postulante::class);
 	}
 }

@@ -15,7 +15,7 @@ class Postulante extends Model
 
 
 	public function proceso() {
-		return $this->belongsTo(proceso::class);
+		return $this->belongsTo(Proceso::class);
 	}
 	public function datos_postulante() {
 		return $this->hasOne(DatosPostulante::class);
@@ -28,6 +28,6 @@ class Postulante extends Model
 		return $this->hasMany(CapacitacionPostulante::class);
 	}
 	public function user() {
-		return $this->belongsTo(user::class);
+		return $this->belongsTo(User::class);
 	}
 }
