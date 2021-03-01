@@ -50,7 +50,9 @@ class AjustesController extends Controller
 
     public function data(){
     	return [
-			['nombre'=>'título','valor'=>'Convocatoria de Personal','descripcion'=>'Aparecerá en el título del proyecto','tipo'=>'texto'],
+			['nombre'=>'institucion','valor'=>'Universidad Nacional Hermilio Valdizán','descripcion'=>'Nombre de la institución','tipo'=>'texto'],
+			['nombre'=>'título','valor'=>'Convocatoria de Personal','descripcion'=>'Aparecerá en el título del proyecto, aparecerá en los reportes PDF','tipo'=>'texto'],
+			['nombre'=>'nombre del año','valor'=>'Año del Bicentenario del Perú: 200 años de independencia','descripcion'=>'Nombre del año actual, aparecerá en los reportes PDF','tipo'=>'texto'],
 			['nombre'=>'pie pagina 1','valor'=>'Copyright © 2020 CONVOCATORIA Personal, Todos los derechos Reservados.','descripcion'=>'texto grande','tipo'=>'texto'],
 			['nombre'=>'pie pagina 2','valor'=>' Desarrollado por QUIPU.CLUB----','descripcion'=>'texto pequeño','tipo'=>'texto'],
 			['nombre'=>'icono','valor'=>'imagenes/ajustes/icono.ico','descripcion'=>'Ícono del proyecto','tipo'=>'imagen'],

@@ -34,12 +34,12 @@
                @case('imagen') 
                <?php $ruta_img='';
                   if(substr($a->valor, 0,6)=='public') $ruta_img=Storage::url($a->valor);
-                  else $ruta_img= $a->valor;
+                  else $ruta_img= asset($a->valor);
                   list($ancho, $alto, $type, $attr)=getimagesize(substr($a->valor, 0,6)=='public'?substr(Storage::url($a->valor),1):$a->valor);
                ?>
                   <div>
-                     <img src="{{substr($a->valor, 0,6)=='public'?Storage::url($a->valor): asset($a->valor)}}" style="max-width: 500px;" 
-                     width="{{$a->id>5?'100%':'10%'}}">
+                     <img src="{{$ruta_img}}" style="max-width: 500px;" 
+                     width="{{$a->id>7?'100%':'10%'}}">
                      <br><label><small>{{$attr}}</small></label>
                   </div>
                   <input type="file" name="elemento_{{$a->id}}" accept="image/*">

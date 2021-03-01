@@ -26,17 +26,16 @@
         <table class="tabla-reporte">
                 <thead>
                     <tr>
-                        <td  align="center" colspan="6">Proceso de concurso {{$data["proceso"]->cod}} </td>
+                        <td  align="center" colspan="5">Proceso de concurso {{$data["proceso"]->cod}} </td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="6" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
+                        <td  align="center" colspan="5" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="6">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN {{$data["etapa_actual"]["descripcion"]}}</td>
+                        <td  align="center" colspan="5">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN {{$data["etapa_actual"]["descripcion"]}}</td>
                     </tr>
                     <tr>
                         <th rowspan="2"  border="1">Orden de Mérito</th>
-                        <th rowspan="2"> DNI</th>
                         <th rowspan="2" style="width:50px;">Apellidos y Nombres</th>                                                    
                         <th rowspan="2">Puntaje</th>
                         <th colspan="2">Resultado</th>
@@ -48,34 +47,26 @@
                     </tr>
                 </thead>
                 <tbody>   
-                    @foreach($data["postulantes"] as $key => $p)    
+                    @foreach($data as $key => $p)    
                     <tr>
                         <td align="center">
-                            @if($p->calificacion=="1")
                                 {{($key+1)}}
-                            @endif
                         </td>
-                        <td>{{$p->dni}}</td>
+                        <td align="center">{{($p->dni)}} </td>
                         <td>{{$p->nombres}}</td>  
-                        <td align="center">{{$p->evaluacion}}</td>  
                         <td align="center">
-                            @if($p->calificacion=="1")
                                 x
-                            @endif
                         </td>  
                         <td align="center">
-                            @if($p->calificacion=="0")
-                                x
-                            @endif
                         </td>                                                
                     </tr> 
                     @endforeach     
-                    @if(count($data["postulantes"]) < 1 )
+                    @if(count($data) < 1 )
                     <tr>
-                        <td align="center" colspan="5"><i> No hay postulantes </i></td>
+                        <td align="center" colspan="4"><i> No hay postulantes </i></td>
                     </tr>
                     @endif                           
-                </tbody>                                            
+                </tbody>                                       
         </table>  
 
 
