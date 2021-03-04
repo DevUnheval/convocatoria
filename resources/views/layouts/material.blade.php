@@ -146,7 +146,9 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                                     <li class="user-list"><a class="px-3 py-2" href="#"><i class="ti-wallet"></i> My Balance</a></li>
                                     <li class="user-list"><a class="px-3 py-2" href="#"><i class="ti-email"></i> Inbox</a></li>
                                     <li role="separator" class="dropdown-divider"></li>
+                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                     <li class="user-list"><a class="px-3 py-2" href="{{ route('maestro.ajustes.index') }}" style="color: red;"><i class="ti-settings"></i> Ajustes del aplicativo</a></li>
+                                    @endif
                                     <li role="separator" class="dropdown-divider"></li>
                                     <li class="user-list"><a class="px-3 py-2" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('salir').submit();"><i class="fa fa-power-off"></i> Salir</a>
                                        <form id="salir" action="{{route('logout')}}" method='POST'>
