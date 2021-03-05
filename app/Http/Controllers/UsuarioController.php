@@ -45,9 +45,10 @@ class UsuarioController extends Controller
         $Usuario->apellido_paterno = $request->apellido_paterno;
         $Usuario->apellido_materno = $request->apellido_materno;
         $Usuario->email = $request->email;
-        
+        $_se_valida_correo=\App\Ajuste::where("nombre","Confirmación de correo")->first();
+        $_se_valida_correo=$_se_valida_correo->valor;
         //_________________________________________________
-        if(\App\Ajuste::find(13)=='1'){
+        if($_se_valida_correo=='0'){
             $Usuario->email_verified_at = date('Y-m-d');
         }
         //______________________________________________
@@ -60,9 +61,11 @@ class UsuarioController extends Controller
         $rol->save();
 
         $this->guard()->login($Usuario); //autologin despues de guardar el registro
- 
+        if($_se_valida_correo=='1'){
         $request->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
         return redirect('/email/verify')->with('correo',$Usuario->email);
+        }
+        return redirect()->route("index");
         //return redirect()->route('postulante_inicio');
     }
     
