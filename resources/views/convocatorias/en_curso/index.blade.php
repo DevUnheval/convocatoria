@@ -32,7 +32,7 @@
             @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
-                        <thead class="bg-warning text-dark">
+                        <thead>
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>
@@ -50,7 +50,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot  class="bg-warning text-dark">
+                        <tfoot >
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>
