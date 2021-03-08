@@ -293,16 +293,32 @@ $(document).ready(function() {
           }
                    
           switch(currentIndex){
-                case 0: validar_paso = guardardatos(); break; //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
-                case 1: validar_paso = cumple_formacion($('#datospostulante').data('id')); break; 
+                case 0: 
+                        $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                        validar_paso = guardardatos(); //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                        $('#loading-screen').fadeOut(); //PRELOADER FIN
+                        break;
+                case 1: 
+                        $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                        validar_paso = cumple_formacion($('#datospostulante').data('id')); 
+                        $('#loading-screen').fadeOut(); //PRELOADER FIN
+                        break;
                 case 2: 
-                if(newIndex == 5){
-                    cargar_resumen_postulante();
-                }
+                        if(newIndex == 5){
+                            $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                            cargar_resumen_postulante();
+                            $('#loading-screen').fadeOut(); //PRELOADER FIN
+                        }
 
                 return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ; break;
-                case 3: validar_paso = cumple_exp_genyesp(); break;
-                case 4: validar_paso = declaracion_jurada(); break;
+                case 3: 
+                        $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                        validar_paso = cumple_exp_genyesp(); 
+                        $('#loading-screen').fadeOut(); //PRELOADER FIN
+                        break;
+                case 4: 
+                validar_paso = declaracion_jurada();
+                
             }
            
             if(validar_paso.estado){
@@ -315,7 +331,9 @@ $(document).ready(function() {
                 })*/
                 
                 if(newIndex == 5){
+                    $('#loading-screen').fadeIn(); //PRELOADER INICIO
                     cargar_resumen_postulante();
+                    $('#loading-screen').fadeOut(); //PRELOADER FIN
                 }
                    return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()) ;
                    
@@ -351,7 +369,7 @@ $(document).ready(function() {
             }).then((result) => {
                
                 if(result.value){
-
+                    $('#loading-screen').fadeIn(); //PRELOADER INICIO
                      $.ajax({
                         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                         url: "/postulante/registrofinal",
@@ -361,12 +379,13 @@ $(document).ready(function() {
                             idproceso:$('#datospostulante').data('id')
                          },
                         success:function(data){
-                           // console.log(data);
+                            
                         var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
                         $(location).attr('href',url);
                         }
                         ,error: function(data){
-                            alert("error!!"); }
+                           // console.log("error!!"); 
+                        }
                 
                     });  
                    
@@ -419,6 +438,8 @@ $(document).ready(function() {
 function eliminar(transid){
     //alert("holas : "+transid);
     var id=transid.substring(7);
+    
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/eliminarformacion",
@@ -427,9 +448,10 @@ function eliminar(transid){
         data: { id:id },
         success:function(data){
 
+            $('#loading-screen').fadeOut(); //PRELOADER FIN 
             Swal.fire({
                 position: 'top-end',
-                type: 'error',
+                type: 'success',
                 title: "Formacion eliminada",
                 showConfirmButton: false,
                 timer: 1500
@@ -600,6 +622,8 @@ $.ajax({
  function eliminarcapac(transid){
     
     var id=transid.substring(8);
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                    
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/eliminarcapacitacion",
@@ -613,10 +637,11 @@ $.ajax({
            //alert(data.cantidad_horas);
          //  $('#total_horas').val(parseFloat($('#total_horas').val()) - parseFloat(data[0].cantidad_horas));//totalhrs +=data2[i].cantidad_horas;
 
-           Swal.fire({
+         $('#loading-screen').fadeOut(); //PRELOADER FIN 
+         Swal.fire({
             position: 'top-end',
-            type: 'error',
-            title: "Curso eliminado",
+            type: 'success',
+            title: "Curso/capacitación eliminado",
             showConfirmButton: false,
             timer: 1500
         })
@@ -632,6 +657,8 @@ $.ajax({
  function eliminar_expe(transid){
     //alert("holas : "+transid);
     var id=transid.substring(6);
+   
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/eliminarexperiencia",
@@ -645,9 +672,11 @@ $.ajax({
            var totaldias_esp=parseInt(data.suma_expesp);
            $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
            $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+         
+           $('#loading-screen').fadeOut(); //PRELOADER FIN
            Swal.fire({
             position: 'top-end',
-            type: 'error',
+            type: 'success',
             title: "Experiencia eliminada",
             showConfirmButton: false,
             timer: 1500
@@ -864,7 +893,7 @@ function guardardatos(){
                         }
             },
             error: function(data){
-                console.log("error");
+               // console.log("error");
             }
 
         });
@@ -903,10 +932,10 @@ function cumple_exp_genyesp(){
     });
 
     //console.log(res);
-    var Mi_exp_gen = res.suma_expgen;
-    var Mi_exp_esp = res.suma_expesp;
-    var Exp_gen_min = res.min_expgen;
-    var Exp_esp_min = res.suma_expesp;
+    var Mi_exp_gen = parseInt(res.suma_expgen);
+    var Mi_exp_esp = parseInt(res.suma_expesp);
+    var Exp_gen_min =parseInt(res.min_expgen);
+    var Exp_esp_min =parseInt(res.min_expesp);
  
     if(Mi_exp_gen==0 || Mi_exp_esp==0){
         arrayExp.estado=false;
@@ -923,9 +952,10 @@ function cumple_exp_genyesp(){
     }else{
         arrayExp.estado=true;
         arrayExp.msjok="Usted cumple con el requisito mínimo de experiencia";
+        
         return arrayExp;
     }
-
+ 
 }
 
 function cumple_formacion(id){
@@ -1202,7 +1232,7 @@ function cumple_formacion(id){
         //alert('terminé');
         },
         error:function(data){
-            console.log("error en resumen posulante");
+           // console.log("error en resumen posulante");
         }
     }); 
  }

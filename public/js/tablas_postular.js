@@ -115,6 +115,8 @@ $("#tipo_capacitacion").on('change',function(){
     }
 })
 
+
+
 })
 
 //______________________FUNCIONES TABLA POSTULAR________________________________
@@ -180,7 +182,9 @@ function actualizar_formac_data(transid){
     formData.append('pais',$("#pais_form").val());
     formData.append('archivo_formacion',$("#documento_formac").prop('files')[0]);
     
-        $.ajax({
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                                       
+    $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/actualizar_formac_data",
             type: "POST" ,
@@ -205,7 +209,7 @@ function actualizar_formac_data(transid){
              "   <button type='button' onclick=\"eliminar('tblform"+data[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
 
-                             
+            $('#loading-screen').fadeOut(); //PRELOADER FIN                   
                Swal.fire({
                 position: 'top-end',
                 type: 'success',
@@ -320,7 +324,10 @@ function actualizar_capacitacion_data(transid){
     formData.append('nivel_capa', nivel_tratada);
     formData.append('cantidad_horas', $("#horaslectivas").val());
     formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
-     $.ajax({
+   
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                                        
+    $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
          url: "/postulante/actualizarcapacitacion_data",
          type: "POST" ,
@@ -330,7 +337,7 @@ function actualizar_capacitacion_data(transid){
          contentType: false,
          processData: false,
          success:function(data){
-            console.log(data);
+           // console.log(data);
              //alert("datos guardados CAPACITACION!! ");
              var tipoestudio="";
              if(data[0].es_curso_espec==1){
@@ -358,7 +365,8 @@ function actualizar_capacitacion_data(transid){
             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data[0].id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
            "</td>";
            
- 
+           $('#loading-screen').fadeOut(); //PRELOADER FIN
+
            Swal.fire({
              position: 'top-end',
              type: 'success',
@@ -444,7 +452,8 @@ function guardar_experiencia_data(){
     formData.append('dias_exp_esp', diasexpesp);
     formData.append('archivo_experiencia',$("#documento_exp").prop('files')[0]);
    
-
+$('#loading-screen').fadeIn(); //PRELOADER INICIO
+                    
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/guardarexperiencia",
@@ -490,7 +499,8 @@ function guardar_experiencia_data(){
             "</td>"+
             "</tr>";
            $('#zeroconfig3_body').prepend(fila);
-           
+           $('#modal_nueva_experiencia').modal('hide');
+           $('#loading-screen').fadeOut(); //PRELOADER FIN
            Swal.fire({
             position: 'top-end',
             type: 'success',
@@ -499,7 +509,7 @@ function guardar_experiencia_data(){
             timer: 2000
         })
 
-           $('#modal_nueva_experiencia').modal('hide');
+           
            
            var totaldias_gen=parseInt(data.suma_expgen);
            var totaldias_esp=parseInt(data.suma_expesp);
@@ -577,6 +587,8 @@ function actualizar_experiencia_data(transid){
     formData.append('dias_exp_esp', diasexpesp);
     formData.append('archivo_experiencia',$("#documento_exp").prop('files')[0]);
     
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                    
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/actualizarexperiencia",
@@ -629,7 +641,8 @@ function actualizar_experiencia_data(transid){
            $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
             
             var iddd="tblexp"+data.query[0].id;
-
+            $('#modal_nueva_experiencia').modal('hide');
+            $('#loading-screen').fadeOut(); //PRELOADER FIN
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
@@ -638,7 +651,7 @@ function actualizar_experiencia_data(transid){
                 timer: 2000
             })
 
-            $('#modal_nueva_experiencia').modal('hide');
+            
             $("#"+iddd).html(filahtml);
            
             
@@ -687,6 +700,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
     formData.append('pais',$("#pais_form").val());
     formData.append('archivo_formacion',$("#documento_formac").prop('files')[0]);
    
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                                            
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             url: "/postulante/guardarformacion",
@@ -715,7 +730,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
               "</td>"+
               "</tr>";
                $('#zeroconfig1_body').prepend(fila); 
-              
+               $('#modal_nueva_formacion').modal('hide');
+               $('#loading-screen').fadeOut(); //PRELOADER FIN   
                Swal.fire({
                 position: 'top-end',
                 type: 'success',
@@ -723,7 +739,7 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
                 showConfirmButton: false,
                 timer: 2000
             })
-               $('#modal_nueva_formacion').modal('hide');
+               
                
             },
             error: function(data){
@@ -787,6 +803,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
     formData.append('cantidad_horas', $("#horaslectivas").val());
     formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
     
+    $('#loading-screen').fadeIn(); //PRELOADER INICIO
+                                       
     $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
          url: "/postulante/guardarcapacitacion",
@@ -824,7 +842,10 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data.id+"');\" class=' btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
            "</td>"+
            "</tr>";
- 
+
+           $('#modal_nuevo').modal('hide');
+           $('#loading-screen').fadeOut(); //PRELOADER FIN
+
            Swal.fire({
              position: 'top-end',
              type: 'success',
@@ -835,7 +856,7 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
  
             $('#zeroconfig2_body').prepend(fila); 
            // $('#total_horas').val(parseFloat($('#total_horas').val()) + parseFloat(data.cantidad_horas));
-            $('#modal_nuevo').modal('hide');
+            
             
             
          },

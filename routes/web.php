@@ -127,6 +127,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
     Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
     
+    Route::post('perfil/update_password', 'Auth\PerfilController@update_password')->name('update_password');
     });
     Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
     

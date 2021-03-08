@@ -7,8 +7,12 @@ use App\GradoFormacion;
 use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
+
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PerfilController extends Controller
 {
@@ -41,6 +45,24 @@ class PerfilController extends Controller
 
         return view('auth.perfil',compact('datos_formacion','gradoformac','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));  
 
+    }
+
+    public function update_password(Request $request){
+
+        
+            if (Hash::check($request->mypassword, Auth::user()->password)){
+                $user = new User;
+                $user->where('id', '=', Auth::user()->id)
+                     ->update(['password' => Hash::make($request->password)]);
+                //return redirect('user')->with('status', 'Password cambiado con éxito');
+                return true;
+            }
+            else
+            {
+                //return redirect('user/password')->with('message', 'Credenciales incorrectas');
+                return false;
+            }
+       
     }
   
     

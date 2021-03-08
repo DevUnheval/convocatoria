@@ -1,0 +1,28 @@
+
+  #loading-screen {
+    background-color: rgba(25,25,25,0.7);
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+    margin-top: 0;
+    top: 0;
+    text-align: center;
+  }
+  #loading-screen img {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin-top: -50px;
+    margin-left: -50px;
+    top: 50%;
+    margin: 0 auto;
+  }
+  #loading-screen h4 {
+    color: white;
+    position: relative;
+    margin-top: -50px;
+    margin: 10px auto;
+    top: 50%;
+  }
+ 

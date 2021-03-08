@@ -6,33 +6,38 @@
             <h5 class="modal-title modal-colored-header bg-success" >Modificar Contraseña</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <form action="" method="post" novalidate>
+
+        <form novalidate class="needs-validation10">
+            
             <div class="modal-body">
+            <div id="mensaje-alert">
+                
+            </div>
                 <div class="form-group">
                     <label class="text-primary">Contraseña anterior: </label>
-                    <input type="password" class="form-control" required data-validation-required-message="This field is required">
+                    <input id="mypassword" type="password" name="mypassword" class="form-control " required >
                     <div class="invalid-feedback">
-                        Ingrese un correo válido
+                        Es necesario que complete este campo
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="text-info">Nueva Contraseña: </label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="" required>
                     <div class="invalid-feedback">
-                        Ingrese un correo válido
+                        Es necesario que complete este campo
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="text-info">Confirme Contraseña: </label>
-                    <input type="password" class="form-control" required id="password-confirm" name="password_confirmation">
+                    <input type="password" class="form-control" required id="password_confirmation" name="password_confirmation">
                     <div class="invalid-feedback">
-                        Complete este campo
+                        Es necesario que complete este campo
                     </div>
                 </div>
             </div>        
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success "type="submit">Actualizar</button>
+                <button  type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button id="btn_update_pass"  class="btn btn-success "type="button">Actualizar</button>
             </div>
         </form>
     </div>

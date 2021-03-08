@@ -2,6 +2,16 @@
 
 @section('css')
 <link href="{{ asset('/material-pro/src/assets/libs/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{ asset('/css/preloader.css')}}" rel="stylesheet" type="text/css">
+@endsection
+
+@section('preload_postular')
+<div id="loading-screen" style="display: none">
+    
+    <img src="{{ asset('/imagenes/preloader/spinning-circles.svg')}}" >
+    <h4 id="text_cargando">Cargando</h4>
+    
+</div>
 @endsection
 
 @section('title','Ajustes')
@@ -50,8 +60,8 @@
                                         <h6>{{auth()->user()->email}}</h6>  
                                     
                                     <hr> 
-                                    <button type="button" class="btn btn-info btn-circle" data-toggle="modal" data-target="#m_contraseña"
-                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña"><i class="mdi mdi-account-key font-20"></i></button>
+                                    <button id="btn_update_password" type="button" class="btn btn-info" data-toggle="modal" data-target="#m_contraseña"
+                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña">Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></button>
                                 
                             </div>
                         </div>

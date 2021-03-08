@@ -7,6 +7,7 @@
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/jquery.steps.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
 <link href="{{ asset('/material-pro/src/assets/libs/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css">
+<link href="{{ asset('/css/preloader.css')}}" rel="stylesheet" type="text/css">
 <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 
 <!-- This Page CSS -->
@@ -14,7 +15,18 @@
 <link href="{{ asset('/css/acordion.css')}}" rel="stylesheet">
 @endsection
 
+@section('preload_postular')
+<div id="loading-screen" style="display: none">
+    
+    <img src="{{ asset('/imagenes/preloader/spinning-circles.svg')}}" >
+    <h4 id="text_cargando">Cargando</h4>
+    
+</div>
+@endsection
+
 @section('content')
+
+
 
 @include('postulante.modalformacion')
 @include('postulante.modalnuevacapacitacion')
@@ -596,5 +608,6 @@
 
 <script src="{{ asset('/material-pro/src/assets/extra-libs/prism/prism.js')}}"></script>
 <script src="{{ asset('/js/acordion.js')}}"></script>
+<script src="{{ asset('/js/preloader_pag.js')}}"></script>
 @endsection
 
