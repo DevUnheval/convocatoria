@@ -13,15 +13,15 @@ use App\Postulante;
 class ProcesosExport implements FromView {
     use Exportable;
     
-    public function __construct(int $proceso_id){
-        $this->postulantes =  Postulante::where("proceso_id",$proceso_id)->get();
+    public function __construct(array $data){
+        $this->data = $data;
     }
 
 
     public function view(): View
     {
-        return view('reportes.excel.etapa', [
-            'postulantes' => $this->postulantes,
+        return view($this->data["ruta"], [
+            'data' => $this->data,
         ]);
     }
 }

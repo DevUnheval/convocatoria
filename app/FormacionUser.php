@@ -16,6 +16,6 @@ class FormacionUser extends Model
 		return $this->belongsTo(GradoFormacion::class);
   }
   public function user() {
-		return $this->belongsTo(users::class);
+		return $this->belongsTo(Users::class);
 	}
 }

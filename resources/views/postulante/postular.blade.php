@@ -36,11 +36,15 @@
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-5"></i>  <strong> <h2 class="text-center text-dark-info font-weight-bold ">
-            
-            <div></i>{{$proceso->cod}} - {{$proceso->nombre}} <i class="fas fa-users mr-2 ml-5"></i><small>N° Plazas = {{$proceso->n_plazas}}</small></div>
-            
-            </h2></strong> 
+            <i class="dripicons-information mr-5"></i>  
+            <h5 class="text-center text-dark">Estas postulando al proceso:</h5>
+            <strong> 
+                <h2 class="text-center text-dark-info font-weight-bold ">              
+                    <div></i>{{$proceso->cod}} - {{$proceso->nombre}} <i class="fas fa-users mr-2 ml-5"></i>
+                        <small>N° Plazas = {{$proceso->n_plazas}}</small>
+                    </div>
+                </h2>
+            </strong> 
             
         </div>
         
@@ -53,6 +57,7 @@
                 <h6>Datos Personales</h6>
                 <section id="section1">
                     <div >
+                        <!--
                         <div class="row">
                             <div class="col-md">
                                 <div class="form-group">
@@ -61,7 +66,7 @@
                                    <input type="hidden" id="input_hide_dni" value="0">
                             </div>
                             
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -158,12 +163,25 @@
                             </div> 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="ubigeo_domicilio"> Ubigeo-Domicilio Actual: <span class="text-danger">*</span> </label>
+                                    <label for="ubigeo_domicilio">Lugar-Domicilio Actual: <span class="text-danger">*</span> </label>
                                     <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
                                     <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
                                 </div>
                             </div>  
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card border-info border">
+                                    <div class="card-header bg-success">
+                                        <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
+                                    </div>
+                                    <div class="card-body"> 
+                                        <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf"> 
+                                        <input type="hidden" id="input_hide_dni" value="0">                                                 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
                         <br>
                         <br>
                         <div class="row">
@@ -173,7 +191,7 @@
                                     
                                 </div>  
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <input name="group1" value="true"  class=" group1 material-inputs required"  value="1" type="radio" id="si_discapacidad"  />
                                     <label for="si_discapacidad">Si</label>
@@ -195,7 +213,7 @@
                                     
                                 </div>  
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <input name="group2" value="true" class="group2 material-inputs required" value="1" type="radio" id="si_ffaa"  />
                                     <label for="si_ffaa">Si</label>
@@ -218,7 +236,7 @@
                                     
                                 </div>  
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <input name="group3" value="true"  class=" group3 material-inputs required" type="radio" id="si_deportista"  />
                                     <label for="si_deportista">Si</label>
@@ -266,16 +284,16 @@
                     <br>
                     <div id="div_act">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_forma();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-5 offset-3">
                             @foreach ($proceso_formacion as $item)
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Formación requerida: </strong> {{$item->nombre}} - {{$item->especialidad}}
+                            <div class="alert alert-warning text-dark" style="aling-center" role="alert">
+                                <strong>Formación mínima requerida: </strong> {{$item->nombre}} en {{$item->especialidad}}
                             </div>
                             @endforeach
                         </div>
@@ -320,18 +338,18 @@
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        
+                        <!--
                         <div class="col-md-4">
-                          <!--  <div class="alert alert-success text-center" role="alert">
+                            <div class="alert alert-success text-center" role="alert">
                                 <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind}}"> 
-                            </div> -->
+                            </div> 
                             
-                        </div>
+                        </div> -->
                        
-                          <div class="col-md-4">
+                          <div class="col-md-5 offset-3">
                             
-                            <div class="alert alert-danger text-center" role="alert">
-                                <strong>Mínimo de horas por curso/capa.: </strong><input class=" border-0 bg-light-danger text-dark-danger text-center" type="text" disabled id="horas_cap_ind" value="{{$proceso->horas_cap_ind}}">  
+                            <div class="alert alert-warning text-center text-dark" role="alert">
+                                <strong>Mínimo de horas por curso/capacitación: </strong><label class=" border-0 bg-light-danger text-dark-danger" disabled id="horas_cap_ind">{{$proceso->horas_cap_ind}} </label>
                             </div>
                             
                           </div>
@@ -392,7 +410,7 @@
                       </div>
                       <div class="col-md-4">
                         
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-warning text-dark" role="alert">
                             <strong>Exper. General mínima: </strong><span id="exp_gen_pro">  </span> <br>
                             <strong>Exper. Específica mínima: </strong><span id="exp_esp_pro">  </span> 
                         </div>
@@ -432,8 +450,8 @@
                 <h6>Declaración Jurada</h6>
                 <section>
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3>DECLARACIÓN JURADA</h3>
+                        <div class="col-md-12 text-center">
+                            <h3><strong>DECLARACIÓN JURADA</strong></h3>
                         </div>
                     </div>
                     <br>

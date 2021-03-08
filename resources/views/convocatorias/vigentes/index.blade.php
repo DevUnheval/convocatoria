@@ -56,7 +56,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot  class="">
+                        <tfoot class="">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 <th>Conf.</th>

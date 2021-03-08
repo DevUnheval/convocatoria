@@ -39,29 +39,29 @@ Route::group(['prefix' => 'maestro'], function(){
  // Rutas ajustes
     Route::group(['prefix' => 'ajustes'], function(){
         Route::get('/', 'AjustesController@index')->name('maestro.ajustes.index')->middleware(['auth','Administrador']);  
-        Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update');  
-        Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer');  
+        Route::post('update', 'AjustesController@update')->name('maestro.ajustes.update')->middleware(['auth','Administrador']);;  
+        Route::get('reset', 'AjustesController@restablecer')->name('maestro.ajustes.restablecer')->middleware(['auth','Administrador']);
     });   
     Route::group(['prefix' => 'usuarios'], function(){
         Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index')->middleware(['auth','Administrador']);  
         Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update')->middleware(['auth','Administrador']);  
-        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit');  
+        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit')->middleware(['auth','Administrador']);  
         Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 
     Route::group(['prefix' => 'procesos'], function(){
-        Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index');  
-        Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update');  
-        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store');  
+        Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index')->middleware(['auth']);
+        Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update')->middleware(['auth','Administrador']);  
+        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','comisionado']);  
         Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
-        Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar');  
+        Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar')->middleware(['auth','Administrador']);  
         
     }); 
     Route::group(['prefix' => 'formacion'], function(){
-        Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index');  
-        Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update');  
-        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store');  
+        Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index')->middleware(['auth']); 
+        Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update')->middleware(['auth','Administrador']); 
+        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','comisionado']);  
         Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
-        Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar');  
+        Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar')->middleware(['auth','Administrador']); 
     }); 
 });
 
@@ -79,21 +79,21 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('historico/concluido/data', 'ConvocatoriaHistoricoController@data_concluidos')->name('convocatoria.historico.concluidos.data_concluidos');
     Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
-    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit'); 
-    Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update');  
-    Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado');  
-    Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado'); 
+    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit')->middleware(['auth','Administrador']); 
+    Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update')->middleware(['auth','Administrador']);  
+    Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado')->middleware(['auth']);  
+    Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado')->middleware(['auth','Administrador']); 
 
     //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
-    Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');   
-    Route::get('show_evaluacion/{proceso_id}', 'ConvocatoriaEnCursoController@show_evaluacion')->name('convocatoria.en:curso.comunicados');     
-    Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar');  
-    Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion');     
-    Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar');    
-    Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar');
-    Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar');    
-    Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar');
-    Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir');
+    Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados')->middleware(['auth']);   
+    Route::get('show_evaluacion/{proceso_id}', 'ConvocatoriaEnCursoController@show_evaluacion')->name('convocatoria.en:curso.comunicados')->middleware(['auth']);     
+    Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar')->middleware(['auth','Administrador']);  
+    Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion')->middleware(['auth','Administrador']);     
+    Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar')->middleware(['auth','Administrador']);    
+    Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar')->middleware(['auth','Administrador']);
+    Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar')->middleware(['auth','Administrador']);    
+    Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar')->middleware(['auth','Administrador']);
+    Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir')->middleware(['auth','Administrador']);
 });
 
 //POSTULANTE
@@ -164,8 +164,9 @@ Route::group(['prefix' => 'postulante'], function(){
    })->middleware(['auth']);
 
 Route::group(['prefix' => 'reportes'], function(){
-    Route::get('/{id}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->name('reportes.pdf');
-    Route::get('/{id}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->name('reportes.excel');   
+    Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.preliminar');
+    Route::get('/{id}/{etapa}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.pdf');
+    Route::get('/{id}/{etapa}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.excel');   
     
 });
 

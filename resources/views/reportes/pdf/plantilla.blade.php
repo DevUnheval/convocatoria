@@ -1,7 +1,22 @@
 <html>
+            <?php $ruta_img='';
+                  $logo1 = \App\Ajuste::where("nombre","logo")->first();
+                  if(substr($logo1->valor, 0,6)=='public') $logo1=Storage::url($logo1->valor);
+                  else $logo1= asset($logo1->valor);
+
+                  $logo2 = \App\Ajuste::where("nombre","logo texto 1")->first();
+                  if(substr($logo2->valor, 0,6)=='public') $logo2=Storage::url($logo2->valor);
+                  else $logo2= asset($logo2->valor);
+
+                  $anio = \App\Ajuste::where("nombre","nombre del año")->first()->valor;
+                  $titulo = \App\Ajuste::where("nombre","titulo")->first()->valor;
+                  $institucion = \App\Ajuste::where("nombre","institucion")->first()->valor;
+                  
+                 
+            ?>
 
 <head>
-  <style>
+ <style>
     body{
       font-family: sans-serif;
     }
@@ -15,7 +30,7 @@
       top: -90px;
       right: 0px;
       height: 80px;
-      background-color: #ddd;
+      background-color: rgba(133, 193, 233, .4 );
       text-align: center;
     }
     header h1{
@@ -47,33 +62,47 @@
     footer .izq {
       text-align: left;
     }
-    table{
-        width:100%;
-        table-layout: fixed;
-        overflow-wrap: break-word;
-    }
-    .tabla-reporte  td, th {
+  
+    .tabla-reporte  td, .tabla-reporte  th {
+        padding:5px;
         border: 1px solid black;
+        font-size: 12px;
     }
+    .tabla-reporte  th {
+        font-weight: bold;
+        text-align: center;
+        background-color: rgba(234, 237, 237, .6 )
+    }
+    
     .tabla-reporte {
         width: 100%;
         border-collapse: collapse;
+        border:  rgba(234, 237, 237, .6 ) 1px solid;
     }
   </style>
 <body>
   <header>
-    <h1>
-      <table>
-        <tr  width="100%">
-          <td> col 1: logo 1</td>
-          <td> texto</td>
-          <td style="text-align: right;"> col 3: logo 1</td>
-        </tr>
-      </table>
-    </h1>
-    <h2>tema</h2>
-    <ul></ul>
-    
+    <table width="100%">
+      <tr>
+        <td rowspan="3">
+          <img src="https://www.gmkfreelogos.com/logos/U/img/Universidad_Nacional_Hermilio_Valdizan.gif" height="65px">
+        </td>
+        <td align="center">
+            <small style="font-size:12px"> {{$anio}} </small><br>
+        </td>
+      </tr>
+      <tr>
+        <td align="center"> 
+           <label><b>{{$institucion}}</b></label>
+        </td>
+      </tr>
+      <tr>
+        <td align="center">
+          <label><b>{{$titulo}}</b></label>
+        </td>
+      </tr>
+    </table>
+        
   </header>
   <footer>
     <table>
@@ -94,11 +123,9 @@
   <div id="content">
     @yield("contenido")   
 
-    <p style="page-break-before: always;">
+    <!-- <p style="page-break-before: always;">
     Podemos romper la página en cualquier momento...</p>
-    </p><p>
-    Praesent pharetra enim sit amet...
-    </p>
+    </p> -->
   </div>
 </body>
 </html>

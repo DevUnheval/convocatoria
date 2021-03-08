@@ -50,7 +50,7 @@ class PostulantesController extends Controller
         return view('postulantes.index',compact('proceso','vista','calificacion_etapa_actual','etapa','etapas','etapa_actual'));
     }
 
-    private function etapas_evaluacion($evaluar_conocimientos){
+    public function etapas_evaluacion($evaluar_conocimientos){//debe ser public xq lo usamos desde otro controlador
         $etapa = 1;
         $etapas[] = 
                     [   'etapa'=>$etapa,

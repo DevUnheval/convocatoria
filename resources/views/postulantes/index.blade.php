@@ -62,9 +62,13 @@
                     <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14">&nbsp;Exportar</span>
                 </label> 
                 <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                    <a class='dropdown-item text-success' href='{{route("reportes.excel",$proceso->id)}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar a excel</a>
-                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar a pdf</a><hr class="my-0">
-                    <a class='dropdown-item text-info' href='{{route("reportes.pdf",$proceso->id)}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar otro</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.preliminar",[$proceso->id,"pdf"])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Preliminar</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar etapa</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,0])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar resultado</a><hr class="my-0">
+                    <a class='dropdown-item text-success' href='{{route("reportes.preliminar",[$proceso->id,"excel"])}}' target="_blank"><i class='fa fa-file-excel'></i> Preliminar</a>
+                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar etapa</a>
+                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id, 0] )}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar resultado</a>
+                    
                 </div>
             </div>
         </div>
