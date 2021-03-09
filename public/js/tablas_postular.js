@@ -758,17 +758,17 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
      var es_idioma=0;   
      var nivel_tratada="";
      
-     if(!cumplehoras_porcapa(parseInt($("#horas_cap_ind").val()),parseInt($("#horaslectivas").val()))){
+    //  if(!cumplehoras_porcapa(parseInt($("#horas_cap_ind").val()),parseInt($("#horaslectivas").val()))){
  
-         Swal.fire({
-             type: 'error',
-             title: "¡Error!",
-             text: "No cumple con mínimo de horas de curso/capacitación",
-             icon: "error",
-             timer: false,
-         })
-         return false;
-     }
+    //      Swal.fire({
+    //          type: 'error',
+    //          title: "¡Error!",
+    //          text: "No cumple con mínimo de horas de curso/capacitación",
+    //          icon: "error",
+    //          timer: false,
+    //      })
+    //      return false;
+    //  }
  
      if($("#tipo_capacitacion").val()==1){
          es_curso_espec=1;
