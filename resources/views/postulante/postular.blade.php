@@ -338,18 +338,13 @@
                                 <i class="fa fa-plus"></i> Nuevo</button>
                             </div>
                         </div>
-                        <!--
-                        <div class="col-md-4">
-                            <div class="alert alert-success text-center" role="alert">
-                                <strong>Mí total de Hrs: </strong><input id="total_horas" name="total_horas" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind" value="{{$item->horas_cap_ind}}"> 
-                            </div> 
-                            
-                        </div> -->
+                       
                        
                           <div class="col-md-5 offset-3">
                             
                             <div class="alert alert-warning text-center text-dark" role="alert">
-                                <strong>Mínimo de horas por curso/capacitación: </strong><label class=" border-0 bg-light-danger text-dark-danger" disabled id="horas_cap_ind">{{$proceso->horas_cap_ind}} </label>
+                                <strong>Mínimo de horas por curso/capacitación: </strong><input type="hidden" class=" border-0 bg-light-danger text-dark-danger" value="{{$proceso->horas_cap_ind}}" disabled id="horas_cap_ind">
+                                <label class=" border-0 bg-light-danger text-dark-danger">{{$proceso->horas_cap_ind}} Hrs.</label>
                             </div>
                             
                           </div>
@@ -397,13 +392,13 @@
                         
                         <div class="col-md-4">
                             <div class="alert alert-success text-center" role="alert">
-                                <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                <strong>Mi Exper. General: </strong><input id="total_exp_general" name="total_exp_general" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                             </div>
                             
                         </div>
                         <div class="col-md-4">
                             <div class="alert alert-success text-center" role="alert">
-                                <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled id="horas_cap_ind"> 
+                                <strong>Mi Exper. Específica: </strong><input id="total_exp_especifica" name="total_exp_especifica" class=" border-0 bg-light-success text-black-50 text-center" type="text" disabled > 
                             </div>
 
                           
