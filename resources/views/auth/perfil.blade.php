@@ -32,7 +32,12 @@
                 <!-- Row -->
                 <div class="row">
                     <!-- Column -->
-                    <div class="col-lg-3 col-xlg-3 col-md-5">
+                    
+                    <!-- Column -->
+                    <!-- Column -->
+                    
+                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                       <div class="col-lg col-xlg col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
@@ -48,11 +53,56 @@
                             </div>
                             
                             <div class="card-body align-content-center">
+                                <center>
                                 <small class="text-muted align-content-center">Subir Fotografía</small> 
-                                <small> <input class="align-content-center" type="file" > </small>
+                                <small class="form-group"> <input class="material-inputs" type="file" > </small>
+                                </center>
                             </div>
-                                <hr> 
+                                 
+                                <center>
                                 <div class="card-body"> 
+                                    <hr>
+                                    <small class="text-muted">DNI</small> 
+                                        <h6>{{auth()->user()->dni}}</h6> 
+                                    
+                                    <small class="text-muted pt-4 db">Correo</small> 
+                                        <h6>{{auth()->user()->email}}</h6>  
+                                    
+                                    <hr> 
+                                    <button id="btn_update_password" type="button" class="btn btn-info" data-toggle="modal" data-target="#m_contraseña"
+                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña">Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></button>
+                                
+                                </div>
+                                </center>
+                        </div>
+                    </div>
+                                    
+                   
+                    @else
+
+                    <div class="col-lg col-xlg col-md">
+                        <div class="card">
+                            <div class="card-body">
+                                <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
+                                    <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
+                                    @foreach(auth()->user()->roles as $rol)
+                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
+                                    @endforeach
+                                    <!-- <div class="row text-center justify-content-md-center">
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
+                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
+                                    </div> -->
+                                </center>
+                            </div>
+                            <center>
+                            <div class="card-body align-content-center">
+                                <small class="text-muted align-content-center">Subir Fotografía</small> 
+                                <small class="form-group"> <input class="material-inputs" type="file" > </small>
+                            </div>
+                            </center>
+                              <center>   
+                                <div class="card-body"> 
+                                    <hr>
                                     <small class="text-muted">DNI</small> 
                                         <h6>{{auth()->user()->dni}}</h6> 
                                     
@@ -64,10 +114,10 @@
                                     data-placement="bottom" title="" data-original-title="Modificar Contaseña">Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></button>
                                 
                             </div>
+                              </center>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
+
                     <div class="col-lg-9 col-xlg-9 col-md-7">
                         <div class="card">
                             <!-- Tabs -->
@@ -427,7 +477,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>                  
+                    @endif
+                    
                     <!-- Column -->
                 </div>
                 <!-- Row -->
