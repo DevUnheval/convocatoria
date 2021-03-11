@@ -141,7 +141,7 @@
                                     <div class="card-body">
                                         <form class="form-horizontal form-material">
                                             <div class="card-body">
-                                               
+                                                <!--
                                                 <div class="row">
                                                     <div class="col-md">
                                                         <div class="form-group">
@@ -150,7 +150,7 @@
                                                            <input type="hidden" id="input_hide_dni" value="0">
                                                     </div>
                                                     
-                                                </div>
+                                                </div> -->
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <div class="form-group">
@@ -226,6 +226,19 @@
                                                             <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
                                                         </div>
                                                     </div> 
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card border-info border">
+                                                            <div class="card-header bg-success">
+                                                                <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
+                                                            </div>
+                                                            <div class="card-body"> 
+                                                                <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf"> 
+                                                                <input type="hidden" id="input_hide_dni" value="0">                                                 
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <br>
                                                 <br>
