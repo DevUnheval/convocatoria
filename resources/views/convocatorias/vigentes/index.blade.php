@@ -33,7 +33,7 @@
             @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
-                        <thead class="">
+                        <thead class="text-white"style="background-color:#1e94c2;">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 <th>Conf.</th>
