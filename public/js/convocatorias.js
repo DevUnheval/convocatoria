@@ -250,7 +250,47 @@ function editar(id){
     });
     $("#modal_editar").modal("show");
 }
+function anios_meses_dias(diasx){
+    var anios;
+    var meses;
+    var dias;
+    var anios_desc="";
+    var meses_desc="";
+    var dias_desc="";
+    anios= Math.trunc(diasx/365); 
+    meses= Math.trunc((diasx%365)/30.4);
+    dias =Math.round((diasx%365)%30.4);
 
+    if(anios == 0){
+        anios_desc = "";
+        anios = "";
+    }else if(anios == 1){
+        anios_desc = "año";
+    }else if(anios > 1){
+        anios_desc = "años";
+    }
+
+    if(meses == 0){
+        meses_desc = "";
+        meses = "";
+    }else if(meses == 1){
+        meses_desc = "mes";
+    }else if(meses > 1){
+        meses_desc = "meses";
+    }
+
+    if(dias == 0){
+        dias_desc = "";
+        dias = "";
+    }else if(dias == 1){
+        dias_desc = "dia";
+    }else if(dias > 1){
+        dias_desc = "dias";
+    }
+  
+     
+  return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
+ }
 function ver_detalles(id){
     $.ajax({
         url:   "/convocatorias/edit/"+id,
@@ -269,8 +309,9 @@ function ver_detalles(id){
            $("#ver_oficina").html(response.oficina);
            $("#ver_nivel_acad_convocar_"+response.nivel_acad_convocar).prop("hidden", false);
 
-           $("#ver_exp_lab_gen").html(response.anios_exp_lab_gen);
-           $("#ver_exp_lab_esp").html(response.anios_exp_lab_esp);
+           $("#ver_dias_exp_lab_gen").html(anios_meses_dias(response.dias_exp_lab_gen));
+           
+           $("#ver_dias_exp_lab_esp").html(anios_meses_dias(response.dias_exp_lab_esp));
            $("#ver_postulacion").html("Desde: "+response.fecha_inscripcion_inicio+" <br> Hasta: "+response.fecha_inscripcion_fin);
            $("#ver_fecha_firma_contrato").html(response.fecha_firma_contrato);
            $("#ver_duracion_contrato").html(response.duracion_contrato);

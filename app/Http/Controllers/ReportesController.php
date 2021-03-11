@@ -121,4 +121,8 @@ class ReportesController extends Controller
         }
 
     }
+    public function cv (){               
+        $pdf = PDF::loadView('reportes.pdf.cv');
+        return $pdf->stream('cv.pdf'); //download
+    }
 }
