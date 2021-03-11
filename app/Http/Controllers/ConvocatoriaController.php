@@ -119,7 +119,7 @@ class ConvocatoriaController extends Controller
             $q->archivo_resolucion=$name;
             $q->save(); 
         }   
-       // return $r;
+        return $r;
     }
 
     public function show($id)
@@ -144,8 +144,8 @@ class ConvocatoriaController extends Controller
         if($r->hay_bon_ffaa) $p->bon_ffaa="0.1";
         else  $p->bon_ffaa=0;
 
-        if($r->hay_bon_deport) $p->bon_deport="0.1";
-        else  $p->bon_deport=0;
+        // if($r->hay_bon_deport) $p->bon_deport="0.1";
+        // else  $p->bon_deport=0;
 
         $p->save();
                 
