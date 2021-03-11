@@ -118,9 +118,8 @@ class ConvocatoriaController extends Controller
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
             $q->archivo_resolucion=$name;
             $q->save(); 
-        }
-            
-        return $q;
+        }   
+       // return $r;
     }
 
     public function show($id)
