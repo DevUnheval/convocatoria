@@ -4,10 +4,16 @@
     <div class="modal-dialog modal-full-width">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center">
-                <h4 class="modal-title" id="myLargeModalLabel"><span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3 mdi-cursor-default" > CURRICULUM VITAE</span><small>Postulante:</small><span id="postulante" class="ml-2 mr-2"></span>
-                <small>Doc. Identidad:</small><span id="dnicab" class="ml-3"></h4>
-                    <button type="button" class="close ml-auto" data-dismiss="modal"
-                    aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">
+                    <a href="#" title="clic para descargar" id="ruta_cv_postulante" target="_blank"> 
+                        <span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3">
+                            <i class="fa fa-download"></i> CURRICULUM VITAE
+                        </span>
+                    </a>
+                    <span id="postulante" class="ml-2 mr-2"></span>
+                    <span id="dnicab" ></span>
+                </h4>
+                <button type="button" class="close ml-auto" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div >
                 <div class="justify-content-right">

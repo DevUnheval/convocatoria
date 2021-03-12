@@ -372,7 +372,7 @@ class PostulantesController extends Controller
     $qform = FormacionPostulante::join("grado_formacions", "grado_formacions.id", "=", "formacion_postulantes.grado_id")
     ->select("formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
     ->where("formacion_postulantes.postulante_id",$postulanteid)->get();
-    
+    $proceso = Postulante::find($postulanteid)->proceso;
     return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
 
     }

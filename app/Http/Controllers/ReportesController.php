@@ -121,8 +121,11 @@ class ReportesController extends Controller
         }
 
     }
-    public function cv (){               
-        $pdf = PDF::loadView('reportes.pdf.cv');
+    public function cv($id_postulante){
+       
+        $postulante = Postulante::find($id_postulante);
+        return $postulante->datos_postulante->desc_ubigeo_nac;               
+        $pdf = PDF::loadView('reportes.pdf.cv',compact('postulante'));
         return $pdf->stream('cv.pdf'); //download
     }
 }

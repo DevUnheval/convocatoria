@@ -80,12 +80,13 @@
         border:  rgba(234, 237, 237, .6 ) 1px solid;
     }
   </style>
+      @yield("css")  
 <body>
   <header>
     <table width="100%">
       <tr>
         <td rowspan="3">
-          <img src="https://www.gmkfreelogos.com/logos/U/img/Universidad_Nacional_Hermilio_Valdizan.gif" height="65px">
+          <img src="{{asset('imagenes/ajustes/logo.png')}}" height="65px">
         </td>
         <td align="center">
             <small style="font-size:12px"> {{$anio}} </small><br>
