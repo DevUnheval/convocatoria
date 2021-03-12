@@ -304,15 +304,15 @@
                                                     <p><b>Experiencia laboral GENERAL: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Años</small>
-                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_anio" id="form_nuevo_exp_lab_gen_anio" value="1">
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_anio" id="form_nuevo_exp_lab_gen_anio" value="1" min="0">
                                                     </div>
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Meses</small>
-                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_mes" id="form_nuevo_exp_lab_gen_mes" value="0" max="11">
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_mes" id="form_nuevo_exp_lab_gen_mes" value="0" max="11" min="0">
                                                     </div>
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Días</small>
-                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_dia" id="form_nuevo_exp_lab_gen_dia" value="0" max="30">
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_dia" id="form_nuevo_exp_lab_gen_dia" value="0" max="30" min="0">
                                                     </div>
                                                 </div>
                                             </div>
@@ -321,15 +321,15 @@
                                                     <p><b>Experiencia laboral ESPECÍFICA: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Años</small>
-                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_anio" id="form_nuevo_exp_lab_esp_anio" value="1" >
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_anio" id="form_nuevo_exp_lab_esp_anio" value="1" min="0">
                                                     </div>
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Meses</small>
-                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_mes" id="form_nuevo_exp_lab_esp_mes" value="0" max="11">
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_mes" id="form_nuevo_exp_lab_esp_mes" value="0" max="11" min="0">
                                                     </div>
                                                     <div class="col-md-4 col-sm-2 form-group">                                                
                                                         <small>Días</small>
-                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_dia" id="form_nuevo_exp_lab_esp_dia" value="0" max="30">
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_dia" id="form_nuevo_exp_lab_esp_dia" value="0" max="30" min="0">
                                                     </div>
                                                 </div>
                                             </div>
