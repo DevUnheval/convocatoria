@@ -68,8 +68,8 @@ class CreateProcesosTable extends Migration
             $table->decimal('peso_conoc', 4, 2)->default(1);
             $table->decimal('peso_entrev', 4, 2)->default(1);
                 //CV
-                $table->integer('anios_exp_lab_gen')->default(0);
-                $table->integer('anios_exp_lab_esp')->default(0);
+                $table->integer('dias_exp_lab_gen')->default(0);
+                $table->integer('dias_exp_lab_esp')->default(0);
                 $table->integer('horas_cap_total')->default(0); //cambiado a integer
                 $table->integer('horas_cap_ind')->default(0); //cambiado a integer
 

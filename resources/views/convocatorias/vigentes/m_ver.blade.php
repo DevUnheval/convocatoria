@@ -112,13 +112,13 @@
                               <div class="col-md-4">
                                  <div class="form-group">
                                        <small class="text-info">Experiencia laboral general </small>
-                                       <h5 id="ver_exp_lab_gen"></h5>
+                                       <h5 id="ver_dias_exp_lab_gen"></h5>
                                  </div>
                               </div>  
                               <div class="col-md-4">
                                  <div class="form-group">
                                        <small class="text-info">Experiencia laboral específica </small>
-                                       <h5 id="ver_exp_lab_esp"></h5>
+                                       <h5 id="ver_dias_exp_lab_esp"></h5>
                                  </div>
                               </div>
                            </div>

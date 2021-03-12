@@ -36,7 +36,7 @@
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-5"></i>  
+            <i class="dripicons-information mr-3"></i>  
             <h5 class="text-center text-dark">Estas postulando al proceso:</h5>
             <strong> 
                 <h2 class="text-center text-dark-info font-weight-bold ">              
@@ -50,7 +50,7 @@
         
         <div class="card-body wizard-content">
             
-            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-5" >
+            <form  id="datospostulante" data-id="{{$proceso->id}}" class="validation-wizard wizard-circle mt-0" >
                 @csrf
                 
                 <!-- Step 1 -->

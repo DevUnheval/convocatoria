@@ -297,71 +297,130 @@
                                     <!-- Factores de evaluacion-->     
                                         <br>            
                                         <h4 class="card-title">Factores de Evaluación - Curricular: </h4>                   
-                                        <div class="row form-group mb-0 py-2 bg-light">                                                                                                                            
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Años de Experiencia - General: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="anios_exp_lab_gen" value="2">
+                                        <div class="row form-group bg-light"> 
+
+                                            <div class="col-sm-6  border border-secondary rounded">
+                                                <div class="row p-2">
+                                                    <p><b>Experiencia laboral GENERAL: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Años</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_anio" id="form_nuevo_exp_lab_gen_anio" value="1">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Meses</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_mes" id="form_nuevo_exp_lab_gen_mes" value="0" max="11">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Días</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_dia" id="form_nuevo_exp_lab_gen_dia" value="0" max="30">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Años de Experiencia - Especifica: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="anios_exp_lab_esp" value="1">
+                                            <div class="col-sm-6  border border-secondary rounded">
+                                                <div class="row p-2">
+                                                    <p><b>Experiencia laboral ESPECÍFICA: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Años</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_anio" id="form_nuevo_exp_lab_esp_anio" value="1" >
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Meses</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_mes" id="form_nuevo_exp_lab_esp_mes" value="0" max="11">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Días</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_dia" id="form_nuevo_exp_lab_esp_dia" value="0" max="30">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="horas_cap_total" value="500">
+                                            
+                                            <div class="col-sm-12"><br>
+                                                <div class="row p-2">
+                                                    <div class="col-md-6 form-group">                                                
+                                                        <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
+                                                        <input type="number" class="form-control required"   name="horas_cap_total" value="300">
+                                                    </div>
+                                                    <div class="col-md-6 form-group">                                                
+                                                        <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
+                                                        <input type="number" class="form-control required" name="horas_cap_ind" value="24">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required" name="horas_cap_ind" value="80">
+
+                                            <div class="row p-2"> 
+                                                <div class="col-sm-6">
+                                                        <h5 class="control-label col-form-label">¿Considerar PRACTICAS PRE PROFESIONALES?</h5>
+                                                        <fieldset>
+                                                            <input name="consid_prac_preprof" value="1"  checked type="radio" id="n_consid_prac_preprof_1" class="radio-col-indigo material-inputs" />
+                                                            <label for="n_consid_prac_preprof_1" class="mb-0 mt-2">Si</label>
+                                                            <input name="consid_prac_preprof" value="0"  type="radio" id="n_consid_prac_preprof_2" class="radio-col-indigo material-inputs" />
+                                                            <label for="n_consid_prac_preprof_2" class="mb-0 mt-2">No</label>
+                                                        </fieldset>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                        <h5 class="control-label col-form-label">¿Considerar PRACTICAS PROFESIONALES?</h5>
+                                                        <fieldset>
+                                                            <input name="consid_prac_prof" value="1"  checked type="radio" id="n_consid_prac_prof_1" class="radio-col-indigo material-inputs" />
+                                                            <label for="n_consid_prac_prof_1" class="mb-0 mt-2">Si</label>
+                                                            <input name="consid_prac_prof" value="0"  type="radio" id="n_consid_prac_prof_2" class="radio-col-indigo material-inputs" />
+                                                            <label for="n_consid_prac_prof_2" class="mb-0 mt-2">No</label>
+                                                        </fieldset>
+                                                    
+                                                </div>
+                                               
+                                                
                                             </div>
-                                        </div>                                        
+                                        </div>                                      
                                     <!-- Bonificaciones-->     
-                                        <br>         
-                                        <h4 class="card-title">Bonificaciones: </h4>                   
-                                        <div class="row ">
-                                            <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por Discapacidad <small>(15%)</small></h5>
-                                                <label><small>Ley N° 29973, Ley General de la Persona con Discapacidad.</small></label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <fieldset>
-                                                    <input name="hay_bon_pers_disc" value="1"  checked type="radio" id="n_hay_bon_pers_disc_1" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_pers_disc_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_pers_disc" value="0"  type="radio" id="n_hay_bon_pers_disc_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_pers_disc_2" class="mb-0 mt-2">No</label>
-                                                </fieldset>
-                                            </div>
-                                        </div><hr>
-                                        <div class="row ">
-                                            <div class="col-sm-9">
-                                                <h6 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas<small>(10%)</small></h6>
-                                                <label><small>Ley N° 29248, Ley del Servicio Militar.</small></label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <fieldset>
-                                                    <input name="hay_bon_ffaa" value=1  checked type="radio" id="n_hay_bon_ffaa_1" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_ffaa_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_ffaa" value=0  type="radio" id="n_hay_bon_ffaa_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_ffaa_2" class="mb-0 mt-2">No</label>
-                                                </fieldset>
-                                            </div>
-                                        </div><hr>
-                                        <div class="row form-group">
-                                            <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por Deportista Calificado</h5>
-                                                <label><small>Se otorgará una bonificación de acuerdo al Decreto Supremo N° 089-2003-PCM,
-                                                 que aprueba el Reglamento de la Ley N° 27674, Ley que establece el acceso de Deportistas de Alto Nivel a la Administración Pública.</small></label>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <fieldset>
-                                                    <input name="hay_bon_deport" type="radio" value=1 id="n_hay_bon_deport_1" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_deport_1" class="mb-0 mt-2">Si</label>
-                                                    <input name="hay_bon_deport" checked type="radio" value=0 id="n_hay_bon_deport_2" class="radio-col-indigo material-inputs" />
-                                                    <label for="n_hay_bon_deport_2" class="mb-0 mt-2">No</label>
-                                                </fieldset>
-                                            </div>
-                                        </div>                                 
-                                    </section>                                   
+                                        <br>   <br>      
+                                        <div class="border border-primary p-3">   
+                                            <h4 class="card-title">Bonificaciones: </h4>                   
+                                            <div class="row ">
+                                                <div class="col-sm-9">
+                                                    <h5 class="control-label col-form-label">Bonificación por Discapacidad <small>(15%)</small></h5>
+                                                    <label><small>Ley N° 29973, Ley General de la Persona con Discapacidad.</small></label>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <fieldset>
+                                                        <input name="hay_bon_pers_disc" value="1"  checked type="radio" id="n_hay_bon_pers_disc_1" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_pers_disc_1" class="mb-0 mt-2">Si</label>
+                                                        <input name="hay_bon_pers_disc" value="0"  type="radio" id="n_hay_bon_pers_disc_2" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_pers_disc_2" class="mb-0 mt-2">No</label>
+                                                    </fieldset>
+                                                </div>
+                                            </div><hr>
+                                            <div class="row">
+                                                <div class="col-sm-9">
+                                                    <h6 class="control-label col-form-label">Bonificación por ser Personal Licenciado de las Fuerzas Armadas<small>(10%)</small></h6>
+                                                    <label><small>Ley N° 29248, Ley del Servicio Militar.</small></label>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <fieldset>
+                                                        <input name="hay_bon_ffaa" value=1  checked type="radio" id="n_hay_bon_ffaa_1" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_ffaa_1" class="mb-0 mt-2">Si</label>
+                                                        <input name="hay_bon_ffaa" value=0  type="radio" id="n_hay_bon_ffaa_2" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_ffaa_2" class="mb-0 mt-2">No</label>
+                                                    </fieldset>
+                                                </div>
+                                            </div><hr>
+                                            <div class="row form-group">
+                                                <div class="col-sm-9">
+                                                    <h5 class="control-label col-form-label">Bonificación por Deportista Calificado 
+                                                    <input type="number" value="0.1" class="form-control col-sm-3" name="bon_deport" max="1"> </h5>
+                                                    <label><small>Se otorgará una bonificación de acuerdo al Decreto Supremo N° 089-2003-PCM,
+                                                    que aprueba el Reglamento de la Ley N° 27674, Ley que establece el acceso de Deportistas de Alto Nivel a la Administración Pública.</small></label>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <fieldset>
+                                                        <input name="hay_bon_deport" type="radio" value=1 id="n_hay_bon_deport_1" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_deport_1" class="mb-0 mt-2">Si</label>
+                                                        <input name="hay_bon_deport" checked type="radio" value=0 id="n_hay_bon_deport_2" class="radio-col-indigo material-inputs" />
+                                                        <label for="n_hay_bon_deport_2" class="mb-0 mt-2">No</label>
+                                                    </fieldset>
+                                                </div>
+                                            </div>   
+                                        </div> <br><br>                              
+                                    </section>                                  
                                 </form>
                             </div>
                         </div>

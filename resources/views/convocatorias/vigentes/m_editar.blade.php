@@ -293,29 +293,87 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    <!-- Factores de evaluacion-->     
-                                        <br>            
+                                    <!-- Factores de evaluacion-->  
+                                     
+                                    <br>            
                                         <h4 class="card-title">Factores de Evaluación - Curricular: </h4>                   
-                                        <div class="row form-group mb-0 py-2 bg-light">                                                                                                                            
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Años de Experiencia - General: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="anios_exp_lab_gen" id="anios_exp_lab_gen">
+                                        <div class="row form-group bg-light"> 
+
+                                            <div class="col-sm-6  border border-secondary rounded">
+                                                <div class="row p-2">
+                                                    <p><b>Experiencia laboral GENERAL: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Años</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_anio" id="form_editar_exp_lab_gen_anio" value="1">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Meses</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_mes" id="form_editar_exp_lab_gen_mes" value="0" max="11">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Días</small>
+                                                        <input type="number" class="form-control required" name="n_exp_lab_gen_dia" id="form_editar_exp_lab_gen_dia" value="0" max="30">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Años de Experiencia - Especifica: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="anios_exp_lab_esp" id="anios_exp_lab_esp">
+                                            <div class="col-sm-6  border border-secondary rounded">
+                                                <div class="row p-2">
+                                                    <p><b>Experiencia laboral ESPECÍFICA: <span class="text-danger">(mínimo)</span> </small></b> </p>                                                                                                                
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Años</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_anio" id="form_editar_exp_lab_esp_anio" value="1" >
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Meses</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_mes" id="form_editar_exp_lab_esp_mes" value="0" max="11">
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-2 form-group">                                                
+                                                        <small>Días</small>
+                                                        <input type="number" class="form-control required"   name="n_exp_lab_esp_dia" id="form_editar_exp_lab_esp_dia" value="0" max="30">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required"   name="horas_cap_total" id="horas_cap_total">
+                                            
+                                            <div class="col-sm-12"><br>
+                                                <div class="row p-2">
+                                                    <div class="col-md-6 form-group">                                                
+                                                        <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
+                                                        <input type="number" class="form-control required"   name="horas_cap_total" value="300">
+                                                    </div>
+                                                    <div class="col-md-6 form-group">                                                
+                                                        <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
+                                                        <input type="number" class="form-control required" name="horas_cap_ind" value="24">
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6 form-group">                                                
-                                                <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
-                                                <input type="number" class="form-control required" name="horas_cap_ind" id="horas_cap_ind">
+
+                                            <div class="row p-2"> 
+                                                <div class="col-sm-6">
+                                                        <h5 class="control-label col-form-label">¿Considerar PRACTICAS PRE PROFESIONALES?</h5>
+                                                        <fieldset>
+                                                            <input name="consid_prac_preprof" value="1"  checked type="radio" id="e_consid_prac_preprof_1" class="radio-col-indigo material-inputs" />
+                                                            <label for="e_consid_prac_preprof_1" class="mb-0 mt-2">Si</label>
+                                                            <input name="consid_prac_preprof" value="0"  type="radio" id="e_consid_prac_preprof_0" class="radio-col-indigo material-inputs" />
+                                                            <label for="e_consid_prac_preprof_0" class="mb-0 mt-2">No</label>
+                                                        </fieldset>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                        <h5 class="control-label col-form-label">¿Considerar PRACTICAS PROFESIONALES?</h5>
+                                                        <fieldset>
+                                                            <input name="consid_prac_prof" value="1"  checked type="radio" id="e_consid_prac_prof_1" class="radio-col-indigo material-inputs" />
+                                                            <label for="e_consid_prac_prof_1" class="mb-0 mt-2">Si</label>
+                                                            <input name="consid_prac_prof" value="0"  type="radio" id="e_consid_prac_prof_0" class="radio-col-indigo material-inputs" />
+                                                            <label for="e_consid_prac_prof_0" class="mb-0 mt-2">No</label>
+                                                        </fieldset>
+                                                    
+                                                </div>
+                                               
+                                                
                                             </div>
-                                        </div>                                        
+                                        </div>                                      
                                     <!-- Bonificaciones-->     
-                                        <br>         
+                                        <br>  
+                                    <div class="border border-primary p-3">        
                                         <h4 class="card-title">Bonificaciones: </h4>                   
                                         <div class="row ">
                                             <div class="col-sm-9">
@@ -347,7 +405,8 @@
                                         </div><hr>
                                         <div class="row form-group">
                                             <div class="col-sm-9">
-                                                <h5 class="control-label col-form-label">Bonificación por Deportista Calificado</h5>
+                                                <h5 class="control-label col-form-label">Bonificación por Deportista Calificado
+                                                <input type="number" class="form-control col-sm-3" name="bon_deport" max="1" id="e_bon_deport"></h5>
                                                 <label><small>Se otorgará una bonificación de acuerdo al Decreto Supremo N° 089-2003-PCM,
                                                  que aprueba el Reglamento de la Ley N° 27674, Ley que establece el acceso de Deportistas de Alto Nivel a la Administración Pública.</small></label>
                                             </div>
@@ -359,7 +418,8 @@
                                                     <label for="hay_bon_deport_0" class="mb-0 mt-2">No</label>
                                                 </fieldset>
                                             </div>
-                                        </div>                                 
+                                        </div> 
+                                    </div> <br><br>                                     
                                     </section>                                   
                                 </form>
                             </div>

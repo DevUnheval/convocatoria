@@ -118,9 +118,8 @@ class ConvocatoriaController extends Controller
             $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
             $q->archivo_resolucion=$name;
             $q->save(); 
-        }
-            
-        return $q;
+        }   
+        return $r;
     }
 
     public function show($id)
@@ -145,8 +144,8 @@ class ConvocatoriaController extends Controller
         if($r->hay_bon_ffaa) $p->bon_ffaa="0.1";
         else  $p->bon_ffaa=0;
 
-        if($r->hay_bon_deport) $p->bon_deport="0.1";
-        else  $p->bon_deport=0;
+        // if($r->hay_bon_deport) $p->bon_deport="0.1";
+        // else  $p->bon_deport=0;
 
         $p->save();
                 
@@ -224,12 +223,9 @@ class ConvocatoriaController extends Controller
         $query->save();
     }
 
-    private function actualizar_estados_vigentes_y_enCruso(){
+    public function actualizar_estados_vigentes_y_enCruso(){
         $paraEnCurso=Proceso::where("estado","1")->where("fecha_inscripcion_fin","<",date('Y-m-d'))->get();
-        $paraEnvigentes = Proceso::where("estado","2")->where(function($query) {
-                                                                $query->where("fecha_inscripcion_fin",">",date('Y-m-d'))
-                                                                ->where("fecha_inscripcion_inicio",">",date('Y-m-d'));
-                                                        })->get();
+        $paraEnvigentes = Proceso::where("estado","2")->where("fecha_inscripcion_fin",">",date('Y-m-d'))->get();
         foreach($paraEnCurso as $pe){
             Proceso::where('id', $pe->id)    
                 ->update(["estado"=>"1"]);

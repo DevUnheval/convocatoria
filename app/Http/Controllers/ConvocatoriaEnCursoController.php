@@ -22,10 +22,12 @@ class ConvocatoriaEnCursoController extends Controller
             "iTotalDisplayRecords": "0",
             "aaData": []
         }';
+        $this->actualizar= app(\App\Http\Controllers\ConvocatoriaController::class);
+       
     }
 
     public function index(){
-
+        $this->actualizar->actualizar_estados_vigentes_y_enCruso();
         $datos = [
             'tipos_proc'=>TipoProceso::pluck('nombre','id'),
             'grado_formacion'=>GradoFormacion::pluck('nombre','id')
@@ -35,6 +37,7 @@ class ConvocatoriaEnCursoController extends Controller
 
     
     public function data(){
+        $this->actualizar->actualizar_estados_vigentes_y_enCruso();
         $query = Proceso::where("estado","2")->orderBy("id","desc")->get();
         if($query->count()<1)
         return $this->data_null;

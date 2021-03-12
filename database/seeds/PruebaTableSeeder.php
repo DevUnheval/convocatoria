@@ -92,8 +92,8 @@ class PruebaTableSeeder extends Seeder
             $query->hay_bon_pers_disc = true;
             $query->hay_bon_ffaa = true;
             $query->hay_bon_deport = false;
-            $query->anios_exp_lab_gen = '0.5';
-            $query->anios_exp_lab_esp = '0.5';
+            $query->dias_exp_lab_gen = '0.5';
+            $query->dias_exp_lab_esp = '0.5';
             $query->horas_cap_ind = '0.5';
             $query->fecha_aprobacion = '2021-05-11';
             $query->fecha_publicacion = '2021-06-12';
