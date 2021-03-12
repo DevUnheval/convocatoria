@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="m_contraseña" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
         <div class="modal-header bg-success">
             <h5 class="modal-title modal-colored-header bg-success" >Modificar Contraseña</h5>

@@ -128,13 +128,13 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset(Auth::user()->img)}}" alt="user" width="30" class="profile-pic rounded-circle" />
+                                <img id='img_material' src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" width="30" height="30" class="profile-pic rounded-circle" />
                             </a>
                             <div class="dropdown-menu mailbox dropdown-menu-right scale-up">
                                 <ul class="dropdown-user list-style-none">
                                     <li>
                                         <div class="dw-user-box p-3 d-flex">
-                                            <div class="u-img"><img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded" width="80"></div>
+                                            <div class="u-img"><img id="img_material_peque" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded" width="80" height="80"></div>
                                             <div class="u-text ml-2">
                                                 <h4 class="mb-0">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                                 <p class="text-muted mb-1 font-14">{{auth()->user()->email}}</p>

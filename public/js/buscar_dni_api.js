@@ -11,7 +11,7 @@
                 form.classList.add('was-validated');
                 $('#form_registrar').removeClass('form-material');
             }else{
-                               
+                $('#loading-screen').fadeIn();             
             }
         
             

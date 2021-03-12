@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class PerfilController extends Controller
 {
@@ -63,6 +64,24 @@ class PerfilController extends Controller
                 return false;
             }
        
+    }
+
+    public function update_fotografia(Request $data){
+        $user = User::find(auth()->user()->id);
+               
+       //archivo DNI
+       if($user->img == '/imagenes/users/user.png'){
+        $user->img = $data->file('foto')->store('public/procesos/foto_users');
+        $user->save();
+        
+       }else{
+        Storage::delete($user->img); //eliminar archivo ya cargado
+        $user->img = $data->file('foto')->store('public/procesos/foto_users');
+        $user->save();
+        
+       }
+        
+       return $user->img;
     }
   
     
