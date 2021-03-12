@@ -21,7 +21,7 @@
          </div>
          </form>
          <div class="modal-footer">
-            <button class="btn btn-block btn-success" id="guardar_nuevo">Guardar cambios</button>
+            <button class="btn btn-block btn-success" id="guardar_nuevo">Guardar</button>
          </div>
      </div><!-- /.modal-content -->
  </div><!-- /.modal-dialog -->
