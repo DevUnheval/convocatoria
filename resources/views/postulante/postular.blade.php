@@ -24,13 +24,15 @@
 </div>
 @endsection
 
+@section('menu_title_1',$proceso->cod.' '.$proceso->nombre)
+@section('menu_title_2','Postular')
+
+
 @section('content')
 
-
-
-@include('postulante.modalformacion')
-@include('postulante.modalnuevacapacitacion')
-@include('postulante.modalnuevaexperiencia')
+    @include('postulante.modalformacion')
+    @include('postulante.modalnuevacapacitacion')
+    @include('postulante.modalnuevaexperiencia')
 
 
 <div class="col-12">

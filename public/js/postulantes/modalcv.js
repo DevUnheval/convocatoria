@@ -53,15 +53,17 @@ function mostrar_modalcv(idpostulante,iduser){
     type: "GET" ,
     datatype: "json",
     success:function(data){ 
+
       //console.log(data);
       var esdisc = "";
       var esffaa = "";
       var esdep = "";
+      $("#ruta_cv_postulante").attr("href","/reportes/cv/"+idpostulante)
       if(data.quser!=null){
       $('#postulante').html(data.quser.apellido_paterno+" "+data.quser.apellido_materno+", "+data.quser.nombres);
         $('#apellidosynombres').html(data.quser.apellido_paterno+" "+data.quser.apellido_materno+", "+data.quser.nombres);
         $('#dni').html(data.quser.dni);
-        $('#dnicab').html(data.quser.dni);
+        $('#dnicab').html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "+data.quser.dni);
         $('#email').html(data.quser.email);
     }else{
         $('#postulante').html("");

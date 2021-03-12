@@ -269,7 +269,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                     <h1 class="text-themecolor mb-0" style="font-size:20px"> @yield('menu_title_1')</h1>
                     <ol class="breadcrumb mb-0 p-0 bg-transparent">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">@yield('menu_title_2')</li>
+                        <li class="breadcrumb-item ">@yield('menu_title_2')</li>
                     </ol>
                 </div>
                 <div class="col-md-7 col-12 align-self-center d-none d-md-block">

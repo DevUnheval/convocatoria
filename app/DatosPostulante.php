@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Ubigeo;
 class DatosPostulante extends Model
 {
     protected $table = 'datos_postulantes';
@@ -19,4 +19,13 @@ class DatosPostulante extends Model
     public function postulante() {
 		return $this->belongsTo(Postulante::class);
 	}
+    public function desc_ubigeo_nac()
+    {
+        return $this->belongsTo(Ubigeo::class, 'cod_ubigeo_reniec', 'ubigeo_nacimiento');
+    }
+    // public function desc_ubigeo_reniec($ubigeo_id){
+    //     return $ubigeo_id = Ubigeo::where("cod_ubigeo_reniec", $ubigeo_id)->first();
+
+    //     //return $ubigeo->desc_ubigeo_reniec." - ".$ubigeo->desc_prov_reniec." - ".$ubigeo->desc_dep_reniec;
+    // }
 }

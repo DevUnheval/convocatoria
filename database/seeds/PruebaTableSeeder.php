@@ -55,7 +55,7 @@ class PruebaTableSeeder extends Seeder
             $query->nombres=$u['nombres'];
             $query->apellido_paterno=$u['apellido_paterno'];
             $query->apellido_materno=$u['apellido_materno'];
-            $query->email= $u['apellido_materno'];
+            $query->email= $u['email'];
             $query->email_verified_at= date("Y-m-d");
             $query->password=bcrypt($u['dni']);
             $query->save();
