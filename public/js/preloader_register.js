@@ -1,11 +1,13 @@
 /*
  $(document).ready(function(){
-   var screen = $('#loading-screen');
+  
+    var screen = $('#loading-screen');
     configureLoadingScreen(screen);
 
  });
 
-function configureLoadingScreen(screen){
+
+ function configureLoadingScreen(screen){
     $(document)
         .ajaxStart(function () {
             screen.fadeIn();
@@ -14,5 +16,4 @@ function configureLoadingScreen(screen){
         .ajaxStop(function () {
             screen.fadeOut();
         });
-}
-*/
+}*/

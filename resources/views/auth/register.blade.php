@@ -13,6 +13,7 @@
     <title>Registro</title>
     <!-- Custom CSS -->
     <link href="{{ asset('/material-pro/dist/css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/preloader.css')}}" rel="stylesheet" type="text/css">
     <style>
         .mayuscula{
             text-transform: uppercase;
@@ -22,6 +23,14 @@
 </head>
 
 <body>
+
+    <div id="loading-screen" style="display: none">
+    
+        <img src="{{ asset('/imagenes/preloader/spinning-circles.svg')}}" >
+        <h4 id="text_cargando">Cargando</h4>
+        
+    </div>
+
 <div class="main-wrapper ">
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
@@ -89,7 +98,7 @@
                                             @csrf
                                             <div class="form-group mb-3">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="text" required id="dni" name="dni" placeholder="DNI" value="{{old('dni')}}" >
+                                                    <input class="form-control" type="text" required id="dni" name="dni" placeholder="DNI/Carné de extranjería" value="{{old('dni')}}" >
                                                     <div class="invalid-feedback">
                                                         Complete este campo
                                                     </div>
@@ -232,6 +241,7 @@
     });
     </script>============================================================== -->
     <script src="{{ asset('/js/buscar_dni_api.js')}}"></script>
+    
     
 </body>
 

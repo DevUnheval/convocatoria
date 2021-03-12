@@ -24,6 +24,7 @@
     @include('postulante.modalformacion')
     @include('postulante.modalnuevacapacitacion')
     @include('postulante.modalnuevaexperiencia')
+    @include('auth.m_fotografia')
         
 <div class="container-fluid">
                 <!-- ============================================================== -->
@@ -40,24 +41,21 @@
                        <div class="col-lg col-xlg col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
+                                <center class="mt-4">
+                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" height="150" width="150">
+                                    <div class="card-body align-content-center">
+                                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
+                                            data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
+                                        
+                                    </div>
                                     <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                     @foreach(auth()->user()->roles as $rol)
                                     <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
                                     @endforeach
-                                    <!-- <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
-                                    </div> -->
+                                    
                                 </center>
                             </div>
                             
-                            <div class="card-body align-content-center">
-                                <center>
-                                <small class="text-muted align-content-center">Subir Fotografía</small> 
-                                <small class="form-group"> <input class="material-inputs" type="file" > </small>
-                                </center>
-                            </div>
                                  
                                 <center>
                                 <div class="card-body"> 
@@ -83,26 +81,24 @@
                     <div class="col-lg col-xlg col-md">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4"> <img src="{{ asset(Auth::user()->img)}}" alt="user" class="rounded-circle" width="150">
+                                <center class="mt-4">
+                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" width="150" height="150">
+                                    <div class="card-body align-content-center">
+                                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
+                                            data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
+                                        
+                                    </div>
                                     <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                     @foreach(auth()->user()->roles as $rol)
                                     <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
                                     @endforeach
-                                    <!-- <div class="row text-center justify-content-md-center">
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-people"></i> <font class="font-medium">254</font></a></div>
-                                        <div class="col-4"><a href="javascript:void(0)" class="link"><i class="icon-picture"></i> <font class="font-medium">54</font></a></div>
-                                    </div> -->
+                                    
                                 </center>
                             </div>
-                            <center>
-                            <div class="card-body align-content-center">
-                                <small class="text-muted align-content-center">Subir Fotografía</small> 
-                                <small class="form-group"> <input class="material-inputs" type="file" > </small>
-                            </div>
-                            </center>
+                            
                               <center>   
                                 <div class="card-body"> 
-                                    <hr>
+                                    
                                     <small class="text-muted">DNI</small> 
                                         <h6>{{auth()->user()->dni}}</h6> 
                                     
@@ -110,8 +106,8 @@
                                         <h6>{{auth()->user()->email}}</h6>  
                                     
                                     <hr> 
-                                    <button id="btn_update_password" type="button" class="btn btn-info" data-toggle="modal" data-target="#m_contraseña"
-                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña">Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></button>
+                                    <button id="btn_update_password" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_contraseña"
+                                    data-placement="bottom" title="" data-original-title="Modificar Contaseña"><small>Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></small></button>
                                 
                             </div>
                               </center>
@@ -521,5 +517,6 @@
     <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script>
     <script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
+    <script src="{{ asset('/js/update_fotografia.js')}}"></script>
 {{-- Ajustes de vista --}}
 @endsection
