@@ -263,9 +263,9 @@ class PostulanteController extends Controller
             return $query;
         }
     public function experiencias_data1(Request $data){
-        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
         //$query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-       $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+       $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
        
        if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
@@ -282,7 +282,7 @@ class PostulanteController extends Controller
             }
     
     public function experiencias_data1_perfil(Request $data){
-        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
        
                 return compact('query'); //REVISAR CÓDIGO DESPUÉS de PERFIL
@@ -553,8 +553,8 @@ class PostulanteController extends Controller
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
         $proceso = Proceso::where('id',$data->idproceso)->get();
-        $min_expgen = $proceso[0]->anios_exp_lab_gen;
-        $min_expesp = $proceso[0]->anios_exp_lab_esp;
+        $min_expgen = $proceso[0]->dias_exp_lab_gen;
+        $min_expesp = $proceso[0]->dias_exp_lab_esp;
 
        return compact('suma_expgen','suma_expesp','min_expgen','min_expesp');
        
@@ -666,7 +666,7 @@ class PostulanteController extends Controller
          }
      
          //Almacenar experiencias de usuario a postulante CORREGIDO CON FILTRO DE PRACTICAS PRE Y PRO FESIONALES
-         $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','anios_exp_lab_gen','anios_exp_lab_esp')->where('id',$data->idproceso)->get();
+         $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
          if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
             $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->get();
            }else if($proceso[0]->consid_prac_preprof == 1){

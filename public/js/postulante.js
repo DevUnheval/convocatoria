@@ -253,8 +253,8 @@ $(document).ready(function() {
     
     $('#zeroconfig3_body').append(tabla3);
     
-    $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_gen)));
-    $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_esp)));
+    $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].dias_exp_lab_gen)));
+    $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].dias_exp_lab_esp)));
     
     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
