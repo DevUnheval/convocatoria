@@ -31,11 +31,11 @@
 
 @section('contenido')
 <br>
-<h3 style="text-align:center; margin:0;padding:0; color:#033067;"> HOJA DE VIDA </h3>
+<h3 style="text-align:center; margin:0;padding:0; color:#033067;"> CURRICULUM VITAE  </h3>
 <br>
 <!-- Resumen -->
 <div align="center">
-<img src="{{asset('imagenes/ajustes/logo.png')}}"  style="max-width:200px; border-style: ridge;">
+<img src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}"  style="max-width:150px;">
 </div>
 <br>
 
@@ -111,6 +111,9 @@
         <th class="cv-tabla-th">Fecha Expedición</th>        
     </tr>
     @foreach($postulante->formacion_postulante as $key => $formacion)
+      @php 
+        //if(!$formacion->estado) continue;
+      @endphp
     <tr>
         <td class="cv-tabla-td">{{$formacion->gradoformacion->nombre}}</td>
         <td class="cv-tabla-td">{{$formacion->especialidad}}</td>
@@ -234,6 +237,10 @@
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</td>
+        <td align="center">NO</td>
+    </tr>
+    <tr>
+        <td class="cv-tabla-td-dj" colspan="3"  >9. Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</td>
         <td align="center">NO</td>
     </tr>
   </tbody>                                            
