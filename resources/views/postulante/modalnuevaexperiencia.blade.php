@@ -105,7 +105,7 @@
                                         <div class="col-md-7">
                                             <div class="form-group">
                                                 <label for="documento_exp">Documento sustento: <span class="text-danger"> *</span> </label>
-                                                <input type="file" class="form-control required" id="documento_exp" name="documento_exp" > 
+                                                <input type="file" class="form-control required" id="documento_exp"  name="documento_exp" accept="application/pdf" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-5">

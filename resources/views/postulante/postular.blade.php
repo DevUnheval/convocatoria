@@ -156,7 +156,7 @@
                                     <input type="text" class="form-control" value="" id="telefono_fijo" name="telefono_fijo"> </div>
                             </div>  
                         </div>
-                        <hr>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -171,15 +171,21 @@
                                 </div>
                             </div>  
                         </div>
+                        <hr>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md">
                                 <div class="card border-info border">
                                     <div class="card-header bg-success">
                                         <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
                                     </div>
-                                    <div class="card-body"> 
-                                        <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf"> 
+                                    <div class="row">
+                                        <div class="m-4 col-md-6"> 
+                                        <input type="file" class="material-inputs form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf"> 
                                         <input type="hidden" id="input_hide_dni" value="0">                                                 
+                                        </div>
+                                        <div class="col-md-6"> 
+                                            <span id="btn_doc_dni" class=""></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -426,8 +432,8 @@
                                     
                                     <th>Nombre Entidad</th>
                                     <th>Cargo<br></th>
-                                    <th>Fecha Inicio</th>
-                                    <th>Fecha Fin</th>
+                                    <th>Fecha Inicio/Fin <br><small>(Año-Mes-Dia)</small></th>
+                                    
                                     <th>Tiempo Exper.</th>
                                     <th>Acciones</th>
                                     
@@ -553,17 +559,17 @@
                 <section>
                     <div class="row">
                         <div class="col-md-12 justify-content-center">
-                            <h3 class="text-center"><strong> FORMATO DE HOJA DE VIDA</strong></h3>
+                            <h3 class="text-center"><strong> RESUMEN DE POSTULACIÓN</strong></h3>
                         </div>
                     </div>
                     <!-- Inicio  Acordion---------->
-                    <div class="card col-md-10 offset-1">                        
+                    <div class="card col-md">                        
                         <div class="row">
                             <div class="card-body form-row ">                                    
-                                <div class="col-2 border form-group alert-warning">
-                                    <img src="{{ asset(Auth::user()->img)}}" alt="user" width="80">
+                                <div class="col-3 border form-group alert-warning">
+                                    <center><img src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" width="120" height="120"></center>
                                 </div>
-                                <div class="col-5 border form-group alert-warning">
+                                <div class="col-4 border form-group alert-warning">
                                     <small class="text-center text-dark-info font-weight-bold "><strong>ESTAS POSTULANDO AL PROCESO: </strong></small> <br>{{$proceso->cod}}                                                
                                     <br>
                                     <small><strong  class="text-dark-info font-weight-bold">N° Plazas = </strong> </small><br>{{$proceso->n_plazas}}

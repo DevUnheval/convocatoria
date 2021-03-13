@@ -8,7 +8,7 @@ class DatosPostulante extends Model
 {
     protected $table = 'datos_postulantes';
 	protected $primaryKey = 'id';
-    protected $fillable = ['postulante_id','archivo_dni','archivo_dni_tipo','telefono_celular','telefono_fijo','ruc',
+    protected $fillable = ['postulante_id','archivo_foto','archivo_dni','archivo_dni_tipo','telefono_celular','telefono_fijo','ruc',
                             'domicilio','ubigeo_domicilio','fecha_nacimiento','ubigeo_nacimiento','nacionalidad','es_pers_disc','archivo_disc','archivo_disc_tipo',
                             'es_lic_ffaa','archivo_ffaa','archivo_ffaa_tipo','es_deportista','archivo_deport',
                             'archivo_deport_tipo','es_otros1','archivo_otro','archivo_otro_tipo','es_otros2',

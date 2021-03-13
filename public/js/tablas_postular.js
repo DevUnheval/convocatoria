@@ -490,8 +490,8 @@ $('#loading-screen').fadeIn(); //PRELOADER INICIO
             
             "<td>"+data.query.centro_laboral+"</td>"+
             "<td>"+data.query.cargo_funcion+"</td>"+
-            "<td>"+data.query.fecha_inicio+"</td>"+
-            "<td>"+data.query.fecha_fin+"</td>"+
+            "<td>"+data.query.fecha_inicio+"<br>"+data.query.fecha_fin+"</td>"+
+           // "<td>"+data.query.fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data.query.dias_exp_gen))+"</td>"+
             "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "<button type='button' onclick=\"editar_expe('tblexp"+data.query.id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+
@@ -627,8 +627,8 @@ function actualizar_experiencia_data(transid){
             
             "<td>"+data.query[0].centro_laboral+"</td>"+
             "<td>"+data.query[0].cargo_funcion+"</td>"+
-            "<td>"+data.query[0].fecha_inicio+"</td>"+
-            "<td>"+data.query[0].fecha_fin+"</td>"+
+            "<td>"+data.query[0].fecha_inicio+"<br>"+data.query[0].fecha_fin+"</td>"+
+           // "<td>"+data.query[0].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data.query[0].dias_exp_gen))+"</td>"+
             "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "   <button type='button' onclick=\"editar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-warning' data-toggle=\"modal\" ><i class=\"fas fa-edit\"></i></button>"+

@@ -1,3 +1,67 @@
+function validar_form(idbtn){
+    
+    var valor_validacion=0;
+   // console.log(dias_gen+" "+dias_esp+" "+idbtn);
+
+    if($('#'+idbtn).hasClass('ti-layout-width-full')){
+         
+         $('#'+idbtn).removeClass('ti-layout-width-full');
+         $('#'+idbtn).addClass('fa fa-check');
+         valor_validacion= 1;
+
+    }else if($('#'+idbtn).hasClass('fa fa-check')){
+
+        $('#'+idbtn).removeClass('fa fa-check');
+        $('#'+idbtn).addClass('ti-layout-width-full');
+        valor_validacion= 0;
+    }
+    
+    var idform = idbtn.substring(4);
+    $.ajax({
+       // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulantes/datosuserform/"+idform+"/"+valor_validacion+"/guardar_validacion",
+        type: "GET",
+        datatype: "json",
+        success:function(data){
+           // console.log("validación guardada");
+        },error:function(data){
+            console.log("validación error form");
+        } 
+    })
+}
+
+function validar_capa(idbtn){
+    
+    var valor_validacion=0;
+   // console.log(dias_gen+" "+dias_esp+" "+idbtn);
+
+    if($('#'+idbtn).hasClass('ti-layout-width-full')){
+         
+         $('#'+idbtn).removeClass('ti-layout-width-full');
+         $('#'+idbtn).addClass('fa fa-check');
+         valor_validacion= 1;
+
+    }else if($('#'+idbtn).hasClass('fa fa-check')){
+
+        $('#'+idbtn).removeClass('fa fa-check');
+        $('#'+idbtn).addClass('ti-layout-width-full');
+        valor_validacion= 0;
+    }
+    
+    var idcapa = idbtn.substring(4);
+    $.ajax({
+       // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulantes/datosusercapa/"+idcapa+"/"+valor_validacion+"/guardar_validacion",
+        type: "GET",
+        datatype: "json",
+        success:function(data){
+           // console.log("validación guardada");
+        },error:function(data){
+            console.log("validación error capa");
+        } 
+    })
+}
+
 function validar_exp(idbtn,dias_gen,dias_esp){
     var totaldias_gen=parseInt($('#hidden_expgen_t').val());
     var totaldias_esp=parseInt($('#hidden_expesp_t').val());
@@ -28,7 +92,7 @@ function validar_exp(idbtn,dias_gen,dias_esp){
 
     $.ajax({
        // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: "/postulantes/datosuser/"+idbtn+"/"+valor_validacion+"/guardar_validacion",
+        url: "/postulantes/datosuserexp/"+idbtn+"/"+valor_validacion+"/guardar_validacion",
         type: "GET",
         datatype: "json",
         success:function(data){
@@ -65,6 +129,7 @@ function mostrar_modalcv(idpostulante,iduser){
         $('#dni').html(data.quser.dni);
         $('#dnicab').html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "+data.quser.dni);
         $('#email').html(data.quser.email);
+        
     }else{
         $('#postulante').html("");
         $('#apellidosynombres').html("");
@@ -74,12 +139,19 @@ function mostrar_modalcv(idpostulante,iduser){
     }
     
     if(data.qdatos!=null){
+        if(data.qdatos.archivo_foto != null){
+            var src = data.qdatos.archivo_foto.replace('public/','/storage/');
+            $('#foto_perfil').prop('src',src);
+        }else{
+            $('#foto_perfil').prop("src", asset+"/imagenes/users/user.png"); // asset esta declarado en la vista index de postulantes
+        }
+ 
        $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
              $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
        $('#res_ruc').html(data.qdatos.ruc);
        $('#res_celular').html(data.qdatos.telefono_celular);
-       $('#res_direccion').html(data.qdatos.domicilio);
-             $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
+       $('#res_nacionalidad').html(data.nacionalidad);
+           
        //_______________________TRANSFORMAR UBIGEOS_________________________
        if(data.nacionalidad == "Peruano(a)"){
                 
@@ -100,7 +172,8 @@ function mostrar_modalcv(idpostulante,iduser){
     }
 
        //_______________________FIN TRANSFORMAR UBIGEOS_________________________
-       
+       $('#res_direccion').html(data.qdatos.domicilio+" ("+html_dom+")");   
+
      //_______________________discap ffaa deportista_________________________
        if(data.qdatos.es_pers_disc == 1){
         esdisc= "SI";
@@ -139,6 +212,7 @@ function mostrar_modalcv(idpostulante,iduser){
         $('#res_disc').html("");
        $('#res_ffaa').html("");
        $('#res_depor').html("");
+       $('#foto_perfil').prop("src", asset+"/imagenes/users/user.png");
     }
         //llenar formacion
         if(data.qform[0]!=null){  
@@ -149,6 +223,14 @@ function mostrar_modalcv(idpostulante,iduser){
             if(data.qform[i].archivo != null){
                 href_form = data.qform[i].archivo.replace('public/','/storage/');
             }
+
+            var icono = 0;
+            if(data.qform[i].validacion == 0){
+            icono = "ti-layout-width-full";
+            }else if(data.qform[i].validacion == 1){
+            icono = "fa fa-check";
+            }
+
             html_resform += "<tr>"+
             "<td>"+data.qform[i].nombre+"</td>"+
             "<td>"+data.qform[i].especialidad+"</td>"+
@@ -156,6 +238,9 @@ function mostrar_modalcv(idpostulante,iduser){
             "<td>"+data.qform[i].fecha_expedicion+"</td>"+
             "<td><a href='"+href_form+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
              "</td>"+
+             "<td class='alert-info border-black'><div  >"+
+             "<button type='button' onclick=\"validar_form('form"+data.qform[i].id+"')\" class='btn'><i id='form"+data.qform[i].id+"' class=\""+icono+"\"></i></button>"+
+             "</div></td>"+
             "</tr>";
         }
         $('#tbl_cv2').html(html_resform);
@@ -184,6 +269,14 @@ function mostrar_modalcv(idpostulante,iduser){
              if(data.qcapa[i].archivo != null){
                  href_form_ca = data.qcapa[i].archivo.replace('public/','/storage/');
              }
+
+            var icono = 0;
+            if(data.qcapa[i].validacion == 0){
+            icono = "ti-layout-width-full";
+            }else if(data.qcapa[i].validacion == 1){
+            icono = "fa fa-check";
+            }
+
              html_rescap += "<tr>"+
              "<td>"+tipoestudio+"</td>"+
              "<td>"+data.qcapa[i].especialidad+"</td>"+
@@ -191,6 +284,9 @@ function mostrar_modalcv(idpostulante,iduser){
              "<td>"+data.qcapa[i].cantidad_horas+"</td>"+
              "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
              "</td>"+
+             "<td class='alert-info border-black'><div  >"+
+             "<button type='button' onclick=\"validar_capa('capa"+data.qcapa[i].id+"')\" class='btn'><i id='capa"+data.qcapa[i].id+"' class=\""+icono+"\"></i></button>"+
+             "</div></td>"+
              "</tr>";
              }
              
@@ -245,16 +341,13 @@ function mostrar_modalcv(idpostulante,iduser){
         "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
         "<td>"+data.qexp[i].centro_laboral+"</td>"+
         "<td>"+data.qexp[i].cargo_funcion+"</td>"+
-        "<td>"+data.qexp[i].fecha_inicio+"</td>"+
-        "<td>"+data.qexp[i].fecha_fin+"</td>"+
+        "<td>"+data.qexp[i].fecha_inicio+"<br>"+data.qexp[i].fecha_fin+"</td>"+
+        "<td>"+data.qexp[i].desc_cargo_funcion+"</td>"+
         "<td>"+anios_meses_dias(parseInt(data.qexp[i].dias_exp_gen))+"</td>"+
         "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-outline-info' type='button'><i class=\"fas fa-download\"></i></a>"+
         "</td>"+
         "<td class='alert-info border-black'><div  >"+
-        //"<input style=\"width: 20px; height: 20px\" id=\"check_dj"+i+"\" name=\"check_dj\" value=\"1\" type=\"checkbox\" />"+
         "<button type='button' onclick=\"validar_exp("+data.qexp[i].id+","+data.qexp[i].dias_exp_gen+","+data.qexp[i].dias_exp_esp+")\" class='btn'><i id='"+data.qexp[i].id+"' class=\""+icono+"\"></i></button>"+
-        //"<button type='button' onclick='validar_exp()' class='btn bg-white-box'><i class=\"ti-layout-width-full\"></i></button>"+
-        //"<button class='btn-outline '><i class=\"\"></i></button>"+far fa-square - ti-layout-width-full - fas fa-check
         "</div></td>"+
         "</tr>";
     }

@@ -15,18 +15,20 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row" class="alert alert-secondary">Apellidos y Nombres</th>
-                                                    <td colspan="3">{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}}, {{auth()->user()->nombres}}</td>
-                                                </tr>
-                                                <tr>
+                                                    <td >{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}}, {{auth()->user()->nombres}}</td>
                                                     <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
                                                     <td>{{auth()->user()->dni}}</td>
-                                                    <th scope="row" class="alert alert-secondary">RUC:</th>
-                                                    <td id="res_ruc"></td>
                                                 </tr>
                                                 <tr>
+                                                    <th scope="row" class="alert alert-secondary">RUC:</th>
+                                                    <td id="res_ruc"></td>
                                                     <th scope="row" class="alert alert-secondary">Fecha de Nacimiento</th>
                                                     <td id="res_fecha_nac"></td>
-                                                    <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="alert alert-secondary">Nacionalidad</th>
+                                                    <td id="res_nacionalidad"></td>
+                                                    <th scope="row" class="alert alert-secondary">Lugar de Nacimiento:</th>
                                                     <td id="res_ubigeo_nac"></td>
                                                 </tr>
                                                 <tr>
@@ -37,9 +39,9 @@
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" class="alert alert-secondary">Dirección Actual </th>
-                                                    <td id="res_direccion"></td>
-                                                    <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
-                                                    <td id="res_ubigeo_direc"></td>
+                                                    <td colspan="3" id="res_direccion"></td>
+                                                    
+                                                    
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" colspan="4" class=""></th>

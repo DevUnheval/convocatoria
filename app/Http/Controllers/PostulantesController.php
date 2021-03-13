@@ -353,37 +353,51 @@ class PostulantesController extends Controller
     
     //______________________________fin ubigeo_______________________________________________________
     //Experiencia
-    $qexp = ExperienciaLabPostulante::select('id','validacion','tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
+    $qexp = ExperienciaLabPostulante::select('id','desc_cargo_funcion','validacion','tipo_experiencia','es_exp_gen','es_exp_esp','centro_laboral','cargo_funcion','fecha_inicio','fecha_fin','dias_exp_gen','dias_exp_esp','archivo')
     ->where('postulante_id',$postulanteid)->get();
 
     //CApacitaciones
-    $qcapa= CapacitacionPostulante::select('es_curso_espec','es_ofimatica','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
+    $qcapa= CapacitacionPostulante::select('id','validacion','es_curso_espec','es_ofimatica','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
     ->where('postulante_id',$postulanteid)->get();
     
     //Datospersonales
-    $qdatos =DatosPostulante::select('archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
+    $qdatos = DatosPostulante::select('archivo_foto','archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
     ->where('postulante_id',$postulanteid)->first();
     
     //Datos usuario
-    $quser = User::select('dni','nombres','apellido_paterno','apellido_materno','email')
+    $quser = User::select('dni','nombres','apellido_paterno','apellido_materno','email','img')
     ->where('id',$userid)->first();
     
-    //Formacion
+    //Formacion 
     $qform = FormacionPostulante::join("grado_formacions", "grado_formacions.id", "=", "formacion_postulantes.grado_id")
-    ->select("formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
+    ->select("formacion_postulantes.id","formacion_postulantes.validacion","formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
     ->where("formacion_postulantes.postulante_id",$postulanteid)->get();
     $proceso = Postulante::find($postulanteid)->proceso;
     return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
 
     }
 
-    public function guardar_validacion($idexp,$valor_validacion){
+    public function guardar_validacion_exp($idexp,$valor_validacion){
         
         $val = ExperienciaLabPostulante::find($idexp);
         $val->validacion = $valor_validacion;
         $val->save();
         return "validacion ok";
     } 
+    public function guardar_validacion_capa($idcapa,$valor_validacion){
+        
+        $val = CapacitacionPostulante::find($idcapa);
+        $val->validacion = $valor_validacion;
+        $val->save();
+        return "validacion ok";
+    } 
 
+    public function guardar_validacion_form($idcapa,$valor_validacion){
+        
+        $val = FormacionPostulante::find($idcapa);
+        $val->validacion = $valor_validacion;
+        $val->save();
+        return "validacion ok";
+    } 
 
 }

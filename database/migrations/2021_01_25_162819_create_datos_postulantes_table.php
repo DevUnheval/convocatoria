@@ -21,6 +21,8 @@ class CreateDatosPostulantesTable extends Migration
             $table->string('archivo_dni');
             $table->string('archivo_dni_tipo');
 
+            $table->string('archivo_foto')->nullable();
+
             //contacto
             $table->string('telefono_celular')->nullable();
             $table->string('telefono_fijo')->nullable();

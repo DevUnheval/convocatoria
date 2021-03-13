@@ -28,6 +28,7 @@ class CreateFormacionPostulantesTable extends Migration
             $table->string('pais');
             $table->string('archivo');
             $table->string('archivo_tipo');
+            $table->boolean('validacion')->default(false);
             $table->timestamps();
         });
     }

@@ -34,6 +34,7 @@ class CreateCapacitacionPostulantesTable extends Migration
             $table->integer('cantidad_horas');
             //Nivel.-si es idiomas o ofimatica
             $table->string('nivel')->nullable(); //básico,intermedio, avanzado
+            $table->boolean('validacion')->default(false);
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@
                         <!-- Tabs -->
                         <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true"><strong> POSTULANTE</strong></a>
+                                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true"><strong> DATOS PERSONALES</strong></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#last-month" role="tab" aria-controls="pills-profile" aria-selected="false"><strong>FORMACIÓN ACADÉMICA</strong></a>
@@ -51,19 +51,25 @@
                                             <table class="table table-bordered">
                                                 <tbody>
                                                     <tr>
-                                                        <th scope="row" class="alert alert-secondary">Apellidos y Nombres</th>
-                                                        <td colspan="3" id="apellidosynombres"></td>
+                                                        <td rowspan="6"><center><br><img id="foto_perfil" src="{{asset('/imagenes/users/user.png')}}" alt="usuario" class="rounded-circle" width="150" height="150"></center></td>
                                                     </tr>
+                                                    
                                                     <tr>
+                                                        <th scope="row" class="alert alert-secondary">Apellidos y Nombres</th>
+                                                        <td id="apellidosynombres"></td>
                                                         <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
                                                         <td id="dni"></td>
-                                                        <th scope="row" class="alert alert-secondary">RUC:</th>
-                                                        <td id="res_ruc"></td>
                                                     </tr>
                                                     <tr>
+                                                        <th scope="row" class="alert alert-secondary">RUC:</th>
+                                                        <td id="res_ruc"></td>
                                                         <th scope="row" class="alert alert-secondary">Fecha de Nacimiento</th>
                                                         <td id="res_fecha_nac"></td>
-                                                        <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" class="alert alert-secondary">Nacionalidad:</th>
+                                                        <td id="res_nacionalidad"></td>
+                                                        <th scope="row" class="alert alert-secondary">Lugar de Nacimiento:</th>
                                                         <td id="res_ubigeo_nac"></td>
                                                     </tr>
                                                     <tr>
@@ -74,24 +80,24 @@
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" class="alert alert-secondary">Dirección Actual </th>
-                                                        <td id="res_direccion"></td>
-                                                        <th scope="row" class="alert alert-secondary">Dist.-Prov.-Dep:</th>
-                                                        <td id="res_ubigeo_direc"></td>
+                                                        <td colspan="3" id="res_direccion"></td>
+                                                        
+                                                        
                                                     </tr>
                                                     <tr>
-                                                        <th scope="row" colspan="4" class=""></th>
+                                                        <th scope="row" colspan="5" class=""></th>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" colspan="3" class="alert alert-secondary">¿Cuenta con certificado de discapacidad y/o registro en CONADIS? (Ley N° 29973) </th>
-                                                        <td id="res_disc"></td>
+                                                        <td colspan="2" id="res_disc"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" colspan="3" class="alert alert-secondary">¿Es licenciado de las FFAA ? (Ley Nº 29248) </th>
-                                                        <td id="res_ffaa"></td>
+                                                        <td colspan="2" id="res_ffaa"></td>
                                                     </tr>
                                                     <tr>
                                                         <th scope="row" colspan="3" class="alert alert-secondary">¿Es deportista calificado? </th>
-                                                        <td id="res_depor"></td>
+                                                        <td colspan="2" id="res_depor"></td>
                                                     </tr>
                                                 </tbody>
                                             </table> 
@@ -115,7 +121,7 @@
                                                             <th>Centro de Estudios</th>
                                                             <th>Fecha Expedición</th>
                                                             <th>Ver documento</th>
-                                                            
+                                                            <th>Validar</th>
                                                             
                                                             
                                                         </tr>
@@ -150,6 +156,7 @@
                                                         <th>Institución</th>
                                                         <th>Horas lectivas<br></th>
                                                         <th>Ver documento</th>
+                                                        <th>Validar</th>
                                                         
                                                     </tr>
                                                 </thead>
@@ -197,8 +204,8 @@
                                                         
                                                         <th>Nombre Entidad</th>
                                                         <th>Cargo<br></th>
-                                                        <th>Fecha Inicio<br><small>(Año-Mes-Dia)</small></th>
-                                                        <th>Fecha Fin<br><small>(Año-Mes-Dia)</small></th>
+                                                        <th>Fecha Inicio/Fin<br><small>(Año-Mes-Dia)</small></th>
+                                                        <th>Funciones<br></th>
                                                         <th>Tiempo Exper.</th>
                                                         <th>Ver</th>
                                                         <th>Validar</th>

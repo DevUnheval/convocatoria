@@ -149,7 +149,9 @@ Route::group(['prefix' => 'postulante'], function(){
         Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion');
         Route::get('datosuser/cargar_cv/{postulanteid}/{userid}', 'PostulantesController@cargar_cv')->name('cargar_cv');        
-        Route::get('datosuser/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion')->name('guardar_validacion');
+        Route::get('datosuserexp/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_exp')->name('guardar_validacion_exp');
+        Route::get('datosusercapa/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_capa')->name('guardar_validacion_capa');
+        Route::get('datosuserform/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_form')->name('guardar_validacion_form');
     });
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){

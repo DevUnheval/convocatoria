@@ -61,7 +61,7 @@ $(document).ready(function() {
    
             if(data[0].archivo_dni != null){
              href_dni=data[0].archivo_dni.replace("public/", '/storage/');
-             var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+             var htmldni = "<a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                 $('#btn_doc_dni').html(htmldni);
                 $('#input_hide_dni').val('1');
             }
@@ -241,8 +241,8 @@ $(document).ready(function() {
             
             "<td>"+data3.query[i].centro_laboral+"</td>"+
             "<td>"+data3.query[i].cargo_funcion+"</td>"+
-            "<td>"+data3.query[i].fecha_inicio+"</td>"+
-            "<td>"+data3.query[i].fecha_fin+"</td>"+
+            "<td>"+data3.query[i].fecha_inicio+"<br>"+data3.query[i].fecha_fin+"</td>"+
+            //"<td>"+data3.query[i].fecha_fin+"</td>"+
             "<td>"+anios_meses_dias(parseInt(data3.query[i].dias_exp_gen))+"</td>"+
             "<td><a href='"+href_exp_ll+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
             "    <button type='button' onclick=\"editar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
@@ -376,7 +376,7 @@ $(document).ready(function() {
                             idproceso:$('#datospostulante').data('id')
                          },
                         success:function(data){
-                            
+                           // console.log('aqui= ',data);
                         var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
                         $(location).attr('href',url);
                         }
@@ -866,7 +866,7 @@ function guardardatos(){
 
                     if(data.archivo_dni != null){
                     href_dni=data.archivo_dni.replace("public/", '/storage/');
-                    var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    var htmldni = "<a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                         $('#btn_doc_dni').html(htmldni);
                         $('#input_hide_dni').val('1');
                     }           
@@ -1116,14 +1116,35 @@ function cumple_formacion(id){
            $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
            $('#res_ruc').html(data.qdatos.ruc);
            $('#res_celular').html(data.qdatos.telefono_celular);
-           $('#res_direccion').html(data.qdatos.domicilio);
-           $('#res_ubigeo_direc').html(data.qdatos.ubigeo_domicilio);
+           $('#res_nacionalidad').html(data.nacionalidad);
            if(data.qdatos.es_pers_disc == 1){esdisc = "SI"}else{esdisc = "NO"}
            if(data.qdatos.es_lic_ffaa == 1){esffaa= "SI"}else{esffaa = "NO"}
            if(data.qdatos.es_deportista == 1){esdep = "SI"}else{esdep = "NO"}
            $('#res_disc').html(esdisc);
            $('#res_ffaa').html(esffaa);
            $('#res_depor').html(esdep);
+
+             //_______________________TRANSFORMAR UBIGEOS_________________________
+       if(data.nacionalidad == "Peruano(a)"){
+                
+        var html_nac = data.desc_u_nac;
+        if(data.cod_nac != ""){
+            $('#res_ubigeo_nac').html(html_nac);
+        }
+    }else if(data.nacionalidad == "Extranjero(a)"){
+       
+        $('#res_ubigeo_nac').html(data.cod_nac);
+        
+    }
+        
+    var html_dom = data.desc_u_dom;
+   
+    if(data.cod_dom != ""){
+    //$('#res_ubigeo_direc').html(html_dom);
+    }
+
+    $('#res_direccion').html(data.qdatos.domicilio+" ("+html_dom+")");
+       //_______________________FIN TRANSFORMAR UBIGEOS_________________________
 
             //llenar formacion
             var html_resform = "";

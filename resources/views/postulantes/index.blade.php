@@ -155,6 +155,9 @@
 @endsection
 @section('js')
 	<!--This page JavaScript -->
+    <script>
+      var asset = '{{ asset('') }}'; // declaramos la ruta que apunta a public
+     </script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/meg.init.js')}}"></script>
     <script src="{{ asset('/js/postulantes/tarjetas_postulantes.js')}}"></script>
@@ -162,10 +165,7 @@
     <script src="{{ asset('/js/postulantes/modalcv.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
-    <script>               
-        
-    </script>
-    
+      
 
 {{-- Ajustes de vista --}}
 @endsection

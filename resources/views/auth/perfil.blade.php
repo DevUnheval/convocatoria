@@ -42,7 +42,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <center class="mt-4">
-                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" height="150" width="150">
+                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" height="150" width="150">
                                     <div class="card-body align-content-center">
                                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
                                             data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>

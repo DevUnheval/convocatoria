@@ -5,17 +5,18 @@
 
 @section('content')
 
-
-@if ($mensaje != "")
-<div class="alert alert-danger text-center" role="alert">
-    <h4> <i class="fa fa-check mr-5" aria-hidden="true"></i>{{$mensaje}}</h4>
+<div class="col-md-8 offset-2">
+    @if ($mensaje != "")
+    <div class="alert bg-warning text-center" role="alert">
+        <strong><h4 class="text-white"> <i class="fa fa-check mr-5" aria-hidden="true"></i>{{$mensaje}}</h4></strong>
+    </div>
+    @endif
+    <br>
 </div>
-@endif
-<br><br>
 
-<div class="header bg-ligth-warning btn-rounded alert alert-primary col-md-8 offset-2">
+<div class="header bg-cyan btn-rounded alert alert-primary col-md-8 offset-2">
 
-    <h4 class="modal-title text-black text-center  font-weight-bold" id="fullWidthModalLabel">CONSTANCIA DE POSTULACIÓN</h4>
+    <h4 class="modal-title text-black text-center text-white font-weight-bold" id="fullWidthModalLabel">CONSTANCIA DE POSTULACIÓN</h4>
 </div>
 <div class="card border-left border-info col-md-8 offset-2">
     <div class="card-body">
@@ -25,11 +26,11 @@
                <div class="modal-body">                
                     <div class="card col-md ">
                         <div class="row">
-                            <div class="col-md-12 form-row">
-                                <div class="col-2 border form-group">
-                                    <img src="{{ asset(Auth::user()->img)}}" alt="user" width="80">
+                            <div class="col-md form-row">
+                                <div class="pt-1 pb-1 col-3 border form-group">
+                                   <center><img src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" width="100" height="100"> </center>
                                 </div>
-                                <div class="col-5 border form-group">                                
+                                <div class="col-4 border form-group">                                
                                     <small class="text-center text-dark-info font-weight-bold "><strong>ESTAS POSTULANDO AL PROCESO: </strong></small> <br>{{$proceso->cod}}
                                     <br>
                                     <small><strong  class="text-dark-info font-weight-bold">N° Plazas = </strong> </small><br>{{$proceso->n_plazas}}
@@ -43,7 +44,7 @@
                         </div>
                         <div class="table-responsive">
                             <table class="table border-info table-bordered table-condensed">
-                                <thead class="bg-info text-white">
+                                <thead class="bg-cyan text-white">
                                     <tr>
                                         <th colspan="4">I. DATOS PERSONALES</th>
                                     </tr>
@@ -81,8 +82,8 @@
                             </table>
                         </div>                    
                         <div>
-                            <h6 class="text-info mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$datos_usuario->email}}</strong></h6>
-                            <h5 class="text-info mb-0">Puede ver su postulación haciendo click <strong ><a href="{{ route('mispostulaciones')}}">Aquí</a></strong></h5>
+                            <h6 class="mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$datos_usuario->email}}</strong></h6>
+                            <h6 class="mb-0">Puede ver su postulación haciendo click <strong ><a href="{{ route('mispostulaciones')}}">Aquí</a></strong></h6>
                         </div>
                     </div>
                 </div>

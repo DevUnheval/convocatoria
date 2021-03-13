@@ -27,7 +27,7 @@ class CreateExperienciaLabPostulantesTable extends Migration
             //datos generales-obligatorios
             $table->string('centro_laboral');//nombre de la entidad o empresa
             $table->string('cargo_funcion');
-            $table->string('desc_cargo_funcion')->nullable();//descripcion del cargo funcion
+            $table->string('desc_cargo_funcion','1000')->nullable();//descripcion del cargo funcion
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->integer('num_pag');//numero de pagina donde señala inicio y fin de la experiencia
