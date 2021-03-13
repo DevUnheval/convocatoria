@@ -54,6 +54,13 @@ function guardar_cambio(){
             console.log('enviando....');
         },
         success:  function (){
+            Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Cambios Guardados Correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            }) 
             $('#zero_config').DataTable().ajax.reload();
             $('#modal_editar').modal('hide');                    
         },
