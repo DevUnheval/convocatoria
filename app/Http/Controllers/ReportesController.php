@@ -155,7 +155,7 @@ class ReportesController extends Controller
        foreach($postulante->formacion_postulante as $key => $formacion){
             $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
         }
-         //4. Experiencia laboral       
+         //5. Experiencia laboral       
         foreach($postulante->experieciapostulantes as $key => $experiencia){
             $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
         }   
