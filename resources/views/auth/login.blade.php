@@ -103,7 +103,7 @@
                             </div><br>
                             <div class="col-xs-12">
                                 <a href="{{route('registro_usuario')}}" class="col-xs-6"><u>Crear una cuenta</u></a> &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="#" class="col-xs-6">Olvidé la contraseña</a>
+                                <a href="{{ route('password.request') }}" class="col-xs-6">Olvidé la contraseña</a>
                             </div>
                         </div>
                        

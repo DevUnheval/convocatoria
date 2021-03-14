@@ -1,15 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.material3')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header bg-success text-white">{{ __('Reset Password') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-warning" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
@@ -31,9 +31,10 @@
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                        <div class="form-group row mb-0 offset-4">
+                            <div class="col-md">
+                                <br>
+                                <button type="submit" class="btn btn-outline-success mdi-format-float-center">
                                     {{ __('Send Password Reset Link') }}
                                 </button>
                             </div>

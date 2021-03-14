@@ -158,7 +158,7 @@ class PostulanteController extends Controller
         if($data->file('archivo_dni')){
             $s= DatosUser::find($idDatosUser[0]->id);
             Storage::delete($s->archivo_dni); //eliminar archivo ya cargado
-            $datosuser->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes/'.auth()->user()->dni);
+            $datosuser->archivo_dni = $data->file('archivo_dni')->store('public/procesos/users/'.auth()->user()->dni.'/dni');
             $datosuser->archivo_dni_tipo = "local";
             }//else{$datosuser->archivo_dni = NULL; $datosuser->archivo_dni_tipo = NULL; }
     
@@ -166,7 +166,7 @@ class PostulanteController extends Controller
         if($data->file('archivo_discapacidad')){
             $p= DatosUser::find($idDatosUser[0]->id);
             Storage::delete($p->archivo_disc); //eliminar archivo ya cargado
-            $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad/'.auth()->user()->dni);
+            $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/users/'.auth()->user()->dni.'/arch_discapacidad');
             $datosuser->archivo_disc_tipo = "local";
             }else if($data->dicapacidad == 0){
                 $pp= DatosUser::find($idDatosUser[0]->id);
@@ -178,7 +178,7 @@ class PostulanteController extends Controller
             if($data->file('archivo_ffaa')){
                 $q= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($q->archivo_ffaa); //eliminar archivo ya cargado
-                $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa/'.auth()->user()->dni);
+                $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/users/'.auth()->user()->dni.'/arch_ffaa');
                 $datosuser->archivo_ffaa_tipo = "local";
                 }else if($data->ffaa == 0){
                     $qq= DatosUser::find($idDatosUser[0]->id);
@@ -190,7 +190,7 @@ class PostulanteController extends Controller
             if($data->file('archivo_deport')){
                 $r= DatosUser::find($idDatosUser[0]->id);
                 Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
-                $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista/'.auth()->user()->dni);
+                $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/users/'.auth()->user()->dni.'/arch_deportista');
                 $datosuser->archivo_deport_tipo = "local";
                 }else if($data->deportista == 0){
                     $r= DatosUser::find($idDatosUser[0]->id);
@@ -219,23 +219,23 @@ class PostulanteController extends Controller
         
         //archivo DNI
         if($data->file('archivo_dni')){
-            $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/dni_postulantes/'.auth()->user()->dni);
+            $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/users/'.auth()->user()->dni.'/dni');
             $datosuserno->archivo_dni_tipo = "local";
             }//else{$datosuserno->archivo_dni = NULL; $datosuserno->archivo_dni_tipo = NULL; }
         
         //archivo discapacidad
         if($data->file('archivo_discapacidad')){
-        $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/arch_discapacidad/'.auth()->user()->dni);
+        $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/users/'.auth()->user()->dni.'/arch_discapacidad');
         $datosuserno->archivo_disc_tipo = "local";
         }//else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_ffaa')){
-            $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/arch_ffaa/'.auth()->user()->dni);
+            $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/users/'.auth()->user()->dni.'/arch_ffaa');
             $datosuserno->archivo_ffaa_tipo = "local";
             }//else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
         //archivo discapacidad
         if($data->file('archivo_deport')){
-            $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/arch_deportista/'.auth()->user()->dni);
+            $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/users/'.auth()->user()->dni.'/arch_deportista');
             $datosuserno->archivo_deport_tipo = "local";
             }//else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
                 
@@ -303,8 +303,8 @@ class PostulanteController extends Controller
         $fu->ciudad = $data->ciudad;
         $fu->pais = $data->pais;
         
-        $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/arch_formacion/'.auth()->user()->dni);
-        $fu->archivo_tipo = "local";
+        $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_formacion');
+        $fu->archivo_tipo = "local"; 
         
         $fu->save();
     
@@ -345,7 +345,7 @@ class PostulanteController extends Controller
         $cu->pais = $data->pais;
         $cu->fecha_inicio = $data->fechainicio_capac;
         $cu->fecha_fin = $data->fechafin_capac;
-        $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/arch_capacitacion/'.auth()->user()->dni);
+        $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_capacitacion');
         $cu->archivo_tipo = "local";
         $cu->cantidad_horas = $data->cantidad_horas;
         $cu->nivel = $data->nivel_capa;
@@ -386,7 +386,7 @@ class PostulanteController extends Controller
         $el->dias_exp_gen =$data->dias_exp_gen;
         $el->dias_exp_esp = $data->dias_exp_esp;
 
-        $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/arch_exper/'.auth()->user()->dni);
+        $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
         $el->archivo_tipo = "local";
         
         $el->save();
@@ -442,7 +442,7 @@ class PostulanteController extends Controller
         if($data->file('archivo_formacion')){
             $q= FormacionUser::find($data->id);
             Storage::delete($q->archivo); 
-            $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/arch_formacion/'.auth()->user()->dni);
+            $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_formacion');
             $fu->archivo_tipo = "local";
         }
 
@@ -474,7 +474,7 @@ class PostulanteController extends Controller
         if($data->file('archivo_capacitacion')){
             $q= CapacitacionUser::find($data->id);
             Storage::delete($q->archivo); //eliminar archivo ya cargado
-            $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/arch_capacitacion/'.auth()->user()->dni);
+            $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_capacitacion');
             $cu->archivo_tipo = "local";
         }
                         
@@ -512,7 +512,7 @@ class PostulanteController extends Controller
         if($data->file('archivo_experiencia')){
             $q= ExperienciaLabUser::find($data->id);
             Storage::delete($q->archivo); //eliminar archivo ya cargado
-            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/arch_exper/'.auth()->user()->dni);
+            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
             $Exper->archivo_tipo = "local";
         }
 
@@ -665,13 +665,34 @@ class PostulanteController extends Controller
             $urlfoto_postulante = NULL;
          }else{
            $urlfoto_postulante = str_replace('foto_users/','foto_postulantes/'.$pos->id.'/',auth()->user()->img);
-           // $urlfoto_postulante = "aquilafoto";
-            Storage::copy(auth()->user()->img,$urlfoto_postulante);
+           Storage::copy(auth()->user()->img,$urlfoto_postulante);
          }
          
          $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
+         $url_dni = "";
+         $url_discap = "";
+         $url_ffaa = "";
+         $url_depor = "";
          unset($datos_usuario[0]->id); 
          unset($datos_usuario[0]->user_id);
+                $url_dni = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_dni);
+                Storage::copy($datos_usuario[0]->archivo_dni,$url_dni);
+                $datos_usuario[0]->archivo_dni = $url_dni;
+            if($datos_usuario[0]->es_pers_disc == 1){
+                $url_discap = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_disc);
+                Storage::copy($datos_usuario[0]->archivo_disc,$url_discap);
+                $datos_usuario[0]->archivo_disc = $url_discap;
+            }
+            if($datos_usuario[0]->es_lic_ffaa == 1){
+                $url_ffaa = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_ffaa);
+                Storage::copy($datos_usuario[0]->archivo_ffaa,$url_ffaa);
+                $datos_usuario[0]->archivo_ffaa = $url_ffaa;
+            }
+            if($datos_usuario[0]->es_deportista == 1){
+                $url_depor = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_deport);
+                Storage::copy($datos_usuario[0]->archivo_deport,$url_depor);
+                $datos_usuario[0]->archivo_deport = $url_depor;
+            }
          $datos_usuario[0]->postulante_id = $pos->id;
          $datos_usuario[0]->archivo_foto = $urlfoto_postulante;
          DatosPostulante::create($datos_usuario[0]->toArray()); 
@@ -679,10 +700,13 @@ class PostulanteController extends Controller
          //Almacenar formacion de usuario a postulante
          $cant1 = FormacionUser::where("user_id",auth()->user()->id)->get()->count();
          $datos_formacion = FormacionUser::where("user_id",auth()->user()->id)->get();
-         
          for($i=0 ; $i<$cant1 ; $i++){
+             $url_archivo="";
              unset($datos_formacion[$i]->id); 
              unset($datos_formacion[$i]->user_id);
+             $url_archivo = str_replace('users/','postulantes/'.$pos->id.'/',$datos_formacion[$i]->archivo);
+             Storage::copy($datos_formacion[$i]->archivo,$url_archivo);
+             $datos_formacion[$i]->archivo = $url_archivo;
              $datos_formacion[$i]->postulante_id = $pos->id;
              FormacionPostulante::create($datos_formacion[$i]->toArray());
          }
@@ -695,10 +719,13 @@ class PostulanteController extends Controller
          $datos_capacitacion = CapacitacionUser::where("user_id",auth()->user()->id)->get();
          
          for($i=0 ; $i<$cant2 ; $i++){
-
+            $url_archivo="";
             if(intval($datos_capacitacion[$i]->cantidad_horas) >= $hrs_ind){
              unset($datos_capacitacion[$i]->id); 
              unset($datos_capacitacion[$i]->user_id);
+             $url_archivo = str_replace('users/','postulantes/'.$pos->id.'/',$datos_capacitacion[$i]->archivo);
+             Storage::copy($datos_capacitacion[$i]->archivo,$url_archivo);
+             $datos_capacitacion[$i]->archivo = $url_archivo;
              $datos_capacitacion[$i]->postulante_id = $pos->id;
              CapacitacionPostulante::create($datos_capacitacion[$i]->toArray());
             }
@@ -707,7 +734,7 @@ class PostulanteController extends Controller
          //Almacenar experiencias de usuario a postulante CORREGIDO CON FILTRO DE PRACTICAS PRE Y PRO FESIONALES
          $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
          if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
-            $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->get();
+             $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->get();
            }else if($proceso[0]->consid_prac_preprof == 1){
              $qexp = ExperienciaLabUser::where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->get();  
            }else if($proceso[0]->consid_prac_prof == 1){
@@ -722,8 +749,12 @@ class PostulanteController extends Controller
         // $datos_experiencia = ExperienciaLabUser::where("user_id",auth()->user()->id)->get();
          
          for($i=0 ; $i<$cant3 ; $i++){
+             $url_archivo="";
              unset($datos_experiencia[$i]->id); 
              unset($datos_experiencia[$i]->user_id);
+             $url_archivo = str_replace('users/','postulantes/'.$pos->id.'/',$datos_experiencia[$i]->archivo);
+             Storage::copy($datos_experiencia[$i]->archivo,$url_archivo);
+             $datos_experiencia[$i]->archivo = $url_archivo;
              $datos_experiencia[$i]->postulante_id = $pos->id;
              ExperienciaLabPostulante::create($datos_experiencia[$i]->toArray());
          }

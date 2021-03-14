@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="es">
+@php
 
+$vigentes=\App\Proceso::where("estado","1")->count();
+$enCurso=\App\Proceso::where("estado","2")->count();
+@endphp
+<html dir="ltr" lang="es">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,12 +19,14 @@
                                     :asset(\App\Ajuste::find(1)->elemento('icono'))}}">
     <title>{{\App\Ajuste::find(1)->elemento('título')}} | yield('title')</title>
     <link rel="canonical" href="{{ route('index') }}"/>
-    @yield('css')
+
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <!-- Custom CSS -->
+    <link href="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/material-pro/dist/css/style.min.css')}}" rel="stylesheet">
+    @yield('css')
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -33,12 +39,12 @@
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
+    
+
+    <!-- =====================INICIO PRELOAD========================================= -->
+   
+    <!-- ========================FIN PRELOAD====================================== -->
+
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -55,22 +61,30 @@
                     <!-- ============================================================== -->
                     <!-- Logo -->
                     <!-- ============================================================== -->
-                    <a class="navbar-brand" href="http://convocatoria.test">
+                    <a class="navbar-brand" href="{{route('index')}}">
                         <!-- Logo icon -->
                         <b class="logo-icon">
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="http://convocatoria.test/imagenes/ajustes/logo.png" alt="Logo" class="dark-logo" height="45px"/>
+                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo'), 0,6)=='public'
+                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo'))
+                                    :asset(\App\Ajuste::find(1)->elemento('logo'))}}" alt="Logo" class="dark-logo" height="45px"/>
                             <!-- Light Logo icon -->
-                            <img src="http://convocatoria.test/imagenes/ajustes/logo.png" alt="Logo" class="light-logo" height="45px"/>
+                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo'), 0,6)=='public'
+                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo'))
+                                    :asset(\App\Ajuste::find(1)->elemento('logo'))}}" alt="Logo" class="light-logo" height="45px"/>
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- dark Logo text -->
-                            <img src="http://convocatoria.test/imagenes/ajustes/logo-light-text.png" alt="Convocatoria" class="dark-logo" style="max-width: 150px; max-height: 45px"/>
+                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo texto 1'), 0,6)=='public'
+                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo texto 1'))
+                                    :asset(\App\Ajuste::find(1)->elemento('logo texto 1'))}}" alt="Convocatoria" class="dark-logo" style="max-width: 150px; max-height: 45px"/>
                             <!-- Light Logo text -->
-                            <img src="http://convocatoria.test/imagenes/ajustes/logo-light-text.png" class="light-logo" alt="Convocatoria" style="max-width: 150px; max-height: 45px"/>
+                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo texto 1'), 0,6)=='public'
+                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo texto 1'))
+                                    :asset(\App\Ajuste::find(1)->elemento('logo texto 1'))}}" class="light-logo" alt="Convocatoria" style="max-width: 150px; max-height: 45px"/>
                         </span>
                     </a>
                     <!-- ============================================================== -->
@@ -82,14 +96,64 @@
                     <a class="topbartoggler d-block d-lg-none waves-effect waves-light" href="javascript:void(0)"
                         data-toggle="collapse" data-target="#navbarSupportedContent"
                         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
-                            class="ti-more"></i>
-                    </a>
+                            class="ti-more"></i></a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
                 <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto">
+                        <!-- Elementos alineadoas a la izquierda, si elimina este UL, el siguiente tomará su lugar (al lado izquierdo) -->
+                      <!--   <li class="nav-item"> <a class="nav-link sidebartoggler d-none d-md-block waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li> -->
+                       
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav">
+                    @if(Auth::user())
+                       
+                      
+                       @else
+                       <li class="nav-item dropdown">
+                           <a class="nav-link dropdown-toggle waves-effect waves-dark" href="{{route('login')}}"><small>Iniciar sesión</small> |</a>
+                       </li>
+                       @endif
+                       <!-- ============================================================== -->
+                       <!-- Tutoriales -->
+                       <!-- ============================================================== -->
+                       <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-dark" href=""
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
+                                class="mdi mdi-help-circle-outline" title="ayuda"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right scale-up">
+                            <a class="dropdown-item"
+                                href="{{ \App\Ajuste::find(1)->elemento('video tutorial usuario') }}" target="_blank">
+                                <i class="mdi mdi-play-box-outline"></i> Video tutorial
+                            </a>
+                            <a class="dropdown-item"
+                                href="{{ \App\Ajuste::find(1)->elemento('manual usuario') }}" target="_blank">
+                                <i class="mdi mdi-file-pdf"></i> Manual
+                            </a>
+                                @if(Auth::user())
+                                <hr>
+                            <a class="dropdown-item"
+                                href="{{ \App\Ajuste::find(1)->elemento('video tutorial administrador') }}" target="_blank">
+                                <i class="mdi mdi-play-box-outline"></i> AMD - Video tutorial
+                            </a>
+                            <a class="dropdown-item"
+                                href="{{ \App\Ajuste::find(1)->elemento('manual administrador') }}" target="_blank">
+                                <i class="mdi mdi-file-pdf"></i> AMD - Manual
+                            </a> 
+                                @endif
+                        </div>
+                    </li>
+                    </ul>
+                </div>
             </nav>
-            
         </header>
        
         <!-- ============================================================== -->
@@ -120,8 +184,8 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-                <div class="row">
-                    <div class="col-12">
+                <div class="row" id="app">
+                    <div class="col-12" >
                     @yield('content')
                         <!-- <div class="card">
                             <div class="card-body">
@@ -410,10 +474,15 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{ asset('/material-pro/src/assets/libs/popper.js/dist/umd/popper.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    
     <!-- apps -->
     <script src="{{ asset('/material-pro/dist/js/app.min.js')}}"></script>
+
+    
+    
     <script src="{{ asset('/material-pro/dist/js/app.init.horizontal.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/app-style-switcher.horizontal.js')}}"></script>
+    
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{ asset('/material-pro/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/extra-libs/sparkline/sparkline.js')}}"></script>
@@ -423,6 +492,9 @@
     <script src="{{ asset('/material-pro/dist/js/sidebarmenu.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('/material-pro/dist/js/custom.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
+
+    
     @yield('js')
 </body>
 

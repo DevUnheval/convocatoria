@@ -2,15 +2,19 @@
 
 namespace App;
 
+use App\Notifications\UsuarioRestablecerContra;
+use App\Notifications\VerificacionEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+//use App\Notifications\UsuarioRestablecerContra;
 
 use App\SocialProfile;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+    
 
     /**
      * The attributes that are mass assignable.
@@ -73,5 +77,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function formacionusers() {
 		return $this->hasMany(FormacionUser::class);
 	}
+
+  public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerificacionEmail);
+    }
+
+  public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UsuarioRestablecerContra($token));
+    }
 
 }

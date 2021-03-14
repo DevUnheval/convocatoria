@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="col-md-8">
-    <div class="header bg-ligth-warning btn-rounded alert alert-info">
+    <div class="nuevaclase">
         <h2 class="modal-title text-black text-center  font-weight-bold" id="fullWidthModalLabel">CONSTANCIA DE POSTULACIÓN</h2>
     </div>
     <div class="form-row">

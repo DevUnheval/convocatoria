@@ -128,7 +128,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                        <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img id='img_material' src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" width="30" height="30" class="profile-pic rounded-circle" />
+                                <img id='img_material' src="{{ asset(str_replace('public/','/storage',Auth::user()->img))}}" alt="user" width="30" height="30" class="profile-pic rounded-circle" />
                             </a>
                             <div class="dropdown-menu mailbox dropdown-menu-right scale-up">
                                 <ul class="dropdown-user list-style-none">
