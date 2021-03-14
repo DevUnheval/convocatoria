@@ -20,8 +20,7 @@
         "laravelcollective/html": "^6.2",
         "maatwebsite/excel": "^3.1",
         "nesbot/carbon": "^2.44",
-        "yajra/laravel-datatables-oracle": "~9.10",
-        "xthiago/pdf-version-converter": "dev-master"
+        "yajra/laravel-datatables-oracle": "~9.10"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
