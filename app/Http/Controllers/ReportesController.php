@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Exports\ProcesosExport;
 use App\Proceso;
 
 use PDF; 
 use App\Postulante;
 use DB;
+use LynX39\LaraPdfMerger\Facades\PdfMerger;
+// use Xthiago\PDFVersionConverter\Guesser\RegexGuesser;
 
 class ReportesController extends Controller
 {
     public function __construct()
     {
         $this->api= app(\App\Http\Controllers\PostulantesController::class);
+        //nuestros archivos tienen nombres muy largos, eso sumado a las rutas, lo hacen muy largas,
+        //y sale error, así que sacamos una copia a todo, le ponemos un nombre temporal y SOLUCIONADO
+        $this->archivos_temporales=[]; 
     }
     public function pdf ($id,$etapa){
         if($etapa=="0"){
@@ -122,10 +128,60 @@ class ReportesController extends Controller
 
     }
     public function cv($id_postulante){
-       
-        $postulante = Postulante::find($id_postulante);
-        return $postulante->datos_postulante->desc_ubigeo_nac;               
+        $postulante = Postulante::find($id_postulante);            
         $pdf = PDF::loadView('reportes.pdf.cv',compact('postulante'));
-        return $pdf->stream('cv.pdf'); //download
+        
+        $path_pdf0 = 'public/pdf/'.rand(1, 99999).'.pdf';
+        Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
+        
+        
+        $this->archivos_temporales[]=$path_pdf0;
+        $pdfMerger = PDFMerger::init(); 
+        //agregamos los documentos PDF
+        //1. CV
+        $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
+        //return Storage::get($path_pdf0);
+
+        //2. DNI
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_dni);         
+        //3. bonificaciones
+        if($postulante->datos_postulante->es_lic_ffaa)
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_ffaa);
+        if($postulante->datos_postulante->es_deportista)         
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_deport);
+        if($postulante->datos_postulante->es_pers_disc)
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_disc);
+        //4. Formación       
+       foreach($postulante->formacion_postulante as $key => $formacion){
+            $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
+        }
+         //4. Experiencia laboral       
+        foreach($postulante->experieciapostulantes as $key => $experiencia){
+            $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
+        }   
+        
+
+        $pdfMerger->merge(); //For a normal merge (No blank page added)
+        // borramos los archivos temporales
+        foreach($this->archivos_temporales as $temp){
+           Storage::delete($temp);
+        }
+
+        //$guesser = new RegexGuesser();
+        //echo $guesser->guess('/path/to/my/file.pdf'); // will print something like '1.4'
+
+        return $pdfMerger->save("file_name.pdf", "browser");
+        
+    }
+
+    private function fusionar_pdf($pdfMerger,$rutaArchivoPDF){
+        
+        if(Storage::exists($rutaArchivoPDF)){
+            $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
+            Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
+            $this->archivos_temporales[]=$ruta_archivo_temporal;
+            $pdfMerger->addPDF( storage_path("app/".$ruta_archivo_temporal) , 'all');
+            unset($ruta_archivo_temporal);
+        }
     }
 }

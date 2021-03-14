@@ -27,6 +27,9 @@ class Postulante extends Model
 	public function capacitacionpostulantes() {
 		return $this->hasMany(CapacitacionPostulante::class);
 	}
+	public function experieciapostulantes() {
+		return $this->hasMany(ExperienciaLabPostulante::class);
+	}
 	public function user() {
 		return $this->belongsTo(User::class);
 	}

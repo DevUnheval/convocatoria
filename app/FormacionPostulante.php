@@ -16,6 +16,6 @@ class FormacionPostulante extends Model
 		return $this->belongsTo(Postulante::class);
   }
   public function gradoformacion() {
-		return $this->belongsTo(GradoFormacion::class);
+		return $this->belongsTo(GradoFormacion::class,'grado_id','id');
 	}
 }

@@ -22,6 +22,13 @@ $(function(){
                 console.log('enviando....');
             },
             success:  function (){
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Cambios Guardados Correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                }) 
                 $('#data_table').DataTable().ajax.reload();
                 $('#modal_editar').modal('hide');                    
             },
@@ -49,6 +56,13 @@ $(function(){
                 console.log('enviando....');
             },
             success:  function (){
+                Swal.fire({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Se Registró Correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                }) 
                 $('#data_table').DataTable().ajax.reload();
                 $('#modal_nuevo').modal('hide');    
                 $("#nuevo_nombre").val("");
