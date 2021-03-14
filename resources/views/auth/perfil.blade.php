@@ -82,7 +82,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <center class="mt-4">
-                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" width="150" height="150">
+                                    <img id="foto_perfil" src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" width="150" height="150">
                                     <div class="card-body align-content-center">
                                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
                                             data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
@@ -134,8 +134,8 @@
                             <!-- Tabs -->
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
-                                    <div class="card-body">
-                                        <form class="form-horizontal form-material">
+                                    <div class="card-body wizard-content">
+                                        <form class="form-horizontal form_datospers_perfil" novalidate>
                                             <div class="card-body">
                                                 <!--
                                                 <div class="row">
@@ -148,20 +148,16 @@
                                                     
                                                 </div> -->
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="ruc"> RUC (opcional):  </label>
                                                             <input type="text" class="form-control " value=""  id="ruc" name="ruc"> </div>
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label for="email"> Correo electrónico : <span class="text-danger">*</span> </label>
-                                                            <input type="email" class="form-control" id="email" value="{{auth()->user()->email}}" name="email" disabled> </div>
-                                                    </div>
-                                                    <div class="col-md-4">
+                                                    
+                                                    <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="fecha_nacimiento"> Fecha de nacimiento : <span class="text-danger required">*</span> </label>
-                                                            <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" > </div>
+                                                            <input type="date" class="form-control required" id="fecha_nacimiento" name="fecha_nacimiento" required> </div>
                                                     </div>
                                                 </div>
                                                 
@@ -173,7 +169,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="nacionalidad"> Nacionalidad : <span class="text-danger">*</span> </label>
-                                                                <select class="form-control required" id="nacionalidad" name="nacionalidad" >
+                                                                <select class="form-control required" id="nacionalidad" name="nacionalidad" required>
                                                                     <option value="">Seleccionar</option>
                                                                     <option value="Peruano(a)" selected>Peruano(a)</option>
                                                                     <option value="Extranjero(a)">Extranjero(a)</option>
@@ -185,10 +181,16 @@
                                                                 <label for="ubigeodni"> Lugar de nacimiento : <span class="text-danger">*</span> </label>
                                                                 <!-- <input type="text" class="form-control required" value="" id="ubigeodni" name="ubigeodni">  -->
                                                                 <div id="html_lugar_nac">
-                                                                    <select class="form-control select_2 required" id="ubigeodni" name="ubigeodni"></select>
+                                                                    <select class="form-control select_2 required" id="ubigeodni" name="ubigeodni" required></select>
+                                                                    <div class="invalid-feedback">
+                                                                        Seleccione su lugar de nacimiento
+                                                                    </div>
                                                                 </div>
-                                                                <div id="html_lugar_nac2">
+                                                                <div id="html_lugar_nac2" style="display: none;">
                                                                         <input type="text" class="form-control"  id="ubigeodni_alt">
+                                                                        <div class="invalid-feedback">
+                                                                            Seleccione su lugar de nacimiento
+                                                                        </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -198,7 +200,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="telefono_celular"> Telefono celular : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular">
+                                                            <input type="text" class="form-control required" value="" id="telefono_celular" name="telefono_celular" required>
                                                          </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -213,13 +215,16 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="domicilio"> Domicilio : <span class="text-danger">*</span> </label>
-                                                            <input type="text" class="form-control required" value="" id="domicilio" name="domicilio"> </div>
+                                                            <input type="text" class="form-control required" value="" id="domicilio" name="domicilio" required> </div>
                                                     </div>   
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="ubigeo_domicilio"> Ubigeo Domicilio : <span class="text-danger">*</span> </label>
                                                             <!-- <input type="text" class="form-control required" value="" id="ubigeo_domicilio" name="ubigeo_domicilio">  -->
-                                                            <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio"></select>
+                                                            <select class="form-control select_2 required" id="ubigeo_domicilio" name="ubigeo_domicilio" required></select>
+                                                            <div class="invalid-feedback">
+                                                                Seleccione su lugar de domicilio
+                                                            </div>
                                                         </div>
                                                     </div> 
                                                 </div>
@@ -230,7 +235,7 @@
                                                                 <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
                                                             </div>
                                                             <div class="card-body"> 
-                                                                <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf"> 
+                                                                <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
                                                                 <input type="hidden" id="input_hide_dni" value="0">                                                 
                                                             </div>
                                                         </div>
@@ -321,7 +326,7 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             
-                                                           <button onclick="guardardatos()" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
+                                                           <button onclick="pre_guardardatos()" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
                                                             <i class="fa fa-plus "></i> Guardar</button>
                                                                <!--<button onclick="anios_meses_dias(365)" type="button" class="btn waves-effect waves-light btn-rounded btn-outline-success" >
                                                                 <i class="fa fa-plus "></i> calcular tiempo</button>-->

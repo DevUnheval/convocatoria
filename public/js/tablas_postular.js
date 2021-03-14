@@ -5,11 +5,13 @@ $(document).ready(function() {
        
         if($('#nacionalidad').val() == "Peruano(a)"){
             $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('required',false);
             $('#ubigeodni').prop('id','vacio');
             $('#html_lugar_nac2').hide();
             $('#html_lugar_nac').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
                      
         }
@@ -17,11 +19,13 @@ $(document).ready(function() {
         if($('#nacionalidad').val() == "Extranjero(a)"){
         
             $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('required',false);
             $('#ubigeodni').prop('id','vacio');
             $('#html_lugar_nac').hide();
             $('#html_lugar_nac2').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
            
         }
