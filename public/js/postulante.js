@@ -1054,9 +1054,9 @@ function cumple_formacion(id){
         dj = "'SI' en el inciso 7";
     } else if( $('input:radio[name=g8]:checked').val()=="1"){
         dj = "'SI' en el inciso 8";
-    } else if( $('input:radio[name=g9]:checked').val()=="0"){
+    }/* else if( $('input:radio[name=g9]:checked').val()=="0"){
         dj = "'NO' en el inciso 9";
-    }
+    }*/
 
     arrayExp.msjerror = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
     
@@ -1077,13 +1077,13 @@ function cumple_formacion(id){
                 dj6:$('input:radio[name=g6]:checked').val(),
                 dj7:$('input:radio[name=g7]:checked').val(),
                 dj8:$('input:radio[name=g8]:checked').val(),
-                dj9:$('input:radio[name=g9]:checked').val()
+                //dj9:$('input:radio[name=g9]:checked').val()
              },
             success:function(data){
                 //console.log(data);
             },
             error: function(data){
-                alert("error!!"); 
+                //alert("error!!"); 
             }
     
         });    
@@ -1236,16 +1236,15 @@ function cumple_formacion(id){
             "</tr>";
         }
         $('#res_tbl_exp').html(html_resexp);
-
         //DECLARACION JURADA
-        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "SI" : "NO");
-        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "SI" : "NO");
-        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "SI" : "NO");
-        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "SI" : "NO");
-        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "SI" : "NO");
-        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "SI" : "NO");
-        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
-        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
+        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "NO" : "SI");
+        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "NO" : "SI");
+        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "NO" : "SI");
+        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "NO" : "SI");
+        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "NO" : "SI");
+        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "NO" : "SI");
+        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "NO" : "SI");
+        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "NO" : "SI");
         
         //alert('terminé');
         },
