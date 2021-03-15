@@ -10,7 +10,10 @@ class Postulante extends Model
 	protected $primaryKey = 'id';
 	protected $fillable = ['user_id','proceso_id',
 							'ev_curricular','ev_conocimiento','ev_entrevista',
-							'cal_curricular','cal_conocimientos','cal_entrevista','bonificacion','total'];
+							'cal_curricular','cal_conocimientos','cal_entrevista',
+							'obs_curricular','obs_conocimientos','obs_entrevista',
+							'bonific_deportista','bonific_ffaa','bonific_pers_disc',
+							'bonificacion','total'];
 	//public $timestamps = False;
 
 

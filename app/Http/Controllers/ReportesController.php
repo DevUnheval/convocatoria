@@ -37,11 +37,11 @@ class ReportesController extends Controller
         if($etapa=="0"){
             $data = $this->data_resultado($id,$etapa);
             $data["ruta"] = "reportes.excel.resultado";
-            return (new ProcesosExport($data))->download($data['proceso']->cod.'.xlsx');
+            return (new ProcesosExport($data))->download("Resultado_".$etapa."_".$data['proceso']->cod.'.xlsx');
         }
             $data = $this->data_etapa($id,$etapa);
             $data["ruta"] = "reportes.excel.etapa";
-            return (new ProcesosExport($data))->download($data['proceso']->cod.'.xlsx');
+            return (new ProcesosExport($data))->download("etapa_".$etapa."_".$data['proceso']->cod.'.xlsx');
             //return (new ProcesosExport)->view();
         
     }
@@ -121,8 +121,10 @@ class ReportesController extends Controller
 
         }
         if($tipo=="excel"){
+            $data = $this->data_etapa($id,1);
             $data["ruta"] = "reportes.excel.preliminar";
-            return (new ProcesosExport($data))->download($data['proceso']->cod.'.xlsx');
+            //return (new ProcesosExport($data))->view();
+            return (new ProcesosExport($data))->download("preliminar_".$data['proceso']->cod.'.xlsx');
 
         }
 
@@ -157,7 +159,7 @@ class ReportesController extends Controller
         }
          //5. Experiencia laboral       
         foreach($postulante->experieciapostulantes as $key => $experiencia){
-            $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
+            $this->fusionar_pdf($pdfMerger,  $experiencia->archivo);            
         }   
         
 

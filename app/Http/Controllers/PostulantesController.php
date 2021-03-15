@@ -57,6 +57,8 @@ class PostulantesController extends Controller
                         'desc_bd'=>'cal_curricular',
                         'desc2_bd'=>'ev_curricular', 
                         'desc3_bd'=>'pje_min_cv',
+                        'puntaje_max_bd'=>'pje_max_cv',
+                        'observacion_bd' => 'obs_curricular',
                         'peso_bd'=>'peso_cv',
                         'descripcion'=>'Curricular'
                     ]; 
@@ -67,6 +69,8 @@ class PostulantesController extends Controller
                             'desc_bd'=>'cal_conocimientos',
                             'desc2_bd'=>'ev_conocimiento',
                             'desc3_bd'=>'pje_min_conoc',
+                            'puntaje_max_bd'=>'pje_max_conoc',
+                            'observacion_bd' => 'obs_conocimientos',
                             'peso_bd'=>'peso_conoc',
                             'descripcion'=>'Conocimientos'
                         ]; 
@@ -78,6 +82,8 @@ class PostulantesController extends Controller
                         'desc2_bd'=>'ev_entrevista',
                         'desc3_bd'=>'pje_min_entrev',
                         'peso_bd'=>'peso_entrev',
+                        'puntaje_max_bd'=>'pje_max_entrev',
+                        'observacion_bd' => 'obs_entrevista',
                         'descripcion'=>'Entrevista'
                     ];
         return $etapas;
@@ -101,15 +107,17 @@ class PostulantesController extends Controller
     }
     private function get_data_table($proceso_id, $etapa,$vista){
         $api = $this->get_data($proceso_id, $etapa);
+        $se_evalua_conocimiento = (int) $api["proceso"]->evaluar_conocimientos;
         if($etapa < 1) $etapa=$api["etapa_actual"]["etapa"];
         
         //return "data";
         if(count($api["postulantes"])<1)
            return $this->data_null;
         $bd_califica = $api["etapa_actual"]["desc_bd"];
+        $observacion_bd = $api["etapa_actual"]["observacion_bd"];
         foreach ( $api["postulantes"] as $p) {
            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
-           $cv = "<button class='btn btn-info btn-circle' onclick=\"mostrar_modalcv(".$p->id.",".$p->user_id.")\" ><span> <i class='fas fa-id-card'></i></span></button>";
+           $cv = "<button class='btn btn-info btn-circle' onclick='mostrar_modalcv($p->id,$p->user_id,$etapa,$proceso_id,$se_evalua_conocimiento,$vista)'><span> <i class='fas fa-id-card'></i></span></button>";
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
@@ -122,21 +130,21 @@ class PostulantesController extends Controller
                default  : $estado = "Pendiente"; break;
            }
            //pintar la columna
-           
-           if($api["proceso"]->evaluar_conocimientos){
+           $btn_mas = "<button class='btn btn-outline-primary btn-block'><i class='fa fa-plus'></i></button>";
+           if($se_evalua_conocimiento){
                 $ev_conocimiento = (int) $p->ev_conocimiento;
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_conocimiento = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
-                    case "3": $ev_entrevista = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
+                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$bonificacion,$total];
+                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$bonificacion,$total,$btn_mas];
            }else{
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_entrevista = "<label class='btn btn-outline-danger btn-block' onclick='modal_evaluar_todos($etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,\"$observacion_bd\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,\"$observacion_bd\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$bonificacion,$total];
+                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$bonificacion,$total,$btn_mas];
            }
             unset($nombres); unset($ev_entrevista); unset($ev_curricular); unset($cv);
         }
@@ -144,6 +152,7 @@ class PostulantesController extends Controller
     }
 
     private function get_data_tarjeta($proceso_id, $etapa){
+        
         $api = $this->get_data($proceso_id, $etapa);
         $estado = $this->estado();
         $grupo = ['total'=>0, 'pendientes' => 0, 'califica' => 0, 'noCalifica' => 0];
@@ -165,11 +174,22 @@ class PostulantesController extends Controller
             $nombres=$p->user->nombres." ".$p->user->apellido_paterno." ".$p->user->apellido_materno;
             $formacion ="";$img ="";
             $edad = Carbon::createFromDate("2001-01-01")->age;  
+            
+            
             if($p->formacion_postulante->count() > 0){
-                $formacion = $p->formacion_postulante->especialidad;
-                $edad =Carbon::createFromDate($p->datos_postulantes->fecha_nacimiento)->age;
+                $formacion =[];
+                $temporal = "";
+                foreach($p->formacion_postulante as $fila){
+                    if($fila->especialidad != $temporal ){//si es lo mismo para que no se repita
+                        $formacion[] = $fila->especialidad;
+                    }
+                    $temporal = $fila->especialidad;                  
+                }
+                unset($temporal);
+                $edad =Carbon::createFromDate($p->datos_postulante->fecha_nacimiento)->age;
                 $img =$p->user->img;
             }
+
             $postulantes[] = [ 
                                 'postulante_id'=>$p->id,
                                 'estado_nombre'=>$estado_nombre, 
@@ -179,6 +199,11 @@ class PostulantesController extends Controller
                                 'formacion'=>$formacion,
                                 'edad'=>$edad,
                                 'img'=>$img,
+                                'ev_actual'=>$p->ev_curricular,
+                                'ev_curricular'=> (int) $p->ev_curricular,
+                                'ev_conocimiento'=>$p->ev_conocimiento,
+                                'ev_entrevista'=> (int)$p->ev_entrevista,
+                                'total'=>$p->total,
                             ];
             //limpiar
             unset($estado_nombre); unset($estado_clase); unset($nombres); unset($formacion); unset($edad); unset($img);
@@ -239,13 +264,20 @@ class PostulantesController extends Controller
         $filas ="";
         //return $etapa;
         $etapa_bd = $this->etapas_evaluacion($ev_con)[(int)$etapa-1]["desc2_bd"];
-        
+        $campo_max_bd = $api["etapa_actual"]['puntaje_max_bd'];
+        $campo_observacion = $api["etapa_actual"]['observacion_bd'];
+        $max = $api['proceso']->$campo_max_bd;
         foreach($postulantes as $key => $p){
 
             $filas .= "<tr>";
                 $nombres = $p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
                 $value=(int) $p->$etapa_bd;
-            $filas .= "<td>".($key+1)."</td> <td>".$p->user->dni."</td> <td>".$nombres."</td> <td><input type='number' name='evaluacion[".$p->id."]' value='$value' class='form-control'></td>";
+                $observacion=$p->$campo_observacion;
+            $filas .= "<td>".($key+1)."</td>";
+            $filas .= "<td>".$p->user->dni."</td>"; 
+            $filas .= "<td>".$nombres."</td>";
+            $filas .= "<td><input type='number' name='evaluacion[".$p->id."]' value='$value' min='0' max='$max' class='form-control'></td>";
+            $filas .= "<td><textarea class='form-control' name='observacion[".$p->id."][".$api["etapa_actual"]['observacion_bd']."]' >$observacion</textarea></td>";
             $filas .= "</tr>";
                 unset($value);unset($nombres);
         }
@@ -261,7 +293,7 @@ class PostulantesController extends Controller
         //return $r->evaluacion;
         //return Postulante::where("proceso_id",$proceso_id)->where("id",1)->first();
         foreach($r->evaluacion as $key => $valor){
-            //cargar entrante
+            //cargar puntaje
             $q = Postulante::find($key);
             $q->$campo_evaluacion =  $valor;
             if( (int) $valor > 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
@@ -269,8 +301,12 @@ class PostulantesController extends Controller
             }else if( $valor >= (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 1;
             }
+            
+            //cargar OBSERVACIÓN
+            foreach($r->observacion[$key] as $campo_observacion => $valor_observacion ){
+                $q->$campo_observacion =  $valor_observacion;
+            }
             $q->save();
-
             //actualizar BON+ (bonificacion) y total
             $sum_evaluaciones =[];
             foreach($api["etapas"]   as $e){

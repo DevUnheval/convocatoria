@@ -165,7 +165,7 @@ Route::group(['prefix' => 'postulante'], function(){
    })->middleware(['auth']);
 
 Route::group(['prefix' => 'reportes'], function(){
-    Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.preliminar');
+    Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->name('reportes.preliminar');
     Route::get('/{id}/{etapa}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.pdf');
     Route::get('/{id}/{etapa}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.excel');   
     Route::get('cv/{id_postulante}', 'ReportesController@cv')->where(['id_postulante'=>'[0-9]+'])->middleware(['auth','Comisionado']);
