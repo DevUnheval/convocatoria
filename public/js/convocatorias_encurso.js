@@ -98,9 +98,11 @@ $(document).ready(function() {
                 },
             onFinished: function(event, currentIndex) {//cuando se termina todos los pasos
                 //Swal.fire("Aquí escribir el AJAX para que mande el formulario, y sweet alert para que avise que se registró")
+                var $nombre_fomulario = "GUARDAR LOS CAMBIOS";
+                if($(this).attr("id") =='form_nuevo') $nombre_fomulario = "REGISTRAR UN NUEVO PROCESO" 
                 Swal.fire({
                     //title: '',
-                    text: "¿Está seguro de crear/aditar el PROCESO de CONVOCATORIA de PERSONAL?",
+                    text: `¿Está seguro que desea ${$nombre_fomulario}?`,
                     type: 'warning',
                     showCancelButton: true,
                     cancelButtonColor: '#d33',  
@@ -119,13 +121,37 @@ $(document).ready(function() {
     
                         var formData = new FormData();
                         data.forEach(element => {
-                           if(!(element.name=="bases" || element.name=="resolucion" || element.name=="e_archivo_resolucion" || element.name=="e_archivo_bases")){//son nombres no válidos, que no tienen campos en la BD, pero necesarios para las vistas
+                           if(!(element.name=="bases" 
+                                || element.name=="resolucion" 
+                                || element.name=="e_archivo_resolucion" 
+                                || element.name=="e_archivo_bases"
+                                || element.name=="n_exp_lab_gen_anio"
+                                || element.name=="n_exp_lab_gen_mes"
+                                || element.name=="n_exp_lab_gen_dia"
+                                || element.name=="n_exp_lab_esp_anio"
+                                || element.name=="n_exp_lab_esp_mes"
+                                || element.name=="n_exp_lab_esp_dia"
+                            
+                            )){//son nombres no válidos, que no tienen campos en la BD, pero necesarios para las vistas
                                 formData.append(element.name,element.value);
                            }
                            
                         });
                         
-                        
+                        //Experiecia laboral general
+                        const anios1 = (365)*$("#"+id_form+"_exp_lab_gen_anio").val();
+                        const meses1 = (30.4)*$("#"+id_form+"_exp_lab_gen_mes").val();
+                        const dias1  = parseInt( $("#"+id_form+"_exp_lab_gen_dia").val() , 10 );
+                        const dias_exp_lab_gen = parseInt( (anios1)+(meses1)+(dias1) , 10);
+                        formData.append("dias_exp_lab_gen", dias_exp_lab_gen );
+                        //Experiencia laboral específica
+                        const anios = (365)*$("#"+id_form+"_exp_lab_esp_anio").val();
+                        const meses = (30.4)*$("#"+id_form+"_exp_lab_esp_mes").val();
+                        const dias  = parseInt($("#"+id_form+"_exp_lab_esp_dia").val(),10);
+                        const dias_exp_lab_esp = parseInt( ((anios)+(meses)+(dias)) , 10);
+                        formData.append("dias_exp_lab_esp", dias_exp_lab_esp );
+                        // console.log("dias_exp_lab_esp=>",dias_exp_lab_esp);
+                        // console.log("dias_exp_lab_gen=>",dias_exp_lab_gen);
                         if(bases.attr("type") == "file"){
                             if(document.getElementById(bases.attr('id')).files[0]){
                                 formData.append("archivo_bases", document.getElementById(bases.attr('id')).files[0] );
@@ -146,8 +172,9 @@ $(document).ready(function() {
                             formData.append("archivo_resolucion_tipo", "web" );
                         }else{
                             alert("No hay resolucion");
-                            //return false;
+                            return false;
                         }
+                        //console.log("formData",formData);
                         $.ajax({
                                 headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
                                 data:  formData,
@@ -160,9 +187,7 @@ $(document).ready(function() {
                                 console.log('enviando....');
                             },
                             success:  function (response){
-                                console.log("respuesta",response);
-                               
-                                
+                               // console.log("respuesta",response);
                                 Swal.fire({
                                     position: 'top-end',
                                     type: 'success',
@@ -214,7 +239,6 @@ $(document).ready(function() {
                 }
             }
         })  
-
     // ==================================== WIZARD FIN =====================
 
     // =================================== OCULTAR/MOSTRAR LOCALHOST/WEB ============================
@@ -581,7 +605,29 @@ function editar(id){
 
             $("#hay_bon_pers_disc_"+response.hay_bon_pers_disc).prop("checked", true);
             $("#hay_bon_ffaa_"+response.hay_bon_ffaa).prop("checked", true);
-            $("#hay_bon_deport_"+response.hay_bon_deport_).prop("checked", true);     
+            $("#hay_bon_deport_"+response.hay_bon_deport).prop("checked", true); 
+            $("#e_bon_deport").val(response.bon_deport);
+             
+            const anio_exp_gen  =   Math.trunc((response.dias_exp_lab_gen)/365); 
+            const mes_exp_gen   =   Math.trunc(((response.dias_exp_lab_gen)%365)/30.4);
+            const dia_exp_gen   =   Math.round(((response.dias_exp_lab_gen)%365)%30.4);
+
+            const anio_exp_esp  =   Math.trunc((response.dias_exp_lab_esp)/365); 
+            const mes_exp_esp   =   Math.trunc(((response.dias_exp_lab_esp)%365)/30.4);
+            const dia_exp_esp   =   Math.round(((response.dias_exp_lab_esp)%365)%30.4);
+
+            $("#form_editar_exp_lab_gen_anio").val(anio_exp_gen);
+            $("#form_editar_exp_lab_gen_mes").val(mes_exp_gen);
+            $("#form_editar_exp_lab_gen_dia").val(dia_exp_gen);
+
+            $("#form_editar_exp_lab_esp_anio").val(anio_exp_esp);
+            $("#form_editar_exp_lab_esp_mes").val(mes_exp_esp);
+            $("#form_editar_exp_lab_esp_dia").val(dia_exp_esp);
+
+            $("#e_consid_prac_preprof_"+response.consid_prac_preprof).prop("checked", true);
+            $("#e_consid_prac_prof_"+response.consid_prac_prof).prop("checked", true);
+
+
             
             if(response.archivo_resolucion_tipo == "web"){
                 $("#e_res_web").change();
@@ -614,8 +660,6 @@ function editar(id){
     });
     $("#modal_editar").modal("show");
 }
-
-
 
 function resultado(id){ //esto se abrirá directo desde el boton, como no está cargando datos...
    

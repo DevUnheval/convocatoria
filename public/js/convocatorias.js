@@ -8,8 +8,6 @@ $(document).ready(function() {
          bAutoWidth: true,
           order: []
     }) 
-
-
     var form = $(".tab-wizard").show();
     $(".tab-wizard").steps({
         headerTag: "h6",

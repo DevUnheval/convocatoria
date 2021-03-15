@@ -239,10 +239,10 @@
         <td class="cv-tabla-td-dj" colspan="3"  >8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</td>
         <td align="center">NO</td>
     </tr>
-    <tr>
+    <!-- <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >9. Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</td>
         <td align="center">NO</td>
-    </tr>
+    </tr> -->
   </tbody>                                            
 </table>
 <br>

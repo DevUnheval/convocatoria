@@ -79,7 +79,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('historico/concluido/data', 'ConvocatoriaHistoricoController@data_concluidos')->name('convocatoria.historico.concluidos.data_concluidos');
     Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
     Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
-    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit')->middleware(['auth','Administrador']); 
+    Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');//->middleware(['auth','Administrador']); 
     Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update')->middleware(['auth','Administrador']);  
     Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado')->middleware(['auth']);  
     Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado')->middleware(['auth','Administrador']); 
@@ -139,7 +139,7 @@ Route::group(['prefix' => 'postulante'], function(){
     //POSTULANTES
     Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
-                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index');
+                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index')->middleware(['auth','Comisionado']);;
         Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[1-2]'])->name('postulantes.data'); 
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
@@ -166,9 +166,9 @@ Route::group(['prefix' => 'postulante'], function(){
    })->middleware(['auth']);
 
 Route::group(['prefix' => 'reportes'], function(){
-    Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.preliminar');
+    Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->name('reportes.preliminar');
     Route::get('/{id}/{etapa}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.pdf');
     Route::get('/{id}/{etapa}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.excel');   
-    
+    Route::get('cv/{id_postulante}', 'ReportesController@cv')->where(['id_postulante'=>'[0-9]+'])->middleware(['auth','Comisionado']);
 });
 
