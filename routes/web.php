@@ -126,9 +126,10 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal');
     Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo');
     Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
-    
+    Route::post('perfil/update_fotografia', 'Auth\PerfilController@update_fotografia')->name('update_fotografia');
+    Route::post('perfil/cambiocorreo', 'Auth\PerfilController@cambiocorreo')->name('cambiocorreo');
     });
-    Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');
+    Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');//no tocar
     
     //MIS POSTULACIONES
     Route::group(['prefix' => 'mispostulaciones'], function(){

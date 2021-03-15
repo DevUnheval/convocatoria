@@ -33,15 +33,16 @@
     @include('postulante.modalformacion')
     @include('postulante.modalnuevacapacitacion')
     @include('postulante.modalnuevaexperiencia')
+    @include('auth.m_fotografia')
 
 
 <div class="col-12">
     <div class="card">
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info bg-cyan" role="alert">
             <i class="dripicons-information mr-3"></i>  
-            <h5 class="text-center text-dark">Estas postulando al proceso:</h5>
+            <h5 class="text-center text-white-50">Estas postulando al proceso:</h5>
             <strong> 
-                <h2 class="text-center text-dark-info font-weight-bold ">              
+                <h2 class="text-center text-white font-weight-bold ">              
                     <div></i>{{$proceso->cod}} - {{$proceso->nombre}} <i class="fas fa-users mr-2 ml-5"></i>
                         <small>N° Plazas = {{$proceso->n_plazas}}</small>
                     </div>
@@ -69,40 +70,69 @@
                             </div>
                             
                         </div> -->
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="apellido_paterno"> Apellido Paterno : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{auth()->user()->apellido_paterno}}" id="apellido_paterno" name="apellido_paterno" disabled> </div>
+                        <div class="row border shadow-sm p-3 mb-4 bg-white">
+                            <div class="col-md-3">
+                                <div class="col-md">
+                                    <div class="border shadow-sm p-2 mb-2 mt-1 bg-white">
+                                        <center class="mt-1">
+                                            <img id="foto_perfil" src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" class="rounded" height="120" width="120">
+                                            <div class="mt-1 mb-1 align-content-center">
+                                                <button type="button" class="btn btn-outline-success " data-toggle="modal" data-target="#m_fotografia"
+                                                    data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
+                                                
+                                            </div>
+                                                                                        
+                                        </center>
+                                    </div>
+                                </div>    
+                            </div>    
+                            <div class="col-md-9">
+                                <div class="row mt-1">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label for="apellido_materno"> Apellidos y Nombres : <span class="text-danger">*</span> </label>
+                                                <input type="text" class="form-control" value="{{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}} {{auth()->user()->nombres}}" id="apellido_paterno" name="apellido_paterno" disabled> 
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="dni"> DNI : <span class="text-danger">*</span> </label>
+                                                <input type="text" value="{{auth()->user()->dni}}" class="form-control" id="dni" name="dni" disabled> </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="email"> Correo electrónico : <span class="text-danger">*</span> </label>
+                                                <input type="email" class="form-control" id="email" value="{{auth()->user()->email}}" name="email" disabled> </div>
+                                        </div>
+                                </div>
+                                
+                                <div class="row mt-3">
                                     
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="apellido_materno"> Apellido Materno : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{auth()->user()->apellido_materno}}" id="apellido_materno" name="apellido_materno" disabled> </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="nombres"> Nombres : <span class="text-danger">*</span> </label>
-                                    <input type="text" class="form-control" value="{{auth()->user()->nombres}}" id="nombres" name="nombres" disabled> </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="dni"> DNI : <span class="text-danger">*</span> </label>
-                                    <input type="text" value="{{auth()->user()->dni}}" class="form-control" id="dni" name="dni" disabled> </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="email"> Correo electrónico : <span class="text-danger">*</span> </label>
-                                    <input type="email" class="form-control" id="email" value="{{auth()->user()->email}}" name="email" disabled> </div>
+                                     <div class="col-md-9">
+                                        <div class="">
+                                            
+                                            
+                                                <label for="email"> Cargar Documento de Identidad (DNI, Carne de extranjería, otros): <span class="text-danger">*</span> </label>
+                                                <input type="file" class=" form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
+                                                <input type="hidden" id="input_hide_dni" value="0">                                                 
+                                                
+                                                
+                                            
+                                        </div>
+                                     </div>
+                                     <div class="col-md-3 pt-4">
+                                        
+                                            
+                                            
+                                                    <span id="btn_doc_dni" class=""></span>
+                                               
+                                            
+                                        
+                                     </div>
+                             </div>
                             </div>
                             
                         </div>
-                        
-                        
-                            
                         
                         <div class="row">
                             <div class="col-md-6">
@@ -184,20 +214,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md">
-                                <div class="card border-info border">
-                                    <div class="card-header bg-success">
-                                        <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
-                                    </div>
-                                    <div class="row">
-                                        <div class="m-4 col-md-6"> 
-                                        <input type="file" class="material-inputs form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
-                                        <input type="hidden" id="input_hide_dni" value="0">                                                 
-                                        </div>
-                                        <div class="col-md-6"> 
-                                            <span id="btn_doc_dni" class=""></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>    
                         <br>
@@ -640,5 +657,6 @@
 <script src="{{ asset('/material-pro/src/assets/extra-libs/prism/prism.js')}}"></script>
 <script src="{{ asset('/js/acordion.js')}}"></script>
 <script src="{{ asset('/js/preloader_pag.js')}}"></script>
+<script src="{{ asset('/js/update_fotografia.js')}}"></script>
 @endsection
 

@@ -7,6 +7,7 @@ use App\GradoFormacion;
 use App\Http\Controllers\Controller;
 use App\Proceso;
 use App\User;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PerfilController extends Controller
 {
-       
+    use RegistersUsers; 
     public function index(){
         //$proceso = Proceso::where('id',$idproceso)->first();
        // $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
@@ -82,6 +83,23 @@ class PerfilController extends Controller
        }
         
        return $user->img;
+    }
+
+    public function cambiocorreo(Request $data){
+        
+        if(User::where('email',$data->correonuevo)->exists()){
+            return true;
+        }else{
+
+        $var = User::find(auth()->user()->id);
+        $var->email = $data->correonuevo;
+        $var->email_verified_at = NULL;
+        $var->save();
+           
+       $data->user()->sendEmailVerificationNotification(); //envio de correo de confirmación
+       
+        return false;
+        }
     }
   
     
