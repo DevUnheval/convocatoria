@@ -38,7 +38,7 @@
 <div class="col-12">
     <div class="card">
         <div class="alert alert-info" role="alert">
-            <i class="dripicons-information mr-3"></i>  
+            <i class="dripicons-information "></i>  
             <h5 class="text-center text-dark">Estas postulando al proceso:</h5>
             <strong> 
                 <h2 class="text-center text-dark-info font-weight-bold ">              
@@ -530,7 +530,7 @@
                         </div>
                         <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
                     </div>
-                    <div class="row card-body bg-light">
+                    <!--<div class="row card-body bg-light">
                         <div class="col-md-2">
                             <input name="g9"   class=" g9 material-inputs required"  value="1" type="radio" id="si_p9" checked />
                             <label for="si_p9">Si</label>
@@ -540,7 +540,7 @@
                         <label class="col-md-10 border-left">9. Los documentos que declaro y presento son verídicos y fidedignos.</label>                                
                     </div> 
                     <br>
-                   <!-- <div id="veracidad" class="row card-body border alert alert-success" >          
+                    <div id="veracidad" class="row card-body border alert alert-success" >          
                         <div class="col-md-1 text-center justify-content-center align-items-center" >
                             <input style="width: 20px; height: 20px" id="check_dj" name="check_dj" value="1" type="checkbox" />
                         </div> 
@@ -549,9 +549,8 @@
                         </div>
                                                    
                     </div>  
-                    -->                   
-                    <br>
-                    <br>                                        
+                    --> 
+                    <hr>                                        
                 </section>
 
                 <!-- Step 6 -->

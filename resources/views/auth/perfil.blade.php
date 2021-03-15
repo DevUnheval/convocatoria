@@ -41,17 +41,18 @@
                        <div class="col-lg col-xlg col-md-6">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4">
+                                <center class="mt-0">
+                                    @foreach(auth()->user()->roles as $rol)
+                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
+                                    <hr>
+                                    @endforeach
                                     <img id="foto_perfil" src="{{ asset(str_replace('public/','storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" height="150" width="150">
                                     <div class="card-body align-content-center">
                                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
                                             data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
                                         
                                     </div>
-                                    <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
-                                    @foreach(auth()->user()->roles as $rol)
-                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
-                                    @endforeach
+                                    <h4 class="card-title mt-0">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
                                     
                                 </center>
                             </div>
@@ -81,22 +82,23 @@
                     <div class="col-lg col-xlg col-md">
                         <div class="card">
                             <div class="card-body">
-                                <center class="mt-4">
+                                <center class="mt-0">
+                                    @foreach(auth()->user()->roles as $rol)
+                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
+                                    @endforeach
+                                    <hr>
                                     <img id="foto_perfil" src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}" alt="user" class="rounded-circle" width="150" height="150">
                                     <div class="card-body align-content-center">
                                         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_fotografia"
                                             data-placement="bottom" title="" data-original-title="Actualizar Fotografía"><small>Actualizar Fotografía</small></button>
                                         
                                     </div>
-                                    <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
-                                    @foreach(auth()->user()->roles as $rol)
-                                    <button class="btn waves-effect waves-light btn-rounded btn-success" disabled> {{$rol->nombre}}</button>
-                                    @endforeach
-                                    
+                                    <h4 class="card-title mt-0">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
+                                                                       
                                 </center>
+                                <hr>
                             </div>
-                            
-                              <center>   
+                            <center>   
                                 <div class="card-body"> 
                                     
                                     <small class="text-muted">DNI</small> 
@@ -109,8 +111,8 @@
                                     <button id="btn_update_password" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#m_contraseña"
                                     data-placement="bottom" title="" data-original-title="Modificar Contaseña"><small>Cambiar Contraseña <i class="mdi mdi-account-key font-20 ml-2"></i></small></button>
                                 
-                            </div>
-                              </center>
+                                </div>
+                            </center>
                         </div>
                     </div>
 
