@@ -18,6 +18,7 @@ $(document).ready(function(){
             })
        
     })
+})
 
    function update_correo(){
     $.ajax({
@@ -44,7 +45,7 @@ $(document).ready(function(){
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
-                title: "Correo actualizado con exito",
+                title: "Correo actualizado con éxito",
                 showConfirmButton: false,
                 timer: 2000
             })
@@ -64,7 +65,11 @@ $(document).ready(function(){
 
 }
 
-})
+
+function actualizarpag(){
+    location.reload();
+}
+
 
    
     

@@ -598,7 +598,7 @@ class PostulanteController extends Controller
        $datosuser->dj6 = $data->dj6;
        $datosuser->dj7 = $data->dj7;
        $datosuser->dj8 = $data->dj8;
-       $datosuser->dj9 = $data->dj9;
+       //$datosuser->dj9 = $data->dj9;
        $datosuser->save();
        return "realizado";
      }

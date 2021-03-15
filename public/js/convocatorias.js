@@ -321,7 +321,7 @@ function ver_detalles(id){
           console.log('enviando....');
         },
         success:  function (response){
-           console.log("Resultados => ",response);
+          // console.log("Resultados => ",response);
            $("#ver_cod").html(response.cod);
            $("#ver_n_plazas").html(response.n_plazas);
            $(".ocultar_elemento").prop("hidden", true);
@@ -439,7 +439,7 @@ function guardar_comunicado(){
         }) 
         return false;
     }
-    console.log("FILE1",file);
+    //console.log("FILE1",file);
 
     var formData = new FormData();
         formData.append('archivo', file);

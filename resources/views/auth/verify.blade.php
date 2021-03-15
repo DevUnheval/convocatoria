@@ -45,7 +45,7 @@
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
                     </form>
                     <br><br><br>
-                    <button class="float-left btn btn-outline-success">Ya he verificado mi correo</button>
+                    <button onclick="actualizarpag()" class="float-left btn btn-outline-success">Ya he verificado mi correo</button>
                     <button class="float-right btn btn-outline-success" data-toggle="modal" data-target="#m_cambioCorreo"
                     data-placement="bottom" title="" data-original-title="Actualizar Fotografía">Deseo cambiar el correo registrado</button>
                 </div>

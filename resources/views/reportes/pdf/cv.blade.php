@@ -69,7 +69,7 @@
     </tr>
     <tr>
         <th class="cv-tabla-th">DOMICILIO</th>
-        <td class="cv-tabla-td" colspan="3"> {{$postulante->datos_postulante->domicilio}} ({{$postulante->datos_postulante->desc_ubigeo_nac()}})</td>
+        <td class="cv-tabla-td" colspan="3"> {{$postulante->datos_postulante->domicilio}} ({{$postulante->datos_postulante->desc_ubigeo_domicilio()}})</td>
     </tr>
     <tr>
         <th scope="row" colspan="4" class=""></th>
@@ -239,10 +239,14 @@
         <td class="cv-tabla-td-dj" colspan="3"  >8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</td>
         <td align="center">NO</td>
     </tr>
-    <!-- <tr>
-        <td class="cv-tabla-td-dj" colspan="3"  >9. Manifiesto que lo mencionado en la presente Declaración Jurada, responde al principio de veracidad normado en el numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código Penal vigente.</td>
-        <td align="center">NO</td>
-    </tr> -->
+     <tr>
+        <td class="cv-tabla-td-dj" colspan="3"  >9. Manifiesto que la información registrada responde al principio de veracidad normado en el 
+          numeral 1.7 del artículo IV del Título Preliminar, y el artículo 42º de la Ley Nº 27444 “Ley 
+          del Procedimiento Administrativo General”; así mismo tengo pleno conocimiento que si incurro 
+          en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código 
+          Penal vigente.</td>
+        <td align="center">SI</td>
+    </tr> 
   </tbody>                                            
 </table>
 <br>
@@ -252,7 +256,7 @@
 <table width="20%" border="1" cellpadding="0" cellspacing="0" bordercolor="#000000" style="border-collapse:collapse;border-color:#000000;">
   <tbody>
     <tr>
-      <th colspan="3">Fecha</th>
+      <th colspan="3">Fecha de Postulación</th>
     </tr>
     <tr>
       <td style="text-align:center;">Día</td>

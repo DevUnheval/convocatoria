@@ -117,7 +117,7 @@ class PostulantesController extends Controller
         $observacion_bd = $api["etapa_actual"]["observacion_bd"];
         foreach ( $api["postulantes"] as $p) {
            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
-           $cv = "<button class='btn btn-info btn-circle' onclick='mostrar_modalcv($p->id,$p->user_id,$etapa,$proceso_id,$se_evalua_conocimiento,$vista)'><span> <i class='fas fa-id-card'></i></span></button>";
+           $cv = "<button class='btn btn-primary btn-circle' onclick='mostrar_modalcv($p->id,$p->user_id,$etapa,$proceso_id,$se_evalua_conocimiento,$vista)'><span> <i class='fas fa-id-card'></i></span></button>";
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            
