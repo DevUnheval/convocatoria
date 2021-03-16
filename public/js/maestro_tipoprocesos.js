@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function() {
 
     var myTable=$('#data_table').DataTable( {
         bProcessing: true,
@@ -44,9 +44,14 @@ $(function(){
         });
     })
 
-    $("#guardar_nuevo").on("click",function(){
-        var datos=$("#formulario_nuevo").serialize();
+    $("#guardar_nuevo").click(function(){
+        if( $("#id_nombre").val()=="" || $("#id_descripcion").val()==""){
+            alert("Hay campo(s) vacio(s)");
+            return false;
+        }
+        var datos=$("#nuevo_formaulario").serialize();       
         var route = "/maestro/procesos/store";
+           
         $.ajax({
                 headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
                 data: datos,
@@ -64,9 +69,9 @@ $(function(){
                     timer: 1500
                 }) 
                 $('#data_table').DataTable().ajax.reload();
-                $('#modal_nuevo').modal('hide');    
-                $("#nuevo_nombre").val("");
-                $("#nuevo_descripcion").html(""); 
+                $('#modal_nuevo').modal('hide');                 
+                $("#nuevo_nombre").val("");      
+                $("#nuevo_descripcion").val("");  
 
             },
             error: function (response){
@@ -81,6 +86,8 @@ $(function(){
         });
     })
 });
+
+
 
 function editar(id){         
     $.ajax({
