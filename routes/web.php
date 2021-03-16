@@ -171,5 +171,6 @@ Route::group(['prefix' => 'reportes'], function(){
     Route::get('/{id}/{etapa}/pdf', 'ReportesController@pdf')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.pdf');
     Route::get('/{id}/{etapa}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.excel');   
     Route::get('cv/{id_postulante}', 'ReportesController@cv')->where(['id_postulante'=>'[0-9]+'])->middleware(['auth','Comisionado']);
+    Route::get('postulantes/{id_proceso}', 'ReportesController@descargar_postulantes')->name('reporte.postulantes')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
 });
 

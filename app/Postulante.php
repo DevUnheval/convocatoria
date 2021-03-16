@@ -13,7 +13,7 @@ class Postulante extends Model
 							'cal_curricular','cal_conocimientos','cal_entrevista',
 							'obs_curricular','obs_conocimientos','obs_entrevista',
 							'bonific_deportista','bonific_ffaa','bonific_pers_disc',
-							'bonificacion','total'];
+							'total','final','condicion'];
 	//public $timestamps = False;
 
 

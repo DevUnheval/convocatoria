@@ -28,6 +28,7 @@
                                 <th>Convocatoria</th>
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
+                                <th>Postulantes</th>
                                 <th>Resultados</th>
                             </tr>
                         </thead>
@@ -41,6 +42,7 @@
                                 <th>Convocatoria</th>
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
+                                <th>Postulantes</th>
                                 <th>Resultados</th>                              
                             </tr>
                         </tfoot>
