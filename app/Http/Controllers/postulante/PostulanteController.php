@@ -48,7 +48,9 @@ class PostulanteController extends Controller
     }
 */
     public function recuperar_ubigeo(){
-        $du = DatosUser::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('user_id',auth()->user()->id)->first();
+
+        if(DatosUser::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('user_id',auth()->user()->id)->exists()){
+            $du = DatosUser::select('nacionalidad','ubigeo_nacimiento','ubigeo_domicilio')->where('user_id',auth()->user()->id)->first();
         $nacionalidad = $du->nacionalidad;
         if($nacionalidad == "Peruano(a)"){
             $cod_nac = $du->ubigeo_nacimiento;
@@ -62,9 +64,16 @@ class PostulanteController extends Controller
         $cod_dom= $du->ubigeo_domicilio;
         $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($du->ubigeo_domicilio))->first();
         $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
-
+        
+        }else{
+            $nacionalidad="";
+            $desc_u_nac="";
+            $desc_u_dom="";
+            $cod_nac="";
+            $cod_dom=""; 
+        }
+        
         return compact('nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
-
     }
 
     public function datosuser_data1(){
@@ -97,7 +106,7 @@ class PostulanteController extends Controller
             }
         }
 
-        if($si_pos == 1 || $si_pos == 2){
+        if($si_pos != 0){
             return redirect()->route('registro_postular',['idproceso' => $si_pos]); 
         } else { 
 
@@ -107,6 +116,11 @@ class PostulanteController extends Controller
             } */
         
         $proceso = Proceso::where('id',$idproceso)->first();
+        
+                if( $proceso->estado == 3 || $proceso->estado == 4){ //si el proceso ya clmino o ha sido cancelado no me permite seguir con la postulacion
+                    return redirect()->route('index');
+                }
+
         $proceso_formacion = Proceso::join("grado_formacions", "grado_formacions.id", "=", "procesos.nivel_acad_convocar")
         ->select("grado_formacions.nombre","procesos.especialidad")
         ->where("procesos.id",$idproceso)
@@ -585,7 +599,7 @@ class PostulanteController extends Controller
        $datosuser->dj6 = $data->dj6;
        $datosuser->dj7 = $data->dj7;
        $datosuser->dj8 = $data->dj8;
-       $datosuser->dj9 = $data->dj9;
+       //$datosuser->dj9 = $data->dj9;
        $datosuser->save();
        return "realizado";
      }
@@ -768,6 +782,10 @@ class PostulanteController extends Controller
      public function registro_postular(Request $data){
         
         $proceso = Proceso::where('id',$data->idproceso)->first();
+        if($proceso->estado == 3 || $proceso->estado == 4){
+            return redirect()->route('index');
+        }
+
         $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         ->select("*")
         ->where("datos_users.user_id", "=", auth()->user()->id)

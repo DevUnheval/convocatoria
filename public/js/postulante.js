@@ -27,7 +27,7 @@ $(document).ready(function() {
             $('#ubigeodni').val(data.cod_nac);
             
         }else{
-            $("#nacionalidad option[value='']").prop('selected',true);
+            $("#nacionalidad option[value='Peruano(a)']").prop('selected',true);
         }
         
         
@@ -58,12 +58,14 @@ $(document).ready(function() {
             var href_deport="#";
             var href_disc="#";
             var href_ffaa="#";
-   
+            
+            $('#cargar_dni').prop('required',true);
             if(data[0].archivo_dni != null){
              href_dni=data[0].archivo_dni.replace("public/", '/storage/');
              var htmldni = "<a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                 $('#btn_doc_dni').html(htmldni);
                 $('#input_hide_dni').val('1');
+                $('#cargar_dni').prop('required',false);
             }
      
            
@@ -185,7 +187,7 @@ $(document).ready(function() {
         datatype: "json",
         data: {idproceso: $('#datospostulante').data('id')},
         success:function(data3){
-            //console.log(data3);
+           // console.log(data3);
         var marcadogeneral="";
         var marcadoespecifico="";
         var tipo_exp= "";
@@ -193,11 +195,11 @@ $(document).ready(function() {
         var totaldias_esp=0;
         var html_select_tip_exp="";
                
-        if(data3.proceso.consid_prac_preprof == 1 && data3.proceso.consid_prac_prof == 1){
+        if(data3.proceso[0].consid_prac_preprof == 1 && data3.proceso[0].consid_prac_prof == 1){
                 html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option><option value=3>Prácticas Profesionales</option>";
-        }else if(data3.proceso.consid_prac_preprof == 1){
+        }else if(data3.proceso[0].consid_prac_preprof == 1){
                 html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=2>Prácticas Pre Profesionales</option>";
-        }else if(data3.proceso.consid_prac_prof == 1){
+        }else if(data3.proceso[0].consid_prac_prof == 1){
                 html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option><option value=3>Prácticas Profesionales</option>";
         }else {
             html_select_tip_exp="<option value=\"\">*Seleccionar*</option><option value=1>Experiencia Laboral</option>";
@@ -292,7 +294,7 @@ $(document).ready(function() {
           switch(currentIndex){
                 case 0: 
                         $('#loading-screen').fadeIn(); //PRELOADER INICIO
-                        validar_paso = guardardatos(); //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
+                        validar_paso = pre_guardardatos(); //mediante AJAX o jQuery.get() verificamos que cumpla y seteamos la variable validar_paso  
                         $('#loading-screen').fadeOut(); //PRELOADER FIN
                         break;
                 case 1: 
@@ -758,6 +760,31 @@ function nueva_expe(){
 
 //_______________________________guardar o actualizar datos personales - section 1____________________________
     
+function pre_guardardatos(){
+    var formg = document.getElementsByClassName('datospostulante_v');
+    // Loop over them and prevent submission
+    var arrayExp={estado:"",msjok:"",msjerror:"Debe de completar todos los campos requeridos"};
+
+    var validation = Array.prototype.filter.call(formg, function(form_g) {
+        
+            if (form_g.checkValidity() === false) {
+               // event.preventDefault();
+                //event.stopPropagation();
+                form_g.classList.add('was-validated');
+                arrayExp={estado:false,msjok:"",msjerror:"falta complete...."};
+               
+            }else{
+                //event.preventDefault();
+                
+                form_g.classList.remove('was-validated');  
+                arrayExp = guardardatos();  
+            }
+       
+        });
+
+        return arrayExp;
+}
+
 function guardardatos(){
    
     
@@ -1054,9 +1081,9 @@ function cumple_formacion(id){
         dj = "'SI' en el inciso 7";
     } else if( $('input:radio[name=g8]:checked').val()=="1"){
         dj = "'SI' en el inciso 8";
-    } else if( $('input:radio[name=g9]:checked').val()=="0"){
+    }/* else if( $('input:radio[name=g9]:checked').val()=="0"){
         dj = "'NO' en el inciso 9";
-    }
+    }*/
 
     arrayExp.msjerror = "Usted está declarando "+dj+" de la Declaración Jurada, por tal motivo NO ES APTO para postular al presente PROCESO."
     
@@ -1077,13 +1104,13 @@ function cumple_formacion(id){
                 dj6:$('input:radio[name=g6]:checked').val(),
                 dj7:$('input:radio[name=g7]:checked').val(),
                 dj8:$('input:radio[name=g8]:checked').val(),
-                dj9:$('input:radio[name=g9]:checked').val()
+                //dj9:$('input:radio[name=g9]:checked').val()
              },
             success:function(data){
                 //console.log(data);
             },
             error: function(data){
-                alert("error!!"); 
+                //alert("error!!"); 
             }
     
         });    
@@ -1236,7 +1263,6 @@ function cumple_formacion(id){
             "</tr>";
         }
         $('#res_tbl_exp').html(html_resexp);
-
         //DECLARACION JURADA
         $('#res_dj1').html(data.qdatos.dj1 == 1 ? "SI" : "NO");
         $('#res_dj2').html(data.qdatos.dj2 == 1 ? "SI" : "NO");

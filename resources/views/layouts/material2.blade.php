@@ -30,6 +30,8 @@
 </head>
 
 <body>
+    
+    @yield('preload_postular')
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -39,6 +41,8 @@
             <div class="lds-pos"></div>
         </div>
     </div>
+
+    
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -423,6 +427,7 @@
     <script src="{{ asset('/material-pro/dist/js/sidebarmenu.js')}}"></script>
     <!--Custom JavaScript -->
     <script src="{{ asset('/material-pro/dist/js/custom.min.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
     @yield('js')
 </body>
 

@@ -1,3 +1,21 @@
+var  modal_evaluar_individual = function(idpostulante,$dni,$nombre,$foto,observacion_bd,puntaje,observacion,$etapa,$proceso_id,$ev_con,$vista){
+    document.getElementById("form_ev_individual").reset();
+    $("#btn_guardar_ev_individual").attr("data-proceso_id",$proceso_id);
+    $("#btn_guardar_ev_individual").attr("data-etapa",$etapa);
+    $("#btn_guardar_ev_individual").attr("data-ev_con",$ev_con);
+    $("#btn_guardar_ev_individual").attr("data-vista",$vista);
+    $("#input_puntaje_ev_individual").attr("name",`evaluacion[${idpostulante}]`);
+    $("#textarea_puntaje_ev_individual").attr("name",`observacion[${idpostulante}][${observacion_bd}]`);
+    //Datos del POSTULANTE
+    $("#dni_ev_individual").html($dni);
+    $("#nombres_ev_individual").html($nombre);
+    $("#img_ev_individual").attr("src",$foto);
+    //datos INPUTS
+    $("#input_puntaje_ev_individual").val(puntaje);
+    $("#textarea_puntaje_ev_individual").html(observacion);
+
+   $("#modal_evaluar").modal("show");
+}
 var  modal_evaluar_todos = function($etapa, $proceso_id,$ev_con,$vista){
     //modal_evaluar_todos(2,1,0,1)
     //postulantes/postulantes_evaluados/1/2/0
@@ -20,12 +38,39 @@ var  modal_evaluar_todos = function($etapa, $proceso_id,$ev_con,$vista){
         })
         }
     });
-    $("#btn_guardar_evalauacion").attr("data-proceso_id",$proceso_id);
-    $("#btn_guardar_evalauacion").attr("data-etapa",$etapa);
-    $("#btn_guardar_evalauacion").attr("data-ev_con",$ev_con);
-    $("#btn_guardar_evalauacion").attr("data-vista",$vista);
+    $("#btn_guardar_evaluacion").attr("data-proceso_id",$proceso_id);
+    $("#btn_guardar_evaluacion").attr("data-etapa",$etapa);
+    $("#btn_guardar_evaluacion").attr("data-ev_con",$ev_con);
+    $("#btn_guardar_evaluacion").attr("data-vista",$vista);
     
     $("#modal_evaluar_todos").modal("show");
+}
+
+var modal_mas = function(idpostulante){
+    
+    
+    $.ajax({
+        async: false,
+        url:   `/postulantes/ver_mas/${idpostulante}`,
+        type: 'GET',
+        beforeSend: function () {
+        console.log('enviando....');
+        },
+        success:  function (response){
+            $('#datos_modal_mas').html(response);
+        },
+        error: function (response){
+            console.log("Error",response.data);
+        Swal.fire({
+            title: "¡Error!",
+            text: response.responseJSON.message,
+            icon: "error",
+            timer: 3500,
+        })
+        }
+    });
+
+    $("#modal_mas").modal("show");
 }
 
 var dataTable = function(proceso,etapa){
@@ -65,8 +110,6 @@ var dataTable = function(proceso,etapa){
 }
 
 var dataTajetas = function(proceso,etapa){
-
-    
     $.ajax({
             url:   '/postulantes/'+proceso+'/'+etapa+'/2/listar/data',
             type: 'GET',
@@ -74,7 +117,7 @@ var dataTajetas = function(proceso,etapa){
             console.log('enviando....');
         },
         success:  function (response){
-            console.log("respuesta",response);
+            //console.log("respuesta",response);
             $("#grupo_total").html("Total ("+response.grupos.total+")");
             $("#grupo_pendientes").html("Pendientes ("+response.grupos.pendientes+")");
             $("#grupo_califica").html("Califica ("+response.grupos.califica+")");
@@ -83,14 +126,14 @@ var dataTajetas = function(proceso,etapa){
             var key=0;
             response.postulantes.forEach(element => {
                 key++;
-                console.log("ECO",element.estado_nombre);
+                //console.log("ECO",element.estado_nombre);
                 var random_img = Math.floor(Math.random() * 8)+1;
 
                 var $tarjeta = `<div class="col-md-3 single-note-pendiente container-fluid all-category ${element.estado_clase}">`; //`${}`: son string interpolation
                     $tarjeta +=    '<div class="card card-body el-element-overlay">';
                     $tarjeta +=        '<span class="side-stick"></span>';
                     $tarjeta +=        `<h5 class="note-title text-truncate w-75 mb-0"> ${element.estado_nombre}  <i class="point fas fa-circle ml-1 font-10" ></i></h5>`;
-                    $tarjeta +=        `<p class="note-date font-12 text-muted">DNI: ${element.dni}</p>`;
+                    $tarjeta +=        `<p class="note-date font-12 text-muted">PUNTAJE: <b>${element.ev_actual}</b></p>`;
                     $tarjeta +=        '<div class="note-content">';
                     $tarjeta +=            '<div class="el-card-item pb-3">';
                     $tarjeta +=                '<div class="el-card-avatar mb-3 el-overlay-1 w-100 overflow-hidden position-relative text-center">'; 
@@ -98,13 +141,15 @@ var dataTajetas = function(proceso,etapa){
                     $tarjeta +=                    '<div class="el-overlay w-100 overflow-hidden">';
                     $tarjeta +=                        '<ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">';
                     //$tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="material-pro/src/assets/images/users/${random_img}.jpg" title="ver foto"><i class="icon-picture"></i></a></li>`;
-                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="CV"><i class="fas fa-address-card" ></i></button></li>'; 
+                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>'; 
                     $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="evaluar"><i class="fas fa-calculator"></i></button></li>';
+                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn prmary btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="ver más"><i class="fas fa-plus"></i></button></li>';
                     $tarjeta +=                        '</ul>';
                     $tarjeta +=                    '</div>';
                     $tarjeta +=                 '</div>';
-                    $tarjeta +=                 '<div class="el-card-content text-center">';
-                    $tarjeta +=                     `<h4 class="mb-0">${element.nombres} (${element.edad})</h4> <span class="text-muted"> ${element.formacion}</span>`;
+                    $tarjeta +=                 '<div class="el-card-content">';
+                    $tarjeta +=                     `<h6 class="mb-0">DNI: ${element.dni} </h6>`;
+                    $tarjeta +=                     `<h5 class="mb-0">${element['nombres']} (${element.edad})</h5> <span class="text-muted"> ${element.formacion}</span>`;
                     $tarjeta +=                 '</div>';
                     $tarjeta +=             '</div>';
                     $tarjeta +=             '<div class="el-card-content text-left">';
@@ -119,32 +164,28 @@ var dataTajetas = function(proceso,etapa){
                     $tarjeta +=                        '</a>';
                     $tarjeta +=                    '</li>';
                     })
-                    $tarjeta +=                     '<li class="nav-item">';
-                    $tarjeta +=                        `<a href="#bono-${key}" data-toggle="tab" aria-expanded="false" class="nav-link rounded-0">`;
-                    $tarjeta +=                            '<i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>';
-                    $tarjeta +=                            '<span class="d-none d-lg-block">B+</span>';
-                    $tarjeta +=                        '</a>';
-                    $tarjeta +=                    '</li>';
+                    
                     $tarjeta +=                    '<li class="nav-item">';
                     $tarjeta +=                        `<a href="#total-${key}" data-toggle="tab" aria-expanded="false"  class="nav-link rounded-0 active">`;
                     $tarjeta +=                            `<i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>`;
                     $tarjeta +=                            `<span class="d-none d-lg-block">Total</span>`;
                     $tarjeta +=                        '</a>';
                     $tarjeta +=                   '</li>';
+
                     $tarjeta +=                '</ul>';
                     $tarjeta +=                '<div class="tab-content">';
                     response.etapas.forEach(etapa => {
                     $tarjeta +=                    `<div class="tab-pane" id="${etapa.desc_bd}-${key}">`;
-                    $tarjeta +=                        `<p>Evaluación ${etapa.descripcion}: 50</p>`;
+                    const $evaluacion = element[etapa.desc2_bd];
+                    $tarjeta +=                        `<p>Evaluación ${etapa.descripcion}: ${$evaluacion} </p>`;
                     $tarjeta +=                    '</div>';
                     })
-                    $tarjeta +=                    `<div class="tab-pane" id="bono-${key}">`;
-                    $tarjeta +=                        `<p>bono: 20</p>`;
-                    $tarjeta +=                    `</div>`;
+                    
                     $tarjeta +=                    `<div class="tab-pane active" id="total-${key}">`;
-                    $tarjeta +=                        `<p>Total: 20</p>`;
+                    $tarjeta +=                        `<p>Total: ${element.total}</p>`;
                     $tarjeta +=                    `</div>`;
                     $tarjeta +=                `</div>`;
+
                     $tarjeta +=            `</div>`;      
                     $tarjeta +=         '</div>';
                     $tarjeta +=     '</div>';
@@ -173,9 +214,27 @@ var cargar_vistas = function (proceso, etapa, vista, div) {
         dataTajetas(proceso,etapa);
         
     }
-
-
 }
+
+
+var guardar_ev_individual = function (proceso, etapa, vista, div) {
+    "use strict";
+    $(".ver-div").attr("hidden",true);
+    $("#"+div).attr("hidden",false);
+
+    if(vista == "1"){
+        $('#data_table').DataTable().destroy();
+       dataTable(proceso,etapa);
+       
+    }else{
+        $("#note-full-container").empty();
+        dataTajetas(proceso,etapa);
+        
+    }
+}
+
+
+
 // var Postulantes = (function () {
 //     "use strict";
 //     return {
@@ -187,13 +246,16 @@ var cargar_vistas = function (proceso, etapa, vista, div) {
 
 //=========================================INICIAR============================================v
 $(document).ready(function() {
-    $("#btn_guardar_evalauacion").click(function(){
+    $(".btn_guardar_evaluacion").click(function(){
         const $proceso_id= $(this).data("proceso_id");
         const $etapa= $(this).data("etapa");
         const $ev_con= $(this).data("ev_con");
         const $vista= $(this).data("vista");
-        const $data = $("#form_postulantes_evaluados").serialize();
-        
+        const $formulario= $(this).data("id_formulario");
+        const $data = $("#"+$formulario).serialize();
+        if(!$("#"+$formulario).valid()){
+            return false;
+        }        
         $.ajax({
             async:false, //para dejar que termine el ajax, antes que continue y sacar variables del succes
             url:  `/postulantes/actualizar_evaluacion/${$proceso_id}/${$etapa}/${$ev_con}`,
@@ -204,6 +266,8 @@ $(document).ready(function() {
             console.log('enviando....');
             },
             success:  function (response){
+                //console.log(response);
+                $("#modal_evaluar").modal("hide");
                 var $nueva_etapa = response;
                 if($etapa == $nueva_etapa){
                     Swal.fire({
@@ -220,7 +284,9 @@ $(document).ready(function() {
                         title: 'Avanzamos a la siguiente etapa',
                         showConfirmButton: false,
                         timer: 2000
-                    }) 
+                    })
+                   // console.log("aquí el BUG"); 
+                    
                     $(location).attr('href', `/postulantes/${$proceso_id}/${$nueva_etapa}/${$vista}/listar`);
                 }
                 
@@ -245,7 +311,7 @@ $(document).ready(function() {
         const proceso = $(this).data("proceso");
         const etapa   =  $(this).data("etapa");
         const div     =  $(this).data("div_id");
-        console.log(proceso, etapa, vista, div);
+        //console.log(proceso, etapa, vista, div);
         cargar_vistas(proceso, etapa, vista, div);
         
     });

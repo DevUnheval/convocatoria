@@ -4,11 +4,13 @@ $(document).ready(function() {
        
         if($('#nacionalidad').val() == "Peruano(a)"){
             $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('required',false);
             $('#ubigeodni').prop('id','vacio');
             $('#html_lugar_nac2').hide();
             $('#html_lugar_nac').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
                      
         }
@@ -16,11 +18,13 @@ $(document).ready(function() {
         if($('#nacionalidad').val() == "Extranjero(a)"){
         
             $('#ubigeodni').removeClass('required');
+            $('#ubigeodni').prop('required',false);
             $('#ubigeodni').prop('id','vacio');
             $('#html_lugar_nac').hide();
             $('#html_lugar_nac2').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
            
         }
@@ -54,7 +58,7 @@ $(document).ready(function() {
             $('#ubigeodni').val(data.cod_nac);
             
         }else{
-            $("#nacionalidad option[value='']").prop('selected',true);
+            $("#nacionalidad option[value='Peruano(a)']").prop('selected',true);
         }
         
         
@@ -183,11 +187,13 @@ $("#tipo_capacitacion").on('change',function(){
          var href_disc="#";
          var href_ffaa="#";
 
+         $('#cargar_dni').prop('required',true);
          if(data[0].archivo_dni != null){
           href_dni=data[0].archivo_dni.replace("public/", '/storage/');
           var htmldni = "<td><a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
              $('#btn_doc_dni').html(htmldni);
              $('#input_hide_dni').val('1');
+             $('#cargar_dni').prop('required',false);
          }
   
         
@@ -956,7 +962,38 @@ $("#tipo_capacitacion").on('change',function(){
   }
  
  //_______________________________guardar o actualizar datos personales - section 1____________________________
-     
+ function pre_guardardatos(){
+    var formg = document.getElementsByClassName('form_datospers_perfil');
+    // Loop over them and prevent submission
+    //var arrayExp={estado:"",msjok:"",msjerror:"falta complete...."};
+
+    var validation = Array.prototype.filter.call(formg, function(form_g) {
+        
+            if (form_g.checkValidity() === false) {
+               // event.preventDefault();
+                //event.stopPropagation();
+                
+                    Swal.fire({
+                        type: 'warning',
+                        title: "¡Información!",
+                        text: "Debe de completar todos los campos requeridos",
+                        timer: null
+                    })
+                  form_g.classList.add('was-validated');
+               // arrayExp={estado:false,msjok:"",msjerror:"falta complete...."};
+               
+            }else{
+                //event.preventDefault();
+                
+                form_g.classList.remove('was-validated');  
+                guardardatos();  
+            }
+       
+        });
+
+      //  return arrayExp;
+}    
+ 
  function guardardatos(){
     
      var discap=0;

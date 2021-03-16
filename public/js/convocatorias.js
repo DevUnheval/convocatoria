@@ -67,6 +67,15 @@ $(document).ready(function() {
                        
                     });
                     
+                    if( $("#"+id_form+ " .check_conocimientos").prop('checked') ){
+                        formData.append("evaluar_conocimientos","1");
+                    }else{
+                        formData.append("evaluar_conocimientos","0");
+                        formData.append("pje_min_conoc","0");
+                        formData.append("pje_max_conoc","0");
+                        formData.append("pje_max_conoc","0");
+                    }
+
                     //Experiecia laboral general
                     const anios1 = (365)*$("#"+id_form+"_exp_lab_gen_anio").val();
                     const meses1 = (30.4)*$("#"+id_form+"_exp_lab_gen_mes").val();
@@ -84,6 +93,7 @@ $(document).ready(function() {
                     if(bases.attr("type") == "file"){
                         if(document.getElementById(bases.attr('id')).files[0]){
                             formData.append("archivo_bases", document.getElementById(bases.attr('id')).files[0] );
+                            formData.append("archivo_bases_tipo", "local" );
                         }
                     }else if (bases.attr("type") == "url"){
                         formData.append("archivo_bases", $("#"+bases.attr('id') ).val());
@@ -95,6 +105,7 @@ $(document).ready(function() {
                     if(resolucion.attr("type") == "file"){
                         if(document.getElementById(resolucion.attr('id')).files[0]){
                             formData.append("archivo_resolucion", document.getElementById(resolucion.attr('id')).files[0] );
+                            formData.append("archivo_resolucion_tipo", "local" );
                         }
                     }else if (resolucion.attr("type") == "url"){
                         formData.append("archivo_resolucion", $("#"+resolucion.attr('id') ).val());
@@ -172,6 +183,7 @@ $(document).ready(function() {
 
 function editar(id){
     $("#form_editar").steps('reset');  
+    document.getElementById("form_editar").reset();
     $.ajax({
         url:   "/convocatorias/edit/"+id,
         type: 'GET',
@@ -214,7 +226,14 @@ function editar(id){
             $("#anios_exp_lab_esp").val(response.anios_exp_lab_esp);
             $("#horas_cap_total").val(response.horas_cap_total);
             $("#horas_cap_ind").val(response.horas_cap_ind);
-
+            if(response.evaluar_conocimientos){
+                //$("#e_check_evaluar_conocimientos").change();
+                $("#e_check_evaluar_conocimientos").click();
+            }else{
+                $("#e_check_evaluar_conocimientos").change();
+            }
+           
+            
             $("#hay_bon_pers_disc_"+response.hay_bon_pers_disc).prop("checked", true);
             $("#hay_bon_ffaa_"+response.hay_bon_ffaa).prop("checked", true);
             $("#hay_bon_deport_"+response.hay_bon_deport).prop("checked", true); 
@@ -321,7 +340,7 @@ function ver_detalles(id){
           console.log('enviando....');
         },
         success:  function (response){
-           console.log("Resultados => ",response);
+          // console.log("Resultados => ",response);
            $("#ver_cod").html(response.cod);
            $("#ver_n_plazas").html(response.n_plazas);
            $(".ocultar_elemento").prop("hidden", true);
@@ -439,7 +458,7 @@ function guardar_comunicado(){
         }) 
         return false;
     }
-    console.log("FILE1",file);
+    //console.log("FILE1",file);
 
     var formData = new FormData();
         formData.append('archivo', file);

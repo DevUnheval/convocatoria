@@ -30,7 +30,10 @@
 
 @section('content')
 
-
+<?php 
+        $ptj_max = $etapa_actual['puntaje_max_bd'];
+        $ptj_min = $etapa_actual['desc3_bd'];  
+?>
 
 <div class="container-fluid note-has-grid"><hr>
     <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -78,6 +81,11 @@
     @include('postulantes.modal_cv')
     @include('postulantes.modal_evaluar')
     @include('postulantes.m_evaluacion_todos')
+    @include('postulantes.modal_mas')
+    <div class="p-2">
+        <button class="btn btn-outline-danger" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-calculator"></i> Evaluar en bloque: Ev. {{$etapa_actual['descripcion']}} </button>
+        <button class="btn btn-outline-success float-right" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-file-excel"></i> Descargar tabla </button>
+    </div>
     <div id="ver-tarjetas" class="ver-div" hidden>
         <ul class="nav nav-pills p-3 bg-light mb-3 rounded-pill align-items-center">
             <li class="nav-item"> <a href="javascript:void(0)" class="nav-link rounded-pill note-link d-flex align-items-center active px-2 px-md-3 mr-0 mr-md-2"  id="all-category">
@@ -100,12 +108,10 @@
             </div>
         </div>	
     </div>
+    
     <div id="ver-tablas" class="ver-div" hidden>
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">
-                    POSTULANTES AL PROCESO
-                </h4>
                 <div class="table-responsive">
                     <table id="data_table" class="table table-striped table-bordered">
                         <thead>
@@ -114,13 +120,14 @@
                                 <th>DNI</th>
                                 <th>Apellidos y Nombres</th>
                                 <th>CV</th>
-                                <th>Ev. Curricular <br> <small> peso {{100*$proceso->peso_cv}}%</small></th> 
+                                <th>Ev. Curricular <br> <small> [{{(int)$proceso->pje_min_cv}} - {{(int)$proceso->pje_max_cv}}]</small></th> 
                                 @if($proceso->evaluar_conocimientos=="1")
-                                <th>Ev. Conoc/ Psic/Hab  <br> <small> peso {{100*$proceso->peso_conoc}}%</small> </th>   
+                                <th>Ev. Conoc/ Psic/Hab  <br> <small> [{{(int)$proceso->pje_min_conoc}} - {{(int)$proceso->pje_max_conoc}}] </small> </th>   
                                 @endif
-                                <th>Ev. entrevista <br><small> peso {{100*$proceso->peso_entrev}}%</small></th>
+                                <th>Ev. entrevista <br><small>[{{(int)$proceso->pje_min_entrev}} - {{(int)$proceso->pje_max_entrev}} ]</small></th>
                                 <th title="Bonificación">Bon+</th>
                                 <th>Total </th>
+                                <th>Más</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -139,6 +146,7 @@
                                 <th>Ev. entrevista</th>
                                 <th title="Bonificación">Bon+</th>
                                 <th>Total </th>
+                                <th>Más</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -160,6 +168,7 @@
      </script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/meg.init.js')}}"></script>
+    <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/postulantes/tarjetas_postulantes.js')}}"></script>
     <script src="{{ asset('/js/postulantes/postulantes.js')}}"></script>
     <script src="{{ asset('/js/postulantes/modalcv.js')}}"></script>

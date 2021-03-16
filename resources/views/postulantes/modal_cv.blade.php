@@ -15,11 +15,17 @@
                 </h4>
                 <button type="button" class="close ml-auto" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div >
-                <div class="justify-content-right">
-                    <button type="button" class="btn btn-success float-right mr-5" id="btn_guardar_validación">Guardar  <i class=" far fa-save"></i></button>
-                    <input class="w-25 form-control float-right" type="text" placeholder="Puntaje de eval. curricular"/>
+            <div>
+                @if($etapa_actual['etapa']=='1')
+                <div class="justify-content-right p-1 offset-sm-8 col-sm-4"  style="height: 100px; background-color: rgba(247, 220, 111,0.3);">
+                    <button type="button" class="btn btn-success float-right w-50 btn_guardar_evaluacion" id="btn_guardar_evaluacion_cv" 
+                        data-id_formulario="form_ev_curricular_1">Guardar  <i class=" far fa-save"></i></button>
+                    <form id="form_ev_curricular_1">     
+                        <input class="w-50 form-control float-right" id="input_puntaje_curricular_1" type="number" placeholder="Puntaje"min="0" max="{{$proceso->$ptj_max}}" required/>
+                        <textarea class="form-control float-right"   id="textarea_puntaje_curricular_1" placeholder="No hay observaciones..."></textarea>
+                    </form>
                 </div>
+                @endif
             </div>
             <div class="modal-body">
                  <!-- Column -->
@@ -106,7 +112,6 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                
                                 <div class="card-body">
                                     <!-- <form class="form-horizontal form-material"> -->
                                         

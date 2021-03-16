@@ -25,15 +25,26 @@ class DatosPostulante extends Model
         $data = $this->ubigeo_nacimiento;
         $ubigeo_cod = str_pad($data,$length,"0", STR_PAD_LEFT);
         $ubigeo = Ubigeo::where("cod_ubigeo_reniec", $ubigeo_cod)->first();
-        return $ubigeo->desc_ubigeo_reniec." - ".$ubigeo->desc_prov_reniec." - ".$ubigeo->desc_dep_reniec;
+
+        if($ubigeo){
+            return $ubigeo->desc_ubigeo_reniec." - ".$ubigeo->desc_prov_reniec." - ".$ubigeo->desc_dep_reniec;
+        }else{
+            return $data;
+        }
+        
     }
     public function desc_ubigeo_domicilio()
     {
         $length = 6;
-        $data = $this->ubigeo_nacimiento;
+        $data = $this->ubigeo_domicilio;
         $ubigeo_cod = str_pad($data,$length,"0", STR_PAD_LEFT);
         $ubigeo = Ubigeo::where("cod_ubigeo_reniec", $ubigeo_cod)->first();
-        return $ubigeo->desc_ubigeo_reniec." - ".$ubigeo->desc_prov_reniec." - ".$ubigeo->desc_dep_reniec;
+
+       if($ubigeo){
+            return $ubigeo->desc_ubigeo_reniec." - ".$ubigeo->desc_prov_reniec." - ".$ubigeo->desc_dep_reniec;
+        }else{
+            return $data;
+        }
     }
     // public function desc_ubigeo_reniec($ubigeo_id){
     //     return $ubigeo_id = Ubigeo::where("cod_ubigeo_reniec", $ubigeo_id)->first();

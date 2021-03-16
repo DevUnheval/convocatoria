@@ -31,10 +31,7 @@ function validar_form(idbtn){
 }
 
 function validar_capa(idbtn){
-    
     var valor_validacion=0;
-   // console.log(dias_gen+" "+dias_esp+" "+idbtn);
-
     if($('#'+idbtn).hasClass('ti-layout-width-full')){
          
          $('#'+idbtn).removeClass('ti-layout-width-full');
@@ -106,7 +103,15 @@ function validar_exp(idbtn,dias_gen,dias_esp){
 
 }
 
-function mostrar_modalcv(idpostulante,iduser){
+function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista){
+ //CARGAR DATA al BOTON 
+    $("#btn_guardar_evaluacion_cv").attr("data-proceso_id",$proceso_id);
+    $("#btn_guardar_evaluacion_cv").attr("data-etapa",$etapa);
+    $("#btn_guardar_evaluacion_cv").attr("data-ev_con",$ev_con);
+    $("#btn_guardar_evaluacion_cv").attr("data-vista",$vista);
+    $("#input_puntaje_curricular_1").attr("name",`evaluacion[${idpostulante}]`);
+    $("#textarea_puntaje_curricular_1").attr("name",`observacion[${idpostulante}][obs_curricular]`);
+    document.getElementById("form_ev_curricular_1").reset();
  //alert(idpostulante);
  $('#total_exp_general').val("0");
  $('#total_exp_especifica').val("0");
@@ -117,7 +122,9 @@ function mostrar_modalcv(idpostulante,iduser){
     type: "GET" ,
     datatype: "json",
     success:function(data){ 
-
+      //FORMULARIO OPCIONAL Ev. Currocular
+      $("#input_puntaje_curricular_1").val(parseInt(data.postulante.ev_curricular,10));
+      $("#textarea_puntaje_curricular_1").html(data.postulante.obs_curricular); 
       //console.log(data);
       var esdisc = "";
       var esffaa = "";
@@ -421,7 +428,5 @@ function anios_meses_dias(diasx){
     }else if(dias > 1){
         dias_desc = "dias";
     }
-  
-     
   return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
  }

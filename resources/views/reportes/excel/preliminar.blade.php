@@ -32,12 +32,12 @@
                         <td  align="center" colspan="5" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="5">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN {{$data["etapa_actual"]["descripcion"]}}</td>
+                        <td  align="center" colspan="5">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN PRELIMINAR</td>
                     </tr>
                     <tr>
                         <th rowspan="2"  border="1">Orden de Mérito</th>
-                        <th rowspan="2" style="width:50px;">Apellidos y Nombres</th>                                                    
-                        <th rowspan="2">Puntaje</th>
+                        <th rowspan="2"  border="1">DNI</th>
+                        <th rowspan="2" style="width:50px;">Apellidos y Nombres</th>            
                         <th colspan="2">Resultado</th>
                                                                 
                     </tr>
@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>   
-                    @foreach($data as $key => $p)    
+                    @foreach($data["postulantes"] as $key => $p)    
                     <tr>
                         <td align="center">
                                 {{($key+1)}}
