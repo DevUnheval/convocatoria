@@ -4,7 +4,9 @@ namespace App\Http\Controllers\maestro;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\TipoProceso;
+
 
 class ProcesoController extends Controller
 {
@@ -51,10 +53,23 @@ class ProcesoController extends Controller
     }
 
    
-    public function store(Request $r)
+    public function store(Request $request)
     {
-        TipoProceso::create($r->all());
+        TipoProceso::create($request->all());
+    //    request()->validate([
+    //         'nombre'=>'required',
+    //         'descripcion'=>'required',
+    //     ],
+    //    [
+    //         'nombre.required'=>'el campo es obligatoriro',
+    //        'descripcion.required'=> 'el campo es obligatorio',  
+    //    ]);
+    //    dd($request);
     }
+
+
+        
+    
 
   
     public function edit($id)

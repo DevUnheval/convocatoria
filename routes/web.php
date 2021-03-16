@@ -51,7 +51,7 @@ Route::group(['prefix' => 'maestro'], function(){
     Route::group(['prefix' => 'procesos'], function(){
         Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index')->middleware(['auth']);
         Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update')->middleware(['auth','Administrador']);  
-        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','comisionado']);  
+        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','Comisionado']);  
         Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
         Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar')->middleware(['auth','Administrador']);  
         
@@ -59,7 +59,7 @@ Route::group(['prefix' => 'maestro'], function(){
     Route::group(['prefix' => 'formacion'], function(){
         Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index')->middleware(['auth']); 
         Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update')->middleware(['auth','Administrador']); 
-        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','comisionado']);  
+        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','Comisionado']);  
         Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
         Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar')->middleware(['auth','Administrador']); 
     }); 

@@ -79,6 +79,12 @@
                     <th scope="row" class="alert alert-secondary">Dist-Prov-Dep</th>
                     <td>{{$datos_usuario['ubigeo_domicilio']}}</td>
                 </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Fecha de Postulacion </th>
+                    <td>{{$fechapos.date('Y-m-d')}}</td>
+                    <th scope="row" class="alert alert-secondary">Hora de Postulacion</th>
+                    <td>{{$horapos.date('H:i')}}</td>
+                </tr>
             </tbody>                            
         </table>
     </div>   

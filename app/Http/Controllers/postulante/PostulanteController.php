@@ -17,6 +17,7 @@ use App\Postulante;
 use App\Proceso;
 use App\Ubigeo;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -791,10 +792,12 @@ class PostulanteController extends Controller
         ->first();
 
         $mensaje = "";
+        
        
         if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->exists()){
             $pos = Postulante::select('id','estado_pos')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
-            
+            $fechapos= Postulante::whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->get();
+            $horapos=Postulante::whereTime('created_at', '=', Carbon::now()->format('H:i'))->get();
             if($pos['estado_pos'] == 0){
                 $pp = Postulante::find($pos['id']);
                 $pp->estado_pos = 1;
@@ -812,7 +815,7 @@ class PostulanteController extends Controller
         }else{
        return redirect()->route('postulante_postular',['idproceso' => $data->idproceso]);
         } 
-     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje'));
+     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje','fechapos','horapos'));
     
 }
 
