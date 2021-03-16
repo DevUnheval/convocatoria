@@ -33,7 +33,7 @@ $(document).ready(function(){
            
            // console.log(data);
            if(data){
-
+            
             Swal.fire({
                 type: 'warning',
                 title: "¡Información!",
@@ -42,6 +42,7 @@ $(document).ready(function(){
             })
 
            }else{
+            $('#loading-screen').fadeIn();
             Swal.fire({
                 position: 'top-end',
                 type: 'success',
@@ -49,9 +50,9 @@ $(document).ready(function(){
                 showConfirmButton: false,
                 timer: 2000
             })
-
-            $('#loading-screen').fadeIn();
+                    
             $('#m_cambioCorreo').modal('hide');
+            
             location.reload();
            }
 
@@ -64,7 +65,6 @@ $(document).ready(function(){
     });
 
 }
-
 
 function actualizarpag(){
     location.reload();

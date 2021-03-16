@@ -785,6 +785,8 @@ class PostulanteController extends Controller
             return redirect()->route('index');
         }
 
+        
+
         $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
         ->select("*")
         ->where("datos_users.user_id", "=", auth()->user()->id)
@@ -795,13 +797,17 @@ class PostulanteController extends Controller
         if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->exists()){
             $pos = Postulante::select('id','estado_pos')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
             
+            $datos_postulante = DatosPostulante::select("ruc","telefono_celular","domicilio","ubigeo_domicilio","fecha_nacimiento","ubigeo_nacimiento","nacionalidad")
+            ->where("postulante_id", "=", $pos->id)
+            ->first();
+            
             if($pos['estado_pos'] == 0){
                 $pp = Postulante::find($pos['id']);
                 $pp->estado_pos = 1;
                 $pp->save();
                 //Envio de constancia al correo electronico
-                $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
-                Mail::to($datos_usuario->email)->send($correo);
+                $correo = new ConstPostulacionMailable($proceso, $datos_postulante);
+                Mail::to(auth()->user()->email)->send($correo);
 
                 
             } else{
@@ -812,7 +818,7 @@ class PostulanteController extends Controller
         }else{
        return redirect()->route('postulante_postular',['idproceso' => $data->idproceso]);
         } 
-     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje'));
+     return view('postulante.finpostular',compact('proceso','datos_postulante','mensaje'));
     
 }
 

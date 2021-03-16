@@ -1,6 +1,10 @@
 
 @extends('layouts.material2')
 
+@section('css')
+<link href="{{ asset('/css/preloader.css')}}" rel="stylesheet" type="text/css">
+@endsection
+
 @section('preload_postular')
 <div id="loading-screen" style="display: none">
     
