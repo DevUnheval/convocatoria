@@ -128,7 +128,7 @@ class PostulantesController extends Controller
            }
            
            $total = (float) $p->total;
-           $bonificacion = (float) $p->bonificacion;
+           $final = (float) 10;
            $ev_conocimiento = $p->ev_conocimiento;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
@@ -144,13 +144,13 @@ class PostulantesController extends Controller
                     case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
                     case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$bonificacion,$total,$btn_mas];
+                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$total,$final,$btn_mas];
            }else{
                 switch($etapa){
                     case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
                     case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$bonificacion,$total,$btn_mas];
+                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$total,$final,$btn_mas];
            }
             unset($nombres); unset($ev_entrevista); unset($ev_curricular); unset($cv);
         }

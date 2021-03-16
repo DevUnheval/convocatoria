@@ -19,7 +19,7 @@
                 </div>
                 <hr>
 
-                <form id="form_ev_individual">
+                <form id="form_ev_individual" action="javascript:void(0);">
                     <div class="form-group">
                         <label>Puntaje</label>
                         <input type="number"  class="form-control" id="input_puntaje_ev_individual" placeholder="Puntaje"min="0" max="{{$proceso->$ptj_max}}" required>

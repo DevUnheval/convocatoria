@@ -47,8 +47,6 @@ var  modal_evaluar_todos = function($etapa, $proceso_id,$ev_con,$vista){
 }
 
 var modal_mas = function(idpostulante){
-    
-    
     $.ajax({
         async: false,
         url:   `/postulantes/ver_mas/${idpostulante}`,
@@ -304,8 +302,16 @@ $(document).ready(function() {
         });
         $("#modal_evaluar_todos").modal("hide");
         iniciar_pagina();
-    })
-
+    });
+    $("#input_puntaje_ev_individual").keypress(function(e) {
+       
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if (keycode == '13') {
+            $("#btn_guardar_ev_individual").click();  
+        }
+    });
+    
+    
     $(".check-vista").change(function(){
         const vista   = $(this).data("vista");
         const proceso = $(this).data("proceso");

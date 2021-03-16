@@ -32,7 +32,7 @@
             </h4>
             @endif
                 <div class="table-responsive">
-                    <table id="zero_config" class="table table-striped table-bordered">
+                    <table id="zero_config" class="table table-striped table-bordered" data-url="/convocatorias/vigentes/data">
                         <thead class="text-white"style="background-color:#1e94c2;">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
@@ -56,7 +56,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot class="">
+                        <tfoot class="text-white"style="background-color:#1e94c2;">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                 <th>Conf.</th>
@@ -89,47 +89,7 @@
 
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/convocatorias.js')}}"></script>
-
-    <script>
-    $(document).ready(function(){
-        $(".check_conocimientos").change(function() {
-            if(this.checked) {
-                $(".fila_conocimiento").prop("disabled", false);
-                $(".fila_conocimiento").prop('required',true);
-               
-
-            }else{
-                $(".fila_conocimiento").prop("disabled", true);
-                $(".fila_conocimiento").prop('required',false);
-                $(".fila_conocimiento").val('0');
-                //$(".fila_conocimiento").removeAttr( "required" );
-            }
-        });
-        
-        $('.form-check-input').on('change', function() {
-           
-            //alert( valor);
-            var valor   =  $(this).val();
-            var $div    =  "#"+$(this).data("id_div");
-            var $nombre =  $(this).data("name");
-            var $id     =  $(this).data("id");
-            if(valor =="1"){
-                if($id=="n_archivo_bases" || $id=="n_archivo_resolucion"){
-                    $($div).html('<input type="file" class="form-control-file required '+$nombre+'" id="'+$id+'" name="'+$id+'">'); //es necesario ponerle atributo name, sino no agarra el required...
-                }else{
-                     $($div).html('<input type="file" class="form-control-file '+$nombre+'"  id="'+$id+'">'); //... y le mandamos un name que no esté en BD, así no pasa nada
-                }
-                
-                
-            } else if (valor == "0"){ 
-                $($div).html('<input type="url" class="form-control required '+$nombre+'" name="'+$id+'" id="'+$id+'" placeholder="Ingrese el link">');      
-                $($div+" input").focus();
-            } else { 
-                $($div).html('No se seleccionó');      
-            }
-        });
-    });
-    </script>
+    <script src="{{ asset('/js/convocatorias/convocatoria.js')}}"></script>
+    <script src="{{ asset('/js/convocatorias/vigentes.js')}}"></script>
    
 @endsection
