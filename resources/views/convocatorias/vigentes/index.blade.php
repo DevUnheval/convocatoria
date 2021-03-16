@@ -97,9 +97,12 @@
             if(this.checked) {
                 $(".fila_conocimiento").prop("disabled", false);
                 $(".fila_conocimiento").prop('required',true);
+               
+
             }else{
                 $(".fila_conocimiento").prop("disabled", true);
                 $(".fila_conocimiento").prop('required',false);
+                $(".fila_conocimiento").val('0');
                 //$(".fila_conocimiento").removeAttr( "required" );
             }
         });

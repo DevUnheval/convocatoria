@@ -51,10 +51,10 @@
                                         @endif
 
                                         <small> EVALUACIÓN ENTREVISTA (C)</small>
-                                        <h5> {{ $postulante->ev_entrevista}}</h5>
+                                        <h5> {{(float) $postulante->ev_entrevista}}</h5>
                                         <?php
                                                 $formula .= " + Cx(".$postulante->proceso->peso_entrev.")"; 
-                                                $Ptotal += $postulante->ev_entrevista*$postulante->proceso->peso_entrev;
+                                                $Ptotal += (float) $postulante->ev_entrevista*$postulante->proceso->peso_entrev;
                                         ?>
                                         @if($postulante->obs_conocimiento)
                                         <div id="div_observacion_entrevista_mas">

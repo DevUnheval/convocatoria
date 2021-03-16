@@ -41,9 +41,9 @@ class UsuarioController extends Controller
                 
         $Usuario = new User();
         $Usuario->dni = $request->dni;
-        $Usuario->nombres = $request->nombres;
-        $Usuario->apellido_paterno = $request->apellido_paterno;
-        $Usuario->apellido_materno = $request->apellido_materno;
+        $Usuario->nombres =  strtoupper($request->nombres);
+        $Usuario->apellido_paterno = strtoupper($request->apellido_paterno);
+        $Usuario->apellido_materno = strtoupper($request->apellido_materno);
         $Usuario->email = $request->email;
         $_se_valida_correo=\App\Ajuste::where("nombre","Confirmación de correo")->first();
         $_se_valida_correo=$_se_valida_correo->valor;
