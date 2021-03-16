@@ -31,10 +31,7 @@ function validar_form(idbtn){
 }
 
 function validar_capa(idbtn){
-    
     var valor_validacion=0;
-   // console.log(dias_gen+" "+dias_esp+" "+idbtn);
-
     if($('#'+idbtn).hasClass('ti-layout-width-full')){
          
          $('#'+idbtn).removeClass('ti-layout-width-full');
@@ -125,7 +122,9 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
     type: "GET" ,
     datatype: "json",
     success:function(data){ 
-
+      //FORMULARIO OPCIONAL Ev. Currocular
+      $("#input_puntaje_curricular_1").val(parseInt(data.postulante.ev_curricular,10));
+      $("#textarea_puntaje_curricular_1").html(data.postulante.obs_curricular); 
       //console.log(data);
       var esdisc = "";
       var esffaa = "";

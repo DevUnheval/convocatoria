@@ -35,7 +35,11 @@
 <br>
 <!-- Resumen -->
 <div align="center">
-<img src="{{ asset(str_replace('public/','/storage/',Auth::user()->img))}}"  style="max-width:150px;">
+@if($postulante->datos_postulante)
+<img src="{{ asset(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}" alt="Foto del postulante"   style="max-width:150px;">
+@endif
+
+
 </div>
 <br>
 
@@ -265,7 +269,7 @@
     </tr>
     <tr>
       @php 
-        $fecha_postulacion = date_create($formacion->fecha_expedicion); 
+        $fecha_postulacion = date_create($postulante->created_at); 
       @endphp
       <td align="center" >{{date_format($fecha_postulacion,"d")}}</td>
       <td align="center" >{{date_format($fecha_postulacion,"m")}}</td>

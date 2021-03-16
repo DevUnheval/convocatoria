@@ -1,13 +1,14 @@
 <html>
             <?php $ruta_img='';
-                  $logo1 = \App\Ajuste::where("nombre","logo")->first();
-                  if(substr($logo1->valor, 0,6)=='public') $logo1=Storage::url($logo1->valor);
-                  else $logo1= asset($logo1->valor);
+                  $logo1 = \App\Ajuste::where("nombre","logo")->first()->valor;
+                  // if(substr($logo1->valor, 0,6)=='public') $logo1=Storage::url($logo1->valor);
+                  // else $logo1= asset($logo1->valor);
 
-                  $logo2 = \App\Ajuste::where("nombre","logo texto 1")->first();
-                  if(substr($logo2->valor, 0,6)=='public') $logo2=Storage::url($logo2->valor);
-                  else $logo2= asset($logo2->valor);
+                  $logo2 = \App\Ajuste::where("nombre","logo texto 2")->first()->valor;
+                  // if(substr($logo2->valor, 0,6)=='public') $logo2=Storage::url($logo2->valor);
+                  // else $logo2= asset($logo2->valor);
 
+                                  
                   $anio = \App\Ajuste::where("nombre","nombre del año")->first()->valor;
                   $titulo = \App\Ajuste::where("nombre","titulo")->first()->valor;
                   $institucion = \App\Ajuste::where("nombre","institucion")->first()->valor;
@@ -85,21 +86,26 @@
   <header>
     <table width="100%">
       <tr>
-        <td rowspan="3">
-          <img src="{{asset('imagenes/ajustes/logo.png')}}" height="65px">
+        <td rowspan="3" width="10%">
+          
+          <img src="{{ asset(str_replace('public/','storage/',$logo1))}}"  height="65px">
         </td>
-        <td align="center">
+        <td  rowspan="3" width="20%">
+          <img src="{{ asset(str_replace('public/','storage/',$logo2))}}"  width="150px">
+          
+        </td>
+        <td align="center" width="70%">
             <small style="font-size:12px"> {{$anio}} </small><br>
         </td>
       </tr>
       <tr>
         <td align="center"> 
-           <label><b>{{$institucion}}</b></label>
+           <label style="padding:0;font-size:20px;"><b>{{$institucion}}</b></label>
         </td>
       </tr>
       <tr>
         <td align="center">
-          <label><b>{{$titulo}}</b></label>
+          <label style="padding=-5px;margin:-4px;"><b>{{$titulo}}</b></label>
         </td>
       </tr>
     </table>

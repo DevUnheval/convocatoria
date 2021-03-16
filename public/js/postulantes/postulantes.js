@@ -1,10 +1,18 @@
-var  modal_evaluar_individual = function(idpostulante,observacion_bd,$etapa,$proceso_id,$ev_con,$vista){
+var  modal_evaluar_individual = function(idpostulante,$dni,$nombre,$foto,observacion_bd,puntaje,observacion,$etapa,$proceso_id,$ev_con,$vista){
+    document.getElementById("form_ev_individual").reset();
     $("#btn_guardar_ev_individual").attr("data-proceso_id",$proceso_id);
     $("#btn_guardar_ev_individual").attr("data-etapa",$etapa);
     $("#btn_guardar_ev_individual").attr("data-ev_con",$ev_con);
     $("#btn_guardar_ev_individual").attr("data-vista",$vista);
     $("#input_puntaje_ev_individual").attr("name",`evaluacion[${idpostulante}]`);
     $("#textarea_puntaje_ev_individual").attr("name",`observacion[${idpostulante}][${observacion_bd}]`);
+    //Datos del POSTULANTE
+    $("#dni_ev_individual").html($dni);
+    $("#nombres_ev_individual").html($nombre);
+    $("#img_ev_individual").attr("src",$foto);
+    //datos INPUTS
+    $("#input_puntaje_ev_individual").val(puntaje);
+    $("#textarea_puntaje_ev_individual").html(observacion);
 
    $("#modal_evaluar").modal("show");
 }
@@ -36,6 +44,33 @@ var  modal_evaluar_todos = function($etapa, $proceso_id,$ev_con,$vista){
     $("#btn_guardar_evaluacion").attr("data-vista",$vista);
     
     $("#modal_evaluar_todos").modal("show");
+}
+
+var modal_mas = function(idpostulante){
+    
+    
+    $.ajax({
+        async: false,
+        url:   `/postulantes/ver_mas/${idpostulante}`,
+        type: 'GET',
+        beforeSend: function () {
+        console.log('enviando....');
+        },
+        success:  function (response){
+            $('#datos_modal_mas').html(response);
+        },
+        error: function (response){
+            console.log("Error",response.data);
+        Swal.fire({
+            title: "¡Error!",
+            text: response.responseJSON.message,
+            icon: "error",
+            timer: 3500,
+        })
+        }
+    });
+
+    $("#modal_mas").modal("show");
 }
 
 var dataTable = function(proceso,etapa){
@@ -231,7 +266,8 @@ $(document).ready(function() {
             console.log('enviando....');
             },
             success:  function (response){
-                console.log(response);
+                //console.log(response);
+                $("#modal_evaluar").modal("hide");
                 var $nueva_etapa = response;
                 if($etapa == $nueva_etapa){
                     Swal.fire({
@@ -250,6 +286,7 @@ $(document).ready(function() {
                         timer: 2000
                     })
                    // console.log("aquí el BUG"); 
+                    
                     $(location).attr('href', `/postulantes/${$proceso_id}/${$nueva_etapa}/${$vista}/listar`);
                 }
                 

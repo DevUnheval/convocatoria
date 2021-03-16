@@ -34,7 +34,7 @@ class ConvocatoriaHistoricoController extends Controller{
     
  
     public function data_concluidos(){
-        $query = Proceso::where("estado","4")->orderBy("id","desc")->get();
+        $query = Proceso::where("estado","3")->orderBy("id","desc")->get();
         if($query->count()<1)
         return $this->data_null;
         foreach ($query as $dato) {
@@ -93,7 +93,7 @@ class ConvocatoriaHistoricoController extends Controller{
        
     public function data_cancelados(){
 
-        $query = Proceso::where("estado","5")->orderBy("id","desc")->get();
+        $query = Proceso::where("estado","4")->orderBy("id","desc")->get();
         if($query->count()<1)
         return $this->data_null;
         foreach ($query as $dato) {

@@ -3,19 +3,30 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header d-flex align-items-center">
-                <h4 class="modal-title" id="mySmallModalLabel">Evaluacion Individual</h4>
+                <h4 class="modal-title" id="mySmallModalLabel">Ev. {{$etapa_actual['descripcion']}}</h4>
                 <button type="button" class="close ml-auto" data-dismiss="modal"
                   aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
+                <div class="p-3 bg-light">
+                    <div align="center">
+                        <img id="img_ev_individual" width="60%" onerror="this.src='/imagenes/users/user.png';">
+                    </div>
+                    <small> DNI: </small>
+                    <h5 id="dni_ev_individual">0000</h5>
+                    <small> Nombres y Apellidos: </small>
+                    <h5 id="nombres_ev_individual"> NOMBRES Y APEELIDOS</h5>
+                </div>
+                <hr>
+
                 <form id="form_ev_individual">
                     <div class="form-group">
-                        <label>Evaluación NombreEvaluacion</label>
+                        <label>Puntaje</label>
                         <input type="number"  class="form-control" id="input_puntaje_ev_individual" placeholder="Puntaje"min="0" max="{{$proceso->$ptj_max}}" required>
                     </div>
                     <div class="form-group">
                         <label>Observaciones</label>
-                        <textarea class="form-control" id="textarea_puntaje_ev_individual"></textarea>
+                        <textarea class="form-control" id="textarea_puntaje_ev_individual" rows="4" placeholder="No hay observaciones..."></textarea>
                       </div>
                         <button type="button" class="btn btn-success btn-block btn_guardar_evaluacion" id="btn_guardar_ev_individual" 
                         data-id_formulario="form_ev_individual"> <i class=" far fa-save"></i> Guardar </button>
