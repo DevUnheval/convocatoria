@@ -62,15 +62,15 @@
         <div class="col-sm-2 justify-content-center row">
             <div class="btn-group">
                 <label class="nav-link btn-success rounded-pill d-flex align-items-center px-3 " data-toggle="dropdown" aria-haspopup="true">
-                    <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14">&nbsp;Exportar</span>
+                    <i class="fa fa-download"> </i> <span class="d-none d-md-block font-14">&nbsp;Reportes</span>
                 </label> 
                 <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);">
-                    <a class='dropdown-item text-danger' href='{{route("reportes.preliminar",[$proceso->id,"pdf"])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Preliminar</a>
-                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar etapa</a>
-                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,0])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Exportar resultado</a><hr class="my-0">
-                    <a class='dropdown-item text-success' href='{{route("reportes.preliminar",[$proceso->id,"excel"])}}' target="_blank"><i class='fa fa-file-excel'></i> Preliminar</a>
-                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar etapa</a>
-                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id, 0] )}}' target="_blank"><i class='fa fa-file-excel'></i> Exportar resultado</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.preliminar",[$proceso->id,"pdf"])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Resultado preliminar</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Resultado de la etapa actual</a>
+                    <a class='dropdown-item text-danger' href='{{route("reportes.pdf",[$proceso->id,0])}}' target="_blank"><i class='fa fa-file-pdf success'></i> Resultado final</a><hr class="my-0">
+                    <a class='dropdown-item text-success' href='{{route("reportes.preliminar",[$proceso->id,"excel"])}}' target="_blank"><i class='fa fa-file-excel'></i> Resultado preliminar</a>
+                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id,$etapa_actual["etapa"]])}}' target="_blank"><i class='fa fa-file-excel'></i> Resultado de la etapa actual</a>
+                    <a class='dropdown-item text-success' href='{{route("reportes.excel",[$proceso->id, 0] )}}' target="_blank"><i class='fa fa-file-excel'></i> Resultado final</a>
                     
                 </div>
             </div>

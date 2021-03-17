@@ -350,7 +350,7 @@ class PostulantesController extends Controller
                 $query->save();
            }
            else if($etapa==$n_etapas){
-                $this->calcular_puntaje_final($postulantes,$query);
+                $this->calcular_puntaje_final($query);
                 return "final";
            }
        }
@@ -358,7 +358,8 @@ class PostulantesController extends Controller
        
     }
 
-    private function calcular_puntaje_final($postulantes,$proceso){
+    private function calcular_puntaje_final($proceso){
+        $postulantes = Postulante::where("proceso_id",$proceso->id)->where("cal_entrevista","1")->get();
         //Calcular Final 
         $array_id=[];
         foreach($postulantes as $key => $p){

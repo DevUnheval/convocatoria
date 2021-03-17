@@ -35,8 +35,9 @@ class ReportesController extends Controller
 
     public function excel($id,$etapa){
         if($etapa=="0"){
-            $data = $this->data_resultado($id,$etapa);
+            $data = $this->data_resultado($id);
             $data["ruta"] = "reportes.excel.resultado";
+            //return (new ProcesosExport($data))->view();
             return (new ProcesosExport($data))->download("Resultado_".$etapa."_".$data['proceso']->cod.'.xlsx');
         }
             $data = $this->data_etapa($id,$etapa);
@@ -86,27 +87,20 @@ class ReportesController extends Controller
     private function data_resultado($proceso_id){
         $proceso =  Proceso::find($proceso_id);      
         $etapas = $this->api->etapas_evaluacion($proceso->evaluar_conocimientos);
-        $etapa_id = count($etapas);
-        $etapa_a_buscar = $etapa_id-1; //-1 porque los índices o posiciones empiezan en 0, y obtendremos los datos desde un array
-        $calificacion_etapa_actual = $etapas[$etapa_a_buscar]['desc_bd'];//TEXTO/NOMBRE de la CALIFICACION ACTUAL; p.e cal_curricular, cal_entrevista 
-        $calificacion_etapa_anterior = $etapas[$etapa_a_buscar]['desc_bd']; // por defecto la etapa anterior será la misma que la actual, xq no existe array de indice/posición <0 (...==>)
-        $evaluacion_etapa_actual = $etapas[$etapa_a_buscar]['desc2_bd'];
-        $query = Postulante::select("dni", DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
-                                     "postulantes.*"
+        $postulantes = Postulante::select( "dni",
+                                     DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
+                                     "user_id",
+                                    "postulantes.*",
                                     )
                             ->join("users","users.id","=","postulantes.user_id")
-                            ->where('proceso_id',$proceso_id); //hasta aquí estamos de acuerdo, que muestre el proceso seleccionado 
-        if($etapa_a_buscar>0){ //si es cero, mostrará a todos, caso contrario filtrará por etapas
-            $calificacion_etapa_anterior = $etapas[$etapa_a_buscar-1]['desc_bd'];// (...=>) Pero en caso estemos en la etapa 2,3,..n; la etapa anterior será actual -1
-            $query = $query->where($calificacion_etapa_anterior,1); //los que aprobaron en la etapa anterior se mostrará en esta vista        
-        }
-        $postulantes = $query->orderBy($evaluacion_etapa_actual,"desc")->get();
-        $etapa_actual = $etapas[$etapa_a_buscar];
+                            ->where('proceso_id',$proceso_id)
+                            ->where('cal_entrevista','1')
+                            ->orderBy('final','desc',)
+                            ->orderBy('apellido_paterno','asc')
+                            ->get();
         return [
                     'proceso'       => $proceso,
                     'postulantes'   => $postulantes,
-                    'etapa_actual'  => $etapa_actual,
-                    'etapas'        => $etapas,
                 ];
     }
     public function preliminar($id,$tipo){
