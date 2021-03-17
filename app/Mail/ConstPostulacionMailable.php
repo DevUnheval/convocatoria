@@ -13,18 +13,24 @@ class ConstPostulacionMailable extends Mailable
 
     public $subject = "Contancia de Postulación - UNHEVAL";
     public $proceso;
-    public $datos_usuario;
+    public $datos_postulante;
+    public $postulacion;
+    public $desc_u_nac;
+    public $desc_u_dom;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($proceso,$datos_usuario)
+    public function __construct($proceso,$datos_postulante,$postulacion, $desc_u_nac, $desc_u_dom)
     {
         $this->proceso = $proceso;
-        $this->datos_usuario = $datos_usuario;
+        $this->datos_postulante = $datos_postulante;
+        $this->postulacion = $postulacion;
+        $this->desc_u_nac = $desc_u_nac;
+        $this->desc_u_dom = $desc_u_dom;
     }
-
+    
     /**
      * Build the message.
      *

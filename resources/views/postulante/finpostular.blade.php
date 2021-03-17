@@ -58,31 +58,37 @@
                                         <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
                                         <td>{{auth()->user()->dni}}</td>
                                         <th scope="row" class="alert alert-secondary">RUC:</th>
-                                        <td>{{$datos_usuario['ruc']}}</td>
+                                        <td>{{$datos_postulante['ruc']}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="alert alert-secondary">Fecha de Nacimiento</th>
-                                        <td>{{$datos_usuario['fecha_nacimiento']}}</td>
-                                        <th scope="row" class="alert alert-secondary">Dist-Prov-Dep</th>
-                                        <td>{{$datos_usuario['ubigeo_nacimiento']}}</td>
+                                        <td>{{$datos_postulante['fecha_nacimiento']}}</td>
+                                        <th scope="row" class="alert alert-secondary">Lugar de Nacimiento</th>
+                                        <td>{{$desc_u_nac}}</td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="alert alert-secondary">Celular N° </th>
-                                        <td>{{$datos_usuario['telefono_celular']}}</td>
+                                        <td>{{$datos_postulante['telefono_celular']}}</td>
                                         <th scope="row" class="alert alert-secondary">Correo Electrónico</th>
-                                        <td>{{auth()->user()->email}}</td>
+                                        <td>{{$pos->email}}</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="alert alert-secondary">Dirección Actual </th>
-                                        <td>{{$datos_usuario['domicilio']}}</td>
-                                        <th scope="row" class="alert alert-secondary">Dist-Prov-Dep</th>
-                                        <td>{{$datos_usuario['ubigeo_domicilio']}}</td>
+                                        <th scope="row" class="alert alert-secondary">Fecha de Postulacion </th>
+                                        <td>{{date_format(date_create($pos->created_at),"d/m/Y")}}</td>
+                                        <th scope="row" class="alert alert-secondary">Hora de Postulacion</th>
+                                        <td>{{date_format(date_create($pos->created_at),"H:m:s")}}</td>
                                     </tr>
+                                    <tr>
+                                        <th scope="row" class="alert alert-secondary">Domicilio Actual </th>
+                                        <td colspan="3">{{$datos_postulante['domicilio']}} ({{$desc_u_dom}})</td>
+                                        
+                                    </tr>
+                                    
                                 </tbody>                            
                             </table>
                         </div>                    
                         <div>
-                            <h6 class="mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$datos_usuario->email}}</strong></h6>
+                            <h6 class="mb-0">Se ha enviado una contancia de su postulación al correo registrado <strong class="text-success mb-0">{{$pos->email}}</strong></h6>
                             <h6 class="mb-0">Puede ver su postulación haciendo click <strong ><a href="{{ route('mispostulaciones')}}">Aquí</a></strong></h6>
                         </div>
                     </div>

@@ -52,9 +52,9 @@ class PruebaTableSeeder extends Seeder
         foreach($users as $u){
             $query = new User;
             $query->dni=$u['dni'];
-            $query->nombres=$u['nombres'];
-            $query->apellido_paterno=$u['apellido_paterno'];
-            $query->apellido_materno=$u['apellido_materno'];
+            $query->nombres=strtoupper($u['nombres']);
+            $query->apellido_paterno=strtoupper($u['apellido_paterno']);
+            $query->apellido_materno=strtoupper($u['apellido_materno']);
             $query->email= $u['email'];
             $query->email_verified_at= date("Y-m-d");
             $query->password=bcrypt($u['dni']);
@@ -112,6 +112,7 @@ class PruebaTableSeeder extends Seeder
             $query->user_id=$k->id;
             $query->proceso_id=1;
             $query->estado_pos=1;
+            $query->email="notengocorreo@mail.com";
             $query->save();
             unset($query);
         }

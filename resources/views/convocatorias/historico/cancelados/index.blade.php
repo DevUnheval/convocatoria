@@ -57,5 +57,5 @@
 
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/historico_cancelados.js')}}"></script>
+    <script src="{{ asset('/js/convocatorias/historico_cancelados.js')}}"></script>
 @endsection

@@ -31,7 +31,7 @@
             </h4> --}}
             @endif
                 <div class="table-responsive">
-                    <table id="zero_config" class="table table-striped table-bordered">
+                    <table id="zero_config" class="table table-striped table-bordered" data-url="/convocatorias/en_curso/data">
                         <thead>
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
@@ -78,5 +78,6 @@
 
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/js/convocatorias_encurso.js')}}"></script>
+    <script src="{{ asset('/js/convocatorias/convocatoria.js')}}"></script>
+    <script src="{{ asset('/js/convocatorias/enCurso.js')}}"></script>
 @endsection

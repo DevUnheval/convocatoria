@@ -51,7 +51,7 @@ Route::group(['prefix' => 'maestro'], function(){
     Route::group(['prefix' => 'procesos'], function(){
         Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index')->middleware(['auth']);
         Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update')->middleware(['auth','Administrador']);  
-        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','comisionado']);  
+        Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','Comisionado']);  
         Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
         Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar')->middleware(['auth','Administrador']);  
         
@@ -59,7 +59,7 @@ Route::group(['prefix' => 'maestro'], function(){
     Route::group(['prefix' => 'formacion'], function(){
         Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index')->middleware(['auth']); 
         Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update')->middleware(['auth','Administrador']); 
-        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','comisionado']);  
+        Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','Comisionado']);  
         Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
         Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar')->middleware(['auth','Administrador']); 
     }); 
@@ -139,18 +139,19 @@ Route::group(['prefix' => 'postulante'], function(){
     //POSTULANTES
     Route::group(['prefix' => 'postulantes'], function(){
         Route::get('/{proceso_id}/{etapa?}/{vista?}/listar', 'PostulantesController@index')
-                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index')->middleware(['auth','Comisionado']);;
+                ->where(['proceso_id'=>'[0-9]+'],['etapa'=>'[0-9]+'],['vista'=>'[0-9]+'])->name('postulantes.index')->middleware(['auth','Comisionado']);
         Route::get('/{proceso_id}/{etapa?}/{vista}/listar/data', 'PostulantesController@data')
-                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[1-2]'])->name('postulantes.data'); 
-        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search');  
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['vista' => '[1-2]'])->name('postulantes.data')->middleware(['auth','Comisionado']);
+        Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search')->middleware(['auth','Comisionado']);  
         Route::get('postulantes_evaluados/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@postulantes_evaluados')
-                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados');  
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados')->middleware(['auth','Comisionado']);  
         Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
-                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion');
-        Route::get('datosuser/cargar_cv/{postulanteid}/{userid}', 'PostulantesController@cargar_cv')->name('cargar_cv');        
-        Route::get('datosuserexp/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_exp')->name('guardar_validacion_exp');
-        Route::get('datosusercapa/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_capa')->name('guardar_validacion_capa');
-        Route::get('datosuserform/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_form')->name('guardar_validacion_form');
+                ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion')->middleware(['auth','Comisionado']);
+        Route::get('datosuser/cargar_cv/{postulanteid}/{userid}', 'PostulantesController@cargar_cv')->name('cargar_cv')->middleware(['auth','Comisionado']);      
+        Route::get('datosuserexp/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_exp')->name('guardar_validacion_exp')->middleware(['auth','Comisionado']);
+        Route::get('datosusercapa/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_capa')->name('guardar_validacion_capa')->middleware(['auth','Comisionado']);
+        Route::get('datosuserform/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_form')->name('guardar_validacion_form')->middleware(['auth','Comisionado']);
+        Route::get('ver_mas/{idpostulante}', 'PostulantesController@ver_mas')->middleware(['auth','Comisionado']);
     });
 
    Route::get("/buscar_ubigeo_reniec",function(Request $r){

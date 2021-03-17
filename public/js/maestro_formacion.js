@@ -45,6 +45,11 @@ $(function(){
     })
 
     $("#guardar_nuevo").on("click",function(){
+        if( $("#nuevo_nombre").val()=="" || $("#nuevo_descripcion").val()==""){
+            alert("Hay campo(s) vacio(s)");
+            return false;
+        }
+
         var datos=$("#formulario_nuevo").serialize();
         var route = "/maestro/formacion/store";
         $.ajax({

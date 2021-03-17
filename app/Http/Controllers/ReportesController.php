@@ -130,7 +130,10 @@ class ReportesController extends Controller
 
     }
     public function cv($id_postulante){
-        $postulante = Postulante::find($id_postulante);            
+        $postulante = Postulante::find($id_postulante);   
+        if(!$postulante->datos_postulante){
+            return "Los datos del postulante no se guardaron correctamente. No se encontraron datos de postulante";
+        }         
         $pdf = PDF::loadView('reportes.pdf.cv',compact('postulante'));
         
         $path_pdf0 = 'public/pdf/'.rand(1, 99999).'.pdf';

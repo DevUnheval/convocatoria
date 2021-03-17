@@ -1263,14 +1263,14 @@ function cumple_formacion(id){
         }
         $('#res_tbl_exp').html(html_resexp);
         //DECLARACION JURADA
-        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "NO" : "SI");
-        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "NO" : "SI");
-        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "NO" : "SI");
-        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "NO" : "SI");
-        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "NO" : "SI");
-        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "NO" : "SI");
-        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "NO" : "SI");
-        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "NO" : "SI");
+        $('#res_dj1').html(data.qdatos.dj1 == 1 ? "SI" : "NO");
+        $('#res_dj2').html(data.qdatos.dj2 == 1 ? "SI" : "NO");
+        $('#res_dj3').html(data.qdatos.dj3 == 1 ? "SI" : "NO");
+        $('#res_dj4').html(data.qdatos.dj4 == 1 ? "SI" : "NO");
+        $('#res_dj5').html(data.qdatos.dj5 == 1 ? "SI" : "NO");
+        $('#res_dj6').html(data.qdatos.dj6 == 1 ? "SI" : "NO");
+        $('#res_dj7').html(data.qdatos.dj7 == 1 ? "SI" : "NO");
+        $('#res_dj8').html(data.qdatos.dj8 == 1 ? "SI" : "NO");
         
         //alert('terminé');
         },

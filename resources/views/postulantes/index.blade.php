@@ -81,6 +81,7 @@
     @include('postulantes.modal_cv')
     @include('postulantes.modal_evaluar')
     @include('postulantes.m_evaluacion_todos')
+    @include('postulantes.modal_mas')
     <div class="p-2">
         <button class="btn btn-outline-danger" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-calculator"></i> Evaluar en bloque: Ev. {{$etapa_actual['descripcion']}} </button>
         <button class="btn btn-outline-success float-right" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-file-excel"></i> Descargar tabla </button>
@@ -113,7 +114,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="data_table" class="table table-striped table-bordered">
-                        <thead>
+                        <thead class="text-white"style="background-color:#1e94c2;">
                             <tr>
                                 <th>Estado</th>
                                 <th>DNI</th>
@@ -124,30 +125,14 @@
                                 <th>Ev. Conoc/ Psic/Hab  <br> <small> [{{(int)$proceso->pje_min_conoc}} - {{(int)$proceso->pje_max_conoc}}] </small> </th>   
                                 @endif
                                 <th>Ev. entrevista <br><small>[{{(int)$proceso->pje_min_entrev}} - {{(int)$proceso->pje_max_entrev}} ]</small></th>
-                                <th title="Bonificación">Bon+</th>
                                 <th>Total </th>
+                                <th >Final</th>
                                 <th>Más</th>
                             </tr>
                         </thead>
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <th>Estado</th>
-                                <th>DNI</th>
-                                <th>Apellidos y Nombres</th>
-                                <th>CV</th>
-                                <th>Ev. Curricular</th> 
-                                @if($proceso->evaluar_conocimientos=="1")
-                                <th>Ev. Conoc/ Psic/Hab: </th>   
-                                @endif
-                                <th>Ev. entrevista</th>
-                                <th title="Bonificación">Bon+</th>
-                                <th>Total </th>
-                                <th>Más</th>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>

@@ -34,7 +34,8 @@ class CreatePostulantesTable extends Migration
             $table->decimal('bonific_ffaa', 5, 2)->nullable();
             $table->decimal('bonific_pers_disc', 5, 2)->nullable();
             $table->decimal('total', 5, 2)->nullable();
-            $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no
+            $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no y enviar la constancia al correo
+            $table->string('email');//correo al cual se está enviando la constancia de postulación
 
             $table->timestamps();
         });

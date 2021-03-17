@@ -20,9 +20,9 @@
                 <div class="justify-content-right p-1 offset-sm-8 col-sm-4"  style="height: 100px; background-color: rgba(247, 220, 111,0.3);">
                     <button type="button" class="btn btn-success float-right w-50 btn_guardar_evaluacion" id="btn_guardar_evaluacion_cv" 
                         data-id_formulario="form_ev_curricular_1">Guardar  <i class=" far fa-save"></i></button>
-                    <form id="form_ev_curricular_1">     
+                    <form id="form_ev_curricular_1" action="javascript:void(0);">     
                         <input class="w-50 form-control float-right" id="input_puntaje_curricular_1" type="number" placeholder="Puntaje"min="0" max="{{$proceso->$ptj_max}}" required/>
-                        <textarea class="form-control float-right"   id="textarea_puntaje_curricular_1" placeholder="Observaciones..."></textarea>
+                        <textarea class="form-control float-right"   id="textarea_puntaje_curricular_1" placeholder="No hay observaciones..."></textarea>
                     </form>
                 </div>
                 @endif

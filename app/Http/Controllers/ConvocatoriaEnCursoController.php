@@ -197,7 +197,7 @@ class ConvocatoriaEnCursoController extends Controller
     public function concluir_convocatoria($id){
         $query = Proceso::find($id);
         if($query->archivo_resultado){            
-            $query->estado = '4';
+            $query->estado = '3';
             $query->save();
         }
             

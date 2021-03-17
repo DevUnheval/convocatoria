@@ -219,7 +219,7 @@ class ConvocatoriaController extends Controller
     }
     public function cancelar_convocatoria($id){
         $query = Proceso::find($id);
-        $query->estado = '5';
+        $query->estado = '4';
         $query->save();
     }
 

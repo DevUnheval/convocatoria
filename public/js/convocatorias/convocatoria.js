@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var myTable=$('#zero_config').DataTable( {
         bProcessing: true,
-        sAjaxSource: '/convocatorias/vigentes/data',
+        sAjaxSource: $('#zero_config').data("url"),
         "language" : {'url':'/js/table-latino.json'},
         iDisplayLength: 15,
          aLengthMenu: [15, 25,50, 100],
@@ -67,6 +67,15 @@ $(document).ready(function() {
                        
                     });
                     
+                    if( $("#"+id_form+ " .check_conocimientos").prop('checked') ){
+                        formData.append("evaluar_conocimientos","1");
+                    }else{
+                        formData.append("evaluar_conocimientos","0");
+                        formData.append("pje_min_conoc","0");
+                        formData.append("pje_max_conoc","0");
+                        formData.append("pje_max_conoc","0");
+                    }
+
                     //Experiecia laboral general
                     const anios1 = (365)*$("#"+id_form+"_exp_lab_gen_anio").val();
                     const meses1 = (30.4)*$("#"+id_form+"_exp_lab_gen_mes").val();
@@ -84,6 +93,7 @@ $(document).ready(function() {
                     if(bases.attr("type") == "file"){
                         if(document.getElementById(bases.attr('id')).files[0]){
                             formData.append("archivo_bases", document.getElementById(bases.attr('id')).files[0] );
+                            formData.append("archivo_bases_tipo", "local" );
                         }
                     }else if (bases.attr("type") == "url"){
                         formData.append("archivo_bases", $("#"+bases.attr('id') ).val());
@@ -95,6 +105,7 @@ $(document).ready(function() {
                     if(resolucion.attr("type") == "file"){
                         if(document.getElementById(resolucion.attr('id')).files[0]){
                             formData.append("archivo_resolucion", document.getElementById(resolucion.attr('id')).files[0] );
+                            formData.append("archivo_resolucion_tipo", "local" );
                         }
                     }else if (resolucion.attr("type") == "url"){
                         formData.append("archivo_resolucion", $("#"+resolucion.attr('id') ).val());
@@ -147,7 +158,6 @@ $(document).ready(function() {
                               
             })
         }
-       
         // ============>
     }), $(".tab-wizard").validate({
         ignore: "input[type=hidden]",
@@ -172,6 +182,7 @@ $(document).ready(function() {
 
 function editar(id){
     $("#form_editar").steps('reset');  
+    document.getElementById("form_editar").reset();
     $.ajax({
         url:   "/convocatorias/edit/"+id,
         type: 'GET',
@@ -214,7 +225,14 @@ function editar(id){
             $("#anios_exp_lab_esp").val(response.anios_exp_lab_esp);
             $("#horas_cap_total").val(response.horas_cap_total);
             $("#horas_cap_ind").val(response.horas_cap_ind);
-
+            if(response.evaluar_conocimientos){
+                //$("#e_check_evaluar_conocimientos").change();
+                $("#e_check_evaluar_conocimientos").click();
+            }else{
+                $("#e_check_evaluar_conocimientos").change();
+            }
+           
+            
             $("#hay_bon_pers_disc_"+response.hay_bon_pers_disc).prop("checked", true);
             $("#hay_bon_ffaa_"+response.hay_bon_ffaa).prop("checked", true);
             $("#hay_bon_deport_"+response.hay_bon_deport).prop("checked", true); 
@@ -272,122 +290,46 @@ function editar(id){
     });
     $("#modal_editar").modal("show");
 }
-function anios_meses_dias(diasx){
-    var anios;
-    var meses;
-    var dias;
-    var anios_desc="";
-    var meses_desc="";
-    var dias_desc="";
-    anios= Math.trunc(diasx/365); 
-    meses= Math.trunc((diasx%365)/30.4);
-    dias =Math.round((diasx%365)%30.4);
 
-    if(anios == 0){
-        anios_desc = "";
-        anios = "";
-    }else if(anios == 1){
-        anios_desc = "año";
-    }else if(anios > 1){
-        anios_desc = "años";
-    }
 
-    if(meses == 0){
-        meses_desc = "";
-        meses = "";
-    }else if(meses == 1){
-        meses_desc = "mes";
-    }else if(meses > 1){
-        meses_desc = "meses";
-    }
+$(document).ready(function(){
+    $(".check_conocimientos").change(function() {
+        if(this.checked) {
+            $(".fila_conocimiento").prop("disabled", false);
+            $(".fila_conocimiento").prop('required',true);
+        
 
-    if(dias == 0){
-        dias_desc = "";
-        dias = "";
-    }else if(dias == 1){
-        dias_desc = "dia";
-    }else if(dias > 1){
-        dias_desc = "dias";
-    }
-  
-     
-  return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
- }
-function ver_detalles(id){
-    $.ajax({
-        url:   "/convocatorias/edit/"+id,
-        type: 'GET',
-        beforeSend: function () {
-          console.log('enviando....');
-        },
-        success:  function (response){
-          // console.log("Resultados => ",response);
-           $("#ver_cod").html(response.cod);
-           $("#ver_n_plazas").html(response.n_plazas);
-           $(".ocultar_elemento").prop("hidden", true);
-           $("#ver_tipo_id_"+response.tipo_id).prop("hidden", false);
-           $("#ver_remuneracion").html("S/ "+response.remuneracion);
-           $("#ver_nombre").html(response.nombre);
-           $("#ver_oficina").html(response.oficina);
-           $("#ver_nivel_acad_convocar_"+response.nivel_acad_convocar).prop("hidden", false);
-
-           $("#ver_dias_exp_lab_gen").html(anios_meses_dias(response.dias_exp_lab_gen));
-           
-           $("#ver_dias_exp_lab_esp").html(anios_meses_dias(response.dias_exp_lab_esp));
-           $("#ver_postulacion").html("Desde: "+response.fecha_inscripcion_inicio+" <br> Hasta: "+response.fecha_inscripcion_fin);
-           $("#ver_fecha_firma_contrato").html(response.fecha_firma_contrato);
-           $("#ver_duracion_contrato").html(response.duracion_contrato);
-           
-           if(response.capacitaciones!= null){
-                $("#ver_capacitaciones").html(response.capacitaciones);
-                $("#div_ver_capacitaciones").prop("hidden", false);
-           }
-           if(response.especialidad != null){
-                $("#div_ver_especialidad").prop("hidden", false);
-                $("#ver_especialidad").html(response.especialidad);
-           }
-           if(response.habilidades!=null){
-                $("#ver_habilidades").html(response.habilidades);
-                $("#div_ver_habilidades").prop("hidden", false);
-           }
-           if(response.descripcion!=null){
-                $("#ver_descripcion").html(response.descripcion);
-                $("#div_ver_descripcion").prop("hidden", false);
-           }
-           if(response.duracion_contrato!=null){
-            $("#ver_duracion_contrato").html(response.duracion_contrato);
-            $("#div_ver_duracion_contrato").prop("hidden", false);
-            }
-            if(response.fecha_firma_contrato!=null){
-                $("#ver_fecha_firma_contrato").html(response.fecha_firma_contrato);
-                $("#div_ver_firma_contrato").prop("hidden", false);
-            }
-            $href_bases="#";
-            if(response.archivo_bases != ""){
-                $href_bases=response.archivo_bases.replace("public/", '/storage/');
-            }
-            $href_res="#";
-            if(response.archivo_resolucion != ""){
-                $href_res=response.archivo_resolucion.replace("public/", '/storage/');
-            }
-                $("#ver_bases").attr("href", $href_bases);
-                $("#ver_resolucion").attr("href", $href_res);
-           $("#modal_ver_mas").modal("show"); 
-          
-           
-           
-        },
-        error: function (response){
-            console.log("Error",response.data);
-          Swal.fire({
-              title: "¡Error!",
-              text: response.responseJSON.message,
-              icon: "error",
-              timer: 3500,
-          })
+        }else{
+            $(".fila_conocimiento").prop("disabled", true);
+            $(".fila_conocimiento").prop('required',false);
+            $(".fila_conocimiento").val('0');
+            //$(".fila_conocimiento").removeAttr( "required" );
         }
     });
-}
+    
+    $('.form-check-input').on('change', function() {
+    
+        //alert( valor);
+        var valor   =  $(this).val();
+        var $div    =  "#"+$(this).data("id_div");
+        var $nombre =  $(this).data("name");
+        var $id     =  $(this).data("id");
+        if(valor =="1"){
+            if($id=="n_archivo_bases" || $id=="n_archivo_resolucion"){
+                $($div).html('<input type="file" class="form-control-file required '+$nombre+'" id="'+$id+'" name="'+$id+'">'); //es necesario ponerle atributo name, sino no agarra el required...
+            }else{
+                $($div).html('<input type="file" class="form-control-file '+$nombre+'"  id="'+$id+'">'); //... y le mandamos un name que no esté en BD, así no pasa nada
+            }
+            
+            
+        } else if (valor == "0"){ 
+            $($div).html('<input type="url" class="form-control required '+$nombre+'" name="'+$id+'" id="'+$id+'" placeholder="Ingrese el link">');      
+            $($div+" input").focus();
+        } else { 
+            $($div).html('No se seleccionó');      
+        }
+    });
+});
 
 function ver_comunicados(id){
     $.ajax({
@@ -400,7 +342,8 @@ function ver_comunicados(id){
             if ( $("#proceso_id_comunicado").length ) {
                 $("#proceso_id_comunicado").val(id);
             }
-           $('#tabla_comunicados tbody').html(response);
+           
+           $('#tabla_comunicados tbody').html(response)
         },
         error: function (response){
             console.log("Error",response.data);
@@ -414,6 +357,49 @@ function ver_comunicados(id){
     });
     $("#modal_comunicados").modal("show"); 
     //$('#myTable tr:last').after('<tr>...</tr><tr>...</tr>');   
+}
+function cancelar_convocatoria(proceso_id,cod) {
+    Swal.fire({
+        title: "¿Está seguro de desea CANCELAR el PROCESO "+cod+"?",
+        text: "Se trasladará a procesos históricos > cancelados",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',  
+        cancelButtonText: 'No, cerrar',              
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Si, estoy seguro'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
+                url:   "/convocatorias/cancelar_convocatoria/"+proceso_id,
+                type: 'POST',
+                beforeSend: function () {
+                  console.log('enviando....');
+
+                },
+                success:  function (response){
+                        Swal.fire({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'Se CANCELÓ el proceso '+ cod,
+                            showConfirmButton: false,
+                            timer: 1500
+                        }) 
+                    $('#zero_config').DataTable().ajax.reload();
+                },
+                error: function (response){
+                    console.log("Error",response.data);
+                  Swal.fire({
+                      title: "¡Error!",
+                      text: response.responseJSON.message,
+                      icon: "error",
+                      timer: 3500,
+                  })
+                }
+            });
+        }
+    });
 }
 
 function guardar_comunicado(){
@@ -439,7 +425,7 @@ function guardar_comunicado(){
         }) 
         return false;
     }
-    //console.log("FILE1",file);
+    console.log("FILE1",file);
 
     var formData = new FormData();
         formData.append('archivo', file);
@@ -526,105 +512,4 @@ function eliminar_comunicado(comunicado_id, proceso_id){
     });
 
     
-}
-
-function eliminar_convocatoria(proceso_id){
-    Swal.fire({
-        title: "¿Está seguro de desea ELIMINAR el REGISTRO?",
-        text: "Se borrarán todos los datos permanentemente",
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#d33',  
-        cancelButtonText: 'No, cerrar',              
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Si, eliminar'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                url:   "/convocatorias/eliminar_convocatoria/"+proceso_id,
-                type: 'POST',
-                beforeSend: function () {
-                  console.log('enviando....');
-
-                },
-                success:  function (response){
-                    if(response=="error"){
-                        Swal.fire({
-                            //position: 'top-end',
-                            type: 'warning',
-                            title: 'No se puede eliminar',
-                            text: 'Este proceso/convocatoria tiene postulantes registrados',
-                            showConfirmButton: false,
-                            timer: 2500
-                        }) 
-                    }else if(response=="exito"){
-                        Swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: 'Se eliminó correctamente',
-                            showConfirmButton: false,
-                            timer: 1500
-                        }) 
-                    }
-                    
-                    // ver_comunicados(proceso_id);
-                    $('#zero_config').DataTable().ajax.reload();
-                },
-                error: function (response){
-                    console.log("Error",response.data);
-                  Swal.fire({
-                      title: "¡Error!",
-                      text: response.responseJSON.message,
-                      icon: "error",
-                      timer: 3500,
-                  })
-                }
-            });
-        }
-    });
-}
-
-function cancelar_convocatoria(proceso_id,cod) {
-    Swal.fire({
-        title: "¿Está seguro de desea CANCELAR el PROCESO "+cod+"?",
-        text: "Se trasladará a procesos históricos > cancelados",
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#d33',  
-        cancelButtonText: 'No, cerrar',              
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Si, estoy seguro'
-    }).then((result) => {
-        if (result.value) {
-            $.ajax({
-                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, 
-                url:   "/convocatorias/cancelar_convocatoria/"+proceso_id,
-                type: 'POST',
-                beforeSend: function () {
-                  console.log('enviando....');
-
-                },
-                success:  function (response){
-                        Swal.fire({
-                            position: 'top-end',
-                            type: 'success',
-                            title: 'Se CANCELÓ el proceso '+ cod,
-                            showConfirmButton: false,
-                            timer: 1500
-                        }) 
-                    $('#zero_config').DataTable().ajax.reload();
-                },
-                error: function (response){
-                    console.log("Error",response.data);
-                  Swal.fire({
-                      title: "¡Error!",
-                      text: response.responseJSON.message,
-                      icon: "error",
-                      timer: 3500,
-                  })
-                }
-            });
-        }
-    });
 }

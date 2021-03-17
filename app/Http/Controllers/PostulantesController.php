@@ -115,14 +115,20 @@ class PostulantesController extends Controller
            return $this->data_null;
         $bd_califica = $api["etapa_actual"]["desc_bd"];
         $observacion_bd = $api["etapa_actual"]["observacion_bd"];
+        // $evaluacion_bd = $api["etapa_actual"]["desc2_bd"];
         foreach ( $api["postulantes"] as $p) {
            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
            $cv = "<button class='btn btn-primary btn-circle' onclick='mostrar_modalcv($p->id,$p->user_id,$etapa,$proceso_id,$se_evalua_conocimiento,$vista)'><span> <i class='fas fa-id-card'></i></span></button>";
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
+           $dni = $p->user->dni;
+           $foto = "";
+           if($p->datos_postulante){
+                $foto = asset(str_replace('public/','storage/',$p->datos_postulante->archivo_foto));
+           }
            
            $total = (float) $p->total;
-           $bonificacion = (float) $p->bonificacion;
+           $final = (float) 10;
            $ev_conocimiento = $p->ev_conocimiento;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
@@ -130,21 +136,21 @@ class PostulantesController extends Controller
                default  : $estado = "Pendiente"; break;
            }
            //pintar la columna
-           $btn_mas = "<button class='btn btn-outline-primary btn-block'><i class='fa fa-plus'></i></button>";
+           $btn_mas = "<button class='btn btn-outline-primary btn-block' onclick='modal_mas($p->id)'><i class='fa fa-plus'></i></button>";
            if($se_evalua_conocimiento){
                 $ev_conocimiento = (int) $p->ev_conocimiento;
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
-                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\" ,\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
+                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$bonificacion,$total,$btn_mas];
+                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$total,$final,$btn_mas];
            }else{
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,\"$observacion_bd\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id,\"$observacion_bd\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
-                $data['aaData'][] = [ $estado, $p->user->dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$bonificacion,$total,$btn_mas];
+                $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$total,$final,$btn_mas];
            }
             unset($nombres); unset($ev_entrevista); unset($ev_curricular); unset($cv);
         }
@@ -177,15 +183,7 @@ class PostulantesController extends Controller
             
             
             if($p->formacion_postulante->count() > 0){
-                $formacion =[];
-                $temporal = "";
-                foreach($p->formacion_postulante as $fila){
-                    if($fila->especialidad != $temporal ){//si es lo mismo para que no se repita
-                        $formacion[] = $fila->especialidad;
-                    }
-                    $temporal = $fila->especialidad;                  
-                }
-                unset($temporal);
+                $formacion =$p->get_especialidad();
                 $edad =Carbon::createFromDate($p->datos_postulante->fecha_nacimiento)->age;
                 $img =$p->user->img;
             }
@@ -221,7 +219,10 @@ class PostulantesController extends Controller
                     'evaluar_conocimientos' => $api['proceso']->evaluar_conocimientos,
                 ];
     }
-
+    public function ver_mas($idpostulante){
+        $postulante = Postulante::find($idpostulante);
+        return view('postulantes.datos_modal_mas',compact('postulante'));
+    }
     private function get_data($proceso_id, $etapa){
         $etapa_id = (int) $etapa;
         $proceso =  Proceso::find($proceso_id);      
@@ -408,8 +409,9 @@ class PostulantesController extends Controller
     $qform = FormacionPostulante::join("grado_formacions", "grado_formacions.id", "=", "formacion_postulantes.grado_id")
     ->select("formacion_postulantes.id","formacion_postulantes.validacion","formacion_postulantes.archivo","formacion_postulantes.fecha_expedicion","formacion_postulantes.centro_estudios","formacion_postulantes.especialidad","formacion_postulantes.id","grado_formacions.nombre")
     ->where("formacion_postulantes.postulante_id",$postulanteid)->get();
-    $proceso = Postulante::find($postulanteid)->proceso;
-    return compact('qexp','qform','qdatos','qcapa','proceso','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
+    $postulante = Postulante::find($postulanteid);
+    $proceso =$postulante->proceso;
+    return compact('qexp','qform','qdatos','qcapa','proceso','postulante','quser','nacionalidad','desc_u_nac','desc_u_dom','cod_nac','cod_dom');
 
     }
 
