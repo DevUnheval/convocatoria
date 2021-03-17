@@ -27,9 +27,13 @@ class PostulantesController extends Controller
     }
 
     public function index($proceso_id=null, $etapa=null, $vista=1){
-
+       
         if($proceso_id<1){
             return back();
+        }
+        $estado = Proceso::find($proceso_id)->estado;
+        if($estado>2){
+            return redirect("/reportes/postulantes/".$proceso_id);
         }
         if( (int)$vista<1) $vista =1;
         $etapa = (int) $etapa;
@@ -128,7 +132,7 @@ class PostulantesController extends Controller
            }
            
            $total = (float) $p->total;
-           $final = (float) 10;
+           $final = (float) $p->final;
            $ev_conocimiento = $p->ev_conocimiento;
            switch($p->$bd_califica){
                case "0"   : $estado = "No califica"; break;
@@ -141,14 +145,14 @@ class PostulantesController extends Controller
                 $ev_conocimiento = (int) $p->ev_conocimiento;
                 switch($etapa){
                     case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\" ,\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
-                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_conocimientos\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
+                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
                 $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$total,$final,$btn_mas];
            }else{
                 switch($etapa){
                     case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
                 $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$total,$final,$btn_mas];
            }
@@ -162,6 +166,8 @@ class PostulantesController extends Controller
         $api = $this->get_data($proceso_id, $etapa);
         $estado = $this->estado();
         $grupo = ['total'=>0, 'pendientes' => 0, 'califica' => 0, 'noCalifica' => 0];
+        $obs_actual = $api['etapa_actual']['observacion_bd'];
+        $ev_actual  = $api['etapa_actual']['desc2_bd'];
         $postulantes=[];
         foreach($api["postulantes"] as $p){
             $calificacion_etapa_actual = $api["etapa_actual"]["desc_bd"];
@@ -177,7 +183,7 @@ class PostulantesController extends Controller
                 $grupo['pendientes']++;
             }
 
-            $nombres=$p->user->nombres." ".$p->user->apellido_paterno." ".$p->user->apellido_materno;
+            $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
             $formacion ="";$img ="";
             $edad = Carbon::createFromDate("2001-01-01")->age;  
             
@@ -185,7 +191,7 @@ class PostulantesController extends Controller
             if($p->formacion_postulante->count() > 0){
                 $formacion =$p->get_especialidad();
                 $edad =Carbon::createFromDate($p->datos_postulante->fecha_nacimiento)->age;
-                $img =$p->user->img;
+                $img = Storage::url($p->datos_postulante->archivo_foto);
             }
 
             $postulantes[] = [ 
@@ -196,10 +202,12 @@ class PostulantesController extends Controller
                                 'nombres'=> $nombres,
                                 'formacion'=>$formacion,
                                 'edad'=>$edad,
-                                'img'=>$img,
-                                'ev_actual'=>$p->ev_curricular,
+                                'foto'=>$img,
+                                'ev_actual'=>$p->$ev_actual,
+                                'obs_actual'=> (string) $p->$obs_actual,
+                                'obs_actual_bd'=>$obs_actual,
                                 'ev_curricular'=> (int) $p->ev_curricular,
-                                'ev_conocimiento'=>$p->ev_conocimiento,
+                                'ev_conocimiento'=> (int) $p->ev_conocimiento,
                                 'ev_entrevista'=> (int)$p->ev_entrevista,
                                 'total'=>$p->total,
                             ];
@@ -216,7 +224,7 @@ class PostulantesController extends Controller
                     'etapa_actual'=> $api['etapa_actual'],
                     'grupos' => $grupo,
                     'etapas' => $api['etapas'],
-                    'evaluar_conocimientos' => $api['proceso']->evaluar_conocimientos,
+                    'evaluar_conocimientos' => (int)$api['proceso']->evaluar_conocimientos,
                 ];
     }
     public function ver_mas($idpostulante){
@@ -308,20 +316,18 @@ class PostulantesController extends Controller
                 $q->$campo_observacion =  $valor_observacion;
             }
             $q->save();
-            //actualizar BON+ (bonificacion) y total
+            //Calcular puntaje TOTAL
             $sum_evaluaciones =[];
             foreach($api["etapas"]   as $e){
                 $ev_etapa=$e['desc2_bd'];
                 $peso_bd =$e['peso_bd'];
                 $sum_evaluaciones[]= $q->$ev_etapa*($proceso->$peso_bd);
             }
-            $bono = $this->calcular_bonificacion(array_sum($sum_evaluaciones),$key, $proceso); //mandamos el total bruto, el id del postulante y proceso
-            $q->bonificacion = $bono;
-            $q->total = array_sum($sum_evaluaciones) + $bono;
+            $q->total = array_sum($sum_evaluaciones);
             $q->save();
             unset($q);
         }
-         return $this->actualizar_etapa_evaluacion($campo_calificacion,$proceso_id,$etapa); //mueva etapa, esto lo compararaemos
+         return $this->actualizar_etapa_evaluacion($campo_calificacion,$proceso_id,$etapa); //retorna la nueva etapa o (string) "final", y esto lo compararemos en el JS
                  
     }
     private function actualizar_etapa_evaluacion($campo_calificacion, $proceso_id,$etapa){
@@ -330,34 +336,78 @@ class PostulantesController extends Controller
        $n_etapas = count($api["etapas"]);
        $sensor = true;
        foreach($postulantes as $p){
-            //$evaluacion = (int) $p->$fila_evaluacion;
+            //Si alguna fila no se ha calificado, interrumpimos el proceso 
             if( is_null($p->$campo_calificacion) ){
                 $sensor = false;
                 break;
             }
        }
-            $query = Proceso::find($proceso_id);
-       if($sensor && $etapa<$n_etapas){
-            $nueva_etapa =  (int) $etapa + 1;
-            $query->etapa_evaluacion = $nueva_etapa;
-            $query->save();
+        $query = Proceso::find($proceso_id);
+       if($sensor){
+           if( $etapa<$n_etapas ){
+                $nueva_etapa =  (int) $etapa + 1;
+                $query->etapa_evaluacion = $nueva_etapa;
+                $query->save();
+           }
+           else if($etapa==$n_etapas){
+                $this->calcular_puntaje_final($postulantes,$query);
+                return "final";
+           }
        }
        return $query->etapa_evaluacion;
+       
     }
 
-    private function calcular_bonificacion($sub_total,$postulante_id,$proceso){
+    private function calcular_puntaje_final($postulantes,$proceso){
+        //Calcular Final 
+        $array_id=[];
+        foreach($postulantes as $key => $p){
+            //$query = Postulante::find($p->id);
+            $p->final = (float) $p->total + (float) $this->calcular_bonificaciones($p->id,$proceso);  
+                                                          //retorna la suma de las bonificaciones
+            $p->save();
+            $array_id[]=$p->id;
+            //unset($query);
+        }
+        //Situación
+        $query = Postulante::wherein("id",$array_id)->orderBy("final","desc")->get();
+        unset($array_id);
+        $temp_p=1;
+        foreach($query as $key => $p){
+            if( $temp_p <= $proceso->n_plazas){
+                $p->condicion = "GANADOR";
+            }else{
+                $p->condicion = "ACCESITARIO";
+            }
+            $temp_p++;
+            $p->save();
+        }
+    }
+
+    private function calcular_bonificaciones($postulante_id,$proceso){
         $datos = DatosPostulante::where("postulante_id",$postulante_id)->first();
+        $postulante = Postulante::find($postulante_id);
         $bonificacion = 0;
         if(!$datos) return $bonificacion;
         if($datos->es_pers_disc){
-            $bonificacion +=$sub_total*$proceso->bon_pers_disc;
+            $temporal_bon = (float) $proceso->bon_pers_disc*$postulante->total;
+            $postulante->bonific_pers_disc = $temporal_bon;
+            $bonificacion +=$temporal_bon;
+            unset($temporal_bon);
         }
         if($datos->es_lic_ffaa){
-            $bonificacion +=$sub_total*$proceso->bon_ffaa;
+            $temporal_bon = (float) $proceso->bon_ffaa*$postulante->total;
+            $postulante->bonific_ffaa = $temporal_bon;
+            $bonificacion +=$temporal_bon;
+            unset($temporal_bon);
         }
         if($datos->es_deportista){
-            $bonificacion +=$sub_total*$proceso->bon_deport;
+            $temporal_bon = (float) $proceso->bon_deport*$postulante->total;
+            $postulante->bonific_deportista = $temporal_bon;
+            $bonificacion +=$temporal_bon;
+            unset($temporal_bon);
         }
+        $postulante->save();
         return $bonificacion;
     }
     

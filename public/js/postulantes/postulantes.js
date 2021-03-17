@@ -122,10 +122,10 @@ var dataTajetas = function(proceso,etapa){
             $("#grupo_noCalifica").html("No califica ("+response.grupos.noCalifica+")");
             
             var key=0;
+            
             response.postulantes.forEach(element => {
                 key++;
-                //console.log("ECO",element.estado_nombre);
-                var random_img = Math.floor(Math.random() * 8)+1;
+                var foto_postulante = element.foto;
 
                 var $tarjeta = `<div class="col-md-3 single-note-pendiente container-fluid all-category ${element.estado_clase}">`; //`${}`: son string interpolation
                     $tarjeta +=    '<div class="card card-body el-element-overlay">';
@@ -135,13 +135,13 @@ var dataTajetas = function(proceso,etapa){
                     $tarjeta +=        '<div class="note-content">';
                     $tarjeta +=            '<div class="el-card-item pb-3">';
                     $tarjeta +=                '<div class="el-card-avatar mb-3 el-overlay-1 w-100 overflow-hidden position-relative text-center">'; 
-                    $tarjeta +=                    `<img src="/material-pro/src/assets/images/users/${random_img}.jpg" class="d-block position-relative w-100" />`;
+                    $tarjeta +=                    `<img src="${foto_postulante}" onerror="this.src='/imagenes/users/user.png';" class="d-block position-relative w-100" />`;
                     $tarjeta +=                    '<div class="el-overlay w-100 overflow-hidden">';
                     $tarjeta +=                        '<ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">';
-                    //$tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="material-pro/src/assets/images/users/${random_img}.jpg" title="ver foto"><i class="icon-picture"></i></a></li>`;
-                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>'; 
-                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="evaluar"><i class="fas fa-calculator"></i></button></li>';
-                    $tarjeta +=                            '<li class="el-item d-inline-block my-0 mx-1"><button class="btn prmary btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_evaluar" title="ver más"><i class="fas fa-plus"></i></button></li>';
+                    //$tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="material-pro/src/assets/images/users/${foto_postulante}.jpg" title="ver foto"><i class="icon-picture"></i></a></li>`;
+                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>`;
+                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="modal_evaluar_individual(${element.postulante_id},'${element.dni}','${element.nombres}','${foto_postulante}','${element.obs_actual_bd}','${element.ev_actual}','${element.obs_actual}',${etapa},'${proceso}',${response.evaluar_conocimientos},2)" title="evaluar"><i class="fas fa-calculator"></i></button></li>`;
+                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn prmary btn-outline el-link text-white border-white" onclick='modal_mas(${element.postulante_id})' title="ver más"><i class="fas fa-plus"></i></button></li>`;
                     $tarjeta +=                        '</ul>';
                     $tarjeta +=                    '</div>';
                     $tarjeta +=                 '</div>';
@@ -263,11 +263,20 @@ $(document).ready(function() {
             beforeSend: function () {
             console.log('enviando....');
             },
-            success:  function (response){
-                //console.log(response);
+            success:  function (response){                
                 $("#modal_evaluar").modal("hide");
                 var $nueva_etapa = response;
-                if($etapa == $nueva_etapa){
+                if($nueva_etapa ==='final'){
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'info',
+                        title: '¡EVALUACIÓN CONCLUIDA!',
+                        text: "Se calcularon las bonificaciones y el puntaje final",
+                        showConfirmButton: false,
+                        timer: 3500
+                    }) 
+                }
+                else if($etapa == $nueva_etapa){
                     Swal.fire({
                         position: 'top-end',
                         type: 'success',
@@ -283,8 +292,6 @@ $(document).ready(function() {
                         showConfirmButton: false,
                         timer: 2000
                     })
-                   // console.log("aquí el BUG"); 
-                    
                     $(location).attr('href', `/postulantes/${$proceso_id}/${$nueva_etapa}/${$vista}/listar`);
                 }
                 

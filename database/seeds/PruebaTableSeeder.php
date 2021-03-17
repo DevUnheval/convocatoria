@@ -86,9 +86,6 @@ class PruebaTableSeeder extends Seeder
             $query->archivo_resolucion_tipo = 'link';
             $query->contrato_inicio = '2019-03-'.(9+$i);
             $query->evaluar_conocimientos = false;
-            $query->bon_ffaa = '0.1';
-            $query->bon_pers_disc = '0.5';
-            $query->bon_deport = '0.1';
             $query->hay_bon_pers_disc = true;
             $query->hay_bon_ffaa = true;
             $query->hay_bon_deport = false;

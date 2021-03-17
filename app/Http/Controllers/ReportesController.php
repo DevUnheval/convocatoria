@@ -180,7 +180,6 @@ class ReportesController extends Controller
     }
 
     private function fusionar_pdf($pdfMerger,$rutaArchivoPDF){
-        
         if(Storage::exists($rutaArchivoPDF)){
             $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
             Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
@@ -188,5 +187,16 @@ class ReportesController extends Controller
             $pdfMerger->addPDF( storage_path("app/".$ruta_archivo_temporal) , 'all');
             unset($ruta_archivo_temporal);
         }
+    }
+
+    public function descargar_postulantes($id_proceso){
+        $data["proceso"] = Proceso::find($id_proceso);
+        $data["postulantes"] = Postulante::select( "dni",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),'postulantes.*')
+                                        ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id_proceso)
+                                        ->orderBy("final","desc")
+                                        ->orderBy("apellido_paterno")->get();
+        $data["ruta"] = "reportes.excel.postulantes";
+        //return (new ProcesosExport ($data))->view();
+        return (new ProcesosExport($data))->download("postulantes_".$data['proceso']->cod.'.xlsx');
     }
 }

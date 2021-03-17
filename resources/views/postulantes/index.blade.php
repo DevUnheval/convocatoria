@@ -84,7 +84,7 @@
     @include('postulantes.modal_mas')
     <div class="p-2">
         <button class="btn btn-outline-danger" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-calculator"></i> Evaluar en bloque: Ev. {{$etapa_actual['descripcion']}} </button>
-        <button class="btn btn-outline-success float-right" onclick='modal_evaluar_todos({{$etapa_actual["etapa"]}},{{$proceso->id}},{{$proceso->evaluar_conocimientos}},1)'><i class="fa fa-file-excel"></i> Descargar tabla </button>
+        <a class="btn btn-outline-success float-right" href="{{route('reporte.postulantes',$proceso->id)}}" target="_blank"><i class="fa fa-file-excel"></i> Descargar postulantes </a>
     </div>
     <div id="ver-tarjetas" class="ver-div" hidden>
         <ul class="nav nav-pills p-3 bg-light mb-3 rounded-pill align-items-center">

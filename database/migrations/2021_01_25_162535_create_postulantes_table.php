@@ -29,12 +29,13 @@ class CreatePostulantesTable extends Migration
             $table->decimal('ev_entrevista', 5, 2)->nullable();
             $table->boolean('cal_entrevista')->nullable();//Calificación curricular: Califica - No Califica
             $table->text('obs_entrevista')->nullable();
-            $table->decimal('bonificacion', 5, 2)->nullable();//eliminar este campo
             $table->decimal('bonific_deportista', 5, 2)->nullable();
             $table->decimal('bonific_ffaa', 5, 2)->nullable();
             $table->decimal('bonific_pers_disc', 5, 2)->nullable();
-            $table->decimal('total', 5, 2)->nullable();
-            $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no y enviar la constancia al correo
+            $table->decimal('total', 6, 2)->nullable();
+            $table->decimal('final', 6, 2)->nullable();
+            $table->string('condicion')->nullable();
+            $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no
             $table->string('email');//correo al cual se está enviando la constancia de postulación
 
             $table->timestamps();

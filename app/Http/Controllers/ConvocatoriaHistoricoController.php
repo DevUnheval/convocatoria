@@ -23,7 +23,6 @@ class ConvocatoriaHistoricoController extends Controller{
     }
 
     public function index_concluidos(){
-
         $datos = [
             'tipos_proc'=>TipoProceso::pluck('nombre','id'),
             'grado_formacion'=>GradoFormacion::pluck('nombre','id')
@@ -37,9 +36,11 @@ class ConvocatoriaHistoricoController extends Controller{
         $query = Proceso::where("estado","3")->orderBy("id","desc")->get();
         if($query->count()<1)
         return $this->data_null;
+
+       
         foreach ($query as $dato) {
         
-                       
+            $postulantes = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("reporte.postulantes",[$dato->id]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';        
             $comunicados = ""; 
             if($dato->comunicados->count() > 0 ){
                 $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
@@ -67,10 +68,10 @@ class ConvocatoriaHistoricoController extends Controller{
             }                      
          
             if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$postulantes,$resultados];
             }
             else{
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];    
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$postulantes,$resultados];    
             }
 
         }
