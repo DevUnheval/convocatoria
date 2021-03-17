@@ -1,5 +1,23 @@
 $(document).ready(function() {
     
+    const selectElement = document.getElementById('check_colegiatura');
+
+    selectElement.addEventListener('change', (event) => {
+       
+        if(selectElement.checked){
+            $('#codigo_colegiatura').prop('disabled',false);
+            $('#codigo_colegiatura').focus();
+            
+            $('#cont_colegiatura').addClass('border border-cyan');
+        }else{
+            $('#codigo_colegiatura').prop('disabled',true);
+            $('#cont_colegiatura').removeClass('border border-cyan');
+            $('#codigo_colegiatura').val('');
+        }
+
+        
+        
+    });
     $("#nacionalidad").on('change',function(){
         
        

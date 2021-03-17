@@ -138,7 +138,7 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
         $('#apellidosynombres').html(data.quser.apellido_paterno+" "+data.quser.apellido_materno+", "+data.quser.nombres);
         $('#dni').html(data.quser.dni);
         $('#dnicab').html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "+data.quser.dni);
-        $('#email').html(data.quser.email);
+        $('#email').html(data.postulante.email);
         
     }else{
         $('#postulante').html("");
@@ -225,6 +225,12 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
        $('#foto_perfil').prop("src", asset+"/imagenes/users/user.png");
     }
         //llenar formacion
+        if(data.qdatos.colegiatura != null){
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+          }else{
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+          }
+
         if(data.qform[0]!=null){  
         var html_resform = "";
         for (var i = 0; i < data.qform.length; i++) {

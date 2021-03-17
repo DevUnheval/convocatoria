@@ -357,9 +357,33 @@
                             </tfoot>
                             
                         </table>
+
+                        
                     </div>
-                 </div>    
-                 <br><br><br>                 
+                 </div> 
+                 <br><br>
+                
+                    <div class="row" >          
+                        <div id="cont_colegiatura" class="col-md-4 shadow p-2 mb-2 mt-1 bg-light">
+                            <div class="row" >  
+                            <div class="col-md-1 float-right" >
+                            <input style="width: 20px; height: 20px" id="check_colegiatura" type="checkbox" />
+                            
+                            </div>    
+
+                        <div class="col-md-11" >
+                            <label>
+                                Estoy colegiado y habilitado(a)
+                            </label>
+                            <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
+                            
+                        </div>  
+                          
+                        </div> 
+                        </div>                           
+                    </div>
+                  
+                 <br>                 
                 </section>
                 
                 <!-- Step 3 -->
