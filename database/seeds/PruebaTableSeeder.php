@@ -109,6 +109,7 @@ class PruebaTableSeeder extends Seeder
             $query->user_id=$k->id;
             $query->proceso_id=1;
             $query->estado_pos=1;
+            $query->email="notengocorreo@mail.com";
             $query->save();
             unset($query);
         }

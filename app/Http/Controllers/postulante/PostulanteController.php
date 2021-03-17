@@ -671,6 +671,7 @@ class PostulanteController extends Controller
         $pos = new Postulante;
         $pos->user_id = auth()->user()->id;
         $pos->proceso_id = $data->idproceso;
+        $pos->email = auth()->user()->email;
         $pos->save();
 
         
@@ -786,25 +787,44 @@ class PostulanteController extends Controller
             return redirect()->route('index');
         }
 
-        $datos_usuario = User::join("datos_users", "datos_users.user_id", "=", "users.id")
-        ->select("*")
-        ->where("datos_users.user_id", "=", auth()->user()->id)
-        ->first();
-
-        $mensaje = "";
         
-       
+        $mensaje = "";
+        $postulante = "";
+        $datos_postulante = "";
+        $desc_u_nac = "";
+        $desc_u_dom = "";
         if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->exists()){
-            $pos = Postulante::select('id','estado_pos')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
-            $fechapos= Postulante::whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->get();
-            $horapos=Postulante::whereTime('created_at', '=', Carbon::now()->format('H:i'))->get();
+            $pos = Postulante::select('id','estado_pos','email','created_at')->where('user_id',auth()->user()->id)->where('proceso_id',$data->idproceso)->first();
+            
+            $datos_postulante = DatosPostulante::select("ruc","telefono_celular","domicilio","ubigeo_domicilio","fecha_nacimiento","ubigeo_nacimiento","nacionalidad")
+            ->where("postulante_id", "=", $pos->id)
+            ->first();
+
+            //_______________________inicoio __-ubigeo_____________________________
+            if($datos_postulante['nacionalidad'] == "Peruano(a)"){
+               // $cod_nac = $du->ubigeo_nacimiento;
+                $u_nac = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($datos_postulante['ubigeo_nacimiento']))->first();
+                $desc_u_nac = $u_nac->desc_ubigeo_reniec.' - '.$u_nac->desc_prov_reniec.' - '.$u_nac->desc_dep_reniec;
+            }else if($datos_postulante['nacionalidad'] == "Extranjero(a)"){
+               // $cod_nac = $du->ubigeo_nacimiento;
+                $desc_u_nac =$datos_postulante['ubigeo_nacimiento'];
+            }
+    
+            //$cod_dom= $du->ubigeo_domicilio;
+            $u_dom = Ubigeo::select('desc_dep_reniec','desc_prov_reniec','desc_ubigeo_reniec')->where('cod_ubigeo_reniec',intval($datos_postulante['ubigeo_domicilio']))->first();
+            $desc_u_dom = $u_dom->desc_ubigeo_reniec.' - '.$u_dom->desc_prov_reniec.' - '.$u_dom->desc_dep_reniec;
+            //_______________________-ubigeo fin_____________________________
+
+           // $fechapos= Postulante::whereDate('created_at', '=', Carbon::now()->format('Y-m-d'))->get();
+            //$horapos=Postulante::whereTime('created_at', '=', Carbon::now()->format('H:i'))->get();
+            $postulante = Postulante::find($pos->id);
             if($pos['estado_pos'] == 0){
                 $pp = Postulante::find($pos['id']);
                 $pp->estado_pos = 1;
                 $pp->save();
                 //Envio de constancia al correo electronico
-                $correo = new ConstPostulacionMailable($proceso, $datos_usuario);
-                Mail::to($datos_usuario->email)->send($correo);
+                $correo = new ConstPostulacionMailable($proceso, $datos_postulante, $pos,$desc_u_nac, $desc_u_dom );
+                Mail::to(auth()->user()->email)->send($correo);
 
                 
             } else{
@@ -815,7 +835,7 @@ class PostulanteController extends Controller
         }else{
        return redirect()->route('postulante_postular',['idproceso' => $data->idproceso]);
         } 
-     return view('postulante.finpostular',compact('proceso','datos_usuario','mensaje','fechapos','horapos'));
+     return view('postulante.finpostular',compact('proceso','datos_postulante','mensaje','pos','desc_u_nac','desc_u_dom'));
     
 }
 

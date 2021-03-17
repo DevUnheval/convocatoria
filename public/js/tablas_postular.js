@@ -471,8 +471,8 @@ $('#loading-screen').fadeIn(); //PRELOADER INICIO
           var tipo_exp;  
             marcadogeneral="";
             marcadoespecifico="";
-           if(data.query.es_exp_gen==1){marcadogeneral="checked";}
-           if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query.es_exp_gen==1){marcadogeneral="GENERAL";}
+           if(data.query.es_exp_esp==1){marcadoespecifico=" y <br> ESPECÍFICA";}
 
            if(data.query.tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
@@ -489,8 +489,8 @@ $('#loading-screen').fadeIn(); //PRELOADER INICIO
 
             var fila = "<tr id='tblexp"+data.query.id+"'>"+
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             
             "<td>"+data.query.centro_laboral+"</td>"+
             "<td>"+data.query.cargo_funcion+"</td>"+
@@ -608,8 +608,8 @@ function actualizar_experiencia_data(transid){
             var tipo_exp;
           var marcadogeneral="";
             var marcadoespecifico="";
-           if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
-           if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query[0].es_exp_gen==1){marcadogeneral="GENERAL";}
+           if(data.query[0].es_exp_esp==1){marcadoespecifico="y <br> ESPECÍFICA";}
            
            if(data.query[0].tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
@@ -626,8 +626,8 @@ function actualizar_experiencia_data(transid){
 
           var filahtml =
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             
             "<td>"+data.query[0].centro_laboral+"</td>"+
             "<td>"+data.query[0].cargo_funcion+"</td>"+

@@ -36,6 +36,7 @@ class CreatePostulantesTable extends Migration
             $table->decimal('final', 6, 2)->nullable();
             $table->string('condicion')->nullable();
             $table->boolean('estado_pos')->default(false);//para evaluar si ya esta postulando o no
+            $table->string('email');//correo al cual se está enviando la constancia de postulación
 
             $table->timestamps();
         });

@@ -59,32 +59,32 @@
                     <th scope="row" class="alert alert-secondary">Documentos de Identidad</th>
                     <td>{{auth()->user()->dni}}</td>
                     <th scope="row" class="alert alert-secondary">RUC:</th>
-                    <td>{{$datos_usuario['ruc']}}</td>
+                    <td>{{$datos_postulante['ruc']}}</td>
                 </tr>
                 <tr>
                     <th scope="row" class="alert alert-secondary">Fecha de Nacimiento</th>
-                    <td>{{$datos_usuario['fecha_nacimiento']}}</td>
-                    <th scope="row" class="alert alert-secondary">Dist-Prov-Dep</th>
-                    <td>{{$datos_usuario['ubigeo_nacimiento']}}</td>
+                    <td>{{$datos_postulante['fecha_nacimiento']}}</td>
+                    <th scope="row" class="alert alert-secondary">Lugar de nacimiento</th>
+                    <td>{{$desc_u_nac}}</td>
                 </tr>
                 <tr>
                     <th scope="row" class="alert alert-secondary">Celular N° </th>
-                    <td>{{$datos_usuario['telefono_celular']}}</td>
+                    <td>{{$datos_postulante['telefono_celular']}}</td>
                     <th scope="row" class="alert alert-secondary">Correo Electrónico</th>
-                    <td>{{auth()->user()->email}}</td>
-                </tr>
-                <tr>
-                    <th scope="row" class="alert alert-secondary">Dirección Actual </th>
-                    <td>{{$datos_usuario['domicilio']}}</td>
-                    <th scope="row" class="alert alert-secondary">Dist-Prov-Dep</th>
-                    <td>{{$datos_usuario['ubigeo_domicilio']}}</td>
+                    <td>{{$postulacion->email}}</td>
                 </tr>
                 <tr>
                     <th scope="row" class="alert alert-secondary">Fecha de Postulacion </th>
-                    <td>{{$fechapos.date('Y-m-d')}}</td>
+                    <td>{{date_format(date_create($postulacion->created_at),"d/m/Y")}}</td>
                     <th scope="row" class="alert alert-secondary">Hora de Postulacion</th>
-                    <td>{{$horapos.date('H:i')}}</td>
+                    <td>{{date_format(date_create($postulacion->created_at),"H:m:s")}}</td>
                 </tr>
+                <tr>
+                    <th scope="row" class="alert alert-secondary">Dirección Actual </th>
+                    <td colspan="3">{{$datos_postulante['domicilio']}} ({{$desc_u_dom}})</td>
+                    
+                </tr>
+                
             </tbody>                            
         </table>
     </div>   

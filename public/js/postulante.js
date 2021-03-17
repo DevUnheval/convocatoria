@@ -217,8 +217,8 @@ $(document).ready(function() {
             marcadogeneral="";
             marcadoespecifico="";
             tipo_exp="";  
-            if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
-            if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
+            if(data3.query[i].es_exp_gen==1){marcadogeneral="GENERAL";}
+            if(data3.query[i].es_exp_esp==1){marcadoespecifico=" y <br> ESPECÍFICA";}
             //<option value=1>Experiencia Laboral</option>
             //<option value=2>Prácticas Pre Profesionales</option>
             //<option value=3>Prácticas Profesionales</option>
@@ -238,8 +238,8 @@ $(document).ready(function() {
 
             tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             
             "<td>"+data3.query[i].centro_laboral+"</td>"+
             "<td>"+data3.query[i].cargo_funcion+"</td>"+
@@ -1233,8 +1233,8 @@ function cumple_formacion(id){
                 var marcadogeneral="";
                 var marcadoespecifico="";
                 var tipo_exp=""; 
-            if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
-            if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
+            if(data.qexp[i].es_exp_gen==1){marcadogeneral="GENERAL";}
+            if(data.qexp[i].es_exp_esp==1){marcadoespecifico="y <br> ESPECÍFICA";}
             
                 if(data.qexp[i].tipo_experiencia == '1'){
                 tipo_exp="Experiencia Laboral";
@@ -1251,8 +1251,7 @@ function cumple_formacion(id){
 
             html_resexp += "<tr>"+
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             "<td>"+data.qexp[i].centro_laboral+"</td>"+
             "<td>"+data.qexp[i].cargo_funcion+"</td>"+
             "<td>"+data.qexp[i].fecha_inicio+"</td>"+
