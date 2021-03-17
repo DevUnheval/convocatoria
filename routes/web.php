@@ -154,7 +154,7 @@ Route::group(['prefix' => 'postulante'], function(){
         Route::get('ver_mas/{idpostulante}', 'PostulantesController@ver_mas')->middleware(['auth','Comisionado']);
     });
 
-   Route::get("/buscar_ubigeo_reniec",function(Request $r){
+   Route::get("buscar_ubigeo_reniec",function(Request $r){
        $search = $r->search;
         $q = \App\Ubigeo::select( 'cod_ubigeo_reniec as id', DB::raw("CONCAT(desc_ubigeo_reniec,' - ', desc_prov_reniec,' - ', desc_dep_reniec) AS text"))
         ->where("cod_ubigeo_reniec","<>","NA")
@@ -173,4 +173,10 @@ Route::group(['prefix' => 'reportes'], function(){
     Route::get('cv/{id_postulante}', 'ReportesController@cv')->where(['id_postulante'=>'[0-9]+'])->middleware(['auth','Comisionado']);
     Route::get('postulantes/{id_proceso}', 'ReportesController@descargar_postulantes')->name('reporte.postulantes')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
 });
+Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->name('reportes.preliminar');
+
+Route::post("ruta_temporal/{proceso_id}",function($proceso_id){
+    session()->put('ruta_temporal', route("postulante_postular",$proceso_id) );
+});
+
 
