@@ -28,12 +28,7 @@ class PostulanteController extends Controller
 {
     public function __construct()
     {
-       /* $this->data_null='{
-            "sEcho": 1,
-            "iTotalRecords": "0",
-            "iTotalDisplayRecords": "0",
-            "aaData": []
-        }';*/
+      
     }
    
     public function index()
@@ -575,7 +570,16 @@ class PostulanteController extends Controller
        
     }
     public function datosformacion_general(Request $data){
-
+        //___________colegiatura inicio_________
+        
+        $colegiatura = NULL;
+        if($data->colegiatura != ""){
+            $colegiatura = $data->colegiatura;
+        }else{
+            $colegiatura = NULL;
+        }        
+        DatosUser::where('user_id',auth()->user()->id)->update(['colegiatura' => $colegiatura]);
+        //___________colegiatura fin______________
         $miformacion_max=FormacionUser::select('grado_id')
         ->where('user_id',auth()->user()->id)
         ->max('grado_id');
