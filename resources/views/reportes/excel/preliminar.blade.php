@@ -32,7 +32,7 @@
                         <td  align="center" colspan="5" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="5">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN PRELIMINAR</td>
+                        <td  align="center" colspan="5">LISTA DE POSTULANTES</td>
                     </tr>
                     <tr>
                         <th rowspan="2"  border="1">Orden de Mérito</th>

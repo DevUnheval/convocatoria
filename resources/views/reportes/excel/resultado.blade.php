@@ -23,61 +23,87 @@
     }
 </style>
     <body>
+    
         <table class="tabla-reporte">
+                <?php 
+                    $colums = 12;
+                    $colum = 3;
+                    $formula = "A*".$data['proceso']->peso_cv." + B*".$data['proceso']->peso_conoc." + C".$data['proceso']->peso_entrev;
+                    if(! (boolean)$data['proceso']->evaluar_conocimientos){$colums--; $colum--; $formula = "A*".$data['proceso']->peso_cv." + B*".$data['proceso']->peso_entrev;}
+                    if(! (boolean)$data['proceso']->hay_bon_pers_disc) $colums--;
+                    if(! (boolean)$data['proceso']->hay_bon_ffaa) $colums--;
+                    if(! (boolean)$data['proceso']->hay_bon_deport) $colums--;
+                ?>
                 <thead>
                     <tr>
-                        <td  align="center" colspan="12">Proceso de concurso {{$data["proceso"]->cod}} </td>
+                        <td  align="center" colspan="{{$colums}}"><h1>Proceso de concurso {{$data["proceso"]->cod}} </h1></td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="12" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
+                        <td  align="center" colspan="{{$colums}}" ><h2>NOMBRE DE LA CONVOCATORIA: {{$data["proceso"]->nombre}}  -  Nº DE PLAZAS: {{$data['proceso']->n_plazas}}</h2></td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="12">PUBLICACIÓN DEL RESULTADO FINAL</td>
+                        <td  align="center" colspan="{{$colums}}"><h3>PUBLICACIÓN DEL RESULTADO FINAL</h3></td>
                     </tr>
-                    <tr  >
-                        <th>Nº</th>
-                        <th>DNI</th> 
-                        <th  style="width:50px;">Apellidos y Nombres</th>                                                    
-                        <th>Ev. curricular</th>
-                        @if($data["proceso"]->evaluar_conocimientos)
-                        <th>Ev. Con. / Psic. </th>
+                    <tr>
+                        <th rowspan="2"  border="1">Orden de Mérito</th>
+                        <th rowspan="2"  border="1">DNI</th>
+                        <th rowspan="2" style="width:50px;">APELLIDOS Y NOMBRES</th>            
+                        <th colspan="{{$colum}}">EVALUACION</th>
+                        <th rowspan="2"  border="1">PT = PUNTAJE TOTAL ({{$formula}})</th>
+                        @if( (boolean)$data['proceso']->hay_bon_ffaa)
+                        <th rowspan="2"  border="1">BONIFICACIÓN LIC. FFAA ({{$data['proceso']->bon_ffaa}}*PT) </th>
                         @endif
-                        <th>Ev. entrevista </th>
-                        <th>Bonificación Persona con Discapacidad (15% del puntaje total)</th>
-                        <th>Bonificación Licenciado FF.AA. (10% del Puntaje Total)</th>
-                        <th>Bonificación deportista calificado. (10% del Puntaje Total)</th>
-                        <th>Total</th>
-                        <th>Condicion</th>
-                                                                
+                        @if( (boolean)$data['proceso']->hay_bon_pers_disc)
+                        <th rowspan="2"  border="1">BONIFICACIÓN PERS. DISCAPACIDAD ({{$data['proceso']->bon_pers_disc}}*PT)</th>
+                        @endif
+                        @if( (boolean)$data['proceso']->hay_bon_deport)
+                        <th rowspan="2"  border="1">BONIFICACIÓN DEPORTISTA CALIFICADO ({{$data['proceso']->bon_deport}}*PT)</th>
+                        @endif
+                        <th rowspan="2"  border="1">PF = PUNTAJE FINAL (PT + Bonificaciones)</th>
+                        <th rowspan="2"  border="1">CONDICION</th>
+                    </tr>
+                    <tr>
+                        <th>A = CURICULAR</th>
+                        @if( (boolean)$data['proceso']->evaluar_conocimientos)
+                        <th>B = CONOCIMIENTO</th> 
+                        @endif
+                        <th>C = ENTREVISTA</th>                                                
                     </tr>
                 </thead>
                 <tbody>   
                     @foreach($data["postulantes"] as $key => $p)    
                     <tr>
-                        <td align="center">{{($key+1)}} </td>
-                        <td align="center">{{$p->dni}}</td>
+                        <td align="center">
+                                {{($key+1)}}
+                        </td>
+                        <td align="center">{{($p->dni)}} </td>
                         <td>{{$p->nombres}}</td>  
-                        <td align="center">{{$p->ev_curricular}}</td>  
-                        @if($data["proceso"]->evaluar_conocimientos)
-                        <td align="center">{{$p->ev_conocimiento}}</td>
+                        <td align="center">{{ (float) $p->ev_curricular}}</td>  
+                        @if( (boolean)$data['proceso']->evaluar_conocimientos)
+                        <td align="center">{{ (float) $p->ev_conocimiento}}</td> 
                         @endif
-                        <td align="center">{{$p->ev_entrevista}}</td>  
-                        <td align="center">{{$p->bonificacion}}</td>
-                        <td align="center">{{$p->bonificacion}}</td>
-                        <td align="center">{{$p->bonificacion}}</td>  
-                        <td align="center">{{$p->total}}</td>                
-                        <td align="center">Ganador</td>                                              
+                        <td align="center">{{ (float) $p->ev_entrevista}}</td>  
+                        <td align="center">{{$p->total}}</td>
+                        @if( (boolean)$data['proceso']->hay_bon_ffaa)
+                        <td align="center">{{ (float) $p->bonific_ffaa}}</td>  
+                        @endif
+                        @if( (boolean)$data['proceso']->hay_bon_pers_disc)
+                        <td align="center">{{ (float) $p->bonific_pers_disc}}</td>  
+                        @endif
+                        @if( (boolean)$data['proceso']->hay_bon_deport)
+                        <td align="center">{{ (float) $p->bonific_deportista}}</td>
+                        @endif
+                        <td align="center">{{ (float) $p->final}}</td> 
+                        <td align="center">{{  $p->condicion}}</td>                  
                     </tr> 
                     @endforeach     
-                    @if(count($data["postulantes"]) < 1 )
+                    @if(count($data) < 1 )
                     <tr>
-                        <td align="center" colspan="5"><i> No hay postulantes </i></td>
+                        <td align="center" colspan="{{$colums}}"><i> No hay postulantes </i></td>
                     </tr>
                     @endif                           
-                </tbody>                                                    
+                </tbody>                                       
         </table>  
-
-
     </body>
 </html>
 

@@ -226,7 +226,8 @@ function concluir_convocatoria(proceso_id,cod) {
                         Swal.fire({
                             position: 'top-end',
                             type: 'success',
-                            title: 'Se CANCELÓ el proceso '+ cod,
+                            title: 'El proceso '+ cod+' se dió por CONCLUIDO',
+                            text: 'Puede encontrarlo en el menú de Histórico > Concluidas'+ cod,
                             showConfirmButton: false,
                             timer: 1500
                         }) 
