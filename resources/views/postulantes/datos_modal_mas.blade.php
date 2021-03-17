@@ -109,11 +109,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr  align="center">
-                                                        <td>{{$Ptotal}}</td>
-                                                        <?php $Btotal= $postulante->bonific_pers_disc + $postulante->bonific_deportista + $postulante->bonific_ffaa; ?>
-                                                        <td>{{$Btotal}}</td>
-                                                        <td>{{($Ptotal + $Btotal)}}</td>
-                                                        <td>---</td>
+                                                        <td>{{$postulante->total}}</td>
+                                                        <td>{{$postulante->final}}</td>
+                                                        <td>{{$postulante->final)}}</td>
+                                                        <td>{{$postulante->condicion}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

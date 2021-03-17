@@ -258,7 +258,7 @@ $(document).ready(function() {
             async:false, //para dejar que termine el ajax, antes que continue y sacar variables del succes
             url:  `/postulantes/actualizar_evaluacion/${$proceso_id}/${$etapa}/${$ev_con}`,
             headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            type: 'POST',
+            type: 'GET',
             data:$data,
             beforeSend: function () {
             console.log('enviando....');
