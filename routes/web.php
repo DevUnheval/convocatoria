@@ -178,5 +178,7 @@ Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['i
 Route::post("ruta_temporal/{proceso_id}",function($proceso_id){
     session()->put('ruta_temporal', route("postulante_postular",$proceso_id) );
 });
+Route::get("actualizar_estados","ConvocatoriaController@actualizar_estados_vigentes_y_enCruso");
+
 
 
