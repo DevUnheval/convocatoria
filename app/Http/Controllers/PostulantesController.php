@@ -12,6 +12,7 @@ use App\Postulante;
 use App\Proceso;
 use App\Ubigeo;
 use App\User;
+use Storage;
 use Carbon\Carbon;
 
 class PostulantesController extends Controller
