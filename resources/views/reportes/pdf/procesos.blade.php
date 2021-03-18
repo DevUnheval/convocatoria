@@ -2,7 +2,7 @@
 @section('contenido')
 
 <br> 
-<h5 style="text-align:center; margin:0;padding:0;">Proceso de concurso {{$data["proceso"]->cod}} </h5>
+<h5 style="text-align:center; margin:0;padding:0;">Proceso de concurso {{$data["proceso"]->cod}} -  ({{$data["proceso"]->n_plazas}} plazas)</h5>
 <h5 style="text-align:center; margin:0;padding:0;">NOMBRE DE LA CONVOCATORIA: {{$data["proceso"]->nombre}} </h5><br>
 <h5 align="center" style="margin:0;padding:0;color:blue;text-transform: uppercase;">PUBLICACIÓN DE RESULTADOS DE EVALUACIÓN {{$data["etapa_actual"]["descripcion"]}}</h5><br>
 <table class="tabla-reporte">

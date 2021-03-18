@@ -12,6 +12,7 @@ use App\Postulante;
 use App\Proceso;
 use App\Ubigeo;
 use App\User;
+use Storage;
 use Carbon\Carbon;
 
 class PostulantesController extends Controller
@@ -449,7 +450,7 @@ class PostulantesController extends Controller
     ->where('postulante_id',$postulanteid)->get();
     
     //Datospersonales
-    $qdatos = DatosPostulante::select('archivo_foto','archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
+    $qdatos = DatosPostulante::select('colegiatura','archivo_foto','archivo_disc','archivo_ffaa','archivo_deport','archivo_dni','fecha_nacimiento','ubigeo_nacimiento','telefono_celular','telefono_fijo','ruc','domicilio','ubigeo_domicilio','nacionalidad','es_pers_disc','es_lic_ffaa','es_deportista')
     ->where('postulante_id',$postulanteid)->first();
     
     //Datos usuario

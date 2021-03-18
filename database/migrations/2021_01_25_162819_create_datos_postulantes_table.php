@@ -34,6 +34,7 @@ class CreateDatosPostulantesTable extends Migration
             $table->date('fecha_nacimiento')->nullable();
             $table->string('ubigeo_nacimiento')->nullable();//quizá lo quitemos
             $table->string('nacionalidad')->default('Peruana');//quizá lo quitemos
+            $table->string('colegiatura')->nullable();
 
             //bonificacion
             $table->boolean('es_pers_disc')->default(false);

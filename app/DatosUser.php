@@ -13,7 +13,7 @@ class DatosUser extends Model
                             'es_lic_ffaa','archivo_ffaa','archivo_ffaa_tipo','es_deportista','archivo_deport',
                             'archivo_deport_tipo','es_otros1','archivo_otro','archivo_otro_tipo','es_otros2',
                             'archivo_otro2','archivo_otro2_tipo','dj1','dj2','dj3','dj4','dj5','dj6',
-                            'dj7','dj8','dj9','dj10','dj11','archivo1','archivo1_tipo'];
+                            'dj7','dj8','dj9','dj10','dj11','archivo1','archivo1_tipo','colegiatura'];
     public $timestamps = False;
     
     public function user() {

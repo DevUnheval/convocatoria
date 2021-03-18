@@ -26,9 +26,11 @@
                                 
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Comunicados</th>                                
+                                <th>Comunicados</th>  
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                <th>Postulantes</th>                              
+                                @endif
                                 <th>Evaluacion</th>
-                                <th>Postulantes</th>
                                 <th>Resultados</th>
                             </tr>
                         </thead>
@@ -40,9 +42,11 @@
                                
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                <th>Comunicados</th>                                
+                                <th>Comunicados</th>  
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])) 
+                                <th>Postulantes</th>                             
+                                @endif
                                 <th>Evaluacion</th>
-                                <th>Postulantes</th>
                                 <th>Resultados</th>                              
                             </tr>
                         </tfoot>

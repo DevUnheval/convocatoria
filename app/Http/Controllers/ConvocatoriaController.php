@@ -71,17 +71,18 @@ class ConvocatoriaController extends Controller
                 }
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
-                if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
+                $idproceso=$dato->id;
+                if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
                 }else if(auth()->check() && auth()->user()->hasRoles(['Postulante'])){
-                    $idproceso=$dato->id;
+                    
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
                 }else{
-                    $postular = '<button class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_invitado" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</button>';
+                    $postular = "<button class='btn btn-info waves-effect waves-light' type='button' onclick='iniciar_sesion($idproceso)'><span class='btn-label'><i class='icon-login'></i></span> Postular</button>";
                 }
             }
 
-            if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
+            if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
                 $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
             }
             else{

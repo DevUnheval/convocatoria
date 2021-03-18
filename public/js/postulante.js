@@ -1,6 +1,6 @@
 $(document).ready(function() {
-          
-         
+    
+    
    $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
        // console.log(data); 
         
@@ -21,7 +21,9 @@ $(document).ready(function() {
             $('#html_lugar_nac2').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
+            $('#ubigeodni_alt').prop('required',false);
             
             $("#nacionalidad option[value='Extranjero(a)']").prop('selected',true);
             $('#ubigeodni').val(data.cod_nac);
@@ -59,6 +61,18 @@ $(document).ready(function() {
             var href_disc="#";
             var href_ffaa="#";
             
+            if(data[0].colegiatura != null){
+                $('#check_colegiatura').prop('checked',true);
+                $('#codigo_colegiatura').prop('disabled',false);
+                $('#codigo_colegiatura').val(data[0].colegiatura);
+                $('#cont_colegiatura').addClass('border border-cyan');
+            }else{
+                $('#codigo_colegiatura').prop('disabled',true);
+                $('#check_colegiatura').prop('checked',false);
+                $('#codigo_colegiatura').val(null);
+                
+            }
+
             $('#cargar_dni').prop('required',true);
             if(data[0].archivo_dni != null){
              href_dni=data[0].archivo_dni.replace("public/", '/storage/');
@@ -985,17 +999,23 @@ function cumple_exp_genyesp(){
 function cumple_formacion(id){
     var arrayExp={estado:"",msjok:"",msjerror:""};
 
+    if($('#codigo_colegiatura').val() == "" && $('#check_colegiatura').prop('checked') == true){
+       return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+    }    
     var id = id;
     
     $.ajax({
         //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/datosformacion_general",
-        type: "GET" ,
+        type: "GET",
         async:false,
         datatype: "json",
-        data: {idproceso : id},
+        data: {
+            idproceso : id,
+            colegiatura : $('#codigo_colegiatura').val()
+        },
         success:function(data){ 
-           respu= data;
+           respu = data;
         }
     });
     
@@ -1139,6 +1159,11 @@ function cumple_formacion(id){
           var esdisc = "";
           var esffaa = "";
           var esdep = "";
+          if(data.qdatos.colegiatura != null){
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+          }else{
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+          }
             $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
            $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
            $('#res_ruc').html(data.qdatos.ruc);

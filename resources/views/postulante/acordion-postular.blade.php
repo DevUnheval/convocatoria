@@ -73,7 +73,10 @@
             </div>
             <div id="collapse-ii" class="collapse" data-parent="#accordionExample">
                 <div class="card-body">
-                   
+                    <div class="row alert alert-dark-info" >          
+                        <div id="dato_colegiado"></div>          
+                    </div>                           
+                </div>
                     <table  class="table table-striped table-bordered">
                         <thead class="bg-secondary text-white">
                             <tr>

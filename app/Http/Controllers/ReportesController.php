@@ -133,7 +133,6 @@ class ReportesController extends Controller
         $path_pdf0 = 'public/pdf/'.rand(1, 99999).'.pdf';
         Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
         
-        
         $this->archivos_temporales[]=$path_pdf0;
         $pdfMerger = PDFMerger::init(); 
         //agregamos los documentos PDF
@@ -151,15 +150,20 @@ class ReportesController extends Controller
         if($postulante->datos_postulante->es_pers_disc)
             $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_disc);
         //4. Formación       
-       foreach($postulante->formacion_postulante as $key => $formacion){
+        foreach($postulante->formacion_postulante as $key => $formacion){
+            if(!$formacion->validacion) continue;
             $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
         }
-         //5. Experiencia laboral       
+        //5. Capacitación       
+        foreach($postulante->capacitacionpostulantes as $key => $capacitacion){
+            if(!$capacitacion->validacion) continue;
+            $this->fusionar_pdf($pdfMerger,  $capacitacion->archivo);            
+        }
+        //6. Experiencia laboral       
         foreach($postulante->experieciapostulantes as $key => $experiencia){
+            if(!$capacitacion->experiencia) continue;
             $this->fusionar_pdf($pdfMerger,  $experiencia->archivo);            
         }   
-        
-
         $pdfMerger->merge(); //For a normal merge (No blank page added)
         // borramos los archivos temporales
         foreach($this->archivos_temporales as $temp){

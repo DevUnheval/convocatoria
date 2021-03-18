@@ -20,9 +20,9 @@
                         <!-- Logo text -->
                         <span class="logo-text">
                             <!-- Light Logo text -->
-                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo texto 1'), 0,6)=='public'
-                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo texto 1'))
-                                    :asset(\App\Ajuste::find(1)->elemento('logo texto 1'))}}" class="light-logo" alt="Convocatoria" style="max-width: 150px; max-height: 45px"/>
+                            <img src="{{substr(\App\Ajuste::find(1)->elemento('logo texto 2'), 0,6)=='public'
+                                    ?Storage::url(\App\Ajuste::find(1)->elemento('logo texto 2'))
+                                    :asset(\App\Ajuste::find(1)->elemento('logo texto 2'))}}" class="light-logo" alt="Convocatoria" style="max-width: 150px; max-height: 45px"/>
                         </span>
                     </a>
                     <!-- ============================================================== -->

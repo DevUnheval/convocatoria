@@ -172,3 +172,32 @@ function eliminar_convocatoria(proceso_id){
     });
 }
 
+function iniciar_sesion($proceso_id){
+    $("#bnt_iniciar_sesion").attr("data-proceso",$proceso_id);
+    $("#modal_invitado").modal("show");
+} 
+
+$("#bnt_iniciar_sesion").click(function() {
+    const proceso = $(this).data("proceso");
+    $.ajax({
+        url:   "/ruta_temporal/"+proceso,
+        headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        type: 'POST',
+        beforeSend: function () {
+          console.log('enviando....');
+        },
+        success:  function (){
+            location.href = '/login';
+            //$(location).attr('href', `/postulantes/${$proceso_id}/${$nueva_etapa}/${$vista}/listar`);
+        },
+        error: function (response){
+            console.log("Error",response.data);
+          Swal.fire({
+              title: "¡Error!",
+              text: response.responseJSON.message,
+              icon: "error",
+              timer: 3500,
+          })
+        }
+    });
+})

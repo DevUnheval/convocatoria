@@ -118,6 +118,16 @@
                                         <div id="div_act">
                                                                
                                             <div class="table-responsive">
+                                                <div class="card-body">
+                                                    <div class="row" >
+                                                        <div class="col-md-6 alert alert-dark-info">
+                                                                      
+                                                        <div id="dato_colegiado">
+                                                        </div>
+                                                        </div>          
+                                                    </div>                           
+                                                </div>
+
                                                 <table id="zeroconfig1" class="table table-striped table-bordered">
                                                     <thead class="text-white bg-info">
                                                         <tr>

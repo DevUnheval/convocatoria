@@ -247,3 +247,4 @@ function concluir_convocatoria(proceso_id,cod) {
     });
 }
 
+

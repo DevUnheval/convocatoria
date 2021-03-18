@@ -110,8 +110,8 @@
                                             <tbody>
                                                 <tr  align="center">
                                                         <td>{{$postulante->total}}</td>
+                                                        <td>{{( $postulante->bonific_pers_disc + $postulante->bonific_deportista + $postulante->bonific_ffaa)}}</td>
                                                         <td>{{$postulante->final}}</td>
-                                                        <td>{{$postulante->final)}}</td>
                                                         <td>{{$postulante->condicion}}</td>
                                                 </tr>
                                             </tbody>

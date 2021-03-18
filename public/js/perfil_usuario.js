@@ -37,6 +37,7 @@ $(document).ready(function() {
     $.get('/postulante/datosuser/recuperar_ubigeo',function (data){
         if(data.nacionalidad == "Peruano(a)"){
             //$('#ubigeodni').prop('id','nose');
+            
             $('#html_lugar_nac2').hide();
             $('#html_lugar_nac').show();
             $("#nacionalidad option[value='Peruano(a)']").prop('selected',true);
@@ -46,13 +47,16 @@ $(document).ready(function() {
                 $('#ubigeodni').html(html_nac);
             }
         }else  if(data.nacionalidad == "Extranjero(a)"){
+                        
             $('#ubigeodni').removeClass('required');
             $('#ubigeodni').prop('id','vacio');
             $('#html_lugar_nac').hide();
             $('#html_lugar_nac2').show();
             $('#ubigeodni_alt').prop('id','ubigeodni');
             $('#ubigeodni').addClass('required');
+            $('#ubigeodni').prop('required',true);
             $('#vacio').prop('id','ubigeodni_alt');
+            $('#ubigeodni_alt').prop('required',false);
             
             $("#nacionalidad option[value='Extranjero(a)']").prop('selected',true);
             $('#ubigeodni').val(data.cod_nac);

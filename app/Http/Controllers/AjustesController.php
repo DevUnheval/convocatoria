@@ -54,7 +54,7 @@ class AjustesController extends Controller
 			['nombre'=>'título','valor'=>'Convocatoria de Personal','descripcion'=>'Aparecerá en el título del proyecto, aparecerá en los reportes PDF','tipo'=>'texto'],
 			['nombre'=>'nombre del año','valor'=>'Año del Bicentenario del Perú: 200 años de independencia','descripcion'=>'Nombre del año actual, aparecerá en los reportes PDF','tipo'=>'texto'],
 			['nombre'=>'pie pagina 1','valor'=>'Copyright © 2020 CONVOCATORIA Personal, Todos los derechos Reservados.','descripcion'=>'texto grande','tipo'=>'texto'],
-			['nombre'=>'pie pagina 2','valor'=>' Desarrollado por QUIPU.CLUB----','descripcion'=>'texto pequeño','tipo'=>'texto'],
+			['nombre'=>'pie pagina 2','valor'=>' Desarrollado por FREDDY VIGILIO ARRATEA','descripcion'=>'texto pequeño','tipo'=>'texto'],
 			['nombre'=>'icono','valor'=>'imagenes/ajustes/icono.ico','descripcion'=>'Ícono del proyecto','tipo'=>'imagen'],
 			['nombre'=>'logo','valor'=>'imagenes/ajustes/logo.png', 'descripcion'=>'Logo principal, símbolo','tipo'=>'imagen'],
 			['nombre'=>'logo texto 1','valor'=>'imagenes/ajustes/logo-light-text.png','descripcion'=>'Logo de texto claro','tipo'=>'imagen'],
