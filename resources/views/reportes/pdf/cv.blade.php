@@ -36,7 +36,7 @@
 <!-- Resumen -->
 <div align="center">
 @if($postulante->datos_postulante)
-<img src="{{ asset(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}" alt="Foto del postulante"   style="max-width:150px;">
+<img src="{{ public_path(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}" alt="Foto del postulante"   style="max-width:150px;">
 @endif
 
 

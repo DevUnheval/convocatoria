@@ -88,10 +88,10 @@
       <tr>
         <td rowspan="3" width="10%">
           
-          <img src="{{ asset(str_replace('public/','storage/',$logo1))}}"  height="65px">
+          <img src="{{ public_path(str_replace('public/','storage/',$logo1))}}"  height="65px">
         </td>
         <td  rowspan="3" width="20%">
-          <img src="{{ asset(str_replace('public/','storage/',$logo2))}}"  width="150px">
+          <img src="{{ public_path(str_replace('public/','storage/',$logo2))}}"  width="150px">
           
         </td>
         <td align="center" width="70%">

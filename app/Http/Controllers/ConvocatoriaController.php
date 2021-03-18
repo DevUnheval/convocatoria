@@ -240,7 +240,7 @@ class ConvocatoriaController extends Controller
                 ->update(["estado"=>"1"]);
             $aVigentes++;
         }
-        return "Se actualizaron: \n A vigentes: ".$aVigentes."\n A en proceso: ".$aProceso;
+        return "(".date('Y-m-d H:i:s').")=> Se actualizaron: \n A vigentes: ".$aVigentes."\n A en proceso: \n".$aProceso;
        
     }
 }
