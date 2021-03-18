@@ -225,20 +225,22 @@ class ConvocatoriaController extends Controller
     }
 
     public function actualizar_estados_vigentes_y_enCruso(){
-        $paraEnCurso=Proceso::where("estado","1")->where("fecha_inscripcion_fin","<",date('Y-m-d'))->get();
-        $paraEnvigentes = Proceso::where("estado","2")->where("fecha_inscripcion_fin",">",date('Y-m-d'))->get();
-        foreach($paraEnCurso as $pe){
-            Proceso::where('id', $pe->id)    
-                ->update(["estado"=>"1"]);
-        }
-
+        $paraEnCurso=Proceso::where("estado","1")->where("fecha_inscripcion_fin","<",date('Y-m-d H:i:s'))->get();
+        $paraEnvigentes = Proceso::where("estado","2")->where("fecha_inscripcion_fin",">=",date('Y-m-d H:i:s'))->get();
+        
+        $aProceso =0;
         foreach($paraEnCurso as $pe){
             Proceso::where('id', $pe->id)    
                 ->update(["estado"=>"2"]);
+            $aProceso++;
         }
+        $aVigentes =0;
         foreach($paraEnvigentes as $pv){
             Proceso::where('id', $pv->id)    
                 ->update(["estado"=>"1"]);
+            $aVigentes++;
         }
+        return "Se actualizaron: \n A vigentes: ".$aVigentes."\n A en proceso: ".$aProceso;
+       
     }
 }
