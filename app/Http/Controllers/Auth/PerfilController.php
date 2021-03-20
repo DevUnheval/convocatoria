@@ -25,6 +25,13 @@ class PerfilController extends Controller
         //->select("grado_formacions.nombre","procesos.especialidad")
         //->where("procesos.id",$idproceso)
         //->get();
+        
+        if (session()->has('ruta_temporal')) {
+                $ruta = session('ruta_temporal');
+                session()->forget('ruta_temporal');
+                return redirect($ruta);
+        }
+
         $gradoformac = GradoFormacion::get();
         
         $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();

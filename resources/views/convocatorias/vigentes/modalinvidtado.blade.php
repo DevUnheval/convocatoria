@@ -14,7 +14,7 @@ aria-labelledby="info-header-modalLabel" aria-hidden="true">
             
         </div>
         <div class="modal-footer">
-            <button onclick="location.href = '{{ route('login') }}'" type="button" class="btn btn-info">Iniciar Sesión</button>
+            <button type="button" class="btn btn-info" id="bnt_iniciar_sesion">Iniciar Sesión</button>
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

@@ -82,7 +82,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="horaslectivas">Horas lectivas: <span class="text-danger"> *</span> </label>
-                                                <input type="text" class="form-control " id="horaslectivas" name="horaslectivas" required > 
+                                                <input type="number" class="form-control " id="horaslectivas" min="7" name="horaslectivas" required > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">

@@ -36,7 +36,7 @@
 <!-- Resumen -->
 <div align="center">
 @if($postulante->datos_postulante)
-<img src="{{ asset(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}" alt="Foto del postulante"   style="max-width:150px;">
+<img src="{{ public_path(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}" alt="Foto del postulante"   style="max-width:150px;">
 @endif
 
 
@@ -116,7 +116,7 @@
     </tr>
     @foreach($postulante->formacion_postulante as $key => $formacion)
       @php 
-        //if(!$formacion->estado) continue;
+        if(!$formacion->validacion) continue;
       @endphp
     <tr>
         <td class="cv-tabla-td">{{$formacion->gradoformacion->nombre}}</td>
@@ -140,20 +140,23 @@
         <th class="cv-tabla-th">Institución</th>
         <th class="cv-tabla-th">Horas lectivas</th>        
     </tr>
-    @foreach($postulante->capacitacionpostulantes as $key => $formacion)
+    @foreach($postulante->capacitacionpostulantes as $key => $valor)
+      @php 
+        if(!$valor->validacion) continue;
+      @endphp
     <tr>
         <td class="cv-tabla-td-dj">
-          @if($formacion->es_curso_espec)
+          @if($valor->es_curso_espec)
             Capacitación / Especialización
-          @elseif($formacion->es_ofimatica)
+          @elseif($valor->es_ofimatica)
             OFIMATICA
-          @elseif($formacion->es_idioma)
+          @elseif($valor->es_idioma)
             IDIOMA
           @endif
         </td>
-        <td class="cv-tabla-td">{{$formacion->especialidad}}</td>
-        <td class="cv-tabla-td">{{$formacion->centro_estudios}}</td>
-        <td class="cv-tabla-td">{{$formacion->cantidad_horas}}</td>
+        <td class="cv-tabla-td">{{$valor->especialidad}}</td>
+        <td class="cv-tabla-td">{{$valor->centro_estudios}}</td>
+        <td class="cv-tabla-td">{{$valor->cantidad_horas}}</td>
     </tr>
     @endforeach
   </tbody>                                            
@@ -175,6 +178,10 @@
         <th class="cv-tabla-th">Tiempo Exper.</th>        
     </tr>
     @foreach($postulante->experieciapostulantes as $key => $experiencia)
+      @php 
+        if(!$experiencia->validacion) continue;
+      @endphp
+
     <tr>
         <td class="cv-tabla-td-dj">{{$experiencia->tipoexperiencia()}}</td>
         <td class="cv-tabla-td-dj">

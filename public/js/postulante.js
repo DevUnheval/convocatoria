@@ -380,12 +380,12 @@ $(document).ready(function() {
             
         },
         onFinished: function(event, currentIndex) {
-
             if($('#check_dj').prop('checked')){
+            //verificar si  todo está OK mediante AJAX
 
            Swal.fire({
                 title: '¿Está seguro de registrar su postulación?',
-                text: "Recuerde que una vez registrado no podrá modificar ninguna información",
+                text: "Recuerde revisar la información ingresada, luego de registrar su postulación no podrá ser modificada",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#d33',  
@@ -406,11 +406,16 @@ $(document).ready(function() {
                          },
                         success:function(data){
                            // console.log('aqui= ',data);
-                        var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
-                        $(location).attr('href',url);
+                           if(data.estado){
+                                var url =  "/postulante/"+$('#datospostulante').data('id')+"/registro"; 
+                           }else{
+                                var url =  `/redirect?mensaje=${data.mensaje}&color=${data.color}`; 
+                           }
+                            //return false;
+                            $(location).attr('href',url);
                         }
                         ,error: function(data){
-                           // console.log("error!!"); 
+                           console.log("error!!",data); 
                         }
                 
                     });  

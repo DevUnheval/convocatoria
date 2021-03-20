@@ -3,7 +3,7 @@
 
 <br> 
 <h5 style="text-align:center; margin:0;padding:0;">Proceso de concurso {{$data["proceso"]->cod}} </h5>
-<h5 style="text-align:center; margin:0;padding:0;">NOMBRE DE LA CONVOCATORIA: {{$data["proceso"]->nombre}} </h5><br>
+<h5 style="text-align:center; margin:0;padding:0;">NOMBRE DE LA CONVOCATORIA: {{$data["proceso"]->nombre}} - ({{$data["proceso"]->n_plazas}} plazas)</h5><br>
 <h5 align="center" style="margin:0;padding:0;color:blue;text-transform: uppercase;">PUBLICACIÓN DEL RESULTADO FINAL</h5><br>
 
 

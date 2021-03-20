@@ -67,11 +67,11 @@ class ConvocatoriaHistoricoController extends Controller{
                
             }                      
          
-            if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$postulantes,$resultados];
+            if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])) {
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$postulantes,$evaluaciones,$resultados];
             }
             else{
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$postulantes,$resultados];    
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];    
             }
 
         }
