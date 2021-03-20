@@ -117,7 +117,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia');
     Route::get('datosexpgenyesp', 'postulante\PostulanteController@datosexpgenyesp')->name('datosexpgenyesp');
     Route::get('datosexpgenyesp_proceso', 'postulante\PostulanteController@datosexpgenyesp_proceso')->name('datosexpgenyesp_proceso');
-    Route::get('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');
+    Route::post('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');
     Route::post('editarformacion', 'postulante\PostulanteController@editarformacion')->name('editarformacion');
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');

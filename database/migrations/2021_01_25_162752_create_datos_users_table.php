@@ -33,6 +33,7 @@ class CreateDatosUsersTable extends Migration
             $table->string('ubigeo_nacimiento')->nullable();//quizá lo quitemos
             $table->string('nacionalidad')->default('Peruana');//quizá lo quitemos
             $table->string('colegiatura')->nullable();
+            $table->string('archivo_colegiatura')->nullable();
 
             //bonificacion
             $table->boolean('es_pers_disc')->default(false);

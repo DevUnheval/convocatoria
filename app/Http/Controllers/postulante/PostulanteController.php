@@ -572,24 +572,40 @@ class PostulanteController extends Controller
     public function datosformacion_general(Request $data){
         //___________colegiatura inicio_________
         
-        $colegiatura = NULL;
+        $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->first();
+        $du = DatosUser::find($idDatosUser->id);
+        $src_colegiatura=null;
         if($data->colegiatura != ""){
-            $colegiatura = $data->colegiatura;
+            $du->colegiatura = $data->colegiatura;
+            if($data->file('archivo_colegiatura')){
+               $r= DatosUser::find($idDatosUser->id,'archivo_colegiatura');
+                Storage::delete($r->archivo_colegiatura); //eliminar archivo ya cargado
+                $du->archivo_colegiatura = $data->file('archivo_colegiatura')->store('public/procesos/users/'.auth()->user()->dni.'/colegiatura');
+                $src_colegiatura = $du->archivo_colegiatura;     
+            }
         }else{
-            $colegiatura = NULL;
-        }        
-        DatosUser::where('user_id',auth()->user()->id)->update(['colegiatura' => $colegiatura]);
+            $du->colegiatura = NULL;
+            $du->archivo_colegiatura = NULL;
+            $r = DatosUser::find($idDatosUser->id,'archivo_colegiatura');
+                Storage::delete($r->archivo_colegiatura);
+        }
+        $du->save();
+        
+       // DatosUser::where('user_id',auth()->user()->id)->update(['colegiatura' => $colegiatura]);
         //___________colegiatura fin______________
+
         $miformacion_max=FormacionUser::select('grado_id')
         ->where('user_id',auth()->user()->id)
         ->max('grado_id');
-        $proceso = Proceso::where('id',$data->idproceso)->get();
-        $form_nivel_requerido = $proceso[0]->nivel_acad_convocar;
        
-        
-       return compact('form_nivel_requerido','miformacion_max');
-       
-     }
+        $proceso = Proceso::find($data->idproceso,'nivel_acad_convocar');
+        $form_nivel_requerido = $proceso->nivel_acad_convocar;
+
+      /*  $archivo_colegiatura = DatosUser::find($idDatosUser,'archivo_colegiatura');
+        */      
+       return compact('form_nivel_requerido','miformacion_max','src_colegiatura'); 
+     
+      }
 
      public function declaracionjurada(Request $data){
         //Primero registramos la declaración jurada
@@ -695,9 +711,12 @@ class PostulanteController extends Controller
          $url_depor = "";
          unset($datos_usuario[0]->id); 
          unset($datos_usuario[0]->user_id);
+         
+            if($datos_usuario[0]->archivo_dni != NULL){
                 $url_dni = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_dni);
                 Storage::copy($datos_usuario[0]->archivo_dni,$url_dni);
                 $datos_usuario[0]->archivo_dni = $url_dni;
+            }
             if($datos_usuario[0]->es_pers_disc == 1){
                 $url_discap = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_disc);
                 Storage::copy($datos_usuario[0]->archivo_disc,$url_discap);
@@ -713,6 +732,12 @@ class PostulanteController extends Controller
                 Storage::copy($datos_usuario[0]->archivo_deport,$url_depor);
                 $datos_usuario[0]->archivo_deport = $url_depor;
             }
+            if($datos_usuario[0]->archivo_colegiatura != NULL){
+                $url_coleg = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_colegiatura);
+                Storage::copy($datos_usuario[0]->archivo_colegiatura,$url_coleg);
+                $datos_usuario[0]->archivo_colegiatura = $url_coleg;
+            }
+
          $datos_usuario[0]->postulante_id = $pos->id;
          $datos_usuario[0]->archivo_foto = $urlfoto_postulante;
          DatosPostulante::create($datos_usuario[0]->toArray()); 

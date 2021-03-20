@@ -72,9 +72,12 @@
                 </h2>
             </div>
             <div id="collapse-ii" class="collapse" data-parent="#accordionExample">
-                <div class="card-body">
-                    <div class="row alert alert-dark-info" >          
+                <div class="row card-body">
+                    <div class="col-md-5 alert alert-dark-info" >          
                         <div id="dato_colegiado"></div>          
+                    </div>
+                    <div class="col-md-3 alert alert-dark-info">
+                        <span id="btn_doc_colegiatura2" class=""></span>
                     </div>                           
                 </div>
                     <table  class="table table-striped table-bordered">

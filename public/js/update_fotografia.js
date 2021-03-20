@@ -3,6 +3,17 @@ $(document).ready(function(){
 $('#file_foto').on('change',() => {
 var formData = new FormData();
 formData.append('foto',$('#file_foto').prop('files')[0]);
+if($('#file_foto').prop('files')[0].size > 5000000){
+    Swal.fire({
+        type: 'warning',
+        title: "¡Información!",
+        text: "El tamaño del archivo supera los 5mb, seleccione otro archivo.",
+        timer: null
+    })
+    $('#file_foto').val("");
+    return false;
+}
+
 $('#fotografia').prop('src',URL.createObjectURL(formData.get('foto')));
 })
 

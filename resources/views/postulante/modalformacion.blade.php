@@ -125,7 +125,7 @@
                                        <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
-                                                 <label for="documento_formac">Documento de sustento:<small>(solo archivos .pdf)</small> <span class="text-danger">*</span> </label>
+                                                 <label for="documento_formac">Documento de sustento:<small>(solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <span class="text-danger">*</span> </label>
                                                  <input type="file" class="form-control " id="documento_formac" name="documento_formac" accept="application/pdf" required> 
                                              </div>
                                          </div>

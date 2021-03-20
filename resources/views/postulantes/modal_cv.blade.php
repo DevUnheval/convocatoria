@@ -120,11 +120,14 @@
                                             <div class="table-responsive">
                                                 <div class="card-body">
                                                     <div class="row" >
-                                                        <div class="col-md-6 alert alert-dark-info">
-                                                                      
-                                                        <div id="dato_colegiado">
+                                                        <div class="col-md-5 alert alert-dark-info">
+                                                             <div id="dato_colegiado">
+                                                            </div>
                                                         </div>
-                                                        </div>          
+                                                        <div class="col-md-3 alert alert-dark-info">
+                                                            <span id="btn_doc_colegiatura" class=""></span>
+                                                        </div>
+                                                                  
                                                     </div>                           
                                                 </div>
 

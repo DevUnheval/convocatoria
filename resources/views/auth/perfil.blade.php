@@ -237,8 +237,9 @@
                                                                 <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
                                                             </div>
                                                             <div class="card-body"> 
-                                                                <span id="btn_doc_dni" class=""></span> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
-                                                                <input type="hidden" id="input_hide_dni" value="0">                                                 
+                                                                <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
+                                                                <input type="hidden" id="input_hide_dni" value="0">
+                                                                <span id="btn_doc_dni" class=""></span>                                                 
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,6 +263,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
+                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
                                                             <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
                                                             <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
                                                         </div>   
@@ -284,6 +286,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
+                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
                                                             <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
                                                             <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                                         </div>   
@@ -307,6 +310,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
+                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
                                                             <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
                                                             <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                                         </div>   

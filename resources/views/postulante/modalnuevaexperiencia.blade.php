@@ -104,7 +104,7 @@
                                       <div class="row">
                                         <div class="col-md-7">
                                             <div class="form-group">
-                                                <label for="documento_exp">Documento sustento: <span class="text-danger"> *</span> </label>
+                                                <label for="documento_exp">Documento sustento: <small>(solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <span class="text-danger"> *</span> </label>
                                                 <input type="file" class="form-control required" id="documento_exp"  name="documento_exp" accept="application/pdf" required> 
                                             </div>
                                         </div>

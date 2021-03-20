@@ -226,9 +226,17 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
     }
         //llenar formacion
         if(data.qdatos.colegiatura != null){
-            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> Me encuentro COLEGIADO y HABILITADO: </strong>"+data.qdatos.colegiatura);
+            var href_lic;
+                
+            if(data.qdatos.archivo_colegiatura != null){
+                    href_lic = data.qdatos.archivo_colegiatura.replace('public/', '/storage/');
+                    var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_colegiatura').html(html_lic);
+                                               
+                    }
           }else{
-              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> No me encuentro COLEGIADO.</strong>");
           }
 
         if(data.qform[0]!=null){  
@@ -326,8 +334,8 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
            var marcadogeneral="";
            var marcadoespecifico="";
            var tipo_exp="";
-        if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
-        if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
+        if(data.qexp[i].es_exp_gen==1){marcadogeneral="GENERAL";}
+        if(data.qexp[i].es_exp_esp==1){marcadoespecifico="y <br> ESPECÍFICA";}
         
             if(data.qexp[i].tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
@@ -353,8 +361,7 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
 
         html_resexp += "<tr class=\"\">"+
         "<td>"+tipo_exp+"</td>"+
-        "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-        "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+        "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
         "<td>"+data.qexp[i].centro_laboral+"</td>"+
         "<td>"+data.qexp[i].cargo_funcion+"</td>"+
         "<td>"+data.qexp[i].fecha_inicio+"<br>"+data.qexp[i].fecha_fin+"</td>"+

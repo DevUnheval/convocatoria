@@ -1,5 +1,72 @@
 $(document).ready(function() {
-      
+
+    //______________________INICIO validar tamaño de archivos a cargar_____________
+    $('#cargar_dni').on('change',() => {
+        
+        if($('#cargar_dni').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#cargar_dni').val("");
+            return false;
+        }
+    })
+    
+    $('#file_discapacidad').on('change',() => {
+        
+        if($('#file_discapacidad').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_discapacidad').val("");
+            return false;
+        }
+    })
+
+    $('#file_ffaa').on('change',() => {
+        
+        if($('#file_ffaa').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_ffaa').val("");
+            return false;
+        }
+    })
+
+    $('#file_deportista').on('change',() => {
+        
+        if($('#file_deportista').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_deportista').val("");
+            return false;
+        }
+    })
+
+    $('#documento_formac').on('change',() => {
+        
+        if($('#documento_formac').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_formac').val("");
+            return false;
+        }
+    })
+
+    $('#documento_capa').on('change',() => {
+        
+        if($('#documento_capa').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_capa').val("");
+            return false;
+        }
+    })
+
+    $('#documento_exp').on('change',() => {
+        
+        if($('#documento_exp').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_exp').val("");
+            return false;
+        }
+    })
+
+    //______________________FIN validar tamaño de archivos a cargar_____________
+
+
     $("#nacionalidad").on('change',function(){
        
         if($('#nacionalidad').val() == "Peruano(a)"){
@@ -2029,4 +2096,13 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
  
      });
  
+ }
+
+ function mensaje_tamaño_archivo(){
+    Swal.fire({
+        type: 'warning',
+        title: "¡Información!",
+        text: "El archivo seleccionado supera los 5MB en tamaño, seleccione otro archivo.",
+        timer: null
+    })
  }

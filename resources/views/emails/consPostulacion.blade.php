@@ -77,7 +77,7 @@
                     <th scope="row" class="alert alert-secondary">Fecha de Postulacion </th>
                     <td>{{date_format(date_create($postulacion->created_at),"d/m/Y")}}</td>
                     <th scope="row" class="alert alert-secondary">Hora de Postulacion</th>
-                    <td>{{date_format(date_create($postulacion->created_at),"H:m:s")}}</td>
+                    <td>{{date_format(date_create($postulacion->created_at),"H:i:s")}}</td>
                 </tr>
                 <tr>
                     <th scope="row" class="alert alert-secondary">Dirección Actual </th>
