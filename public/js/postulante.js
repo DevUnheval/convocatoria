@@ -1043,7 +1043,7 @@ function cumple_formacion(idproceso){
         contentType: false,
         processData: false,
         success:function(data){ 
-           //console.log(data);
+          console.log(data);
             respu = data;
             
             if(data.src_colegiatura != null){

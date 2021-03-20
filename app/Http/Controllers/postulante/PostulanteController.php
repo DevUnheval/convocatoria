@@ -87,7 +87,7 @@ class PostulanteController extends Controller
        $q = Proceso::select('procesos.id as id')
             ->join('postulantes','postulantes.proceso_id','=','procesos.id')
             ->where('postulantes.user_id',auth()->user()->id)
-            ->where('procesos.estado','1')
+            ->whereIn('procesos.estado',['1','2'])
             ->first();
         if($q){
             return ['estado'=>true, 'dato'=>$q->id];
