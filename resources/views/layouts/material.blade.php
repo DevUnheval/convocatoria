@@ -17,7 +17,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
     <link rel="icon" type="image/png" sizes="16x16" href="{{substr(\App\Ajuste::find(1)->elemento('icono'), 0,6)=='public'
                                     ?Storage::url(\App\Ajuste::find(1)->elemento('icono'))
                                     :asset(\App\Ajuste::find(1)->elemento('icono'))}}">
-    <title>{{\App\Ajuste::find(1)->elemento('título')}} | yield('title')</title>
+    <title>{{\App\Ajuste::find(1)->elemento('título')}} | @yield('title')</title>
     <link rel="canonical" href="{{ route('index') }}"/>
 
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
@@ -306,7 +306,9 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <div class="row" id="app">
+                                
                     <div class="col-12" >
+                    @include('layouts.mensajes')
                     @yield('content')
                         <!-- <div class="card">
                             <div class="card-body">

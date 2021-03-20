@@ -83,7 +83,26 @@ class PostulanteController extends Controller
 
     }
        
+    private function check_si_ya_postula(){
+       $q = Proceso::select('procesos.id as id')
+            ->join('postulantes','postulantes.proceso_id','=','procesos.id')
+            ->where('postulantes.user_id',auth()->user()->id)
+            ->where('procesos.estado','1')
+            ->first();
+        if($q){
+            return ['estado'=>true, 'dato'=>$q->id];
+        }else{
+            return ['estado'=>false];
+        }
+    }
+    private function check_estado($proceso_id){
+        app(\App\Http\Controllers\ConvocatoriaController::class)->actualizar_estados_vigentes_y_enCruso();
+        $q = Proceso::where('id',$proceso_id)->where('estado','<>','1')->first();
+        if($q)  return ['estado'=>true, 'dato'=>$q];
+        else return ['estado'=>false];
+        
 
+    }
     public function postular($idproceso)
     {// 0: pre-cargado, 1: publicado, 2: en curso, 3: concluido, 4: cancelado 
       /*  $data = Postulante::join("procesos","procesos.id","=","postulantes.proceso_id")
@@ -92,19 +111,19 @@ class PostulanteController extends Controller
         ->where("postulantes.proceso_id",10)
         ->first();
 */
-        $si_pos=0;
-        $mis_post = Postulante::select('proceso_id')->where('user_id',auth()->user()->id)->get();//busco mis postulaciones
-        foreach($mis_post as $mp){//recorro mis postulaciones y verifico si alguno está ene estado "1=publicado"
-            $mi = Proceso::select('estado')->where('id',$mp->proceso_id)->first();
-            if($mi['estado'] == 1 || $mi['estado'] == 2){
-                $si_pos = $mp->proceso_id;
-            }
-        }
 
-        if($si_pos != 0){
-            return redirect()->route('registro_postular',['idproceso' => $si_pos]); 
-        } else { 
-
+        if($this->check_si_ya_postula()['estado']){
+            return redirect()->route('registro_postular',['idproceso' => $this->check_si_ya_postula()['dato'] ]); 
+        } 
+       
+        app(\App\Http\Controllers\ConvocatoriaController::class)->actualizar_estados_vigentes_y_enCruso();
+        $qr = Proceso::where('id',$idproceso)->where('estado','<>','1')->first();
+        
+        if( $this->check_estado($idproceso)['estado'] ){
+            $mensaje = 'NO SE REGISTRÓ SU POSTULACIÓN. El proceso '.$this->check_estado($idproceso)['dato']->cod.' cerró el '.date_format(date_create($this->check_estado($idproceso)['dato']->fecha_inscripcion_fin),"d/m/Y H:i");
+            return redirect('/redirect?mensaje='.$mensaje.'&color=naranja'); 
+        } 
+        
         //___________________
        /* if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$idproceso)->exists()){
             return redirect()->route('registro_postular',['idproceso' => $idproceso]);               
@@ -112,7 +131,7 @@ class PostulanteController extends Controller
         
         $proceso = Proceso::where('id',$idproceso)->first();
         
-                if( $proceso->estado == 3 || $proceso->estado == 4){ //si el proceso ya clmino o ha sido cancelado no me permite seguir con la postulacion
+                if( $proceso->estado != 1){ //si el proceso ya culminó o ha sido cancelado no me permite seguir con la postulacion
                     return redirect()->route('index');
                 }
 
@@ -141,7 +160,7 @@ class PostulanteController extends Controller
         ->pluck('descripcion','ubigeo');
 
         return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
-        } 
+        
     }
 
     public function actualizar_o_registrar(Request $data){
@@ -669,7 +688,15 @@ class PostulanteController extends Controller
     }
 
     public function registrofinal(Request $data){
-        
+        $filtro_1 = $this->check_estado($data->idproceso);
+        if($filtro_1['estado'] ){//preguntar  si el proceso aun está vigente
+            return ['estado'=>false,'color'=>'rojo','mensaje'=>'NO SE REGISTRÓ SU POSTULACIÓN. El proceso '.$filtro_1['dato']->cod.' cerró el '.date_format(date_create($filtro_1['dato']->fecha_inscripcion_fin),"d/m/Y H:i")];
+        }
+
+        if($this->check_si_ya_postula()['estado']){  // preguntar si está postulando en algun proceso actualemnte
+            return ['estado'=>false,'color'=>'naranja','mensaje'=>'Hemos detectado que ya se encuentra postulando a un proceso. Verifique su postulación ingresando a "Mis postulaciones"'];
+        } 
+
         
         //Registro la postulacion
         $pos = new Postulante;
@@ -780,7 +807,7 @@ class PostulanteController extends Controller
          }
           
          
-        return $urlfoto_postulante;
+        return ['estado'=>true];//$urlfoto_postulante;
         
     }
     
