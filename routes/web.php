@@ -99,7 +99,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
 //POSTULANTE
 Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
-    Route::get('postular/{idproceso}', 'postulante\PostulanteController@postular')->where(['idproceso' => '[0-9]+'])->name('postulante_postular');
+    Route::get('postular/{idproceso}', 'postulante\PostulanteController@postular')->where(['idproceso' => '[0-9]+'])->name('postulante_postular')->middleware(['auth','Postulante']);
     Route::get('datosuser/data1', 'postulante\PostulanteController@datosuser_data1')->name('datosuser_data1');
     Route::get('formacion/data1', 'postulante\PostulanteController@formacion_data1')->name('formacion_data1');
     Route::get('formacion/data', 'postulante\PostulanteController@formacion_data')->name('formacion_data');
@@ -117,7 +117,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia');
     Route::get('datosexpgenyesp', 'postulante\PostulanteController@datosexpgenyesp')->name('datosexpgenyesp');
     Route::get('datosexpgenyesp_proceso', 'postulante\PostulanteController@datosexpgenyesp_proceso')->name('datosexpgenyesp_proceso');
-    Route::get('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');
+    Route::post('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');
     Route::post('editarformacion', 'postulante\PostulanteController@editarformacion')->name('editarformacion');
     Route::post('actualizar_formac_data', 'postulante\PostulanteController@actualizar_formac_data')->name('actualizar_formac_data');
     Route::post('editarcapacitacion', 'postulante\PostulanteController@editarcapacitacion')->name('editarcapacitacion');
@@ -128,8 +128,9 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante');
     Route::post('perfil/update_fotografia', 'Auth\PerfilController@update_fotografia')->name('update_fotografia');
     Route::post('perfil/cambiocorreo', 'Auth\PerfilController@cambiocorreo')->name('cambiocorreo');
-    });
-    Route::get('postulante/{idproceso}/storage/', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');//no tocar
+    Route::get('{idproceso}/registro', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular');//no tocar
+});
+    
     
     //MIS POSTULACIONES
     Route::group(['prefix' => 'mispostulaciones'], function(){
@@ -178,7 +179,15 @@ Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['i
 Route::post("ruta_temporal/{proceso_id}",function($proceso_id){
     session()->put('ruta_temporal', route("postulante_postular",$proceso_id) );
 });
+
+//rutas px verificación
 Route::get("actualizar_estados","ConvocatoriaController@actualizar_estados_vigentes_y_enCruso");
+Route::get("redirect",function(Request $r){
+    if(!$r->ruta) $r->ruta = 'index';
+    if(!$r->color) $r->color = 'rojo';
+    if(!$r->mensaje) $r->mensaje = 'Algo salió mal';
+    return redirect()->route($r->ruta)->with($r->color, $r->mensaje);
+});
 
 
 

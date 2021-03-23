@@ -45,7 +45,7 @@ $(document).ready(function() {
             //console.log("esta vacio");
             $('#input_hide').val('0');
         }else{
-            //console.log(data);
+           // console.log(data);
             $('#ruc').val(data[0].ruc);
             $('#ubigeodni').val(data[0].ubigeo_nacimiento);
             $('#nacionalidad').val(data[0].nacionalidad);
@@ -64,10 +64,23 @@ $(document).ready(function() {
             if(data[0].colegiatura != null){
                 $('#check_colegiatura').prop('checked',true);
                 $('#codigo_colegiatura').prop('disabled',false);
-                $('#codigo_colegiatura').val(data[0].colegiatura);
+                $('#file_colegiatura').prop('disabled',false);
                 $('#cont_colegiatura').addClass('border border-cyan');
+                $('#codigo_colegiatura').val(data[0].colegiatura);
+                var href_lic;
+                
+                if(data[0].archivo_colegiatura != null){
+                    
+                    href_lic = data[0].archivo_colegiatura.replace('public/', '/storage/');
+                    var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_colegiatura').html(html_lic);
+                        $('#input_hide_licenciatura').val('1');
+                        
+                    }
+
             }else{
                 $('#codigo_colegiatura').prop('disabled',true);
+                $('#file_colegiatura').prop('disabled',true);
                 $('#check_colegiatura').prop('checked',false);
                 $('#codigo_colegiatura').val(null);
                 
@@ -87,7 +100,7 @@ $(document).ready(function() {
                 $("#si_ffaa").prop("checked", true);
                 if(data[0].archivo_ffaa != null){
                    href_ffaa=data[0].archivo_ffaa.replace("public/", '/storage/');
-                   var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmlffaa = "<a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_ffaa').html(htmlffaa);
                        $('#input_hide_ffaa').val('1');
                    }
@@ -98,7 +111,7 @@ $(document).ready(function() {
                 $("#si_deportista").prop("checked", true);
                 if(data[0].archivo_deport != null){
                    href_deport=data[0].archivo_deport.replace("public/", '/storage/');
-                   var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmldeport = "<a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_deport').html(htmldeport);
                        $('#input_hide_deport').val('1');
                    }
@@ -108,7 +121,7 @@ $(document).ready(function() {
                 $("#si_discapacidad").prop("checked", true);
                 if(data[0].archivo_disc != null){
                    href_disc=data[0].archivo_disc.replace("public/", '/storage/');
-                   var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmldisc = "<a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_disc').html(htmldisc);
                        $('#input_hide_disc').val('1');
                    }  
@@ -367,12 +380,12 @@ $(document).ready(function() {
             
         },
         onFinished: function(event, currentIndex) {
-
             if($('#check_dj').prop('checked')){
+            //verificar si  todo está OK mediante AJAX
 
            Swal.fire({
                 title: '¿Está seguro de registrar su postulación?',
-                text: "Recuerde que una vez registrado no podrá modificar ninguna información",
+                text: "Recuerde revisar la información ingresada, luego de registrar su postulación no podrá ser modificada",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#d33',  
@@ -393,11 +406,16 @@ $(document).ready(function() {
                          },
                         success:function(data){
                            // console.log('aqui= ',data);
-                        var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
-                        $(location).attr('href',url);
+                           if(data.estado){
+                                var url =  "/postulante/"+$('#datospostulante').data('id')+"/registro"; 
+                           }else{
+                                var url =  `/redirect?mensaje=${data.mensaje}&color=${data.color}`; 
+                           }
+                            //return false;
+                            $(location).attr('href',url);
                         }
                         ,error: function(data){
-                           // console.log("error!!"); 
+                           console.log("error!!",data); 
                         }
                 
                     });  
@@ -996,26 +1014,47 @@ function cumple_exp_genyesp(){
  
 }
 
-function cumple_formacion(id){
+function cumple_formacion(idproceso){
     var arrayExp={estado:"",msjok:"",msjerror:""};
 
-    if($('#codigo_colegiatura').val() == "" && $('#check_colegiatura').prop('checked') == true){
-       return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+    if($('#check_colegiatura').prop('checked')){
+        if($('#codigo_colegiatura').val() == ""){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+        }
+        if($('#file_colegiatura').val() == "" && $('#input_hide_licenciatura').val() == 0){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el documento que fundamente su colegiatura."}; 
+        } 
     }    
-    var id = id;
-    
+        
+    var formData = new FormData();
+    formData.append('idproceso',idproceso);
+    formData.append('colegiatura',$('#codigo_colegiatura').val());
+    formData.append('archivo_colegiatura',$('#file_colegiatura').prop('files')[0]);
+   
+     var respu;
     $.ajax({
-        //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/datosformacion_general",
-        type: "GET",
+        type: "POST",
         async:false,
         datatype: "json",
-        data: {
-            idproceso : id,
-            colegiatura : $('#codigo_colegiatura').val()
-        },
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
         success:function(data){ 
-           respu = data;
+          console.log(data);
+            respu = data;
+            
+            if(data.src_colegiatura != null){
+                    
+                href_lic = data.src_colegiatura.replace('public/', '/storage/');
+                var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_colegiatura').html(html_lic);
+                    $('#input_hide_licenciatura').val('1');
+                    
+                } 
+                
         }
     });
     
@@ -1159,10 +1198,17 @@ function cumple_formacion(id){
           var esdisc = "";
           var esffaa = "";
           var esdep = "";
+          var href_lic = "";
           if(data.qdatos.colegiatura != null){
-            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> Me encuentro COLEGIADO y HABILITADO:</strong> "+data.qdatos.colegiatura);
+            if(data.qdatos.archivo_colegiatura != null){
+                href_lic = data.qdatos.archivo_colegiatura.replace('public/', '/storage/');
+                var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_colegiatura2').html(html_lic);
+                                           
+                }
           }else{
-              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> No me encuentro COLEGIADO.</strong>");
           }
             $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
            $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);

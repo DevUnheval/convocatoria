@@ -82,7 +82,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="horaslectivas">Horas lectivas: <span class="text-danger"> *</span> </label>
-                                                <input type="text" class="form-control " id="horaslectivas" name="horaslectivas" required > 
+                                                <input type="number" class="form-control " id="horaslectivas" min="7" name="horaslectivas" required > 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -95,7 +95,7 @@
                                       <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="documento_capa">Documento de sustento: <span class="text-danger"> *</span> </label>
+                                                <label for="documento_capa">Documento de sustento: <small>(solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <span class="text-danger"> *</span> </label>
                                                 <input type="file" class="form-control" id="documento_capa" name="documento_capa" accept="application/pdf" required> 
                                             </div>
                                         </div>

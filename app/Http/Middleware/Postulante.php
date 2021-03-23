@@ -15,6 +15,11 @@ class Postulante
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(auth()->user()->hasRoles(['Postulante'])){
+            return $next($request);
+
+        }else{
+          return  response('No puedes Continuar',403);
+        }
     }
 }
