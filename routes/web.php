@@ -112,9 +112,14 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1');
     Route::get('experiencias/data1/perfil', 'postulante\PostulanteController@experiencias_data1_perfil')->name('experiencias_data1_perfil');
     Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia');
+    Route::post('perfil/guardarexperiencia', 'Auth\PerfilController@guardarexperiencia')->name('guardarexperiencia_perfil');
     Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia');
+
+    Route::post('perfil/eliminarexperiencia', 'Auth\PerfilController@eliminarexperiencia')->name('eliminarexperiencia_perfil');
     Route::post('editarexperiencia', 'postulante\PostulanteController@editarexperiencia')->name('editarexperiencia');
     Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia');
+    Route::post('perfil/actualizarexperiencia', 'Auth\PerfilController@actualizarexperiencia')->name('actualizarexperiencia_perfil');
+    
     Route::get('datosexpgenyesp', 'postulante\PostulanteController@datosexpgenyesp')->name('datosexpgenyesp');
     Route::get('datosexpgenyesp_proceso', 'postulante\PostulanteController@datosexpgenyesp_proceso')->name('datosexpgenyesp_proceso');
     Route::post('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general');

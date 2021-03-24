@@ -385,21 +385,28 @@ $("#tipo_capacitacion").on('change',function(){
          success:function(data3){
              //console.log(data3);
          
-         var totaldias_gen=0;
-         var totaldias_esp=0;
+         //var totaldias_gen=0;
+         //var totaldias_esp=0;
+
+         var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+
          for (var i = 0; i < data3.query.length; i++) {
-             
-             
- 
-             totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-             totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+            
+            // totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+            // totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
              
            var  marcadogeneral="";
             var marcadoespecifico="";
             var tipo_exp="";
   
-             if(data3.query[i].es_exp_gen==1){marcadogeneral="checked";}
-             if(data3.query[i].es_exp_esp==1){marcadoespecifico="checked";}
+             if(data3.query[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data3.query[i].fecha_inicio, f_fin: data3.query[i].fecha_fin}); //capturo fechas de inicio y fin
+                marcadogeneral="GENERAL";}
+
+             if(data3.query[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data3.query[i].fecha_inicio, f_fin: data3.query[i].fecha_fin}); //capturo fechas de inicio y fin
+                marcadoespecifico=" y <br> ESPECÍFICA";}
 
              if(data3.query[i].tipo_experiencia == '1'){
                 tipo_exp="Experiencia Laboral";
@@ -416,8 +423,8 @@ $("#tipo_capacitacion").on('change',function(){
             
              tabla3 += "<tr id='tblexp"+data3.query[i].id+"'>"+
              "<td>"+tipo_exp+"</td>"+
-             "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-             "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+             
+             "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
              
              "<td>"+data3.query[i].centro_laboral+"</td>"+
              "<td>"+data3.query[i].cargo_funcion+"</td>"+
@@ -436,8 +443,8 @@ $("#tipo_capacitacion").on('change',function(){
     // $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_gen)));
     // $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].anios_exp_lab_esp)));
      
-     $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-     $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+    $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+    $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
      //$('#total_exp_general').val(ttiempoexp_gen);
      //$('#total_exp_especifica').val(ttiempoexp_esp);
  
@@ -934,17 +941,38 @@ $("#tipo_capacitacion").on('change',function(){
           
      $.ajax({
          headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-         url: "/postulante/eliminarexperiencia",
+         url: "/postulante/perfil/eliminarexperiencia",
          type: "POST" ,
          datatype: "json",
-         data: { id:id },
+         data: { 
+             id:id
+             //idproceso:$('#datospostulante').data('id')
+             },
          success:function(data){
             
             $('#'+transid).remove();
-            var totaldias_gen=parseInt(data.suma_expgen);
-            var totaldias_esp=parseInt(data.suma_expesp);
-            $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-            $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+
+            //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion____________
+
+            //var totaldias_gen=parseInt(data.suma_expgen);
+            //var totaldias_esp=parseInt(data.suma_expesp);
+            $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
            
             $('#loading-screen').fadeOut(); //PRELOADER FIN
             Swal.fire({
@@ -1644,6 +1672,28 @@ var validation = Array.prototype.filter.call(forms3, function(form3) {
 //_____________________________GUARDAR EXPERIENCIA DATA___________________
 
 function guardar_experiencia_data(){
+
+    var Fechs_inicio_val = new Date($("#fecha_inicio_exp").val()+" 00:00:00");
+    var Fecha_fin_val = new Date($("#fecha_fin_exp").val()+" 00:00:00");
+     
+    if(Fecha_fin_val.getTime() < Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser menor a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    
+    }else if(Fecha_fin_val.getTime() == Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser igual a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    }
     
     var diasexpgen=0;
     var diasexpesp=0;
@@ -1667,6 +1717,7 @@ function guardar_experiencia_data(){
     }
     
     var formData = new FormData();
+    //formData.append('idproceso',$('#datospostulante').data('id'));
     formData.append('es_exp_gen',exp_general);
     formData.append('es_exp_esp',exp_especifica);
     formData.append('tipo_institucion', $("#tipo_entidad").val());
@@ -1685,7 +1736,7 @@ function guardar_experiencia_data(){
         
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: "/postulante/guardarexperiencia",
+        url: "/postulante/perfil/guardarexperiencia",
         type: "POST" ,
         datatype: "json",
         data: formData,
@@ -1696,10 +1747,10 @@ function guardar_experiencia_data(){
            var tipo_exp; 
             marcadogeneral="";
             marcadoespecifico="";
-           if(data.query.es_exp_gen==1){marcadogeneral="checked";}
-           if(data.query.es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query.es_exp_gen==1){marcadogeneral="GENERAL";}
+           if(data.query.es_exp_esp==1){marcadoespecifico="y <br> ESPECÍFICA";}
           
-           if(data3.query[i].tipo_experiencia == '1'){
+           if(data.query.tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
           }else if(data.query.tipo_experiencia == '2'){
             tipo_exp="Prácticas Pre Profesionales";
@@ -1714,8 +1765,7 @@ function guardar_experiencia_data(){
 
             var fila = "<tr id='tblexp"+data.query.id+"'>"+
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             
             "<td>"+data.query.centro_laboral+"</td>"+
             "<td>"+data.query.cargo_funcion+"</td>"+
@@ -1738,11 +1788,28 @@ function guardar_experiencia_data(){
             showConfirmButton: false,
             timer: 2000
         })
-              
-           var totaldias_gen=parseInt(data.suma_expgen);
-           var totaldias_esp=parseInt(data.suma_expesp);
-           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+        
+        //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion 
+
+          // var totaldias_gen=parseInt(data.suma_expgen);
+          // var totaldias_esp=parseInt(data.suma_expesp);
+          $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
         },
         error: function(data){
             alert("error!!");
@@ -1776,6 +1843,28 @@ function actualizar_expe(transid){
 
 function actualizar_experiencia_data(transid){
         
+    var Fechs_inicio_val = new Date($("#fecha_inicio_exp").val()+" 00:00:00");
+    var Fecha_fin_val = new Date($("#fecha_fin_exp").val()+" 00:00:00");
+     
+    if(Fecha_fin_val.getTime() < Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser menor a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    
+    }else if(Fecha_fin_val.getTime() == Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser igual a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    }
+
     var id=transid.substring(6);
 
     var diasexpgen=0;
@@ -1800,6 +1889,7 @@ function actualizar_experiencia_data(transid){
     }
     
     var formData = new FormData();
+    //formData.append('idproceso',$('#datospostulante').data('id'));
     formData.append('id',id);
     formData.append('es_exp_gen',exp_general);
     formData.append('es_exp_esp',exp_especifica);
@@ -1819,7 +1909,7 @@ function actualizar_experiencia_data(transid){
                                                         
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        url: "/postulante/actualizarexperiencia",
+        url: "/postulante/perfil/actualizarexperiencia",
         type: "POST" ,
         datatype: "json",
         data: formData,
@@ -1832,8 +1922,8 @@ function actualizar_experiencia_data(transid){
             var tipo_exp;
           var marcadogeneral="";
             var marcadoespecifico="";
-           if(data.query[0].es_exp_gen==1){marcadogeneral="checked";}
-           if(data.query[0].es_exp_esp==1){marcadoespecifico="checked";}
+           if(data.query[0].es_exp_gen==1){marcadogeneral="GENERAL";}
+           if(data.query[0].es_exp_esp==1){marcadoespecifico="y <br> ESPECÍFICA";}
             
            if(data.query[0].tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
@@ -1850,8 +1940,7 @@ function actualizar_experiencia_data(transid){
 
           var filahtml =
             "<td>"+tipo_exp+"</td>"+
-            "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-            "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+            "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
             
             "<td>"+data.query[0].centro_laboral+"</td>"+
             "<td>"+data.query[0].cargo_funcion+"</td>"+
@@ -1863,10 +1952,27 @@ function actualizar_experiencia_data(transid){
             "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
             
-            var totaldias_gen=parseInt(data.suma_expgen);
-           var totaldias_esp=parseInt(data.suma_expesp);
-           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+             //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion_______________
+
+            //var totaldias_gen=parseInt(data.suma_expgen);
+           //var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
             
             var iddd="tblexp"+data.query[0].id;
 
@@ -2105,4 +2211,230 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
         text: "El archivo seleccionado supera los 5MB en tamaño, seleccione otro archivo.",
         timer: null
     })
+ }
+
+ 
+ function fecha_interseccion(F1_inicio,F1_fin,F2_inicio,F2_fin){
+
+    const F1_i = F1_inicio;
+    const F1_f = F1_fin;
+    const F2_i = F2_inicio;
+    const F2_f = F2_fin;
+
+    var F1_inicio = new Date(F1_inicio+" 00:00:00");
+    var F1_fin = new Date(F1_fin+" 00:00:00");
+    var F2_inicio = new Date(F2_inicio+" 00:00:00");
+    var F2_fin = new Date(F2_fin+" 00:00:00");
+
+    var Inter_inicio = null;
+    var Inter_fin = null;
+    var Union_inicio = null;
+    var Union_fin = null;
+
+    if(F1_inicio.getTime() < F2_inicio.getTime()){
+
+        if(F1_fin.getTime() < F2_inicio.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+                        
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            Inter_inicio = F1_f;
+            Inter_fin = F2_i;
+            Union_inicio = F1_i;
+            Union_fin = F2_f;
+            
+        }else if(F1_fin.getTime() > F2_inicio.getTime()){
+            
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                            }
+        }    
+    }else if(F1_inicio.getTime() == F2_inicio.getTime()){
+
+        if(F1_fin.getTime() > F2_inicio.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                            }
+        
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = null;
+                Union_fin = null;
+                
+            }
+        }
+    }else if(F1_inicio.getTime() > F2_inicio.getTime()){
+
+        if(F1_inicio.getTime() < F2_fin.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                            
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                            
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F2_f;
+                Union_inicio = F2_i;
+                Union_fin = F1_f;
+                            
+            }
+        }else if(F1_inicio.getTime() == F2_fin.getTime()){
+            Inter_inicio = F1_i;
+            Inter_fin = F2_f;
+            Union_inicio = F2_i;
+            Union_fin = F1_f;
+            
+        }else if(F1_inicio.getTime() > F2_fin.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+            
+        }
+
+    } 
+    
+    var fechainicio;
+    var fechafin;
+    var dias;
+    var estad = false;
+
+    if(Inter_inicio != null && Inter_fin != null){
+    fechainicio=moment(Inter_inicio);
+    fechafin=moment(Inter_fin);
+    dias=fechafin.diff(fechainicio,"days");
+    if (dias == 0){
+        dias = 1;
+    }
+    estad = true ;
+
+        
+    }else{
+    fechainicio=null;
+    fechafin=null;
+    dias=0;
+    estad = false ;
+    } 
+    
+    var intersección = {estado:estad, inicio:Inter_inicio, fin:Inter_fin,cant_dias:dias,u_inicio : Union_inicio, u_fin : Union_fin};
+
+    return intersección;
+ }
+ 
+ function verificar_interseccion(Fechas_a_trabajar){
+
+    var Fechas = Fechas_a_trabajar;
+
+        if(Fechas.length != 0){
+       
+                        
+      var FechasFijas = new Array();
+      FechasFijas.push({f_inicio: Fechas[0].f_inicio, f_fin: Fechas[0].f_fin});
+
+      for ( i = 1 ; i < Fechas.length ; i++){
+         var cont=0;
+         var val_inter=null;
+         for ( y = 0 ; y < FechasFijas.length ; y++){
+             
+             var resultado = fecha_interseccion(FechasFijas[y].f_inicio,FechasFijas[y].f_fin,Fechas[i].f_inicio,Fechas[i].f_fin);
+             if(resultado.estado){
+                //empalmo con la intersección
+                cont++;
+                
+                if(cont>1){
+                 FechasFijas[val_inter].f_inicio = resultado.u_inicio;
+                 FechasFijas[val_inter].f_fin = resultado.u_fin;
+                 
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+              
+                 FechasFijas.splice(y, 1);
+                 y--;
+                }else{
+                 
+                 FechasFijas[y].f_inicio = resultado.u_inicio;
+                 FechasFijas[y].f_fin = resultado.u_fin;
+                 
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+                 
+                 val_inter = y;
+                }
+                
+             }else {
+
+                 if(y == FechasFijas.length - 1 && cont == 0){
+                     FechasFijas.push({f_inicio: Fechas[i].f_inicio, f_fin: Fechas[i].f_fin});
+                     y++;
+                     }
+             }
+         }
+         
+ 
+     }
+               
+     var total_dias = 0;
+     for ( i = 0 ; i < FechasFijas.length ; i++){
+         var fechainicio=moment(FechasFijas[i].f_inicio);
+         var fechafin=moment(FechasFijas[i].f_fin);
+         var dias=fechafin.diff(fechainicio,"days");
+                  total_dias += dias;
+         }
+
+           
+ return {
+    tiempo_total_exper: anios_meses_dias(total_dias),
+    dias_exper: total_dias
+  };
+
+    }else {
+
+    return {
+    tiempo_total_exper: 0,
+    dias_exper: 0
+    };
+    }
  }

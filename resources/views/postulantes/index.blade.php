@@ -155,6 +155,7 @@
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/postulantes/tarjetas_postulantes.js')}}"></script>
     <script src="{{ asset('/js/postulantes/postulantes.js')}}"></script>
+    <script src="{{ asset('/js/moment.min.js')}}"></script>
     <script src="{{ asset('/js/postulantes/modalcv.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>

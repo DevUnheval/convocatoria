@@ -471,9 +471,21 @@ class PostulantesController extends Controller
     public function guardar_validacion_exp($idexp,$valor_validacion){
         
         $val = ExperienciaLabPostulante::find($idexp);
+
+        $idpostulante = $val->postulante_id;
+
         $val->validacion = $valor_validacion;
         $val->save();
-        return "validacion ok";
+
+        //____________________inicio interseccion fechas_______________
+        $query_inter = ExperienciaLabPostulante::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')
+        ->where('postulante_id',$idpostulante)
+        ->where('validacion',1)
+        ->orderBy('id','DESC')
+        ->get();
+       //____________________fin interseccion fechas_______________
+
+        return compact('query_inter','idpostulante');
     } 
     public function guardar_validacion_capa($idcapa,$valor_validacion){
         
