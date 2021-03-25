@@ -45,7 +45,7 @@
             @endforeach     
             @if(count($data["postulantes"]) < 1 )
             <tr>
-                <td align="center" colspan="5"><i> No hay postulantes </i></td>
+                <td align="center" colspan="6"><i> No hay postulantes </i></td>
             </tr>
             @endif                           
         </tbody>                                            

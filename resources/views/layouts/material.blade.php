@@ -10,9 +10,10 @@ $enCurso=\App\Proceso::where("estado","2")->count();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="Sistema de convocatoria de personal">
+    <meta name="keywords" content="trabajo, empleo, convocatoria, online"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="author" content="Ing. Saúl Escandón Munguía">
+    <meta name="author" content="Informática UNHEVAL">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{substr(\App\Ajuste::find(1)->elemento('icono'), 0,6)=='public'
                                     ?Storage::url(\App\Ajuste::find(1)->elemento('icono'))
@@ -22,7 +23,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
 
     <link rel="canonical" href="https://www.wrappixel.com/templates/materialpro/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png"> -->
     <!-- Custom CSS -->
     <link href="{{ asset('/material-pro/src/assets/libs/sweetalert2/dist/sweetalert2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('/material-pro/dist/css/style.min.css')}}" rel="stylesheet">

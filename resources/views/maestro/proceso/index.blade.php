@@ -7,7 +7,7 @@
 <link href="{{ asset('/material-pro/src/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css')}}" rel="stylesheet">
 @endsection
 
-@section('title','Ajustes')
+@section('title','Maestro - procesos')
 
 @section('menu_title_1','Procesos vigentes')
 @section('menu_title_2','Procesos')

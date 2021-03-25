@@ -71,9 +71,9 @@
                         <td align="center">{{  $p->condicion}}</td>                
                     </tr> 
                     @endforeach     
-                    @if(count($data) < 1 )
+                    @if(count($data["postulantes"]) < 1 )
                     <tr>
-                        <td align="center" colspan="{{$colums}}"><i> No hay postulantes </i></td>
+                        <td align="center" colspan="{{$colums}}"><i> No hay datos para mostrar </i></td>
                     </tr>
                     @endif                           
                 </tbody>                                       

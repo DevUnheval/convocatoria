@@ -685,7 +685,6 @@
 <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>
 <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script> 
 <script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
-
 <script src="{{ asset('/material-pro/src/assets/extra-libs/prism/prism.js')}}"></script>
 <script src="{{ asset('/js/acordion.js')}}"></script>
 <script src="{{ asset('/js/preloader_pag.js')}}"></script>

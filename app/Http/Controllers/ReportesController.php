@@ -26,11 +26,11 @@ class ReportesController extends Controller
         if($etapa=="0"){
             $data = $this->data_resultado($id,$etapa);
             $pdf = PDF::loadView('reportes.pdf.resultado',compact('data'))->setPaper('a4', 'landscape');
-            return $pdf->stream($data['proceso']->cod.'.pdf'); //download
+            return $pdf->stream("Resultado_".$data['proceso']->cod.'.pdf'); //download
         }
         $data = $this->data_etapa($id,$etapa);
         $pdf = PDF::loadView('reportes.pdf.procesos',compact('data'));
-        return $pdf->stream($data['proceso']->cod.'.pdf'); //download
+        return $pdf->stream("etapa_".$etapa."_".$data['proceso']->cod.'.pdf'); //download
     }
 
     public function excel($id,$etapa){
@@ -173,7 +173,7 @@ class ReportesController extends Controller
         //$guesser = new RegexGuesser();
         //echo $guesser->guess('/path/to/my/file.pdf'); // will print something like '1.4'
 
-        return $pdfMerger->save("file_name.pdf", "browser");
+        return $pdfMerger->save("CV_".$postulante->dni, "browser");
         
     }
 

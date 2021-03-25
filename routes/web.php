@@ -151,7 +151,7 @@ Route::group(['prefix' => 'postulante'], function(){
         Route::get('/{id?}/buscar', 'PostulantesController@buscar')->where(['id' => '[0-9]+'])->name('postulantes.search')->middleware(['auth','Comisionado']);  
         Route::get('postulantes_evaluados/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@postulantes_evaluados')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.postulantes_evaluados')->middleware(['auth','Comisionado']);  
-        Route::get('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
+        Route::post('actualizar_evaluacion/{proceso_id}/{etapa}/{ev_con}', 'PostulantesController@actualizar_evaluacion')
                 ->where(['proceso_id' => '[0-9]+'],['etapa' => '[0-9]+'],['ev_con' => '[0-1]+'])->name('postulantes.actualizar_evaluacion')->middleware(['auth','Comisionado']);
         Route::get('datosuser/cargar_cv/{postulanteid}/{userid}', 'PostulantesController@cargar_cv')->name('cargar_cv')->middleware(['auth','Comisionado']);      
         Route::get('datosuserexp/{idbtn}/{valor_validacion}/guardar_validacion', 'PostulantesController@guardar_validacion_exp')->name('guardar_validacion_exp')->middleware(['auth','Comisionado']);

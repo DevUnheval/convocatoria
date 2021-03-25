@@ -15,6 +15,11 @@
                   
                  
             ?>
+              <title>Reporte PDF - Sistema de convocatoria de personal</title>
+              
+              <meta charset="UTF-8">
+              <meta name="description" content="eporte PDF - Sistema de convocatoria de personal">
+              <meta name="author" content="Informática">
 
 <head>
  <style>

@@ -37,7 +37,12 @@ class ConvocatoriaController extends Controller
     
     public function vigentes_data(){
         $this->actualizar_estados_vigentes_y_enCruso();
-        $query = Proceso::where("estado","1")->orderBy('id','desc')->get();
+        if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+            $query = Proceso::where("estado","1")->orderBy('id','desc')->get();
+        }
+        else{
+            $query = Proceso::where("estado","1")->where('fecha_publicacion','<=',date('Y-m-d'))->orderBy('id','desc')->get();
+        }
         if($query->count()<1)
         return $this->data_null;
     
@@ -96,11 +101,11 @@ class ConvocatoriaController extends Controller
 
     }
 
-    public function en_curso()
-    {
-        $this->actualizar_estados_vigentes_y_enCruso();
-        return view('convocatorias.en_curso.index');
-    }
+    // public function en_curso()
+    // {
+    //     $this->actualizar_estados_vigentes_y_enCruso();
+    //     return view('convocatorias.en_curso.index');
+    // }
      public function showme($id)
     {
         return Proceso::find($id);
