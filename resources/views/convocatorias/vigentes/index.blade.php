@@ -84,12 +84,18 @@
 @endsection
 @section('js')
 <!--This page plugins -->
+    <script>
+        var pesoMaxArchivo = '{{ $datos["pesoMaxArchivo"] }}'; 
+        var pesoMaxArchivo_MB = pesoMaxArchivo/1048576;
+            pesoMaxArchivo_MB = pesoMaxArchivo_MB.toFixed(1); 
+     </script>
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
-
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/convocatorias/convocatoria.js')}}"></script>
     <script src="{{ asset('/js/convocatorias/vigentes.js')}}"></script>
+    <script src="{{ asset('/js/validar_peso_archivo.js')}}"></script>
+    
    
 @endsection

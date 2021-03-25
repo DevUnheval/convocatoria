@@ -133,7 +133,7 @@
                                                         </fieldset> 
                                                         <br>
                                                         <div class="" id="div_e_file">                                                  
-                                                            <input type="file" class="form-control-file archivo_bases" id="e_archivo_bases">
+                                                            <input type="file" class="form-control-file archivo_bases"  onchange="validar_peso_archivo(this)" id="e_archivo_bases" >
                                                         </div>                                                 
                                                     </div>
                                                 </div>
@@ -151,7 +151,7 @@
                                                         </fieldset> 
                                                         <br>
                                                         <div class="" id="div_e_file2">                                                  
-                                                            <input type="file" class="form-control-file archivo_resolucion" id="e_archivo_resolucion">
+                                                            <input type="file" class="form-control-file archivo_resolucion"  onchange="validar_peso_archivo(this)"  id="e_archivo_resolucion">
                                                         </div>
                                                     </div>
                                                 </div>

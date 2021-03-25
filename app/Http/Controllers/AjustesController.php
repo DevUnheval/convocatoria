@@ -65,6 +65,7 @@ class AjustesController extends Controller
 			['nombre'=>'video tutorial usuario','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para usuario','tipo'=>'archivo_ruta'],
 			['nombre'=>'video tutorial administrador','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para el administrador','tipo'=>'archivo_ruta'],
 			['nombre'=>'Confirmación de correo','valor'=>'1','descripcion'=>'¿Para concluir con el registro de una cuenta se debe confirmar el correo electrónico?','tipo'=>'booleano'],
+			['nombre'=>'Peso archivo (B)','valor'=>'3145728','descripcion'=>'Peso máximo de los archivos a subir, en Bytes (B). => 1MB = 1048576B','tipo'=>'numero'],
 		];
     }
 }

@@ -177,7 +177,9 @@ $(document).ready(function() {
                 email: !0
             }
         }
-    })  
+    });
+
+    
 })
 
 function editar(id){
@@ -316,9 +318,9 @@ $(document).ready(function(){
         var $id     =  $(this).data("id");
         if(valor =="1"){
             if($id=="n_archivo_bases" || $id=="n_archivo_resolucion"){
-                $($div).html('<input type="file" class="form-control-file required '+$nombre+'" id="'+$id+'" name="'+$id+'">'); //es necesario ponerle atributo name, sino no agarra el required...
-            }else{
-                $($div).html('<input type="file" class="form-control-file '+$nombre+'"  id="'+$id+'">'); //... y le mandamos un name que no esté en BD, así no pasa nada
+                $($div).html('<input type="file" class="form-control-file required '+$nombre+'" id="'+$id+'" name="'+$id+'" onchange="validar_peso_archivo(this)">'); //es necesario ponerle atributo name, sino no agarra el required...
+            }else{//editar
+                $($div).html('<input type="file" class="form-control-file '+$nombre+'"  id="'+$id+'" name="'+$id+'" onchange="validar_peso_archivo(this)">'); //... y le mandamos un name que no esté en BD, así no pasa nada
             }
             
             

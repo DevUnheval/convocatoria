@@ -97,14 +97,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_fin_exp">Fecha fin: <span class="text-danger"> *</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" required> 
+                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" max="{{date('Y-m-d')}}" required> 
                                             </div>
                                         </div>
                                       </div>
                                       <div class="row">
                                         <div class="col-md-7">
                                             <div class="form-group">
-                                                <label for="documento_exp">Documento sustento: <span class="text-danger"> *</span> </label>
+                                                <label for="documento_exp">Documento sustento: <small>(solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <span class="text-danger"> *</span> </label>
                                                 <input type="file" class="form-control required" id="documento_exp"  name="documento_exp" accept="application/pdf" required> 
                                             </div>
                                         </div>

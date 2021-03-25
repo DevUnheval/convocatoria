@@ -45,7 +45,7 @@ $(document).ready(function() {
             //console.log("esta vacio");
             $('#input_hide').val('0');
         }else{
-            //console.log(data);
+           // console.log(data);
             $('#ruc').val(data[0].ruc);
             $('#ubigeodni').val(data[0].ubigeo_nacimiento);
             $('#nacionalidad').val(data[0].nacionalidad);
@@ -64,10 +64,23 @@ $(document).ready(function() {
             if(data[0].colegiatura != null){
                 $('#check_colegiatura').prop('checked',true);
                 $('#codigo_colegiatura').prop('disabled',false);
-                $('#codigo_colegiatura').val(data[0].colegiatura);
+                $('#file_colegiatura').prop('disabled',false);
                 $('#cont_colegiatura').addClass('border border-cyan');
+                $('#codigo_colegiatura').val(data[0].colegiatura);
+                var href_lic;
+                
+                if(data[0].archivo_colegiatura != null){
+                    
+                    href_lic = data[0].archivo_colegiatura.replace('public/', '/storage/');
+                    var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_colegiatura').html(html_lic);
+                        $('#input_hide_licenciatura').val('1');
+                        
+                    }
+
             }else{
                 $('#codigo_colegiatura').prop('disabled',true);
+                $('#file_colegiatura').prop('disabled',true);
                 $('#check_colegiatura').prop('checked',false);
                 $('#codigo_colegiatura').val(null);
                 
@@ -87,7 +100,7 @@ $(document).ready(function() {
                 $("#si_ffaa").prop("checked", true);
                 if(data[0].archivo_ffaa != null){
                    href_ffaa=data[0].archivo_ffaa.replace("public/", '/storage/');
-                   var htmlffaa = "<td><a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmlffaa = "<a href='"+href_ffaa+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_ffaa').html(htmlffaa);
                        $('#input_hide_ffaa').val('1');
                    }
@@ -98,7 +111,7 @@ $(document).ready(function() {
                 $("#si_deportista").prop("checked", true);
                 if(data[0].archivo_deport != null){
                    href_deport=data[0].archivo_deport.replace("public/", '/storage/');
-                   var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmldeport = "<a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_deport').html(htmldeport);
                        $('#input_hide_deport').val('1');
                    }
@@ -108,7 +121,7 @@ $(document).ready(function() {
                 $("#si_discapacidad").prop("checked", true);
                 if(data[0].archivo_disc != null){
                    href_disc=data[0].archivo_disc.replace("public/", '/storage/');
-                   var htmldisc = "<td><a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                   var htmldisc = "<a href='"+href_disc+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                        $('#btn_doc_disc').html(htmldisc);
                        $('#input_hide_disc').val('1');
                    }  
@@ -201,12 +214,12 @@ $(document).ready(function() {
         datatype: "json",
         data: {idproceso: $('#datospostulante').data('id')},
         success:function(data3){
-           // console.log(data3);
+           // console.log("fechas: ",data3);
         var marcadogeneral="";
         var marcadoespecifico="";
         var tipo_exp= "";
-        var totaldias_gen=0;
-        var totaldias_esp=0;
+       // var totaldias_gen=0;
+        //var totaldias_esp=0;
         var html_select_tip_exp="";
                
         if(data3.proceso[0].consid_prac_preprof == 1 && data3.proceso[0].consid_prac_prof == 1){
@@ -221,18 +234,25 @@ $(document).ready(function() {
         
         $('#tipo_experiencia').html(html_select_tip_exp);
 
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+
         for (var i = 0; i < data3.query.length; i++) {
             
-            
-
-            totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
-            totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
+           // totaldias_gen=totaldias_gen+parseInt(data3.query[i].dias_exp_gen);
+           // totaldias_esp=totaldias_esp+parseInt(data3.query[i].dias_exp_esp);
            
             marcadogeneral="";
             marcadoespecifico="";
             tipo_exp="";  
-            if(data3.query[i].es_exp_gen==1){marcadogeneral="GENERAL";}
-            if(data3.query[i].es_exp_esp==1){marcadoespecifico=" y <br> ESPECÍFICA";}
+            if(data3.query[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data3.query[i].fecha_inicio, f_fin: data3.query[i].fecha_fin}); //capturo fechas de inicio y fin
+                marcadogeneral="GENERAL";
+            }
+            if(data3.query[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data3.query[i].fecha_inicio, f_fin: data3.query[i].fecha_fin}); //capturo fechas de inicio y fin
+                marcadoespecifico=" y <br> ESPECÍFICA";
+            }
             //<option value=1>Experiencia Laboral</option>
             //<option value=2>Prácticas Pre Profesionales</option>
             //<option value=3>Prácticas Profesionales</option>
@@ -265,22 +285,28 @@ $(document).ready(function() {
             "    <button type='button' onclick=\"eliminar_expe('tblexp"+data3.query[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>"+
             "</tr>";
+           
+          
         }
     
+
+     ;   
+     ;   
+           
     $('#zeroconfig3_body').append(tabla3);
     
     $('#exp_gen_pro').html(anios_meses_dias(parseInt(data3.proceso[0].dias_exp_lab_gen)));
     $('#exp_esp_pro').html(anios_meses_dias(parseInt(data3.proceso[0].dias_exp_lab_esp)));
     
-    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+    $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+    $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
     //$('#total_exp_general').val(ttiempoexp_gen);
     //$('#total_exp_especifica').val(ttiempoexp_esp);
 
         },error: function(data){
             alert("error!!");
-
         }
+
     });
         
 
@@ -367,12 +393,12 @@ $(document).ready(function() {
             
         },
         onFinished: function(event, currentIndex) {
-
             if($('#check_dj').prop('checked')){
+            //verificar si  todo está OK mediante AJAX
 
            Swal.fire({
                 title: '¿Está seguro de registrar su postulación?',
-                text: "Recuerde que una vez registrado no podrá modificar ninguna información",
+                text: "Recuerde revisar la información ingresada, luego de registrar su postulación no podrá ser modificada",
                 type: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#d33',  
@@ -393,11 +419,16 @@ $(document).ready(function() {
                          },
                         success:function(data){
                            // console.log('aqui= ',data);
-                        var url =  "/postulante/"+$('#datospostulante').data('id')+"/storage";
-                        $(location).attr('href',url);
+                           if(data.estado){
+                                var url =  "/postulante/"+$('#datospostulante').data('id')+"/registro"; 
+                           }else{
+                                var url =  `/redirect?mensaje=${data.mensaje}&color=${data.color}`; 
+                           }
+                            //return false;
+                            $(location).attr('href',url);
                         }
                         ,error: function(data){
-                           // console.log("error!!"); 
+                           console.log("error!!",data); 
                         }
                 
                     });  
@@ -677,16 +708,38 @@ $.ajax({
         url: "/postulante/eliminarexperiencia",
         type: "POST" ,
         datatype: "json",
-        data: { id:id },
+        data: { 
+            id:id ,
+            idproceso:$('#datospostulante').data('id')
+         },
         success:function(data){
            
            $('#'+transid).remove();
-           var totaldias_gen=parseInt(data.suma_expgen);
-           var totaldias_esp=parseInt(data.suma_expesp);
-           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+
+           //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion____________
+
+           //var totaldias_gen=parseInt(data.suma_expgen);
+           //var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
          
            $('#loading-screen').fadeOut(); //PRELOADER FIN
+           
            Swal.fire({
             position: 'top-end',
             type: 'success',
@@ -969,12 +1022,30 @@ function cumple_exp_genyesp(){
         }
     });
 
-    //console.log(res);
-    var Mi_exp_gen = parseInt(res.suma_expgen);
-    var Mi_exp_esp = parseInt(res.suma_expesp);
     var Exp_gen_min =parseInt(res.min_expgen);
     var Exp_esp_min =parseInt(res.min_expesp);
- 
+
+    //_______________inicio proceso interseccion_________
+
+    var Fechas_expGen = new Array();
+    var Fechas_expEsp = new Array();
+console.log(res);
+    for (var i = 0; i < res.query_inter.length; i++) {
+        if(res.query_inter[i].es_exp_gen==1){
+            Fechas_expGen.push({f_inicio: res.query_inter[i].fecha_inicio, f_fin: res.query_inter[i].fecha_fin}); 
+        }
+        if(res.query_inter[i].es_exp_esp==1){
+            Fechas_expEsp.push({f_inicio: res.query_inter[i].fecha_inicio, f_fin: res.query_inter[i].fecha_fin}); 
+        } 
+    
+    }
+     
+   //________________fin proceso interseccion_______________
+    
+    var Mi_exp_gen =parseInt(verificar_interseccion(Fechas_expGen).dias_exper);
+    var Mi_exp_esp =parseInt(verificar_interseccion(Fechas_expEsp).dias_exper);
+       
+     
     if(Mi_exp_gen==0 || Mi_exp_esp==0){
         arrayExp.estado=false;
         arrayExp.msjerror="Debe de registrar experiencia general y específica";
@@ -996,26 +1067,47 @@ function cumple_exp_genyesp(){
  
 }
 
-function cumple_formacion(id){
+function cumple_formacion(idproceso){
     var arrayExp={estado:"",msjok:"",msjerror:""};
 
-    if($('#codigo_colegiatura').val() == "" && $('#check_colegiatura').prop('checked') == true){
-       return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+    if($('#check_colegiatura').prop('checked')){
+        if($('#codigo_colegiatura').val() == ""){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+        }
+        if($('#file_colegiatura').val() == "" && $('#input_hide_licenciatura').val() == 0){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el documento que fundamente su colegiatura."}; 
+        } 
     }    
-    var id = id;
-    
+        
+    var formData = new FormData();
+    formData.append('idproceso',idproceso);
+    formData.append('colegiatura',$('#codigo_colegiatura').val());
+    formData.append('archivo_colegiatura',$('#file_colegiatura').prop('files')[0]);
+   
+     var respu;
     $.ajax({
-        //headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         url: "/postulante/datosformacion_general",
-        type: "GET",
+        type: "POST",
         async:false,
         datatype: "json",
-        data: {
-            idproceso : id,
-            colegiatura : $('#codigo_colegiatura').val()
-        },
+        data: formData,
+        cache:false,
+        contentType: false,
+        processData: false,
         success:function(data){ 
-           respu = data;
+         // console.log(data);
+            respu = data;
+            
+            if(data.src_colegiatura != null){
+                    
+                href_lic = data.src_colegiatura.replace('public/', '/storage/');
+                var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_colegiatura').html(html_lic);
+                    $('#input_hide_licenciatura').val('1');
+                    
+                } 
+                
         }
     });
     
@@ -1159,10 +1251,17 @@ function cumple_formacion(id){
           var esdisc = "";
           var esffaa = "";
           var esdep = "";
+          var href_lic = "";
           if(data.qdatos.colegiatura != null){
-            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> Me encuentro COLEGIADO y HABILITADO:</strong> "+data.qdatos.colegiatura);
+            if(data.qdatos.archivo_colegiatura != null){
+                href_lic = data.qdatos.archivo_colegiatura.replace('public/', '/storage/');
+                var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_colegiatura2').html(html_lic);
+                                           
+                }
           }else{
-              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> No me encuentro COLEGIADO.</strong>");
           }
             $('#res_fecha_nac').html(data.qdatos.fecha_nacimiento);
            $('#res_ubigeo_nac').html(data.qdatos.ubigeo_nacimiento);
@@ -1305,4 +1404,325 @@ function cumple_formacion(id){
     }); 
  }
 
+ function fecha_interseccion(F1_inicio,F1_fin,F2_inicio,F2_fin){
+
+    const F1_i = F1_inicio;
+    const F1_f = F1_fin;
+    const F2_i = F2_inicio;
+    const F2_f = F2_fin;
+
+    var F1_inicio = new Date(F1_inicio+" 00:00:00");
+    var F1_fin = new Date(F1_fin+" 00:00:00");
+    var F2_inicio = new Date(F2_inicio+" 00:00:00");
+    var F2_fin = new Date(F2_fin+" 00:00:00");
+
+    var Inter_inicio = null;
+    var Inter_fin = null;
+    var Union_inicio = null;
+    var Union_fin = null;
+
+    if(F1_inicio.getTime() < F2_inicio.getTime()){
+
+        if(F1_fin.getTime() < F2_inicio.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+            console.log("no hay intersección");
+            
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            Inter_inicio = F1_f;
+            Inter_fin = F2_i;
+            Union_inicio = F1_i;
+            Union_fin = F2_f;
+            console.log("1 día de intersección");
+
+        }else if(F1_fin.getTime() > F2_inicio.getTime()){
+            
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+            }
+        }    
+    }else if(F1_inicio.getTime() == F2_inicio.getTime()){
+
+        if(F1_fin.getTime() > F2_inicio.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+            }
+        
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = null;
+                Union_fin = null;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+
+            }
+        }
+    }else if(F1_inicio.getTime() > F2_inicio.getTime()){
+
+        if(F1_inicio.getTime() < F2_fin.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+            
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+            
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F2_f;
+                Union_inicio = F2_i;
+                Union_fin = F1_f;
+                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+            
+            }
+        }else if(F1_inicio.getTime() == F2_fin.getTime()){
+            Inter_inicio = F1_i;
+            Inter_fin = F2_f;
+            Union_inicio = F2_i;
+            Union_fin = F1_f;
+            console.log("1 día de intersección");
+
+        }else if(F1_inicio.getTime() > F2_fin.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+            console.log("No hay intersección");
+
+        }
+
+    } 
+    
+    var fechainicio;
+    var fechafin;
+    var dias;
+    var estad = false;
+
+    if(Inter_inicio != null && Inter_fin != null){
+    fechainicio=moment(Inter_inicio);
+    fechafin=moment(Inter_fin);
+    dias=fechafin.diff(fechainicio,"days");
+    if (dias == 0){
+        dias = 1;
+    }
+    estad = true ;
+
+        console.log('DIAS :',fechafin+"-"+fechainicio+"= "+dias+" - "+anios_meses_dias(dias));
+
+    }else{
+    fechainicio=null;
+    fechafin=null;
+    dias=0;
+    estad = false ;
+    } 
+    
+    var intersección = {estado:estad, inicio:Inter_inicio, fin:Inter_fin,cant_dias:dias,u_inicio : Union_inicio, u_fin : Union_fin};
+
+    return intersección;
+ }
  
+ function verificar_interseccion(Fechas_a_trabajar){
+
+    var Fechas = Fechas_a_trabajar;
+
+    console.log('INICIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+    if(Fechas.length != 0){
+        //___________INICIO INTERSECCION (METODO 2)_________________________
+      console.log('_______________________________________________');
+      console.log('Fechas a trabajar: ',Fechas);
+      console.log('______________PROCESAMIENTO DE FECHAS_________________________________');
+      
+      var FechasFijas = new Array();
+      FechasFijas.push({f_inicio: Fechas[0].f_inicio, f_fin: Fechas[0].f_fin});
+
+      for ( i = 1 ; i < Fechas.length ; i++){
+         var cont=0;
+         var val_inter=null;
+         for ( y = 0 ; y < FechasFijas.length ; y++){
+             
+             var resultado = fecha_interseccion(FechasFijas[y].f_inicio,FechasFijas[y].f_fin,Fechas[i].f_inicio,Fechas[i].f_fin);
+             if(resultado.estado){
+                //empalmo con la intersección
+                cont++;
+                
+                if(cont>1){
+                 FechasFijas[val_inter].f_inicio = resultado.u_inicio;
+                 FechasFijas[val_inter].f_fin = resultado.u_fin;
+                 console.log('union: ',FechasFijas[val_inter].f_inicio + " / " + FechasFijas[val_inter].f_fin);
+
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+              
+                 FechasFijas.splice(y, 1);
+                 y--;
+                }else{
+                 
+                 FechasFijas[y].f_inicio = resultado.u_inicio;
+                 FechasFijas[y].f_fin = resultado.u_fin;
+                 console.log('union: ',FechasFijas[y].f_inicio + " / " + FechasFijas[y].f_fin);
+
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+                 
+                 val_inter = y;
+                }
+                
+             }else {
+/*
+                 if(y == FechasFijas.length){
+                 FechasFijas.push({f_inicio: Fechas[i].f_inicio, f_fin: Fechas[i].f_fin});
+                 y--;
+                 }
+*/
+                 if(y == FechasFijas.length - 1 && cont == 0){
+                     FechasFijas.push({f_inicio: Fechas[i].f_inicio, f_fin: Fechas[i].f_fin});
+                     y++;
+                     }
+             }
+         }
+         
+ 
+     }
+     console.log('___________________FIN PROCESAMIENTO____________________________');
+     console.log('Fechas Fijas: ',FechasFijas);
+     
+     var total_dias = 0;
+     for ( i = 0 ; i < FechasFijas.length ; i++){
+         var fechainicio=moment(FechasFijas[i].f_inicio);
+         var fechafin=moment(FechasFijas[i].f_fin);
+         var dias=fechafin.diff(fechainicio,"days");
+         console.log('Fecha '+i+': ',fechainicio+' / '+fechafin+' -> '+anios_meses_dias(dias));
+         total_dias += dias;
+         }
+
+     console.log('Experiencia Total : ', anios_meses_dias(total_dias)+' - '+ total_dias+'dias');
+     console.log('FIIIIIIIIIIIIIIINNNNNNNNNNNNNN');
+
+
+      //______________________________FIN INTERSECCION (METODO 2)_________________________
+
+     /* //______________________________INICIO INTERSECCION (METODO 1)_________________________
+ 
+ //fecha_interseccion(Fechas[0].f_inicio,Fechas[0].f_fin,Fechas[1].f_inicio,Fechas[1].f_fin);
+ console.log("_______________________Fechas a trabajar___________ :");
+ console.log(Fechas);
+ 
+ var total_dias_descontar_1 = 0;
+ var total_dias_descontar_2 = 0;
+ var FechasInter = new Array();
+ var Fechasfinal = new Array();
+ 
+ console.log('______________FECHAS INTERSECCION : ETAPA 2____________________');
+ for ( i = 0 ; i < Fechas.length ; i++){
+     for ( y = i + 1 ; y < Fechas.length ; y++){
+         var resultado = fecha_interseccion(Fechas[i].f_inicio,Fechas[i].f_fin,Fechas[y].f_inicio,Fechas[y].f_fin);
+         if(resultado.estado){
+             FechasInter.push({f_inicio: resultado.inicio, f_fin: resultado.fin});
+             total_dias_descontar_1 += parseInt(resultado.cant_dias);
+         }
+     }
+
+ }
+     console.log(FechasInter);
+     console.log('Dias intersectadas : ', total_dias_descontar_1);
+
+ console.log('______________FECHAS FINALES : ETAPA 3____________________');
+ for ( i = 0 ; i < FechasInter.length ; i++){
+     for ( y = i + 1 ; y < FechasInter.length ; y++){
+         var resultado = fecha_interseccion(FechasInter[i].f_inicio,FechasInter[i].f_fin,FechasInter[y].f_inicio,FechasInter[y].f_fin);
+         if(resultado.estado){
+             Fechasfinal.push({f_inicio: resultado.inicio, f_fin: resultado.fin});
+             //total_dias_descontar_2 += parseInt(resultado.cant_dias);
+         }
+     }
+
+ }
+  console.log(Fechasfinal);
+
+ //obtener un array con fechas únicas
+ let set = new Set( Fechasfinal.map( JSON.stringify ) )
+ let FechasUnicas = Array.from( set ).map( JSON.parse );
+ 
+ console.log('_______________FECHAS ÚNICAS___________________');
+ console.log(FechasUnicas);
+ 
+ for ( i = 0 ; i < FechasUnicas.length ; i++){
+ var fechainicio=moment(FechasUnicas[i].f_inicio);
+ var fechafin=moment(FechasUnicas[i].f_fin);
+ var dias=fechafin.diff(fechainicio,"days");
+ if(dias == 0){ dias = 1;}
+ total_dias_descontar_2 += dias;
+ }
+
+ console.log('Dias finales-unicas : ', total_dias_descontar_2); ///////////falta esto
+ 
+ console.log('______________FIN____________________');
+ console.log('Total experiencia: ',totaldias_gen-(total_dias_descontar_1-total_dias_descontar_2));
+ console.log('Total experiencia: ',anios_meses_dias(totaldias_gen-(total_dias_descontar_1-total_dias_descontar_2)));
+ 
+ 
+
+ //______________________________FIN INTERSECCION_________________________
+ */ 
+ 
+ return {
+    tiempo_total_exper: anios_meses_dias(total_dias),
+    dias_exper: total_dias
+  };
+
+    }else {
+
+    return {
+    tiempo_total_exper: 0,
+    dias_exper: 0
+    };
+    }
+ }

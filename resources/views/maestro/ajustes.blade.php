@@ -60,7 +60,7 @@
                      </div>
                   </div>
                @break
-
+               @case('numero') <input type="number" name="elemento_{{$a->id}}" class="form-control" value="{{ $a->valor }}" max="5242880" required> @break
                @default <span>Valor no reconocido</span> @break
 
             @endswitch

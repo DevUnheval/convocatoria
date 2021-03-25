@@ -112,7 +112,7 @@
                                         <div class="">
                                             
                                             
-                                                <label for="email"> Cargar Documento de Identidad (DNI, Carne de extranjería, otros): <span class="text-danger">*</span> </label>
+                                                <label for="email"> Cargar Documento de Identidad (DNI, Carne de extranjería, otros): <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label> <span class="text-danger">*</span> </label>
                                                 <input type="file" class=" form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
                                                 <input type="hidden" id="input_hide_dni" value="0">                                                 
                                                 
@@ -236,6 +236,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
                                     <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
                                     <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
                                 </div>   
@@ -258,6 +259,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
                                     <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
                                     <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                 </div>   
@@ -281,6 +283,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
                                     <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
                                     <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                 </div>   
@@ -376,9 +379,15 @@
                                 Estoy colegiado y habilitado(a)
                             </label>
                             <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
+                            <label ><small>(Tamaño máximo de archivo 5MB)</small> </label>
+                            <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf"/>
+                            <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
+                        </div>  
+                        <div class="col-md-4" >
+                            
+                            
                             
                         </div>  
-                          
                         </div> 
                         </div>                           
                     </div>

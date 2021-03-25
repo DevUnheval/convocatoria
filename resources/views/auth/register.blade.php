@@ -158,7 +158,7 @@
                                                 <div class="">
                                                     <div class="checkbox checkbox-success pt-0">
                                                         <input id="checkbox-signup" type="checkbox" required class="chk-col-indigo material-inputs">
-                                                        <label for="checkbox-signup"> Estoy de acuerdo con los <a href="#">términos</a></label>
+                                                        <label for="checkbox-signup"> Estoy de acuerdo con los <a href="{{ asset('storage/procesos/terminos/documento.pdf') }}">términos</a></label>
                                                         <div class="invalid-feedback">
                                                            Marque la opción "Estoy de acuerdo con los términos"
                                                           </div> 

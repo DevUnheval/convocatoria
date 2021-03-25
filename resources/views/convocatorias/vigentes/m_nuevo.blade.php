@@ -27,7 +27,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <b><small>Cód. convocatoria:<span class="text-danger"> *</span> </small></b>
-                                                    <input type="text" class="form-control required"   name="cod" value="001-2021">
+                                                    <input type="text" class="form-control required"   name="cod" value="">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -44,7 +44,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
-                                                    <input type="number" class="form-control required" name="n_plazas"value="1">
+                                                    <input type="number" class="form-control required" name="n_plazas" value="1" min="1">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -58,13 +58,13 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <small>Nombre/Cargo de la convocatoria:<span class="text-danger"> *</span> </small>
-                                                    <input type="text" class="form-control required"   name="nombre" value="Especialista Administrativo" placeholder=""> 
+                                                    <input type="text" class="form-control required"   name="nombre" placeholder=""> 
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <small>Área/Unidad al que postula:<span class="text-danger"> *</span> </small>
-                                                    <input type="text" class="form-control required"   name="oficina" value="Unidad de Recursos Humanos" placeholder="">
+                                                    <input type="text" class="form-control required"   name="oficina" placeholder="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -133,7 +133,7 @@
                                                         </fieldset> 
                                                         <br>
                                                         <div class="" id="div_n_file">                                                  
-                                                            <input type="file" class="form-control-file archivo_bases required" id="n_archivo_bases" name="n_archivo_bases">
+                                                            <input type="file" class="form-control-file archivo_bases required" id="n_archivo_bases" name="n_archivo_bases" onchange="validar_peso_archivo(this)">
                                                         </div>                                                 
                                                     </div>
                                                 </div>
@@ -151,7 +151,7 @@
                                                         </fieldset> 
                                                         <br>
                                                         <div class="" id="div_n_file2">                                                  
-                                                            <input type="file" class="form-control-file archivo_resolucion required"  id="n_archivo_resolucion" name="n_archivo_resolucion">
+                                                            <input type="file" class="form-control-file archivo_resolucion required"  id="n_archivo_resolucion" name="n_archivo_resolucion" onchange="validar_peso_archivo(this)">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -167,7 +167,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <small>Fecha Aprobación:<span class="text-danger"> *</span> </small>
-                                                    <input type="date" class="form-control" name="fecha_aprobacion">
+                                                    <input type="date" class="form-control required" name="fecha_aprobacion" value="{{date('Y-m-d')}}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -180,12 +180,12 @@
                                         <div class="row form-group border-bottom mb-0 py-3 bg-light">                                            
                                             <div class="col-md-6">
                                                     <div><small class="font-weight-bold">Inicio Inscripción:<span class="text-danger"> *</span></small>
-                                                        <input type="datetime-local" class="form-control required" name="fecha_inscripcion_inicio" value="2021-01-29T07:30:00"></div>                                                   
+                                                        <input type="datetime-local" class="form-control required" name="fecha_inscripcion_inicio"></div>                                                   
                                                     <!--<div class="col-md-5">Hora inicio:<input class="form-control" type="time" value="18:00:00"></div>-->                                                
                                             </div>
                                             <div class="col-md-6">
                                                 <div><small class="font-weight-bold">Cierre de Inscripción:<span class="text-danger"> *</span></small> 
-                                                    <input type="datetime-local" class="form-control required" name="fecha_inscripcion_fin"   value="2021-01-31T22:00:00"></div>
+                                                    <input type="datetime-local" class="form-control required" name="fecha_inscripcion_fin"></div>
                                             </div>
                                         </div>
                                         <br>
@@ -338,11 +338,11 @@
                                                 <div class="row p-2">
                                                     <div class="col-md-6 form-group">                                                
                                                         <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
-                                                        <input type="number" class="form-control required"   name="horas_cap_total" value="300">
+                                                        <input type="number" class="form-control required"   name="horas_cap_total" value="24" min="5">
                                                     </div>
                                                     <div class="col-md-6 form-group">                                                
                                                         <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
-                                                        <input type="number" class="form-control required" name="horas_cap_ind" value="24">
+                                                        <input type="number" class="form-control required" name="horas_cap_ind" value="6" min="5">
                                                     </div>
                                                 </div>
                                             </div>

@@ -59,9 +59,9 @@ function validar_capa(idbtn){
     })
 }
 
-function validar_exp(idbtn,dias_gen,dias_esp){
-    var totaldias_gen=parseInt($('#hidden_expgen_t').val());
-    var totaldias_esp=parseInt($('#hidden_expesp_t').val());
+function validar_exp(idbtn){
+   // var totaldias_gen=parseInt($('#hidden_expgen_t').val());
+    //var totaldias_esp=parseInt($('#hidden_expesp_t').val());
     var valor_validacion=0;
    // console.log(dias_gen+" "+dias_esp+" "+idbtn);
 
@@ -69,23 +69,23 @@ function validar_exp(idbtn,dias_gen,dias_esp){
          
          $('#'+idbtn).removeClass('ti-layout-width-full');
          $('#'+idbtn).addClass('fa fa-check');
-         totaldias_gen= totaldias_gen + parseInt(dias_gen);
-         totaldias_esp= totaldias_esp + parseInt(dias_esp);
+        // totaldias_gen= totaldias_gen + parseInt(dias_gen);
+         //totaldias_esp= totaldias_esp + parseInt(dias_esp);
          valor_validacion= 1;
 
     }else if($('#'+idbtn).hasClass('fa fa-check')){
 
         $('#'+idbtn).removeClass('fa fa-check');
          $('#'+idbtn).addClass('ti-layout-width-full');
-         totaldias_gen= totaldias_gen - parseInt(dias_gen);
-         totaldias_esp= totaldias_esp - parseInt(dias_esp);
+         //totaldias_gen= totaldias_gen - parseInt(dias_gen);
+         //totaldias_esp= totaldias_esp - parseInt(dias_esp);
          valor_validacion= 0;
     }
     //ti-layout-width-full - fas fa-check
-    $('#hidden_expgen_t').val(totaldias_gen);
-    $('#hidden_expesp_t').val(totaldias_esp);
-    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+    //$('#hidden_expgen_t').val(totaldias_gen);
+    //$('#hidden_expesp_t').val(totaldias_esp);
+    //$('#total_exp_general').val(anios_meses_dias(totaldias_gen));
+    //$('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
 
     $.ajax({
        // headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -93,7 +93,29 @@ function validar_exp(idbtn,dias_gen,dias_esp){
         type: "GET",
         datatype: "json",
         success:function(data){
-           // console.log("validación guardada");
+          // console.log("data:",data);
+
+           //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+
+        $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+        $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
+         
+       //________________fin proceso interseccion 
+
+
         },error:function(data){
             console.log("validación error");
         } 
@@ -128,7 +150,7 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
       //FORMULARIO OPCIONAL Ev. Currocular
       $("#input_puntaje_curricular_1").val(parseInt(data.postulante.ev_curricular,10));
       $("#textarea_puntaje_curricular_1").html(data.postulante.obs_curricular); 
-      //console.log(data);
+     // console.log(data);
       var esdisc = "";
       var esffaa = "";
       var esdep = "";
@@ -226,9 +248,17 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
     }
         //llenar formacion
         if(data.qdatos.colegiatura != null){
-            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" Me encuentro COLEGIADO y HABILITADO: "+data.qdatos.colegiatura);
+            $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> Me encuentro COLEGIADO y HABILITADO: </strong>"+data.qdatos.colegiatura);
+            var href_lic;
+                
+            if(data.qdatos.archivo_colegiatura != null){
+                    href_lic = data.qdatos.archivo_colegiatura.replace('public/', '/storage/');
+                    var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_colegiatura').html(html_lic);
+                                               
+                    }
           }else{
-              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+" No me encuentro COLEGIADO.");
+              $('#dato_colegiado').html("<i class=\"fas fa-info-círculo\"></i>"+"<strong> No me encuentro COLEGIADO.</strong>");
           }
 
         if(data.qform[0]!=null){  
@@ -317,17 +347,33 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
          var html_resexp = "";
        
         
-        var totaldias_gen=0;
-        var totaldias_esp=0;  
+       // var totaldias_gen=0;
+        //var totaldias_esp=0;  
         
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+
         for (var i = 0; i < data.qexp.length; i++) {
 
            
            var marcadogeneral="";
            var marcadoespecifico="";
            var tipo_exp="";
-        if(data.qexp[i].es_exp_gen==1){marcadogeneral="checked";}
-        if(data.qexp[i].es_exp_esp==1){marcadoespecifico="checked";}
+        if(data.qexp[i].es_exp_gen==1 && data.qexp[i].validacion == 1){
+            Fechas_expGen.push({f_inicio: data.qexp[i].fecha_inicio, f_fin: data.qexp[i].fecha_fin}); //capturo fechas de inicio y fin
+           
+        }
+        if(data.qexp[i].es_exp_esp==1 && data.qexp[i].validacion == 1){
+            Fechas_expEsp.push({f_inicio: data.qexp[i].fecha_inicio, f_fin: data.qexp[i].fecha_fin}); //capturo fechas de inicio y fin
+           
+        }
+
+        if(data.qexp[i].es_exp_gen==1){
+            marcadogeneral="GENERAL";
+        }
+        if(data.qexp[i].es_exp_esp==1){
+            marcadoespecifico="y <br> ESPECÍFICA";
+        }
         
             if(data.qexp[i].tipo_experiencia == '1'){
             tipo_exp="Experiencia Laboral";
@@ -345,16 +391,15 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
         if(data.qexp[i].validacion == 0){
         icono = "ti-layout-width-full";
         }else if(data.qexp[i].validacion == 1){
-        totaldias_gen=totaldias_gen+parseInt(data.qexp[i].dias_exp_gen);
-        totaldias_esp=totaldias_esp+parseInt(data.qexp[i].dias_exp_esp);
+        //totaldias_gen=totaldias_gen+parseInt(data.qexp[i].dias_exp_gen);
+        //totaldias_esp=totaldias_esp+parseInt(data.qexp[i].dias_exp_esp);
         icono = "fa fa-check";
         }
         
 
         html_resexp += "<tr class=\"\">"+
         "<td>"+tipo_exp+"</td>"+
-        "<td>Exp.General <input  type=\"checkbox\" "+marcadogeneral+" disabled /><br>"+
-        "Exp.Espec. <input  type=\"checkbox\" "+marcadoespecifico+" disabled /></td>"+
+        "<td>"+marcadogeneral + marcadoespecifico+"</td>"+
         "<td>"+data.qexp[i].centro_laboral+"</td>"+
         "<td>"+data.qexp[i].cargo_funcion+"</td>"+
         "<td>"+data.qexp[i].fecha_inicio+"<br>"+data.qexp[i].fecha_fin+"</td>"+
@@ -363,16 +408,18 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
         "<td><a href='"+href_exp+"' target=\"_blank\" class='btn btn-outline-info' type='button'><i class=\"fas fa-download\"></i></a>"+
         "</td>"+
         "<td class='alert-info border-black'><div  >"+
-        "<button type='button' onclick=\"validar_exp("+data.qexp[i].id+","+data.qexp[i].dias_exp_gen+","+data.qexp[i].dias_exp_esp+")\" class='btn'><i id='"+data.qexp[i].id+"' class=\""+icono+"\"></i></button>"+
+        "<button type='button' onclick=\"validar_exp("+data.qexp[i].id+")\" class='btn'><i id='"+data.qexp[i].id+"' class=\""+icono+"\"></i></button>"+
         "</div></td>"+
         "</tr>";
     }
 
     $('#tbl_cv4').html(html_resexp);
-    $('#hidden_expgen_t').val(totaldias_gen);
-    $('#hidden_expesp_t').val(totaldias_esp);
-    $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-    $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+
+    //$('#hidden_expgen_t').val(totaldias_gen);
+    //$('#hidden_expesp_t').val(totaldias_esp);
+    
+    $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+    $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
     
     }else{
         $('#tbl_cv4').html("");
@@ -438,4 +485,229 @@ function anios_meses_dias(diasx){
         dias_desc = "dias";
     }
   return anios+" "+anios_desc+" "+meses+" "+meses_desc+" "+dias+" "+dias_desc;
+ }
+
+ function fecha_interseccion(F1_inicio,F1_fin,F2_inicio,F2_fin){
+
+    const F1_i = F1_inicio;
+    const F1_f = F1_fin;
+    const F2_i = F2_inicio;
+    const F2_f = F2_fin;
+
+    var F1_inicio = new Date(F1_inicio+" 00:00:00");
+    var F1_fin = new Date(F1_fin+" 00:00:00");
+    var F2_inicio = new Date(F2_inicio+" 00:00:00");
+    var F2_fin = new Date(F2_fin+" 00:00:00");
+
+    var Inter_inicio = null;
+    var Inter_fin = null;
+    var Union_inicio = null;
+    var Union_fin = null;
+
+    if(F1_inicio.getTime() < F2_inicio.getTime()){
+
+        if(F1_fin.getTime() < F2_inicio.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+                        
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            Inter_inicio = F1_f;
+            Inter_fin = F2_i;
+            Union_inicio = F1_i;
+            Union_fin = F2_f;
+            
+        }else if(F1_fin.getTime() > F2_inicio.getTime()){
+            
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                            }
+        }    
+    }else if(F1_inicio.getTime() == F2_inicio.getTime()){
+
+        if(F1_fin.getTime() > F2_inicio.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F2_f;
+                
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F2_i;
+                Inter_fin = F2_f;
+                Union_inicio = F1_i;
+                Union_fin = F1_f;
+                            }
+        
+        }else if(F1_fin.getTime() == F2_inicio.getTime()){
+            if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = null;
+                Union_fin = null;
+                
+            }
+        }
+    }else if(F1_inicio.getTime() > F2_inicio.getTime()){
+
+        if(F1_inicio.getTime() < F2_fin.getTime()){
+
+            if(F1_fin.getTime() < F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                            
+            }else if(F1_fin.getTime() == F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F1_f;
+                Union_inicio = F2_i;
+                Union_fin = F2_f;
+                            
+            }else if(F1_fin.getTime() > F2_fin.getTime()){
+                Inter_inicio = F1_i;
+                Inter_fin = F2_f;
+                Union_inicio = F2_i;
+                Union_fin = F1_f;
+                            
+            }
+        }else if(F1_inicio.getTime() == F2_fin.getTime()){
+            Inter_inicio = F1_i;
+            Inter_fin = F2_f;
+            Union_inicio = F2_i;
+            Union_fin = F1_f;
+            
+        }else if(F1_inicio.getTime() > F2_fin.getTime()){
+            Inter_inicio = null;
+            Inter_fin = null;
+            Union_inicio = null;
+            Union_fin = null;
+            
+        }
+
+    } 
+    
+    var fechainicio;
+    var fechafin;
+    var dias;
+    var estad = false;
+
+    if(Inter_inicio != null && Inter_fin != null){
+    fechainicio=moment(Inter_inicio);
+    fechafin=moment(Inter_fin);
+    dias=fechafin.diff(fechainicio,"days");
+    if (dias == 0){
+        dias = 1;
+    }
+    estad = true ;
+
+        
+    }else{
+    fechainicio=null;
+    fechafin=null;
+    dias=0;
+    estad = false ;
+    } 
+    
+    var intersección = {estado:estad, inicio:Inter_inicio, fin:Inter_fin,cant_dias:dias,u_inicio : Union_inicio, u_fin : Union_fin};
+
+    return intersección;
+ }
+ 
+ function verificar_interseccion(Fechas_a_trabajar){
+
+    var Fechas = Fechas_a_trabajar;
+
+        if(Fechas.length != 0){
+       
+                        
+      var FechasFijas = new Array();
+      FechasFijas.push({f_inicio: Fechas[0].f_inicio, f_fin: Fechas[0].f_fin});
+
+      for ( i = 1 ; i < Fechas.length ; i++){
+         var cont=0;
+         var val_inter=null;
+         for ( y = 0 ; y < FechasFijas.length ; y++){
+             
+             var resultado = fecha_interseccion(FechasFijas[y].f_inicio,FechasFijas[y].f_fin,Fechas[i].f_inicio,Fechas[i].f_fin);
+             if(resultado.estado){
+                //empalmo con la intersección
+                cont++;
+                
+                if(cont>1){
+                 FechasFijas[val_inter].f_inicio = resultado.u_inicio;
+                 FechasFijas[val_inter].f_fin = resultado.u_fin;
+                 
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+              
+                 FechasFijas.splice(y, 1);
+                 y--;
+                }else{
+                 
+                 FechasFijas[y].f_inicio = resultado.u_inicio;
+                 FechasFijas[y].f_fin = resultado.u_fin;
+                 
+                 Fechas[i].f_inicio = resultado.u_inicio;
+                 Fechas[i].f_fin = resultado.u_fin;
+                 
+                 val_inter = y;
+                }
+                
+             }else {
+
+                 if(y == FechasFijas.length - 1 && cont == 0){
+                     FechasFijas.push({f_inicio: Fechas[i].f_inicio, f_fin: Fechas[i].f_fin});
+                     y++;
+                     }
+             }
+         }
+         
+ 
+     }
+               
+     var total_dias = 0;
+     for ( i = 0 ; i < FechasFijas.length ; i++){
+         var fechainicio=moment(FechasFijas[i].f_inicio);
+         var fechafin=moment(FechasFijas[i].f_fin);
+         var dias=fechafin.diff(fechainicio,"days");
+                  total_dias += dias;
+         }
+
+           
+ return {
+    tiempo_total_exper: anios_meses_dias(total_dias),
+    dias_exper: total_dias
+  };
+
+    }else {
+
+    return {
+    tiempo_total_exper: 0,
+    dias_exper: 0
+    };
+    }
  }

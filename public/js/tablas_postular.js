@@ -1,4 +1,80 @@
 $(document).ready(function() {
+
+     //______________________INICIO validar tamaño de archivos a cargar_____________
+     $('#cargar_dni').on('change',() => {
+        
+        if($('#cargar_dni').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#cargar_dni').val("");
+            return false;
+        }
+    })
+    
+    $('#file_discapacidad').on('change',() => {
+        
+        if($('#file_discapacidad').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_discapacidad').val("");
+            return false;
+        }
+    })
+
+    $('#file_ffaa').on('change',() => {
+        
+        if($('#file_ffaa').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_ffaa').val("");
+            return false;
+        }
+    })
+
+    $('#file_deportista').on('change',() => {
+        
+        if($('#file_deportista').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_deportista').val("");
+            return false;
+        }
+    })
+
+    $('#documento_formac').on('change',() => {
+        
+        if($('#documento_formac').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_formac').val("");
+            return false;
+        }
+    })
+
+    $('#documento_capa').on('change',() => {
+        
+        if($('#documento_capa').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_capa').val("");
+            return false;
+        }
+    })
+
+    $('#documento_exp').on('change',() => {
+        
+        if($('#documento_exp').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#documento_exp').val("");
+            return false;
+        }
+    })
+
+    $('#file_colegiatura').on('change',() => {
+        
+        if($('#file_colegiatura').prop('files')[0].size > 5000000){
+            mensaje_tamaño_archivo();
+            $('#file_colegiatura').val("");
+            return false;
+        }
+    })
+
+    //______________________FIN validar tamaño de archivos a cargar_____________
+
     
     const selectElement = document.getElementById('check_colegiatura');
 
@@ -6,13 +82,18 @@ $(document).ready(function() {
        
         if(selectElement.checked){
             $('#codigo_colegiatura').prop('disabled',false);
+            $('#file_colegiatura').prop('disabled',false);
             $('#codigo_colegiatura').focus();
             
             $('#cont_colegiatura').addClass('border border-cyan');
         }else{
             $('#codigo_colegiatura').prop('disabled',true);
+            $('#file_colegiatura').prop('disabled',true);
             $('#cont_colegiatura').removeClass('border border-cyan');
             $('#codigo_colegiatura').val('');
+            $('#btn_doc_colegiatura').html('');
+            $('#file_colegiatura').val('');
+            $('#input_hide_licenciatura').val('0');
         }
 
         
@@ -438,6 +519,28 @@ var validation = Array.prototype.filter.call(forms3, function(form3) {
 
 function guardar_experiencia_data(){
     
+    var Fechs_inicio_val = new Date($("#fecha_inicio_exp").val()+" 00:00:00");
+    var Fecha_fin_val = new Date($("#fecha_fin_exp").val()+" 00:00:00");
+     
+    if(Fecha_fin_val.getTime() < Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser menor a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    
+    }else if(Fecha_fin_val.getTime() == Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser igual a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    }
+
     var diasexpgen=0;
     var diasexpesp=0;
     var exp_general=0;
@@ -460,6 +563,7 @@ function guardar_experiencia_data(){
     }
     
     var formData = new FormData();
+    formData.append('idproceso',$('#datospostulante').data('id'));
     formData.append('es_exp_gen',exp_general);
     formData.append('es_exp_esp',exp_especifica);
     formData.append('tipo_institucion', $("#tipo_entidad").val());
@@ -530,13 +634,28 @@ $('#loading-screen').fadeIn(); //PRELOADER INICIO
             showConfirmButton: false,
             timer: 2000
         })
+    
+        //_______________inicio proceso interseccion_________
 
-           
-           
-           var totaldias_gen=parseInt(data.suma_expgen);
-           var totaldias_esp=parseInt(data.suma_expesp);
-           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion 
+
+           //var totaldias_gen=parseInt(data.suma_expgen);
+           //var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
         },
         error: function(data){
             alert("error!!");
@@ -569,6 +688,28 @@ function actualizar_expe(transid){
 //_________________________actualizar_experiencia_data_____________________
 
 function actualizar_experiencia_data(transid){
+
+    var Fechs_inicio_val = new Date($("#fecha_inicio_exp").val()+" 00:00:00");
+    var Fecha_fin_val = new Date($("#fecha_fin_exp").val()+" 00:00:00");
+     
+    if(Fecha_fin_val.getTime() < Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser menor a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    
+    }else if(Fecha_fin_val.getTime() == Fechs_inicio_val.getTime()){
+        Swal.fire({
+            type: 'warning',
+            title: "¡Información!",
+            text: "La 'FECHA FIN' no puede ser igual a la 'FECHA INICIO'",
+            timer: null
+        })
+        return false;
+    }
         
     var id=transid.substring(6);
 
@@ -594,6 +735,7 @@ function actualizar_experiencia_data(transid){
     }
     
     var formData = new FormData();
+    formData.append('idproceso',$('#datospostulante').data('id'));
     formData.append('id',id);
     formData.append('es_exp_gen',exp_general);
     formData.append('es_exp_esp',exp_especifica);
@@ -657,12 +799,30 @@ function actualizar_experiencia_data(transid){
             "   <button type='button' onclick=\"eliminar_expe('tblexp"+data.query[0].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
             "</td>";
             
-            var totaldias_gen=parseInt(data.suma_expgen);
-           var totaldias_esp=parseInt(data.suma_expesp);
-           $('#total_exp_general').val(anios_meses_dias(totaldias_gen));
-           $('#total_exp_especifica').val(anios_meses_dias(totaldias_esp));
+            //_______________inicio proceso interseccion_________
+
+        var Fechas_expGen = new Array();
+        var Fechas_expEsp = new Array();
+ 
+        for (var i = 0; i < data.query_inter.length; i++) {
+            if(data.query_inter[i].es_exp_gen==1){
+                Fechas_expGen.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            }
+            if(data.query_inter[i].es_exp_esp==1){
+                Fechas_expEsp.push({f_inicio: data.query_inter[i].fecha_inicio, f_fin: data.query_inter[i].fecha_fin}); 
+            } 
+        
+        }
+         
+       //________________fin proceso interseccion_______________
+            // var totaldias_gen=parseInt(data.suma_expgen);
+           //var totaldias_esp=parseInt(data.suma_expesp);
+           $('#total_exp_general').val(verificar_interseccion(Fechas_expGen).tiempo_total_exper);
+           $('#total_exp_especifica').val(verificar_interseccion(Fechas_expEsp).tiempo_total_exper);
             
             var iddd="tblexp"+data.query[0].id;
+
+
             $('#modal_nueva_experiencia').modal('hide');
             $('#loading-screen').fadeOut(); //PRELOADER FIN
             Swal.fire({
@@ -676,8 +836,7 @@ function actualizar_experiencia_data(transid){
             
             $("#"+iddd).html(filahtml);
            
-            
-           
+               
          },
         error: function(data){
             alert("error!!");
@@ -889,4 +1048,13 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
  
      });
  
+ }
+
+ function mensaje_tamaño_archivo(){
+    Swal.fire({
+        type: 'warning',
+        title: "¡Información!",
+        text: "El archivo seleccionado supera los 5MB en tamaño, seleccione otro archivo.",
+        timer: null
+    })
  }

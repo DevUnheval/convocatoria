@@ -83,7 +83,26 @@ class PostulanteController extends Controller
 
     }
        
+    private function check_si_ya_postula(){
+       $q = Proceso::select('procesos.id as id')
+            ->join('postulantes','postulantes.proceso_id','=','procesos.id')
+            ->where('postulantes.user_id',auth()->user()->id)
+            ->whereIn('procesos.estado',['1','2'])
+            ->first();
+        if($q){
+            return ['estado'=>true, 'dato'=>$q->id];
+        }else{
+            return ['estado'=>false];
+        }
+    }
+    private function check_estado($proceso_id){
+        app(\App\Http\Controllers\ConvocatoriaController::class)->actualizar_estados_vigentes_y_enCruso();
+        $q = Proceso::where('id',$proceso_id)->where('estado','<>','1')->first();
+        if($q)  return ['estado'=>true, 'dato'=>$q];
+        else return ['estado'=>false];
+        
 
+    }
     public function postular($idproceso)
     {// 0: pre-cargado, 1: publicado, 2: en curso, 3: concluido, 4: cancelado 
       /*  $data = Postulante::join("procesos","procesos.id","=","postulantes.proceso_id")
@@ -92,19 +111,19 @@ class PostulanteController extends Controller
         ->where("postulantes.proceso_id",10)
         ->first();
 */
-        $si_pos=0;
-        $mis_post = Postulante::select('proceso_id')->where('user_id',auth()->user()->id)->get();//busco mis postulaciones
-        foreach($mis_post as $mp){//recorro mis postulaciones y verifico si alguno está ene estado "1=publicado"
-            $mi = Proceso::select('estado')->where('id',$mp->proceso_id)->first();
-            if($mi['estado'] == 1 || $mi['estado'] == 2){
-                $si_pos = $mp->proceso_id;
-            }
-        }
 
-        if($si_pos != 0){
-            return redirect()->route('registro_postular',['idproceso' => $si_pos]); 
-        } else { 
-
+        if($this->check_si_ya_postula()['estado']){
+            return redirect()->route('registro_postular',['idproceso' => $this->check_si_ya_postula()['dato'] ]); 
+        } 
+       
+        app(\App\Http\Controllers\ConvocatoriaController::class)->actualizar_estados_vigentes_y_enCruso();
+        $qr = Proceso::where('id',$idproceso)->where('estado','<>','1')->first();
+        
+        if( $this->check_estado($idproceso)['estado'] ){
+            $mensaje = 'NO SE REGISTRÓ SU POSTULACIÓN. El proceso '.$this->check_estado($idproceso)['dato']->cod.' cerró el '.date_format(date_create($this->check_estado($idproceso)['dato']->fecha_inscripcion_fin),"d/m/Y H:i");
+            return redirect('/redirect?mensaje='.$mensaje.'&color=naranja'); 
+        } 
+        
         //___________________
        /* if(Postulante::where('user_id',auth()->user()->id)->where('proceso_id',$idproceso)->exists()){
             return redirect()->route('registro_postular',['idproceso' => $idproceso]);               
@@ -112,7 +131,7 @@ class PostulanteController extends Controller
         
         $proceso = Proceso::where('id',$idproceso)->first();
         
-                if( $proceso->estado == 3 || $proceso->estado == 4){ //si el proceso ya clmino o ha sido cancelado no me permite seguir con la postulacion
+                if( $proceso->estado != 1){ //si el proceso ya culminó o ha sido cancelado no me permite seguir con la postulacion
                     return redirect()->route('index');
                 }
 
@@ -141,7 +160,7 @@ class PostulanteController extends Controller
         ->pluck('descripcion','ubigeo');
 
         return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
-        } 
+        
     }
 
     public function actualizar_o_registrar(Request $data){
@@ -409,8 +428,22 @@ class PostulanteController extends Controller
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
 
+        //____________________inicio interseccion fechas_______________
 
-        return compact('query','suma_expgen','suma_expesp');
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('query','suma_expgen','suma_expesp','query_inter');
 
     }
 
@@ -428,7 +461,22 @@ class PostulanteController extends Controller
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
 
-        return compact('suma_expgen','suma_expesp');
+        //____________________inicio interseccion fechas_______________
+
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('suma_expgen','suma_expesp','query_inter');
             
     }
     
@@ -542,54 +590,101 @@ class PostulanteController extends Controller
         
         $Exper->save();
         
-        $query = ExperienciaLabUser::where('id',$data->id)->get();
-        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+       $query = ExperienciaLabUser::where('id',$data->id)->get();
+       /* $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_gen');
         $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
         ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_esp');
+        ->sum('dias_exp_esp');*/
 
+        //____________________inicio interseccion fechas_______________
 
-        return compact('query','suma_expgen','suma_expesp');
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('query','query_inter');
     }
 
     public function datosexpgenyesp(Request $data){
 
-        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
-        ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_gen');
-        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
-        ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_esp');
-        $proceso = Proceso::where('id',$data->idproceso)->get();
+        
+      $proceso_simple = Proceso::where('id',$data->idproceso)->get();
+        
+        //____________________inicio interseccion fechas_______________
+        
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
         $min_expgen = $proceso[0]->dias_exp_lab_gen;
         $min_expesp = $proceso[0]->dias_exp_lab_esp;
 
-       return compact('suma_expgen','suma_expesp','min_expgen','min_expesp');
+            if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+            
+           }else if($proceso[0]->consid_prac_preprof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+            
+           }else if($proceso[0]->consid_prac_prof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+           
+           }else{
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+           
+           }
+       
+         //____________________fin interseccion fechas_______________
+
+
+       return compact('min_expgen','min_expesp','query_inter');
        
     }
+
     public function datosformacion_general(Request $data){
         //___________colegiatura inicio_________
         
-        $colegiatura = NULL;
+        $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->first();
+        $du = DatosUser::find($idDatosUser->id);
+        $src_colegiatura=null;
         if($data->colegiatura != ""){
-            $colegiatura = $data->colegiatura;
+            $du->colegiatura = $data->colegiatura;
+            if($data->file('archivo_colegiatura')){
+               $r= DatosUser::find($idDatosUser->id,'archivo_colegiatura');
+                Storage::delete($r->archivo_colegiatura); //eliminar archivo ya cargado
+                $du->archivo_colegiatura = $data->file('archivo_colegiatura')->store('public/procesos/users/'.auth()->user()->dni.'/colegiatura');
+                $src_colegiatura = $du->archivo_colegiatura;     
+            }
         }else{
-            $colegiatura = NULL;
-        }        
-        DatosUser::where('user_id',auth()->user()->id)->update(['colegiatura' => $colegiatura]);
+            $du->colegiatura = NULL;
+            $du->archivo_colegiatura = NULL;
+            $r = DatosUser::find($idDatosUser->id,'archivo_colegiatura');
+                Storage::delete($r->archivo_colegiatura);
+        }
+        $du->save();
+        
+       // DatosUser::where('user_id',auth()->user()->id)->update(['colegiatura' => $colegiatura]);
         //___________colegiatura fin______________
+
         $miformacion_max=FormacionUser::select('grado_id')
         ->where('user_id',auth()->user()->id)
         ->max('grado_id');
-        $proceso = Proceso::where('id',$data->idproceso)->get();
-        $form_nivel_requerido = $proceso[0]->nivel_acad_convocar;
        
-        
-       return compact('form_nivel_requerido','miformacion_max');
-       
-     }
+        $proceso = Proceso::find($data->idproceso,'nivel_acad_convocar');
+        $form_nivel_requerido = $proceso->nivel_acad_convocar;
+
+      /*  $archivo_colegiatura = DatosUser::find($idDatosUser,'archivo_colegiatura');
+        */      
+       return compact('form_nivel_requerido','miformacion_max','src_colegiatura'); 
+     
+      }
 
      public function declaracionjurada(Request $data){
         //Primero registramos la declaración jurada
@@ -669,7 +764,15 @@ class PostulanteController extends Controller
     }
 
     public function registrofinal(Request $data){
-        
+        $filtro_1 = $this->check_estado($data->idproceso);
+        if($filtro_1['estado'] ){//preguntar  si el proceso aun está vigente
+            return ['estado'=>false,'color'=>'rojo','mensaje'=>'NO SE REGISTRÓ SU POSTULACIÓN. El proceso '.$filtro_1['dato']->cod.' cerró el '.date_format(date_create($filtro_1['dato']->fecha_inscripcion_fin),"d/m/Y H:i")];
+        }
+
+        if($this->check_si_ya_postula()['estado']){  // preguntar si está postulando en algun proceso actualemnte
+            return ['estado'=>false,'color'=>'naranja','mensaje'=>'Hemos detectado que ya se encuentra postulando a un proceso. Verifique su postulación ingresando a "Mis postulaciones"'];
+        } 
+
         
         //Registro la postulacion
         $pos = new Postulante;
@@ -695,9 +798,12 @@ class PostulanteController extends Controller
          $url_depor = "";
          unset($datos_usuario[0]->id); 
          unset($datos_usuario[0]->user_id);
+         
+            if($datos_usuario[0]->archivo_dni != NULL){
                 $url_dni = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_dni);
                 Storage::copy($datos_usuario[0]->archivo_dni,$url_dni);
                 $datos_usuario[0]->archivo_dni = $url_dni;
+            }
             if($datos_usuario[0]->es_pers_disc == 1){
                 $url_discap = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_disc);
                 Storage::copy($datos_usuario[0]->archivo_disc,$url_discap);
@@ -713,6 +819,12 @@ class PostulanteController extends Controller
                 Storage::copy($datos_usuario[0]->archivo_deport,$url_depor);
                 $datos_usuario[0]->archivo_deport = $url_depor;
             }
+            if($datos_usuario[0]->archivo_colegiatura != NULL){
+                $url_coleg = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_colegiatura);
+                Storage::copy($datos_usuario[0]->archivo_colegiatura,$url_coleg);
+                $datos_usuario[0]->archivo_colegiatura = $url_coleg;
+            }
+
          $datos_usuario[0]->postulante_id = $pos->id;
          $datos_usuario[0]->archivo_foto = $urlfoto_postulante;
          DatosPostulante::create($datos_usuario[0]->toArray()); 
@@ -780,7 +892,7 @@ class PostulanteController extends Controller
          }
           
          
-        return $urlfoto_postulante;
+        return ['estado'=>true];//$urlfoto_postulante;
         
     }
     

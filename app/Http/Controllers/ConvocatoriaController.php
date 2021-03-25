@@ -26,9 +26,11 @@ class ConvocatoriaController extends Controller
     public function vigentes()
     {
        $this->actualizar_estados_vigentes_y_enCruso();
+       $pesoMaxArchivo = \App\Ajuste::where('nombre','Peso archivo (B)')->first();
        $datos = [
             'tipos_proc'=>TipoProceso::pluck('nombre','id'),
-            'grado_formacion'=>GradoFormacion::pluck('nombre','id')
+            'grado_formacion'=>GradoFormacion::pluck('nombre','id'),
+            'pesoMaxArchivo'=>$pesoMaxArchivo->valor,
         ];
         return view('convocatorias.vigentes.index',compact('datos') );
     }
@@ -70,7 +72,7 @@ class ConvocatoriaController extends Controller
                    $comunicados = "<button class='btn btn-outline-danger waves-effect waves-light btn-xs' onclick='ver_comunicados($dato->id)'><span class='btn-label'><i class='ti-comment'></i></span> Comunicado <br> $texto </button>";
                 }
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
-                $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y");
+                $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y H:m");
                 $idproceso=$dato->id;
                 if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';

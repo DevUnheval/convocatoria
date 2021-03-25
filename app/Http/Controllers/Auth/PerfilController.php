@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\DatosUser;
+use App\ExperienciaLabUser;
 use App\GradoFormacion;
 use App\Http\Controllers\Controller;
 use App\Proceso;
@@ -108,6 +109,107 @@ class PerfilController extends Controller
         return false;
         }
     }
+
+    public function actualizarexperiencia(Request $data){
+        
+        $Exper = ExperienciaLabUser::find($data->id);
+        
+        if($data->file('archivo_experiencia')){
+            $q= ExperienciaLabUser::find($data->id);
+            Storage::delete($q->archivo); //eliminar archivo ya cargado
+            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
+            $Exper->archivo_tipo = "local";
+        }
+
+        $Exper->es_exp_gen = $data->es_exp_gen;
+        $Exper->es_exp_esp = $data->es_exp_esp;
+        $Exper->centro_laboral = $data->centro_laboral;
+        
+        $Exper->tipo_institucion = $data->tipo_institucion;
+        $Exper->tipo_experiencia = $data->tipo_experiencia;
+        $Exper->cargo_funcion = $data->cargo_funcion;
+        $Exper->desc_cargo_funcion = $data->desc_cargo_funcion;
+        $Exper->fecha_inicio = $data->fecha_inicio;
+        $Exper->fecha_fin = $data->fecha_fin;
+        $Exper->num_pag = $data->num_pag;
+        $Exper->dias_exp_gen =$data->dias_exp_gen;
+        $Exper->dias_exp_esp = $data->dias_exp_esp;
+        
+        $Exper->save();
+        
+        $query = ExperienciaLabUser::where('id',$data->id)->get();
+        /*$suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_gen');
+        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+        ->where('user_id',auth()->user()->id)
+        ->sum('dias_exp_esp'); */
+
+        //____________________inicio interseccion fechas_______________
+
+        //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       //____________________fin interseccion fechas_______________
+
+        return compact('query','query_inter');
+    }
   
+    public function guardarexperiencia(Request $data){
+      
+        $el = new ExperienciaLabUser();
+         
+         $el->user_id = auth()->user()->id;
+         $el->es_exp_gen = $data->es_exp_gen;
+         $el->es_exp_esp = $data->es_exp_esp;
+         $el->centro_laboral = $data->centro_laboral;
+         
+         $el->tipo_institucion = $data->tipo_institucion;
+         $el->tipo_experiencia = $data->tipo_experiencia;
+         $el->cargo_funcion = $data->cargo_funcion;
+         $el->desc_cargo_funcion = $data->desc_cargo_funcion;
+         $el->fecha_inicio = $data->fecha_inicio;
+         $el->fecha_fin = $data->fecha_fin;
+         $el->num_pag = $data->num_pag;
+         $el->dias_exp_gen =$data->dias_exp_gen;
+         $el->dias_exp_esp = $data->dias_exp_esp;
+ 
+         $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
+         $el->archivo_tipo = "local";
+         
+         $el->save();
+     
+         $query = ExperienciaLabUser::where('user_id',auth()->user()->id)->get()->last();
+        /* $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+         ->where('user_id',auth()->user()->id)
+         ->sum('dias_exp_gen');
+         $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
+         ->where('user_id',auth()->user()->id)
+         ->sum('dias_exp_esp');
+        */
+
+         //____________________inicio interseccion fechas_______________
+ 
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+        //____________________fin interseccion fechas_______________
+ 
+         return compact('query','query_inter');
+ 
+     }
     
+     public function eliminarexperiencia(Request $data){
+        
+        $q= ExperienciaLabUser::find($data->id);
+        Storage::delete($q->archivo);   
+        
+        $Exper = ExperienciaLabUser::find($data->id);
+        $Exper->delete();
+        
+
+        //____________________inicio interseccion fechas_______________
+
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       //____________________fin interseccion fechas_______________
+
+        return compact('query_inter');
+      }
 }
