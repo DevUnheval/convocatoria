@@ -68,13 +68,13 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechainicio_capac">Fecha de inicio: <span class="text-danger"> *</span> </label>
-                                                  <input type="date" class="form-control " id="fechainicio_capac" name="fechainicio_capac"  required> 
+                                                  <input type="date" class="form-control " id="fechainicio_capac"  name="fechainicio_capac" min="1950-01-01" max="{{date('Y-m-d')}}"  required> 
                                               </div>
                                           </div>
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechafin_capac">Fecha de fin :<span class="text-danger"> *</span> </label>
-                                                  <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" required>
+                                                  <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" min="1950-01-01" max="{{date('Y-m-d')}}"  required>
                                               </div>
                                           </div>
                                       </div>

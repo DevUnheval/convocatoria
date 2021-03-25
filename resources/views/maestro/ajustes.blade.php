@@ -3,8 +3,8 @@
 @section('css')
 @endsection
 @section('title','Ajustes')
-@section('menu_title_1','Nombre Menu')
-@section('menu_title_2','Nombre_Menu')
+@section('menu_title_1','Ajustes de aplicación')
+@section('menu_title_2','Ajustes')
 @section('content')
 <div class="card">
    <div class="card-body">

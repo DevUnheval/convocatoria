@@ -28,9 +28,11 @@ class ConvocatoriaEnCursoController extends Controller
 
     public function index(){
         $this->actualizar->actualizar_estados_vigentes_y_enCruso();
+        $pesoMaxArchivo = \App\Ajuste::where('nombre','Peso archivo (B)')->first();
         $datos = [
             'tipos_proc'=>TipoProceso::pluck('nombre','id'),
-            'grado_formacion'=>GradoFormacion::pluck('nombre','id')
+            'grado_formacion'=>GradoFormacion::pluck('nombre','id'),
+            'pesoMaxArchivo'=>$pesoMaxArchivo->valor,
         ];
         return view("convocatorias.en_curso.index",compact('datos'));
     }

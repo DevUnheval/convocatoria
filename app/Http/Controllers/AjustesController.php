@@ -60,11 +60,11 @@ class AjustesController extends Controller
 			['nombre'=>'logo texto 1','valor'=>'imagenes/ajustes/logo-light-text.png','descripcion'=>'Logo de texto claro','tipo'=>'imagen'],
 			['nombre'=>'logo texto 2','valor'=>'imagenes/ajustes/logo-text.png','descripcion'=>'Logo de texto oscuro, login','tipo'=>'imagen'],
 			['nombre'=>'imagen fondo login','valor'=>'imagenes/ajustes/background.jpg','descripcion'=>'Imagen de fondo en la vista login','tipo'=>'imagen'],
-			['nombre'=>'manual usuario','valor'=>'https://drive.google.com/file/d/1L2xqNMehmsjKHMut9OgpSISm6M9cAW9p/view?usp=sharing','descripcion'=>'Manual de usuario','tipo'=>'archivo_ruta'],
+			['nombre'=>'manual usuario','valor'=>'https://drive.google.com/file/d/13aQiZQ-lUr8iWDP4Tvf-bEkvYEN2dUl4/view?usp=sharing','descripcion'=>'Manual de usuario','tipo'=>'archivo_ruta'],
 			['nombre'=>'manual administrador','valor'=>'https://drive.google.com/file/d/16vrreNnNt2C6KCJsmmTdhU6IN8R2grvF/view?usp=sharing','descripcion'=>'Manual de uso para el administrador','tipo'=>'archivo_ruta'],
 			['nombre'=>'video tutorial usuario','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para usuario','tipo'=>'archivo_ruta'],
 			['nombre'=>'video tutorial administrador','valor'=>'https://www.youtube.com/watch?v=uuFItBGQx04&pbjreload=10','descripcion'=>'Video tutorial para el administrador','tipo'=>'archivo_ruta'],
-			['nombre'=>'Confirmación de correo','valor'=>'1','descripcion'=>'¿Para concluir con el registro de una cuenta se debe confirmar el correo electrónico?','tipo'=>'booleano'],
+			['nombre'=>'confirmación de correo','valor'=>'1','descripcion'=>'¿Para concluir con el registro de una cuenta se debe confirmar el correo electrónico?','tipo'=>'booleano'],
 			['nombre'=>'Peso archivo (B)','valor'=>'3145728','descripcion'=>'Peso máximo de los archivos a subir, en Bytes (B). => 1MB = 1048576B','tipo'=>'numero'],
 		];
     }
