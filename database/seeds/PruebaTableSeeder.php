@@ -89,12 +89,12 @@ class PruebaTableSeeder extends Seeder
             $query->hay_bon_pers_disc = true;
             $query->hay_bon_ffaa = true;
             $query->hay_bon_deport = false;
-            $query->dias_exp_lab_gen = '0.5';
-            $query->dias_exp_lab_esp = '0.5';
-            $query->horas_cap_ind = '0.5';
-            $query->fecha_aprobacion = '2021-03-24';
-            $query->fecha_publicacion = '2021-03-24';
-            $query->fecha_inscripcion_inicio = '2021-03-24';
+            $query->dias_exp_lab_gen = '365';
+            $query->dias_exp_lab_esp = '365';
+            $query->horas_cap_ind = '24';
+            $query->fecha_aprobacion = '2021-03-23';
+            $query->fecha_publicacion = '2021-03-25';
+            $query->fecha_inscripcion_inicio = '2021-03-25';
             $query->fecha_inscripcion_fin = '2021-03-30';
             $query->fecha_resultados = '2021-04-10';
             $query->save();
