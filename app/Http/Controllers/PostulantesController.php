@@ -198,6 +198,7 @@ class PostulantesController extends Controller
 
             $postulantes[] = [ 
                                 'postulante_id'=>$p->id,
+                                'user_id'=>$p->user_id,
                                 'estado_nombre'=>$estado_nombre, 
                                 'estado_clase'=>$estado_clase, 
                                 'dni'=>$p->user->dni, 

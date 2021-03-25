@@ -8,7 +8,7 @@
     <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
 @endsection
 
-@section('title','Ajustes')
+@section('title','Maestro - usuarios')
 
 @section('menu_title_1','Usuarios vigentes')
 @section('menu_title_2','Usuarios')

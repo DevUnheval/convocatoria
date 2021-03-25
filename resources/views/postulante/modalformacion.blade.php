@@ -97,7 +97,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="fecha_exp">Fecha Expedición: <span class="text-danger">**</span> </label>
-                                                <input type="date" class="form-control " id="fecha_exp" name="fecha_exp" required >
+                                                <input type="date" class="form-control " id="fecha_exp" min="1950-01-01" max="{{date('Y-m-d')}}" name="fecha_exp" required >
                                                 <div class="invalid-feedback">
                                                     Seleccione su fecha de expedición
                                                   </div> 
@@ -106,7 +106,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="fecha_inicio">Fecha Inicio: <span class="text-danger">*</span> </label>
-                                                <input type="date" class="form-control " id="fecha_inicio" name="fecha_inicio" required> 
+                                                <input type="date" class="form-control " id="fecha_inicio" min="1950-01-01" name="fecha_inicio" max="{{date('Y-m-d')}}" required> 
                                                 <div class="invalid-feedback">
                                                 Seleccione su fecha de inicio
                                             </div>
@@ -115,7 +115,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="fecha_fin">Fecha Fin: <span class="text-danger">*</span> </label>
-                                                <input type="date" class="form-control " id="fecha_fin" name="fecha_fin" required> 
+                                                <input type="date" class="form-control " id="fecha_fin" name="fecha_fin" min="1950-01-01" max="{{date('Y-m-d')}}" required> 
                                                 <div class="invalid-feedback">
                                                 Seleccione su fecha fin
                                                 </div>

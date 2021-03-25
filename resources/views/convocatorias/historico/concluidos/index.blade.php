@@ -8,7 +8,7 @@
     <link href="{{ asset('/material-pro/src/assets/libs/jquery-steps/steps.css')}}" rel="stylesheet">
 @endsection
 
-@section('title','Ajustes')
+@section('title','Convocatorias concluidas')
 
 @section('menu_title_1','Convocatorias concluidas')
 @section('menu_title_2','histórico > Concluidas')

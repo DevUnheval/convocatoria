@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AjustesTableSeeder::class);
         $this->call(PruebaTableSeeder::class);
-        $this->call(PruebaAbelTableSeeder::class);
+        //$this->call(PruebaAbelTableSeeder::class);
         $this->call(Ubigeo::class);
-        $this->call(Datosusuario2::class);
+        //$this->call(Datosusuario2::class);
     }
 }

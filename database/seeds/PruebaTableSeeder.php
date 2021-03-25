@@ -70,7 +70,7 @@ class PruebaTableSeeder extends Seeder
         }
         
         //PROCESO
-        for($i=1;$i<=10;$i++){
+        for($i=1;$i<=5;$i++){
             $query =new Proceso;
             $query->cod = 'CAS-00'.$i.'-2020';
             $query->tipo_id= ($i%5 + 1);
@@ -92,13 +92,11 @@ class PruebaTableSeeder extends Seeder
             $query->dias_exp_lab_gen = '0.5';
             $query->dias_exp_lab_esp = '0.5';
             $query->horas_cap_ind = '0.5';
-            $query->fecha_aprobacion = '2021-05-11';
-            $query->fecha_publicacion = '2021-06-12';
-            $query->fecha_inscripcion_inicio = '2021-06-13';
-            $query->fecha_inscripcion_fin = '2021-06-25';
-            $query->fecha_resultados = '2021-06-29';
-            $query->archivo_preliminar = 'dt';
-            $query->archivo_preliminar_tipo = 'th';
+            $query->fecha_aprobacion = '2021-03-24';
+            $query->fecha_publicacion = '2021-03-24';
+            $query->fecha_inscripcion_inicio = '2021-03-24';
+            $query->fecha_inscripcion_fin = '2021-03-30';
+            $query->fecha_resultados = '2021-04-10';
             $query->save();
             unset($query);
         }

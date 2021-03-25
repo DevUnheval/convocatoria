@@ -23,10 +23,10 @@
 </style>
 @endsection
 
-@section('title','Ajustes')
+@section('title','Evaluar postulantes')
 
-@section('menu_title_1','Potulantes: '.$proceso->nombre.' ('.$proceso->n_plazas.' plazas)' )
-@section('menu_title_2','Postulantes > '.$proceso->nombre)
+@section('menu_title_1','Evaluar potulantes: '.$proceso->nombre.' ('.$proceso->n_plazas.' plazas)' )
+@section('menu_title_2','Evaluar postulantes > '.$proceso->nombre)
 
 @section('content')
 

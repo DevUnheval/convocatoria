@@ -16,8 +16,8 @@
 
 @section('title','Ajustes')
 
-@section('menu_title_1','Nombre Menu')
-@section('menu_title_2','Nombre_Menu')
+@section('menu_title_1','Perfil de usuario')
+@section('menu_title_2','Perfil')
 
 @section('content')
     @include('auth.m_contraseña')
@@ -522,7 +522,7 @@
 @endsection
 @section('js')
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
-    <script src="{{ asset('/extra-libs/jqbootstrapvalidation/validation.js')}}"></script>
+    <!-- <script src="{{ asset('/extra-libs/jqbootstrapvalidation/validation.js')}}"></script> -->
     <script src="{{ asset('/js/perfil_usuario.js')}}"></script>
     <script src="{{ asset('/js/moment.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.full.min.js')}}"></script>

@@ -42,7 +42,8 @@ class UsuarioController extends Controller
                 
                             $usuarios_all = $dato->nombres.' '.$dato->apellido_paterno.' '.$dato-> apellido_materno;
                             $dni=$dato->dni;
-                            $foto="<img src='$dato->img' height='45px'/>";
+                            $ruta_foto=asset(str_replace('public/','storage/',$dato->img));
+                            $foto="<img src='$ruta_foto' height='45px'/>";
                             $roles=$dato->roles->pluck('nombre');
         
 

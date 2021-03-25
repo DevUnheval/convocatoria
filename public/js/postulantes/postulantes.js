@@ -139,7 +139,7 @@ var dataTajetas = function(proceso,etapa){
                     $tarjeta +=                    '<div class="el-overlay w-100 overflow-hidden">';
                     $tarjeta +=                        '<ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">';
                     //$tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="material-pro/src/assets/images/users/${foto_postulante}.jpg" title="ver foto"><i class="icon-picture"></i></a></li>`;
-                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" data-toggle="modal" data-target="#modal_cv" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>`;
+                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="mostrar_modalcv('${element.postulante_id}','${element.user_id}','${etapa}','${proceso}',${response.evaluar_conocimientos},2)" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>`;
                     $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="modal_evaluar_individual(${element.postulante_id},'${element.dni}','${element.nombres}','${foto_postulante}','${element.obs_actual_bd}','${element.ev_actual}','${element.obs_actual}',${etapa},'${proceso}',${response.evaluar_conocimientos},2)" title="evaluar"><i class="fas fa-calculator"></i></button></li>`;
                     $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn prmary btn-outline el-link text-white border-white" onclick='modal_mas(${element.postulante_id})' title="ver más"><i class="fas fa-plus"></i></button></li>`;
                     $tarjeta +=                        '</ul>';
@@ -258,7 +258,7 @@ $(document).ready(function() {
             async:false, //para dejar que termine el ajax, antes que continue y sacar variables del succes
             url:  `/postulantes/actualizar_evaluacion/${$proceso_id}/${$etapa}/${$ev_con}`,
             headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            type: 'GET',
+            type: 'POST',
             data:$data,
             beforeSend: function () {
             console.log('enviando....');

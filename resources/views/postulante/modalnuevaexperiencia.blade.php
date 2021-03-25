@@ -91,13 +91,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_inicio_exp">Fecha Inicio: <span class="text-danger"> *</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_inicio_exp" name="fecha_inicio_exp" required> 
+                                                <input type="date" class="form-control required" id="fecha_inicio_exp" name="fecha_inicio_exp" min="1950-01-01" max="{{date('Y-m-d')}}" required> 
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_fin_exp">Fecha fin: <span class="text-danger"> *</span> </label>
-                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" max="{{date('Y-m-d')}}" required> 
+                                                <input type="date" class="form-control required" id="fecha_fin_exp" name="fecha_fin_exp" min="1950-01-01" max="{{date('Y-m-d')}}" required> 
                                             </div>
                                         </div>
                                       </div>
