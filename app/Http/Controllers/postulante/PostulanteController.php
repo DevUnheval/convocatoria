@@ -428,8 +428,22 @@ class PostulanteController extends Controller
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
 
+        //____________________inicio interseccion fechas_______________
 
-        return compact('query','suma_expgen','suma_expesp');
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('query','suma_expgen','suma_expesp','query_inter');
 
     }
 
@@ -447,7 +461,22 @@ class PostulanteController extends Controller
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_esp');
 
-        return compact('suma_expgen','suma_expesp');
+        //____________________inicio interseccion fechas_______________
+
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('suma_expgen','suma_expesp','query_inter');
             
     }
     
@@ -561,33 +590,64 @@ class PostulanteController extends Controller
         
         $Exper->save();
         
-        $query = ExperienciaLabUser::where('id',$data->id)->get();
-        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
+       $query = ExperienciaLabUser::where('id',$data->id)->get();
+       /* $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
         ->where('user_id',auth()->user()->id)
         ->sum('dias_exp_gen');
         $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
         ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_esp');
+        ->sum('dias_exp_esp');*/
 
+        //____________________inicio interseccion fechas_______________
 
-        return compact('query','suma_expgen','suma_expesp');
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
+       
+       if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+       }else if($proceso[0]->consid_prac_preprof == 1){
+         $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+       }else if($proceso[0]->consid_prac_prof == 1){
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+       }else{
+        $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+       }
+       //____________________fin interseccion fechas_______________
+
+        return compact('query','query_inter');
     }
 
     public function datosexpgenyesp(Request $data){
 
-        $suma_expgen = ExperienciaLabUser::select('dias_exp_gen')
-        ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_gen');
-        $suma_expesp = ExperienciaLabUser::select('dias_exp_esp')
-        ->where('user_id',auth()->user()->id)
-        ->sum('dias_exp_esp');
-        $proceso = Proceso::where('id',$data->idproceso)->get();
+        
+      $proceso_simple = Proceso::where('id',$data->idproceso)->get();
+        
+        //____________________inicio interseccion fechas_______________
+        
+        $proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
         $min_expgen = $proceso[0]->dias_exp_lab_gen;
         $min_expesp = $proceso[0]->dias_exp_lab_esp;
 
-       return compact('suma_expgen','suma_expesp','min_expgen','min_expesp');
+            if($proceso[0]->consid_prac_preprof == 1 && $proceso[0]->consid_prac_prof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+            
+           }else if($proceso[0]->consid_prac_preprof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,2])->orderBy('id','DESC')->get();  
+            
+           }else if($proceso[0]->consid_prac_prof == 1){
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1,3])->orderBy('id','DESC')->get();   
+           
+           }else{
+            $query_inter = ExperienciaLabUser::select('fecha_inicio','fecha_fin','es_exp_gen','es_exp_esp')->where('user_id',auth()->user()->id)->whereIn('tipo_experiencia',[1])->orderBy('id','DESC')->get();    
+           
+           }
+       
+         //____________________fin interseccion fechas_______________
+
+
+       return compact('min_expgen','min_expesp','query_inter');
        
     }
+
     public function datosformacion_general(Request $data){
         //___________colegiatura inicio_________
         
