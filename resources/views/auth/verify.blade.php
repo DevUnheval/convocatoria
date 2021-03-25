@@ -1,5 +1,5 @@
 
-@extends('layouts.material2')
+@extends('layouts.material3')
 
 @section('css')
 <link href="{{ asset('/css/preloader.css')}}" rel="stylesheet" type="text/css">
@@ -43,7 +43,7 @@
 
                     -->
                     Antes de continuar, consulte su correo electrónico <strong>{{auth()->user()->email}} </strong> para ver si hay un enlace de 
-                    verificación (puede demorar hasta 5 minutos en llegarle). Si no ha recibido el correo electrónico,
+                    verificación <strong class="text-danger">(puede demorar hasta 5 minutos en llegar)</strong>. Si no ha recibido el correo electrónico,
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
