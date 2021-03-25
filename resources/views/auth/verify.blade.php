@@ -24,7 +24,7 @@
         
         <div class="col-md-8">
             <div class="alert alert-success text-center" role="alert">
-                <h5> <i class="fa fa-check mr-5" aria-hidden="true"></i>Sr(a) {{auth()->user()->nombres}} {{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}} se ha registrado correctamente, es necesario que verifique su <strong> correo electrónico</strong></h5>
+                <h5> <i class="fa fa-check mr-5" aria-hidden="true"></i>Hola, {{auth()->user()->nombres}} {{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}} se ha registrado correctamente, es necesario que verifique su <strong> correo electrónico</strong></h5>
             </div>
             <br>
             <div class="card">
@@ -43,7 +43,7 @@
 
                     -->
                     Antes de continuar, consulte su correo electrónico <strong>{{auth()->user()->email}} </strong> para ver si hay un enlace de 
-                    verificación <strong class="text-danger">(puede demorar hasta 5 minutos en llegar)</strong>. Si no ha recibido el correo electrónico,
+                    verificación <strong class="text-danger">(puede demorar hasta 10 minutos en llegar)</strong>. Si no ha recibido el correo electrónico,
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
                         <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
