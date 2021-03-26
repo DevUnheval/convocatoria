@@ -161,7 +161,7 @@ class ReportesController extends Controller
         }
         //6. Experiencia laboral       
         foreach($postulante->experieciapostulantes as $key => $experiencia){
-            if(!$capacitacion->experiencia) continue;
+            if(!$experiencia->validacion) continue;
             $this->fusionar_pdf($pdfMerger,  $experiencia->archivo);            
         }   
         $pdfMerger->merge(); //For a normal merge (No blank page added)
