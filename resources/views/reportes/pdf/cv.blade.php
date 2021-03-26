@@ -4,7 +4,7 @@
 <style>
 .cv-tabla{
   border-spacing: 10px;
-  border-collapse: collapse;  
+  border-collapse: collapse;
   width:100%;
 }
 .cv-tabla td, .cv-tabla th{

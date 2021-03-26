@@ -185,7 +185,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                                    href="{{ \App\Ajuste::find(1)->elemento('manual usuario') }}" target="_blank">
                                    <i class="mdi mdi-file-pdf"></i> Manual
                                </a>
-                                   @if(Auth::user())
+                                    @if (auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])) 
                                    <hr>
                                <a class="dropdown-item"
                                    href="{{ \App\Ajuste::find(1)->elemento('video tutorial administrador') }}" target="_blank">
