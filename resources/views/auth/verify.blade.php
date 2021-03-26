@@ -24,7 +24,7 @@
         
         <div class="col-md-8">
             <div class="alert alert-success text-center" role="alert">
-                <h5> <i class="fa fa-check mr-5" aria-hidden="true"></i>Hola, {{auth()->user()->nombres}} {{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}} se ha registrado correctamente, es necesario que verifique su <strong> correo electrónico</strong></h5>
+                <h5> <i class="fa fa-check mr-5" aria-hidden="true"></i>HOLA, {{auth()->user()->nombres}} {{auth()->user()->apellido_paterno}} {{auth()->user()->apellido_materno}} se ha registrado correctamente, es necesario que verifique su <strong> correo electrónico</strong></h5>
             </div>
             <br>
             <div class="card">
