@@ -35,7 +35,7 @@
 <br>
 <!-- Resumen -->
 <div align="center">
-@if($postulante->datos_postulante->archivo_foto!="")
+@if($postulante->datos_postulante->archivo_foto)
 <img src="{{ public_path(str_replace('public/','storage/',$postulante->datos_postulante->archivo_foto))}}"  alt="Foto del postulante"   style="max-width:150px;">
 @else
 <img src="{{ public_path('/imagenes/users/user.png')}}" alt="Foto del postulante"   style="max-width:150px;">

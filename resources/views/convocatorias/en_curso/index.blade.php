@@ -32,7 +32,7 @@
             @endif
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered" data-url="/convocatorias/en_curso/data">
-                        <thead>
+                        <thead  class="text-white" style="background-color:#1e94c2;">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>
@@ -50,7 +50,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot >
+                        <tfoot  class="text-white" style="background-color:#1e94c2;">
                             <tr>
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
                                 <th>Conf.</th>

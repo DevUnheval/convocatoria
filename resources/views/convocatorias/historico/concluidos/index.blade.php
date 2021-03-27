@@ -21,7 +21,7 @@
                             {{--Fin modal --}}
                 <div class="table-responsive">
                     <table id="zero_config" class="table table-striped table-bordered">
-                        <thead>
+                        <thead class="text-white" style="background-color:#1e94c2;">
                             <tr>
                                 
                                 <th>Código</th>
@@ -37,7 +37,7 @@
                         <tbody>
                                 <!-- Cuerpo vacio -->
                         </tbody>
-                        <tfoot>
+                        <tfoot  class="text-white" style="background-color:#1e94c2;">
                             <tr>
                                
                                 <th>Código</th>
