@@ -102,10 +102,11 @@
                            <div class="row"> 
                               <div class="col-md-4">
                                  <div class="form-group">
-                                       <small class="text-info">Formación académica:  </small>
+                                       <small class="text-info">Grado Académico:  </small>
                                        @foreach($datos['grado_formacion'] as $key => $nivel )
                                        <h5 id="ver_nivel_acad_convocar_{{$key}}" class="ocultar_elemento" hidden>{{$nivel}}</h5>
                                        @endforeach
+                                       <small class="text-info">Especialidad:  </small>
                                        <h5 id="ver_especialidad"></h5>
                                  </div>
                               </div>  
