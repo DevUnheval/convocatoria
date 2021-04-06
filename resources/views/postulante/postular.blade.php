@@ -112,8 +112,8 @@
                                         <div class="">
                                             
                                             
-                                                <label for="email"> Cargar Documento de Identidad (DNI, Carne de extranjería, otros): <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label> <span class="text-danger">*</span> </label>
-                                                <input type="file" class=" form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
+                                                <label for="email"> Cargar Documento de Identidad (DNI, Carne de extranjería, otros): <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label> <span class="text-danger">*</span> </label>
+                                                <input type="file" class=" form-control" id="cargar_dni" name="cargar_dni" accept="application/pdf" onchange="validar_peso_archivo(this)" required> 
                                                 <input type="hidden" id="input_hide_dni" value="0">                                                 
                                                 
                                                 
@@ -236,8 +236,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
-                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
+                                    <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                                    <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" onchange="validar_peso_archivo(this)" />
                                     <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
                                 </div>   
                             </div>                               
@@ -259,8 +259,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
-                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
+                                    <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf" onchange="validar_peso_archivo(this)" />
                                     <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                 </div>   
                             </div>
@@ -283,8 +283,8 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label ><small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> </label>
-                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
+                                    <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                                    <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" onchange="validar_peso_archivo(this)" />
                                     <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                 </div>   
                             </div>
@@ -325,7 +325,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_forma();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
-                                <i class="fa fa-plus"></i> Nuevo</button>
+                                <i class="fa fa-plus"></i> Formación Académica</button>
                             </div>
                         </div>
                         <div class="col-md-5 offset-3">
@@ -366,7 +366,7 @@
                  </div> 
                  <br><br>
                 
-                    <div class="row" >          
+                    <div class="row p-2" >          
                         <div id="cont_colegiatura" class="col-md-4 shadow p-2 mb-2 mt-1 bg-light">
                             <div class="row" >  
                             <div class="col-md-1 float-right" >
@@ -376,11 +376,11 @@
 
                         <div class="col-md-11" >
                             <label>
-                                Estoy colegiado y habilitado(a)
+                                Estoy colegiado y habilitado (OPCIONAL)
                             </label>
                             <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
-                            <label ><small>(Tamaño máximo de archivo 5MB)</small> </label>
-                            <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf"/>
+                            <label><strong>Constancia de Habilitación </strong><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                            <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf" onchange="validar_peso_archivo(this)" />
                             <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
                         </div>  
                         <div class="col-md-4" >
@@ -403,7 +403,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_capacitacion()" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
-                                <i class="fa fa-plus"></i> Nuevo</button>
+                                <i class="fa fa-plus"></i> Cursos o Especialización</button>
                             </div>
                         </div>
                        
@@ -449,7 +449,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
-                                <i class="fa fa-plus"></i> Nuevo</button>
+                                <i class="fa fa-plus"></i> Experiencia Laboral</button>
                             </div>
                         </div>
                         
@@ -522,7 +522,7 @@
                         <div class="col-md-2 ">
                             <input name="g1" class=" g1 material-inputs"  value="1" type="radio" id="si_p1"  />
                             <label for="si_p1">Si</label>
-                            <input name="g1" class=" g1 material-inputs" value="0" type="radio" id="no_p1"checked  />
+                            <input name="g1" class=" g1 material-inputs" value="0" type="radio" id="no_p1"  />
                             <label for="no_p1">No</label> 
                         </div>
                         <label class="col-md-10 border-left">1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </label>                                
@@ -531,7 +531,7 @@
                         <div class="col-md-2">
                             <input name="g2" class=" g2 material-inputs"  value="1" type="radio" id="si_p2"  />
                             <label for="si_p2">Si</label>
-                            <input name="g2" class=" g2 material-inputs" value="0" type="radio" id="no_p2" checked />
+                            <input name="g2" class=" g2 material-inputs" value="0" type="radio" id="no_p2" />
                             <label for="no_p2">No</label>
                         </div>
                         <label class="col-md-10 border-left">2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública. </label>                                
@@ -540,7 +540,7 @@
                         <div class="col-md-2">
                             <input name="g3" class=" g3 material-inputs"  value="1" type="radio" id="si_p3"  />
                             <label for="si_p3">Si</label>
-                            <input name="g3" class=" g3 material-inputs" value="0" type="radio" id="no_p3" checked  />
+                            <input name="g3" class=" g3 material-inputs" value="0" type="radio" id="no_p3"  />
                             <label for="no_p3">No</label>  
                         </div>
                         <label class="col-md-10 border-left">3. Tengo antecedentes penales, judiciales y/o policiales.</label>                                
@@ -549,7 +549,7 @@
                         <div class="col-md-2">
                             <input name="g4"   class=" g4 material-inputs"  value="1" type="radio" id="si_p4"  />
                             <label for="si_p4">Si</label>
-                            <input name="g4"  class=" g4 material-inputs" value="0" type="radio" id="no_p4" checked />
+                            <input name="g4"  class=" g4 material-inputs" value="0" type="radio" id="no_p4" />
                             <label for="no_p4">No</label>  
                         </div>
                         <label class="col-md-10 border-left">4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</label>                                
@@ -558,7 +558,7 @@
                         <div class="col-md-2 ">
                             <input name="g5"   class=" g5 material-inputs"  value="1" type="radio" id="si_p5"  />
                             <label for="si_p5">Si</label>
-                            <input name="g5"  class=" g5 material-inputs" value="0" type="radio" id="no_p5" checked />
+                            <input name="g5"  class=" g5 material-inputs" value="0" type="radio" id="no_p5" />
                             <label for="no_p5">No</label>  
                         </div>                            
                         <label class="col-md-10 border-left" value="" id="cod"> 5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - CAS {{$proceso->cod}}</label>                        
@@ -567,7 +567,7 @@
                         <div class="col-md-2 ">
                             <input name="g6"   class=" g6 material-inputs"  value="1" type="radio" id="si_p6"  />
                             <label for="si_p6">Si</label>
-                            <input name="g6"  class=" g6 material-inputs" value="0" type="radio" id="no_p6" checked  />
+                            <input name="g6"  class=" g6 material-inputs" value="0" type="radio" id="no_p6"  />
                             <label for="no_p6">No</label>  
                         </div>
                         <label class="col-md-10 border-left">6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</label>                                
@@ -576,7 +576,7 @@
                         <div class="col-md-2 ">
                             <input name="g7"   class=" g7 material-inputs"  value="1" type="radio" id="si_p7"  />
                             <label for="si_p7">Si</label>
-                            <input name="g7"  class=" g7 material-inputs" value="0" type="radio" id="no_p7" checked />
+                            <input name="g7"  class=" g7 material-inputs" value="0" type="radio" id="no_p7" />
                             <label for="no_p7">No</label>  
                         </div>
                         <label class="col-md-10 border-left">7. Percibo alguna pensión a cargo del Estado.</label>                                
@@ -585,7 +585,7 @@
                         <div class="col-md-2 ">
                             <input name="g8"   class=" g8 material-inputs"  value="1" type="radio" id="si_p8"  />
                             <label for="si_p8">Si</label>
-                            <input name="g8"  class=" g8 material-inputs" value="0" type="radio" id="no_p8" checked />
+                            <input name="g8"  class=" g8 material-inputs" value="0" type="radio" id="no_p8" />
                             <label for="no_p8">No</label>  
                         </div>
                         <label class="col-md-10 border-left">8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</label>                                
@@ -675,6 +675,13 @@
 @endsection
 
 @section('js')
+
+<script>
+    var pesoMaxArchivo = '{{$pesoMaxArchivo}}'; 
+    var pesoMaxArchivo_MB = pesoMaxArchivo/1048576;
+        pesoMaxArchivo_MB = pesoMaxArchivo_MB.toFixed(1); 
+ </script>
+ 
 <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>
 <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
@@ -687,7 +694,8 @@
 <script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
 <script src="{{ asset('/material-pro/src/assets/extra-libs/prism/prism.js')}}"></script>
 <script src="{{ asset('/js/acordion.js')}}"></script>
-<script src="{{ asset('/js/preloader_pag.js')}}"></script>
+
 <script src="{{ asset('/js/update_fotografia.js')}}"></script>
+<script src="{{ asset('/js/validar_peso_archivo.js')}}"></script>
 @endsection
 

@@ -237,8 +237,8 @@
                                                                 <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Documento de Identidad (DNI, Carné de Extranjería, Otro)</label>
                                                             </div>
                                                             <div class="card-body"> 
-                                                                <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf" required> 
-                                                                <input type="hidden" id="input_hide_dni" value="0">
+                                                                <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> <input type="file" class="material-inputs form-control required" id="cargar_dni" name="cargar_dni" accept="application/pdf" onchange="validar_peso_archivo(this)" required> 
+                                                                <input type="hidden" id="input_hide_dni" value="0" >
                                                                 <span id="btn_doc_dni" class=""></span>                                                 
                                                             </div>
                                                         </div>
@@ -263,9 +263,9 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
-                                                            <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" />
-                                                            <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0">
+                                                            <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small>
+                                                            <input name="file_discapacidad"  class="material-inputs" type="file" id="file_discapacidad" accept="application/pdf" onchange="validar_peso_archivo(this)" />
+                                                            <span id="btn_doc_disc" class=""></span><input type="hidden" id="input_hide_disc" value="0" >
                                                         </div>   
                                                     </div>                               
                                                 </div>
@@ -286,8 +286,8 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
-                                                            <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf"  />
+                                                            <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small>
+                                                            <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf" onchange="validar_peso_archivo(this)"  />
                                                             <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                                         </div>   
                                                     </div>
@@ -310,8 +310,8 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <small>(Solo archivos .pdf - Tamaño máximo de archivo 5MB)</small>
-                                                            <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" />
+                                                            <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small>
+                                                            <input name="file_deportista"  class="material-inputs" type="file" id="file_deportista" accept="application/pdf" onchange="validar_peso_archivo(this)" />
                                                             <span id="btn_doc_deport" class=""></span> <input type="hidden" id="input_hide_deport" value="0">
                                                         </div>   
                                                     </div>
@@ -353,7 +353,7 @@
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                             <button type="button" onclick="nueva_forma();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nueva_formacion">
-                                                            <i class="fa fa-plus"></i> Nuevo</button>
+                                                            <i class="fa fa-plus"></i> Formación Académica</button>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
@@ -398,7 +398,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <button type="button" onclick="nueva_capacitacion()" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" data-target="#modal_nuevo">
-                                                        <i class="fa fa-plus"></i> Nuevo</button>
+                                                        <i class="fa fa-plus"></i> Curso o Especialización</button>
                                                     </div>
                                                 </div>
                                                 
@@ -444,7 +444,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <button type="button" onclick="nueva_expe();" class="btn waves-effect waves-light btn-rounded btn-outline-info" data-toggle="modal" >
-                                                        <i class="fa fa-plus"></i> Nuevo</button>
+                                                        <i class="fa fa-plus"></i> Experiencia Laboral</button>
                                                     </div>
                                                 </div>
                                                 
@@ -521,6 +521,13 @@
 
 @endsection
 @section('js')
+
+<script>
+    var pesoMaxArchivo = '{{$pesoMaxArchivo}}'; 
+    var pesoMaxArchivo_MB = pesoMaxArchivo/1048576;
+        pesoMaxArchivo_MB = pesoMaxArchivo_MB.toFixed(1); 
+ </script>
+
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <!-- <script src="{{ asset('/extra-libs/jqbootstrapvalidation/validation.js')}}"></script> -->
     <script src="{{ asset('/js/perfil_usuario.js')}}"></script>
@@ -529,5 +536,6 @@
     <script src="{{ asset('/material-pro/src/assets/libs/select2/dist/js/select2.min.js')}}"></script>
     <script src="{{ asset('/js/ubigeo_reniec_select2.js')}}"></script>
     <script src="{{ asset('/js/update_fotografia.js')}}"></script>
+    <script src="{{ asset('/js/validar_peso_archivo.js')}}"></script>
 {{-- Ajustes de vista --}}
 @endsection

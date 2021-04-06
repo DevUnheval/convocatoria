@@ -102,18 +102,18 @@
                                         </div>
                                       </div>
                                       <div class="row">
-                                        <div class="col-md-7">
+                                        <div class="col-md">
                                             <div class="form-group">
-                                                <label for="documento_exp">Documento sustento: <small>(solo archivos .pdf )</small> <span class="text-danger"> *</span> </label>
-                                                <input type="file" class="form-control required" id="documento_exp"  name="documento_exp" accept="application/pdf" required> 
+                                                <label for="documento_exp">Documento sustento: <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> <span class="text-danger"> *</span> </label>
+                                                <input type="file" class="form-control required" id="documento_exp"  name="documento_exp" accept="application/pdf" onchange="validar_peso_archivo(this)" required> 
                                             </div>
                                         </div>
-                                        <div class="col-md-5">
+                                       <!-- <div class="col-md-5">
                                             <div class="form-group">
                                                 <label for="num_pag">N° página donde señala inicio y fin de la experiencia: <span class="text-danger">*</span> </label>
                                                 <input type="number" class="form-control" id="num_pag" name="num_pag" required> 
-                                            </div>
-                                        </div>
+                                            </div> 
+                                        </div>-->
                                       </div>                                      
                                       <hr>
                                       <div  class="row">

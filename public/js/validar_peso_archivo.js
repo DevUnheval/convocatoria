@@ -1,7 +1,8 @@
 
 function validar_peso_archivo(archivoActual){
+    
     if(archivoActual.files[0].size>pesoMaxArchivo){
-        console.log("El peso máximo es "+pesoMaxArchivo_MB);
+        //console.log("El peso máximo es "+pesoMaxArchivo_MB);
         Swal.fire({
             type: 'warning',
             title: "¡Advertencia!",
