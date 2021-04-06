@@ -84,8 +84,9 @@ $(document).ready(function() {
             $('#codigo_colegiatura').prop('disabled',false);
             $('#file_colegiatura').prop('disabled',false);
             $('#codigo_colegiatura').focus();
-            
+
             $('#cont_colegiatura').addClass('border border-cyan');
+            $("#div_colegiatura").show();
         }else{
             $('#codigo_colegiatura').prop('disabled',true);
             $('#file_colegiatura').prop('disabled',true);
@@ -94,6 +95,7 @@ $(document).ready(function() {
             $('#btn_doc_colegiatura').html('');
             $('#file_colegiatura').val('');
             $('#input_hide_licenciatura').val('0');
+            $("#div_colegiatura").hide();
         }
 
         

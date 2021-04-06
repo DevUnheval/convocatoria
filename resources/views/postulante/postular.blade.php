@@ -374,14 +374,16 @@
                             
                             </div>    
 
-                        <div class="col-md-11" >
-                            <label>
+                        <div class="col-md-11">
+                            <label for="check_colegiatura">
                                 Estoy colegiado y habilitado(a)
                             </label>
-                            <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
-                            <label ><small>(Tamaño máximo de archivo 5MB)</small> </label>
-                            <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf"/>
-                            <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
+                            <div id="div_colegiatura" style="display:none">
+                                <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
+                                <label >Constancia de habilitación</label>
+                                <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf"/>
+                                <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
+                            </div>
                         </div>  
                         <div class="col-md-4" >
                             
