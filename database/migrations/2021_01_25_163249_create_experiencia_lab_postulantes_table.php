@@ -30,7 +30,7 @@ class CreateExperienciaLabPostulantesTable extends Migration
             $table->string('desc_cargo_funcion','1000')->nullable();//descripcion del cargo funcion
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
-            $table->integer('num_pag');//numero de pagina donde señala inicio y fin de la experiencia
+            $table->integer('num_pag')->nullable();//numero de pagina donde señala inicio y fin de la experiencia
             $table->integer('dias_exp_gen');
             $table->integer('dias_exp_esp');
             $table->string('archivo');

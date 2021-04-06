@@ -1,4 +1,4 @@
-var  modal_evaluar_individual = function(idpostulante,$dni,$nombre,$foto,observacion_bd,puntaje,observacion,$etapa,$proceso_id,$ev_con,$vista){
+var  modal_evaluar_individual = function(idpostulante,$dni,$nombre,$foto,observacion_bd,puntaje,observacion,$etapa,$proceso_id,$ev_con,$vista,$bon_dep,$bon_dep_val){
     document.getElementById("form_ev_individual").reset();
     $("#btn_guardar_ev_individual").attr("data-proceso_id",$proceso_id);
     $("#btn_guardar_ev_individual").attr("data-etapa",$etapa);
@@ -13,6 +13,14 @@ var  modal_evaluar_individual = function(idpostulante,$dni,$nombre,$foto,observa
     //datos INPUTS
     $("#input_puntaje_ev_individual").val(puntaje);
     $("#textarea_puntaje_ev_individual").html(observacion);
+    //numero_de_etapas es una varia global creada en el index.php
+    $html_bon = "";
+    if($bon_dep == "1"){
+        $html_bon = `<label>Bon+ Deportista Calificado</label>`;
+        $html_bon += `<input type='number' class='form-control' id='input_bon_dep' placeholder='Bon' min='0' name='bonific_deportista' value='${$bon_dep_val}' required></input>`;
+    }
+    $("#ev_bonificacion_deportista").html($html_bon);
+        
 
    $("#modal_evaluar").modal("show");
 }
@@ -140,7 +148,7 @@ var dataTajetas = function(proceso,etapa){
                     $tarjeta +=                        '<ul class="list-style-none el-info text-white text-uppercase d-inline-block p-0">';
                     //$tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><a class="btn default btn-outline image-popup-vertical-fit el-link text-white border-white" href="material-pro/src/assets/images/users/${foto_postulante}.jpg" title="ver foto"><i class="icon-picture"></i></a></li>`;
                     $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="mostrar_modalcv('${element.postulante_id}','${element.user_id}','${etapa}','${proceso}',${response.evaluar_conocimientos},2)" title="ver curriculum vitae"><i class="fas fa-address-card" ></i></button></li>`;
-                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="modal_evaluar_individual(${element.postulante_id},'${element.dni}','${element.nombres}','${foto_postulante}','${element.obs_actual_bd}','${element.ev_actual}','${element.obs_actual}',${etapa},'${proceso}',${response.evaluar_conocimientos},2)" title="evaluar"><i class="fas fa-calculator"></i></button></li>`;
+                    $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn default btn-outline el-link text-white border-white" onclick="modal_evaluar_individual(${element.postulante_id},'${element.dni}','${element.nombres}','${foto_postulante}','${element.obs_actual_bd}','${element.ev_actual}','${element.obs_actual}',${etapa},'${proceso}',${response.evaluar_conocimientos},2,${element.bon_dep},${element.bon_dep_val})" title="evaluar"><i class="fas fa-calculator"></i></button></li>`;
                     $tarjeta +=                            `<li class="el-item d-inline-block my-0 mx-1"><button class="btn prmary btn-outline el-link text-white border-white" onclick='modal_mas(${element.postulante_id})' title="ver más"><i class="fas fa-plus"></i></button></li>`;
                     $tarjeta +=                        '</ul>';
                     $tarjeta +=                    '</div>';
@@ -263,7 +271,7 @@ $(document).ready(function() {
             beforeSend: function () {
             console.log('enviando....');
             },
-            success:  function (response){                
+            success:  function (response){      
                 $("#modal_evaluar").modal("hide");
                 var $nueva_etapa = response;
                 if($nueva_etapa ==='final'){

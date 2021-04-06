@@ -173,7 +173,7 @@ class ReportesController extends Controller
         //$guesser = new RegexGuesser();
         //echo $guesser->guess('/path/to/my/file.pdf'); // will print something like '1.4'
 
-        return $pdfMerger->save("CV_".$postulante->dni, "browser");
+        return $pdfMerger->save("CV_".$postulante->dni.".pdf", "browser");
         
     }
 

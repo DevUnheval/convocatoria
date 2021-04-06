@@ -1029,7 +1029,7 @@ function cumple_exp_genyesp(){
 
     var Fechas_expGen = new Array();
     var Fechas_expEsp = new Array();
-console.log(res);
+//console.log(res);
     for (var i = 0; i < res.query_inter.length; i++) {
         if(res.query_inter[i].es_exp_gen==1){
             Fechas_expGen.push({f_inicio: res.query_inter[i].fecha_inicio, f_fin: res.query_inter[i].fecha_fin}); 
@@ -1175,7 +1175,32 @@ function cumple_formacion(idproceso){
 
     function declaracion_jurada(){
     var arrayExp={estado:"",msjok:"",msjerror:""};
+    var algun_campo_vacio=false;
     
+    if(!$("#si_p1").is(':checked') && !$("#no_p1").is(':checked')){
+        algun_campo_vacio=true;    
+    }else if(!$("#si_p2").is(':checked') && !$("#no_p2").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p3").is(':checked') && !$("#no_p3").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p4").is(':checked') && !$("#no_p4").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p5").is(':checked') && !$("#no_p5").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p6").is(':checked') && !$("#no_p6").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p7").is(':checked') && !$("#no_p7").is(':checked')){
+        algun_campo_vacio=true;   
+    }else if(!$("#si_p8").is(':checked') && !$("#no_p8").is(':checked')){
+        algun_campo_vacio=true;   
+    }
+
+    if(algun_campo_vacio){
+        arrayExp.msjerror = "Debe de seleccionar SI o NO en todas las opciones de la declaración jurada.";
+        arrayExp.estado = false;
+       return arrayExp;
+    }
+
     var dj = "";
     if($('input:radio[name=g1]:checked').val()=="1"){
         dj = "'SI' en el inciso 1";
@@ -1428,14 +1453,14 @@ function cumple_formacion(idproceso){
             Inter_fin = null;
             Union_inicio = null;
             Union_fin = null;
-            console.log("no hay intersección");
+            //console.log("no hay intersección");
             
         }else if(F1_fin.getTime() == F2_inicio.getTime()){
             Inter_inicio = F1_f;
             Inter_fin = F2_i;
             Union_inicio = F1_i;
             Union_fin = F2_f;
-            console.log("1 día de intersección");
+            //console.log("1 día de intersección");
 
         }else if(F1_fin.getTime() > F2_inicio.getTime()){
             
@@ -1444,21 +1469,21 @@ function cumple_formacion(idproceso){
                 Inter_fin = F1_f;
                 Union_inicio = F1_i;
                 Union_fin = F2_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
 
             }else if(F1_fin.getTime() == F2_fin.getTime()){
                 Inter_inicio = F2_i;
                 Inter_fin = F2_f;
                 Union_inicio = F1_i;
                 Union_fin = F2_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
 
             }else if(F1_fin.getTime() > F2_fin.getTime()){
                 Inter_inicio = F2_i;
                 Inter_fin = F2_f;
                 Union_inicio = F1_i;
                 Union_fin = F1_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
             }
         }    
     }else if(F1_inicio.getTime() == F2_inicio.getTime()){
@@ -1470,21 +1495,21 @@ function cumple_formacion(idproceso){
                 Inter_fin = F1_f;
                 Union_inicio = F1_i;
                 Union_fin = F2_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
 
             }else if(F1_fin.getTime() == F2_fin.getTime()){
                 Inter_inicio = F1_i;
                 Inter_fin = F1_f;
                 Union_inicio = F1_i;
                 Union_fin = F1_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
 
             }else if(F1_fin.getTime() > F2_fin.getTime()){
                 Inter_inicio = F2_i;
                 Inter_fin = F2_f;
                 Union_inicio = F1_i;
                 Union_fin = F1_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
             }
         
         }else if(F1_fin.getTime() == F2_inicio.getTime()){
@@ -1493,7 +1518,7 @@ function cumple_formacion(idproceso){
                 Inter_fin = F1_f;
                 Union_inicio = null;
                 Union_fin = null;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
 
             }
         }
@@ -1506,21 +1531,21 @@ function cumple_formacion(idproceso){
                 Inter_fin = F1_f;
                 Union_inicio = F2_i;
                 Union_fin = F2_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
             
             }else if(F1_fin.getTime() == F2_fin.getTime()){
                 Inter_inicio = F1_i;
                 Inter_fin = F1_f;
                 Union_inicio = F2_i;
                 Union_fin = F2_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
             
             }else if(F1_fin.getTime() > F2_fin.getTime()){
                 Inter_inicio = F1_i;
                 Inter_fin = F2_f;
                 Union_inicio = F2_i;
                 Union_fin = F1_f;
-                console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
+                //console.log("intersección:" + Inter_inicio + " / " + Inter_fin);
             
             }
         }else if(F1_inicio.getTime() == F2_fin.getTime()){
@@ -1528,14 +1553,14 @@ function cumple_formacion(idproceso){
             Inter_fin = F2_f;
             Union_inicio = F2_i;
             Union_fin = F1_f;
-            console.log("1 día de intersección");
+            //console.log("1 día de intersección");
 
         }else if(F1_inicio.getTime() > F2_fin.getTime()){
             Inter_inicio = null;
             Inter_fin = null;
             Union_inicio = null;
             Union_fin = null;
-            console.log("No hay intersección");
+            //console.log("No hay intersección");
 
         }
 
@@ -1555,7 +1580,7 @@ function cumple_formacion(idproceso){
     }
     estad = true ;
 
-        console.log('DIAS :',fechafin+"-"+fechainicio+"= "+dias+" - "+anios_meses_dias(dias));
+        //console.log('DIAS :',fechafin+"-"+fechainicio+"= "+dias+" - "+anios_meses_dias(dias));
 
     }else{
     fechainicio=null;
@@ -1573,12 +1598,12 @@ function cumple_formacion(idproceso){
 
     var Fechas = Fechas_a_trabajar;
 
-    console.log('INICIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+    //console.log('INICIOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
     if(Fechas.length != 0){
         //___________INICIO INTERSECCION (METODO 2)_________________________
-      console.log('_______________________________________________');
-      console.log('Fechas a trabajar: ',Fechas);
-      console.log('______________PROCESAMIENTO DE FECHAS_________________________________');
+      //console.log('_______________________________________________');
+      //console.log('Fechas a trabajar: ',Fechas);
+      //console.log('______________PROCESAMIENTO DE FECHAS_________________________________');
       
       var FechasFijas = new Array();
       FechasFijas.push({f_inicio: Fechas[0].f_inicio, f_fin: Fechas[0].f_fin});
@@ -1596,7 +1621,7 @@ function cumple_formacion(idproceso){
                 if(cont>1){
                  FechasFijas[val_inter].f_inicio = resultado.u_inicio;
                  FechasFijas[val_inter].f_fin = resultado.u_fin;
-                 console.log('union: ',FechasFijas[val_inter].f_inicio + " / " + FechasFijas[val_inter].f_fin);
+                 //console.log('union: ',FechasFijas[val_inter].f_inicio + " / " + FechasFijas[val_inter].f_fin);
 
                  Fechas[i].f_inicio = resultado.u_inicio;
                  Fechas[i].f_fin = resultado.u_fin;
@@ -1607,7 +1632,7 @@ function cumple_formacion(idproceso){
                  
                  FechasFijas[y].f_inicio = resultado.u_inicio;
                  FechasFijas[y].f_fin = resultado.u_fin;
-                 console.log('union: ',FechasFijas[y].f_inicio + " / " + FechasFijas[y].f_fin);
+                 //console.log('union: ',FechasFijas[y].f_inicio + " / " + FechasFijas[y].f_fin);
 
                  Fechas[i].f_inicio = resultado.u_inicio;
                  Fechas[i].f_fin = resultado.u_fin;
@@ -1631,20 +1656,20 @@ function cumple_formacion(idproceso){
          
  
      }
-     console.log('___________________FIN PROCESAMIENTO____________________________');
-     console.log('Fechas Fijas: ',FechasFijas);
+     //console.log('___________________FIN PROCESAMIENTO____________________________');
+     //console.log('Fechas Fijas: ',FechasFijas);
      
      var total_dias = 0;
      for ( i = 0 ; i < FechasFijas.length ; i++){
          var fechainicio=moment(FechasFijas[i].f_inicio);
          var fechafin=moment(FechasFijas[i].f_fin);
          var dias=fechafin.diff(fechainicio,"days");
-         console.log('Fecha '+i+': ',fechainicio+' / '+fechafin+' -> '+anios_meses_dias(dias));
+         //console.log('Fecha '+i+': ',fechainicio+' / '+fechafin+' -> '+anios_meses_dias(dias));
          total_dias += dias;
          }
 
-     console.log('Experiencia Total : ', anios_meses_dias(total_dias)+' - '+ total_dias+'dias');
-     console.log('FIIIIIIIIIIIIIIINNNNNNNNNNNNNN');
+     //console.log('Experiencia Total : ', anios_meses_dias(total_dias)+' - '+ total_dias+'dias');
+     //console.log('FIIIIIIIIIIIIIIINNNNNNNNNNNNNN');
 
 
       //______________________________FIN INTERSECCION (METODO 2)_________________________
@@ -1652,8 +1677,8 @@ function cumple_formacion(idproceso){
      /* //______________________________INICIO INTERSECCION (METODO 1)_________________________
  
  //fecha_interseccion(Fechas[0].f_inicio,Fechas[0].f_fin,Fechas[1].f_inicio,Fechas[1].f_fin);
- console.log("_______________________Fechas a trabajar___________ :");
- console.log(Fechas);
+ //console.log("_______________________Fechas a trabajar___________ :");
+ //console.log(Fechas);
  
  var total_dias_descontar_1 = 0;
  var total_dias_descontar_2 = 0;

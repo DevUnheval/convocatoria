@@ -159,7 +159,10 @@ class PostulanteController extends Controller
         ->where("cod_ubigeo_reniec","<>","NA") 
         ->pluck('descripcion','ubigeo');
 
-        return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos'));
+        $pesoMaxArchivo = \App\Ajuste::where('nombre','Peso archivo (B)')->first()->valor;
+        $pesoMaxArchivo_c = number_format(($pesoMaxArchivo / 1048576), 1, '.', "");
+        
+        return view('postulante.postular',compact('proceso_formacion','datos_formacion','gradoformac','proceso','datos_usuario','datos_capacitacion','datos_experiencia','ubigeos','pesoMaxArchivo','pesoMaxArchivo_c'));
         
     }
 
@@ -411,7 +414,7 @@ class PostulanteController extends Controller
         $el->desc_cargo_funcion = $data->desc_cargo_funcion;
         $el->fecha_inicio = $data->fecha_inicio;
         $el->fecha_fin = $data->fecha_fin;
-        $el->num_pag = $data->num_pag;
+        //$el->num_pag = $data->num_pag;
         $el->dias_exp_gen =$data->dias_exp_gen;
         $el->dias_exp_esp = $data->dias_exp_esp;
 
@@ -584,7 +587,7 @@ class PostulanteController extends Controller
         $Exper->desc_cargo_funcion = $data->desc_cargo_funcion;
         $Exper->fecha_inicio = $data->fecha_inicio;
         $Exper->fecha_fin = $data->fecha_fin;
-        $Exper->num_pag = $data->num_pag;
+        //$Exper->num_pag = $data->num_pag;
         $Exper->dias_exp_gen =$data->dias_exp_gen;
         $Exper->dias_exp_esp = $data->dias_exp_esp;
         

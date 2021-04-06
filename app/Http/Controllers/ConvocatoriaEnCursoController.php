@@ -86,8 +86,6 @@ class ConvocatoriaEnCursoController extends Controller
                     $href=Storage::url($dato->archivo_resultado);
                 }
                 $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a><br>';
-                
-               
             }   
             if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
                 $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
