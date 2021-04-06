@@ -378,10 +378,12 @@
                             <label>
                                 Estoy colegiado y habilitado (OPCIONAL)
                             </label>
-                            <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
-                            <label><strong>Constancia de Habilitación </strong><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
-                            <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf" onchange="validar_peso_archivo(this)" />
-                            <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
+                                <div id="div_colegiatura" style="display:none">
+                                <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
+                                <label><strong>Constancia de habilitación </strong><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                                <input id="file_colegiatura" class="form-control" type="file" disabled accept="application/pdf" onchange="validar_peso_archivo(this)" />
+                                <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
+                            </div>
                         </div>  
                         <div class="col-md-4" >
                             

@@ -128,9 +128,14 @@ class PostulantesController extends Controller
            $ev_entrevista = (int) $p->ev_entrevista;
            $ev_curricular = (int) $p->ev_curricular;
            $dni = $p->user->dni;
-           $foto = "";
+           $foto = "";$bon_dep = 0; $bon_dep_val=(float)$p->bonific_deportista;
            if($p->datos_postulante){
                 $foto = asset(str_replace('public/','storage/',$p->datos_postulante->archivo_foto));
+                if( ((boolean)$p->datos_postulante->es_deportista ) && $etapa==count($api['etapas'])){
+                    $bon_dep = 1;
+                    // $bon_dep_val=;
+                }
+                
            }
            
            $total = (float) $p->total;
@@ -143,18 +148,20 @@ class PostulantesController extends Controller
            }
            //pintar la columna
            $btn_mas = "<button class='btn btn-outline-primary btn-block' onclick='modal_mas($p->id)'><i class='fa fa-plus'></i></button>";
+           
+           
            if($se_evalua_conocimiento){
                 $ev_conocimiento = (int) $p->ev_conocimiento;
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\" ,\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_conocimientos\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_conocimiento<label>"; break;
-                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,1,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\" ,\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,1,$vista,0,0)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_conocimiento = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_conocimiento,\"$p->obs_conocimientos\",$etapa,$proceso_id,1,$vista,0,0)' title='clic para editar'>$ev_conocimiento<label>"; break;
+                    case "3": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,1,$vista,$bon_dep,\"$bon_dep_val\")' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
                 $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_conocimiento,$ev_entrevista,$total,$final,$btn_mas];
            }else{
                 switch($etapa){
-                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_curricular<label>"; break;
-                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,0,$vista)' title='clic para editar'>$ev_entrevista<label>"; break;
+                    case "1": $ev_curricular = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_curricular,\"$p->obs_curricular\",$etapa,$proceso_id,0,$vista,0,0)' title='clic para editar'>$ev_curricular<label>"; break;
+                    case "2": $ev_entrevista = "<label class='btn btn-outline-primary btn-block' onclick='modal_evaluar_individual($p->id, \"$dni\", \"$nombres\", \"$foto\",\"$observacion_bd\",$ev_entrevista,\"$p->obs_entrevista\",$etapa,$proceso_id,0,$vista,$bon_dep,\"$bon_dep_val\")' title='clic para editar'>$ev_entrevista<label>"; break;
                 }
                 $data['aaData'][] = [ $estado, $dni, $nombres,	$cv, $ev_curricular,$ev_entrevista,$total,$final,$btn_mas];
            }
@@ -192,9 +199,16 @@ class PostulantesController extends Controller
             
             if($p->formacion_postulante->count() > 0){
                 $formacion =$p->get_especialidad();
+               
+            }
+            if($p->datos_postulante){
                 $edad =Carbon::createFromDate($p->datos_postulante->fecha_nacimiento)->age;
                 $img = Storage::url($p->datos_postulante->archivo_foto);
+                if( ((boolean)$p->datos_postulante->es_deportista ) && $etapa==count($api['etapas'])){
+                    $bon_dep = 1;
+                }
             }
+            
 
             $postulantes[] = [ 
                                 'postulante_id'=>$p->id,
@@ -206,6 +220,8 @@ class PostulantesController extends Controller
                                 'formacion'=>$formacion,
                                 'edad'=>$edad,
                                 'foto'=>$img,
+                                'bon_dep'=> (int)$bon_dep,
+                                'bon_dep_val'=> $p->bonific_deportista,
                                 'ev_actual'=>$p->$ev_actual,
                                 'obs_actual'=> (string) $p->$obs_actual,
                                 'obs_actual_bd'=>$obs_actual,
@@ -297,6 +313,11 @@ class PostulantesController extends Controller
     }
 
     public function actualizar_evaluacion(Request $r,$proceso_id,$etapa,$ev_con){
+        // if(isset($r->bonific_deportista)){
+        //     return $r->bonific_deportista;
+        // }else{
+        //     return "FALSE";
+        // }
         $campo_pje_min = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc3_bd"];
         $campo_evaluacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc2_bd"];
         $campo_calificacion = $this->etapas_evaluacion( (int)$ev_con)[$etapa-1]["desc_bd"];
@@ -330,10 +351,10 @@ class PostulantesController extends Controller
             $q->save();
             unset($q);
         }
-         return $this->actualizar_etapa_evaluacion($campo_calificacion,$proceso_id,$etapa); //retorna la nueva etapa o (string) "final", y esto lo compararemos en el JS
+         return $this->actualizar_etapa_evaluacion($campo_calificacion,$proceso_id,$etapa,$r); //retorna la nueva etapa o (string) "final", y esto lo compararemos en el JS
                  
     }
-    private function actualizar_etapa_evaluacion($campo_calificacion, $proceso_id,$etapa){
+    private function actualizar_etapa_evaluacion($campo_calificacion, $proceso_id,$etapa,$r){
        $api = $this->get_data($proceso_id, $etapa );
        $postulantes =  $api["postulantes"]; //consultamos nuevamente
        $n_etapas = count($api["etapas"]);
@@ -353,7 +374,7 @@ class PostulantesController extends Controller
                 $query->save();
            }
            else if($etapa==$n_etapas){
-                $this->calcular_puntaje_final($query);
+                $this->calcular_puntaje_final($query,$r);
                 return "final";
            }
        }
@@ -361,13 +382,13 @@ class PostulantesController extends Controller
        
     }
 
-    private function calcular_puntaje_final($proceso){
+    private function calcular_puntaje_final($proceso,$r){
         $postulantes = Postulante::where("proceso_id",$proceso->id)->where("cal_entrevista","1")->get();
         //Calcular Final 
         $array_id=[];
         foreach($postulantes as $key => $p){
             //$query = Postulante::find($p->id);
-            $p->final = (float) $p->total + (float) $this->calcular_bonificaciones($p->id,$proceso);  
+            $p->final = (float) $p->total + (float) $this->calcular_bonificaciones($p->id,$proceso,$r);  
                                                           //retorna la suma de las bonificaciones
             $p->save();
             $array_id[]=$p->id;
@@ -388,28 +409,30 @@ class PostulantesController extends Controller
         }
     }
 
-    private function calcular_bonificaciones($postulante_id,$proceso){
+    private function calcular_bonificaciones($postulante_id,$proceso,$r){
         $datos = DatosPostulante::where("postulante_id",$postulante_id)->first();
         $postulante = Postulante::find($postulante_id);
         $bonificacion = 0;
         if(!$datos) return $bonificacion;
         if($datos->es_pers_disc){
-            $temporal_bon = (float) $proceso->bon_pers_disc*$postulante->total;
+            $temporal_bon = (float) $proceso->bon_pers_disc*$postulante->ev_entrevista;
             $postulante->bonific_pers_disc = $temporal_bon;
             $bonificacion +=$temporal_bon;
             unset($temporal_bon);
         }
         if($datos->es_lic_ffaa){
-            $temporal_bon = (float) $proceso->bon_ffaa*$postulante->total;
+            $temporal_bon = (float) $proceso->bon_ffaa*$postulante->ev_entrevista;
             $postulante->bonific_ffaa = $temporal_bon;
             $bonificacion +=$temporal_bon;
             unset($temporal_bon);
         }
         if($datos->es_deportista){
-            $temporal_bon = (float) $proceso->bon_deport*$postulante->total;
-            $postulante->bonific_deportista = $temporal_bon;
-            $bonificacion +=$temporal_bon;
-            unset($temporal_bon);
+            if(isset($r->bonific_deportista)){
+                $temporal_bon = (float) $r->bonific_deportista; 
+                $postulante->bonific_deportista = $temporal_bon;
+                $bonificacion +=$temporal_bon;
+                unset($temporal_bon);
+            }
         }
         $postulante->save();
         return $bonificacion;
@@ -497,7 +520,6 @@ class PostulantesController extends Controller
     } 
 
     public function guardar_validacion_form($idcapa,$valor_validacion){
-        
         $val = FormacionPostulante::find($idcapa);
         $val->validacion = $valor_validacion;
         $val->save();

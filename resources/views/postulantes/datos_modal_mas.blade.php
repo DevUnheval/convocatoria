@@ -77,21 +77,16 @@
                                                 </tr>
                                                 
                                                 <tr  align="center">
-                                                    <th>Persona con discapacidad <br>({{ ($postulante->proceso->bon_pers_disc*100)}}% del puntaje TOTAL)</th>
-                                                    
-
-                                                    <th>Deportista calificado <br>({{($postulante->proceso->bon_deport*100)}}% del puntaje TOTAL)</th>
-                                                    
-                                                
-                                                    <th>Deportista Lic. FFAA <br>({{($postulante->bon_ffaa*100)}}% del puntaje TOTAL)</th>
-                                                
+                                                    <th>Persona con discapacidad <br>({{ ($postulante->proceso->bon_pers_disc*100)}}% de la entrevista)</th>
+                                                    <th>Deportista Lic. FFAA <br>({{($postulante->proceso->bon_ffaa*100)}}% de la entrevista)</th>
+                                                    <th>Deportista calificado <br>(N% de la entrevista)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr  align="center">
                                                         <td>{{(float) $postulante->bonific_pers_disc}}</td>
-                                                        <td>{{(float) $postulante->bonific_deportista}}</td>
                                                         <td>{{(float) $postulante->bonific_ffaa}}</td>
+                                                        <td>{{(float) $postulante->bonific_deportista}}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

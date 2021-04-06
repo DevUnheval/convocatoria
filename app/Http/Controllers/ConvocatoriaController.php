@@ -69,7 +69,7 @@ class ConvocatoriaController extends Controller
                     else if($dato->archivo_bases_tipo =="web"){
                         $href=$dato->archivo_bases;
                     }
-                    $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info btn-rounded btn-xs'><i class='fa fa-file'></i> Bases</a>";
+                    $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info btn-rounded btn-sm'><i class='fa fa-file'></i> Bases</a>";
                 }
                 $comunicados = ""; 
                 if($dato->comunicados->count() > 0 ){

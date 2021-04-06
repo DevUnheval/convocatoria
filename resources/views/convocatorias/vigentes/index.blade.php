@@ -20,6 +20,7 @@
                             @include('convocatorias.vigentes.m_ver')
                             @include('convocatorias.vigentes.m_comunicados')
                             @include('convocatorias.vigentes.modalinvidtado')
+                            @include('convocatorias.vigentes.m_manual')
                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
                                     @include('convocatorias.vigentes.m_nuevo')
                                     @include('convocatorias.vigentes.m_editar')
@@ -87,6 +88,7 @@
         var pesoMaxArchivo = '{{ $datos["pesoMaxArchivo"] }}'; 
         var pesoMaxArchivo_MB = pesoMaxArchivo/1048576;
             pesoMaxArchivo_MB = pesoMaxArchivo_MB.toFixed(1); 
+            $("#modal_manual").modal("show");
      </script>
     <script src="{{ asset('/material-pro/src/assets/libs/datatables/media/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{ asset('/material-pro/dist/js/pages/datatable/custom-datatable.js')}}"></script>

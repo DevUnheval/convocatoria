@@ -149,6 +149,7 @@
 	<!--This page JavaScript -->
     <script>
       var asset = '{{ asset('') }}'; // declaramos la ruta que apunta a public
+
      </script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/magnific-popup/meg.init.js')}}"></script>
