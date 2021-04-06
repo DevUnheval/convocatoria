@@ -10,6 +10,11 @@ function anios_meses_dias(diasx){
     meses= Math.trunc((diasx%365)/30.4);
     dias =Math.round((diasx%365)%30.4);
 
+    if(dias == 30){
+        meses++;
+        dias = 0;
+    }
+
     if(anios == 0){
         anios_desc = "";
         anios = "";

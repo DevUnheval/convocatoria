@@ -240,18 +240,25 @@ function editar(id){
             $("#hay_bon_deport_"+response.hay_bon_deport).prop("checked", true); 
             $("#e_bon_deport").val(response.bon_deport);
              
-            const anio_exp_gen  =   Math.trunc((response.dias_exp_lab_gen)/365); 
-            const mes_exp_gen   =   Math.trunc(((response.dias_exp_lab_gen)%365)/30.4);
-            const dia_exp_gen   =   Math.round(((response.dias_exp_lab_gen)%365)%30.4);
-
-            const anio_exp_esp  =   Math.trunc((response.dias_exp_lab_esp)/365); 
-            const mes_exp_esp   =   Math.trunc(((response.dias_exp_lab_esp)%365)/30.4);
-            const dia_exp_esp   =   Math.round(((response.dias_exp_lab_esp)%365)%30.4);
-
+            var anio_exp_gen  =   Math.trunc((response.dias_exp_lab_gen)/365); 
+            var mes_exp_gen   =   Math.trunc(((response.dias_exp_lab_gen)%365)/30.4);
+            var dia_exp_gen   =   Math.round(((response.dias_exp_lab_gen)%365)%30.4);
+            if(dia_exp_gen == 30){
+                mes_exp_gen++;
+                dia_exp_gen = 0;
+            }
+            var anio_exp_esp  =   Math.trunc((response.dias_exp_lab_esp)/365); 
+            var mes_exp_esp   =   Math.trunc(((response.dias_exp_lab_esp)%365)/30.4);
+            var dia_exp_esp   =   Math.round(((response.dias_exp_lab_esp)%365)%30.4);
+            if(dia_exp_esp == 30){
+                mes_exp_esp++;
+                dia_exp_esp = 0;
+            }
+            
             $("#form_editar_exp_lab_gen_anio").val(anio_exp_gen);
             $("#form_editar_exp_lab_gen_mes").val(mes_exp_gen);
             $("#form_editar_exp_lab_gen_dia").val(dia_exp_gen);
-
+            
             $("#form_editar_exp_lab_esp_anio").val(anio_exp_esp);
             $("#form_editar_exp_lab_esp_mes").val(mes_exp_esp);
             $("#form_editar_exp_lab_esp_dia").val(dia_exp_esp);

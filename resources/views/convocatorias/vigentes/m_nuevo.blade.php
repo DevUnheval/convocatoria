@@ -180,7 +180,7 @@
                                         <div class="row form-group border-bottom mb-0 py-3 bg-light">                                            
                                             <div class="col-md-6">
                                                     <div><small class="font-weight-bold">Inicio Inscripción:<span class="text-danger"> *</span></small>
-                                                        <input type="datetime-local" class="form-control required" name="fecha_inscripcion_inicio"></div>                                                   
+                                                        <input type="datetime-local" class="form-control required" value="{{date('Y-m-d')}}" name="fecha_inscripcion_inicio"></div>                                                   
                                                     <!--<div class="col-md-5">Hora inicio:<input class="form-control" type="time" value="18:00:00"></div>-->                                                
                                             </div>
                                             <div class="col-md-6">
