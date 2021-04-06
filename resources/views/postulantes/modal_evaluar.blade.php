@@ -21,8 +21,11 @@
 
                 <form id="form_ev_individual" action="javascript:void(0);">
                     <div class="form-group">
-                        <label>Puntaje</label>
+                        <label>Puntaje [{{(int)$proceso->$ptj_min}} - {{(int)$proceso->$ptj_max}}]</label>
                         <input type="number"  class="form-control" id="input_puntaje_ev_individual" placeholder="Puntaje"min="0" max="{{$proceso->$ptj_max}}" required>
+                    </div>
+                    <div class="form-group" id="ev_bonificacion_deportista">
+                        
                     </div>
                     <div class="form-group">
                         <label>Observaciones</label>
