@@ -28,7 +28,7 @@ Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a p
 
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
 Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout')->middleware(['auth']);
 Route::get('perfil', 'Auth\PerfilController@index')->name('perfil')->middleware(['auth']);
  //JOSE AQUI TUS RUTAS
  //Fin Auth
@@ -100,17 +100,17 @@ Route::group(['prefix' => 'convocatorias'], function(){
 Route::group(['prefix' => 'postulante'], function(){
     // Vistas 
     Route::get('postular/{idproceso}', 'postulante\PostulanteController@postular')->where(['idproceso' => '[0-9]+'])->name('postulante_postular')->middleware(['auth','Postulante']);
-    Route::get('datosuser/data1', 'postulante\PostulanteController@datosuser_data1')->name('datosuser_data1')->middleware(['auth','Postulante']);
-    Route::get('formacion/data1', 'postulante\PostulanteController@formacion_data1')->name('formacion_data1')->middleware(['auth','Postulante']);
+    Route::get('datosuser/data1', 'postulante\PostulanteController@datosuser_data1')->name('datosuser_data1')->middleware(['auth']);
+    Route::get('formacion/data1', 'postulante\PostulanteController@formacion_data1')->name('formacion_data1')->middleware(['auth']);
     Route::get('formacion/data', 'postulante\PostulanteController@formacion_data')->name('formacion_data')->middleware(['auth','Postulante']);
     Route::post('actualizardatos', 'postulante\PostulanteController@actualizar_o_registrar')->name('actualizardatos')->middleware(['auth','Postulante']); 
     Route::post('guardarformacion', 'postulante\PostulanteController@guardarformacion')->name('guardarformacion')->middleware(['auth','Postulante']); 
     Route::post('eliminarformacion', 'postulante\PostulanteController@eliminarformacion')->name('eliminarformacion')->middleware(['auth','Postulante']);
-    Route::get('capacitaciones/data1', 'postulante\PostulanteController@capacitaciones_data1')->name('capacitaciones_data1')->middleware(['auth','Postulante']);
+    Route::get('capacitaciones/data1', 'postulante\PostulanteController@capacitaciones_data1')->name('capacitaciones_data1')->middleware(['auth']);
     Route::post('guardarcapacitacion', 'postulante\PostulanteController@guardarcapacitacion')->name('guardarcapacitacion')->middleware(['auth','Postulante']);
     Route::post('eliminarcapacitacion', 'postulante\PostulanteController@eliminarcapacitacion')->name('eliminarcapacitacion')->middleware(['auth','Postulante']);
     Route::get('experiencias/data1', 'postulante\PostulanteController@experiencias_data1')->name('experiencias_data1')->middleware(['auth','Postulante']);
-    Route::get('experiencias/data1/perfil', 'postulante\PostulanteController@experiencias_data1_perfil')->name('experiencias_data1_perfil')->middleware(['auth','Postulante']);
+    Route::get('experiencias/data1/perfil', 'postulante\PostulanteController@experiencias_data1_perfil')->name('experiencias_data1_perfil')->middleware(['auth']);
     Route::post('guardarexperiencia', 'postulante\PostulanteController@guardarexperiencia')->name('guardarexperiencia')->middleware(['auth','Postulante']);
     Route::post('perfil/guardarexperiencia', 'Auth\PerfilController@guardarexperiencia')->name('guardarexperiencia_perfil')->middleware(['auth','Postulante']);
     Route::post('eliminarexperiencia', 'postulante\PostulanteController@eliminarexperiencia')->name('eliminarexperiencia')->middleware(['auth','Postulante']);
@@ -120,7 +120,7 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizarexperiencia', 'postulante\PostulanteController@actualizarexperiencia')->name('actualizarexperiencia')->middleware(['auth','Postulante']);
     Route::post('perfil/actualizarexperiencia', 'Auth\PerfilController@actualizarexperiencia')->name('actualizarexperiencia_perfil')->middleware(['auth','Postulante']);
     
-    Route::get('datosexpgenyesp', 'postulante\PostulanteController@datosexpgenyesp')->name('datosexpgenyesp')->middleware(['auth','Postulante']);
+    Route::get('datosexpgenyesp', 'postulante\PostulanteController@datosexpgenyesp')->name('datosexpgenyesp')->middleware(['auth']);
     Route::get('datosexpgenyesp_proceso', 'postulante\PostulanteController@datosexpgenyesp_proceso')->name('datosexpgenyesp_proceso')->middleware(['auth','Postulante']);
     Route::post('datosformacion_general', 'postulante\PostulanteController@datosformacion_general')->name('datosformacion_general')->middleware(['auth','Postulante']);
     Route::post('editarformacion', 'postulante\PostulanteController@editarformacion')->name('editarformacion')->middleware(['auth','Postulante']);
@@ -129,18 +129,20 @@ Route::group(['prefix' => 'postulante'], function(){
     Route::post('actualizarcapacitacion_data', 'postulante\PostulanteController@actualizarcapacitacion_data')->name('actualizarcapacitacion_data')->middleware(['auth','Postulante']);
     Route::post('declaracionjurada', 'postulante\PostulanteController@declaracionjurada')->name('declaracionjurada')->middleware(['auth','Postulante']);
     Route::post('registrofinal', 'postulante\PostulanteController@registrofinal')->name('registrofinal')->middleware(['auth','Postulante']);
-    Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo')->middleware(['auth','Postulante']);
+    Route::get('datosuser/recuperar_ubigeo', 'postulante\PostulanteController@recuperar_ubigeo')->name('recuperar_ubigeo')->middleware(['auth']);
     Route::get('datosuser/cargar_resumen_postulante', 'postulante\PostulanteController@cargar_resumen_postulante')->name('cargar_resumen_postulante')->middleware(['auth','Postulante']);
-    Route::post('perfil/update_fotografia', 'Auth\PerfilController@update_fotografia')->name('update_fotografia')->middleware(['auth','Postulante']);
-    Route::post('perfil/cambiocorreo', 'Auth\PerfilController@cambiocorreo')->name('cambiocorreo')->middleware(['auth','Postulante']);
+    Route::post('perfil/update_fotografia', 'Auth\PerfilController@update_fotografia')->name('update_fotografia')->middleware(['auth']);
+    Route::post('perfil/cambiocorreo', 'Auth\PerfilController@cambiocorreo')->name('cambiocorreo')->middleware(['auth']);
     Route::get('{idproceso}/registro', 'postulante\PostulanteController@registro_postular')->where(['idproceso' => '[0-9]+'])->name('registro_postular')->middleware(['auth','Postulante']);//no tocar
+    Route::post('perfil/update_password', 'Auth\PerfilController@update_password')->name('update_passwordd')->middleware(['auth']);
+    
 });
     
     
     //MIS POSTULACIONES
     Route::group(['prefix' => 'mispostulaciones'], function(){
-    Route::get('/', 'postulante\mispostulacionesController@index')->name('mispostulaciones');
-    Route::get('datatabla', 'postulante\mispostulacionesController@datatabla')->name('datatabla');
+    Route::get('/', 'postulante\mispostulacionesController@index')->name('mispostulaciones')->middleware(['auth','Postulante']);
+    Route::get('datatabla', 'postulante\mispostulacionesController@datatabla')->name('datatabla')->middleware(['auth','Postulante']);;
     });
     //POSTULANTES
     Route::group(['prefix' => 'postulantes'], function(){

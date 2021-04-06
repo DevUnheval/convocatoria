@@ -260,7 +260,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
-                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf" onchange="validar_peso_archivo(this)" />
+                                    <input name="file_ffaa" id="file_ffaa"  class="material-inputs" type="file" accept="application/pdf" onchange="validar_peso_archivo(this)" >
                                     <span id="btn_doc_ffaa" class=""></span> <input type="hidden" id="input_hide_ffaa" value="0">
                                 </div>   
                             </div>

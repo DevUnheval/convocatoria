@@ -632,7 +632,7 @@ $("#tipo_capacitacion").on('change',function(){
                     timer: null
                 })
                 $('#mypassword').val("");
-                
+                                
 
             }
           // console.log(data);
