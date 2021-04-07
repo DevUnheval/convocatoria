@@ -43,7 +43,7 @@
 
                     -->
                     Antes de continuar, consulte su correo electrónico <strong>{{auth()->user()->email}} </strong> para ver si hay un enlace de 
-                    verificación, se recomienda revisar también la carpeta de SPAM. <strong class="text-danger">(puede demorar hasta 10 minutos en llegar)</strong><br>
+                    verificación, se recomienda revisar también la carpeta de SPAM o correos no deseados. <strong class="text-danger">(puede demorar hasta 10 minutos en llegar)</strong><br>
                      <br>Si no ha recibido el correo electrónico,
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
