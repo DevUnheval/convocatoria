@@ -23,7 +23,7 @@ class UsuarioController extends Controller
         return view("maestro.usuarios.index",compact('roles'));
     }
     public function data(){
-        $query = User::where("id","<>",1)->get();
+        $query = User::whereNotIn("id",[1,2])->get();
         if($query->count()<1)
         return $this->data_null;
 
