@@ -13,8 +13,9 @@
                 <h4 class="card-title mt-2">{{auth()->user()->nombres.' '.auth()->user()->apellido_paterno.' '.auth()->user()->apellido_materno}}</h4>
             </div>
             <label ><small>Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB</small> </label>
-            <input type="file" id="file_foto" accept="image/*" onchange="validar_peso_archivo(this)>
-            </center>   
+            <input type="file" id="file_foto" accept="image/*" onchange="validar_peso_archivo(this)">
+            </center>  
+
             <div class="modal-footer">
                 <button  type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button id="btn_update_foto"  class="btn btn-success "type="button">Actualizar</button>
