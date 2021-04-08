@@ -175,6 +175,12 @@ $(document).ready(function() {
             if(data2[i].es_curso_espec==1){
                 tipoestudio = "Curso/Especialización";
             }
+            if(data2[i].es_especializacion==1){
+                tipoestudio = "Especialización";
+            }
+            if(data2[i].es_diplomado==1){
+                tipoestudio = "Diplomado";
+            }
             if(data2[i].es_ofimatica==1){
                 tipoestudio = "Ofimática";
             }
@@ -632,14 +638,26 @@ $.ajax({
             $('#nivel_capa').prop('required',false);
             $('#nivel_capa').val('');
         }
-        if(data[0].es_ofimatica==1){
+        if(data[0].es_especializacion==1){
             tipocap_sel = 2;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
+        if(data[0].es_diplomado==1){
+            tipocap_sel = 3;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
+        if(data[0].es_ofimatica==1){
+            tipocap_sel = 4;
             $('#nivel_capa').prop('disabled',false);
             $('#nivel_capa').prop('required',true);
             $('#nivel_capa').val(data[0].nivel);
         }
         if(data[0].es_idioma==1){
-            tipocap_sel = 3;
+            tipocap_sel = 5;
             $('#nivel_capa').prop('disabled',false);
             $('#nivel_capa').prop('required',true);
             $('#nivel_capa').val(data[0].nivel);
@@ -1348,8 +1366,14 @@ function cumple_formacion(idproceso){
 
                   tipoestudio = "";
                  if(data.qcapa[i].es_curso_espec==1){
-                     tipoestudio = "Curso/Especialización";
+                     tipoestudio = "Curso";
                  }
+                 if(data.qcapa[i].es_especializacion==1){
+                    tipoestudio = "Especialización";
+                }
+                if(data.qcapa[i].es_diplomado==1){
+                    tipoestudio = "Diplomado";
+                }
                  if(data.qcapa[i].es_ofimatica==1){
                      tipoestudio = "Ofimática";
                  }

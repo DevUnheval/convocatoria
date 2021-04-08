@@ -302,8 +302,14 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
 
               tipoestudio = "";
              if(data.qcapa[i].es_curso_espec==1){
-                 tipoestudio = "Curso/Especialización";
+                 tipoestudio = "Curso";
              }
+             if(data.qcapa[i].es_especializacion==1){
+                tipoestudio = "Especialización";
+            }
+            if(data.qcapa[i].es_diplomado==1){
+                tipoestudio = "Diplomado";
+            }
              if(data.qcapa[i].es_ofimatica==1){
                  tipoestudio = "Ofimática";
              }

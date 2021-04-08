@@ -125,11 +125,18 @@
         <td class="cv-tabla-td">{{$formacion->especialidad}}</td>
         <td class="cv-tabla-td">{{$formacion->centro_estudios}}</td>
         <td class="cv-tabla-td">{{date_format(date_create($formacion->fecha_expedicion),"d/m/Y")}}</td>
-    </tr>
+    </tr>    
     @endforeach
+    @if ($postulante->datos_postulante->colegiatura)
+    <tr>
+        <td class="cv-tabla-td" colspan="4"> CÓDIGO DE COLEGIADO: {{$postulante->datos_postulante->colegiatura}}     </td>
+    </tr>
+    @endif 
   </tbody>                                            
 </table>
 <br>
+
+
 <!-- CURSOS Y/O ESPECIALIZACIONES -->
 <table class="cv-tabla">
   <tbody>
@@ -149,9 +156,13 @@
     <tr>
         <td class="cv-tabla-td-dj">
           @if($valor->es_curso_espec)
-            Capacitación / Especialización
-          @elseif($valor->es_ofimatica)
-            OFIMATICA
+            CURSO
+          @elseif($valor->es_especializacion)
+          ESPECIALIZACIÓN 
+          @elseif($valor->es_diplomado)
+            DIPLAMADO
+          @elseif($valor->es_ofimatica) 
+          OFIMATICA 
           @elseif($valor->es_idioma)
             IDIOMA
           @endif
