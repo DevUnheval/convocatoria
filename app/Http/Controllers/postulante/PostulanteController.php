@@ -368,6 +368,8 @@ class PostulanteController extends Controller
         
         $cu->user_id = auth()->user()->id;
         $cu->es_curso_espec = $data->es_curso_espec;
+        $cu->es_especializacion = $data->es_especializacion;
+        $cu->es_diplomado = $data->es_diplomado;
         $cu->es_ofimatica = $data->es_ofimatica;
         $cu->es_idioma = $data->es_idioma;
         
@@ -541,6 +543,8 @@ class PostulanteController extends Controller
                         
         $cu->user_id = auth()->user()->id;
         $cu->es_curso_espec = $data->es_curso_espec;
+        $cu->es_especializacion = $data->es_especializacion;
+        $cu->es_diplomado = $data->es_diplomado;
         $cu->es_ofimatica = $data->es_ofimatica;
         $cu->es_idioma = $data->es_idioma;
                 

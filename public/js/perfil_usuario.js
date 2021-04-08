@@ -113,7 +113,7 @@ $("#tipo_estudio").on('change',function(){
 
 //select de crear una nueva capacitacion/curso/idioma/ofimatica academica
 $("#tipo_capacitacion").on('change',function(){
-    if($("#tipo_capacitacion").val()==2 || $("#tipo_capacitacion").val()==3){
+    if($("#tipo_capacitacion").val()==4 || $("#tipo_capacitacion").val()==5){
         $('#nivel_capa').prop('disabled',false);
         $('#nivel_capa').prop('required',true);
         $('#nivel_capa').val('');
@@ -277,8 +277,14 @@ $("#tipo_capacitacion").on('change',function(){
             // totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
  
              if(data2[i].es_curso_espec==1){
-                 tipoestudio = "Curso/Especialización";
+                 tipoestudio = "Curso";
              }
+             if(data2[i].es_especializacion==1){
+                tipoestudio = "Especialización";
+            }
+            if(data2[i].es_diplomado==1){
+                tipoestudio = "Diplomado";
+            }
              if(data2[i].es_ofimatica==1){
                  tipoestudio = "Ofimática";
              }
@@ -802,14 +808,26 @@ $("#tipo_capacitacion").on('change',function(){
              $('#nivel_capa').prop('required',false);
              $('#nivel_capa').val('');
          }
+         if(data[0].es_especializacion==1){
+            tipocap_sel = 2;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
+        if(data[0].es_diplomado==1){
+            tipocap_sel = 3;
+            $('#nivel_capa').prop('disabled',true);
+            $('#nivel_capa').prop('required',false);
+            $('#nivel_capa').val('');
+        }
          if(data[0].es_ofimatica==1){
-             tipocap_sel = 2;
+             tipocap_sel = 4;
              $('#nivel_capa').prop('disabled',false);
              $('#nivel_capa').prop('required',true);
              $('#nivel_capa').val(data[0].nivel);
          }
          if(data[0].es_idioma==1){
-             tipocap_sel = 3;
+             tipocap_sel = 5;
              $('#nivel_capa').prop('disabled',false);
              $('#nivel_capa').prop('required',true);
              $('#nivel_capa').val(data[0].nivel);
@@ -1465,6 +1483,8 @@ function actualizar_capac(transid){
 function actualizar_capacitacion_data(transid){
     var id=transid.substring(8);
     var es_curso_espec=0;
+    var es_especializacion=0;
+    var es_diplomado=0;
     var  es_ofimatica=0;
      var es_idioma=0;   
      var nivel_tratada="";
@@ -1482,27 +1502,51 @@ function actualizar_capacitacion_data(transid){
      }  */
  
      if($("#tipo_capacitacion").val()==1){
-         es_curso_espec=1;
-         es_ofimatica=0;
-         es_idioma=0;
-         nivel_tratada = "-";
-     }
-     if($("#tipo_capacitacion").val()==2){
-         es_curso_espec=0;
-         es_ofimatica=1;
-         es_idioma=0;
-         nivel_tratada = $("#nivel_capa").val();
-     }
-     if($("#tipo_capacitacion").val()==3){
-         es_curso_espec=0;
-         es_ofimatica=0;
-         es_idioma=1;
-         nivel_tratada = $("#nivel_capa").val();
-     }
+        es_curso_espec=1;
+        es_especializacion = 0;
+        es_diplomado = 0;
+        es_ofimatica=0;
+        es_idioma=0;
+        nivel_tratada = "-";
+    }
+    if($("#tipo_capacitacion").val()==2){
+        es_curso_espec=0;
+        es_especializacion = 1;
+        es_diplomado = 0;
+        es_ofimatica=0;
+        es_idioma=0;
+        nivel_tratada = "-";
+    }
+    if($("#tipo_capacitacion").val()==3){
+        es_curso_espec=0;
+        es_especializacion = 0;
+        es_diplomado = 1;
+        es_ofimatica=0;
+        es_idioma=0;
+        nivel_tratada =  "-";
+    }
+    if($("#tipo_capacitacion").val()==4){
+       es_curso_espec=0;
+       es_especializacion = 0;
+       es_diplomado = 0;
+       es_ofimatica=1;
+       es_idioma=0;
+       nivel_tratada = $("#nivel_capa").val();
+   }
+   if($("#tipo_capacitacion").val()==5){
+       es_curso_espec=0;
+       es_especializacion = 0;
+       es_diplomado = 0;
+       es_ofimatica=0;
+       es_idioma=1;
+       nivel_tratada = $("#nivel_capa").val();
+   }
      
      var formData = new FormData();
      formData.append('id', id);
      formData.append('es_curso_espec', es_curso_espec);
+     formData.append('es_especializacion', es_especializacion);
+     formData.append('es_diplomado', es_diplomado);
     formData.append('es_ofimatica', es_ofimatica);
     formData.append('es_idioma', es_idioma);
     formData.append('especialidad', $("#descripcion").val());
@@ -1531,8 +1575,14 @@ function actualizar_capacitacion_data(transid){
              //alert("datos guardados CAPACITACION!! ");
              var tipoestudio="";
              if(data[0].es_curso_espec==1){
-                 tipoestudio = "Curso/Especialización";
-             }
+                tipoestudio = "Curso";
+            }
+            if(data[0].es_especializacion==1){
+               tipoestudio = "Especialización";
+           }
+           if(data[0].es_diplomado==1){
+               tipoestudio = "Diplomado";
+           }
              if(data[0].es_ofimatica==1){
                  tipoestudio = "Ofimática";
              }
@@ -2023,6 +2073,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
  //__________________________________-GUARDAR CURSO CAPACITACION _________________________________
  function guardar_capacitacion_data(){
     var es_curso_espec=0;
+    var es_especializacion=0;
+    var es_diplomado=0;
     var  es_ofimatica=0;
      var es_idioma=0;   
      var nivel_tratada="";
@@ -2041,26 +2093,50 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
     */
      if($("#tipo_capacitacion").val()==1){
          es_curso_espec=1;
+         es_especializacion = 0;
+         es_diplomado = 0;
          es_ofimatica=0;
          es_idioma=0;
          nivel_tratada = "-";
      }
      if($("#tipo_capacitacion").val()==2){
          es_curso_espec=0;
-         es_ofimatica=1;
+         es_especializacion = 1;
+         es_diplomado = 0;
+         es_ofimatica=0;
          es_idioma=0;
-         nivel_tratada = $("#nivel_capa").val();
+         nivel_tratada = "-";
      }
      if($("#tipo_capacitacion").val()==3){
          es_curso_espec=0;
+         es_especializacion = 0;
+         es_diplomado = 1;
          es_ofimatica=0;
-         es_idioma=1;
-         nivel_tratada = $("#nivel_capa").val();
+         es_idioma=0;
+         nivel_tratada =  "-";
      }
+     if($("#tipo_capacitacion").val()==4){
+        es_curso_espec=0;
+        es_especializacion = 0;
+        es_diplomado = 0;
+        es_ofimatica=1;
+        es_idioma=0;
+        nivel_tratada = $("#nivel_capa").val();
+    }
+    if($("#tipo_capacitacion").val()==5){
+        es_curso_espec=0;
+        es_especializacion = 0;
+        es_diplomado = 0;
+        es_ofimatica=0;
+        es_idioma=1;
+        nivel_tratada = $("#nivel_capa").val();
+    }
  
      var formData = new FormData();
      formData.append('es_curso_espec', es_curso_espec);
-    formData.append('es_ofimatica', es_ofimatica);
+     formData.append('es_especializacion', es_especializacion);
+     formData.append('es_diplomado', es_diplomado);
+     formData.append('es_ofimatica', es_ofimatica);
     formData.append('es_idioma', es_idioma);
     formData.append('especialidad', $("#descripcion").val());
     formData.append('centro_estudios', $("#institucion").val());
@@ -2087,8 +2163,14 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
             
              var tipoestudio="";
              if(data.es_curso_espec==1){
-                 tipoestudio = "Curso/Especialización";
-             }
+                tipoestudio = "Curso";
+            }
+            if(data.es_especializacion==1){
+               tipoestudio = "Especialización";
+           }
+           if(data.es_diplomado==1){
+               tipoestudio = "Diplomado";
+           }
              if(data.es_ofimatica==1){
                  tipoestudio = "Ofimática";
              }
