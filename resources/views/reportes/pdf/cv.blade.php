@@ -129,7 +129,7 @@
     @endforeach
     @if ($postulante->datos_postulante->colegiatura)
     <tr>
-        <td class="cv-tabla-td" colspan="4"> CÓDIGO DE COLEGIADO: {{$postulante->datos_postulante->colegiatura}}     </td>
+        <td class="cv-tabla-td" colspan="4"> CÓDIGO DE COLEGIATURA: {{$postulante->datos_postulante->colegiatura}}     </td>
     </tr>
     @endif 
   </tbody>                                            
