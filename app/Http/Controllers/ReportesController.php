@@ -90,12 +90,12 @@ class ReportesController extends Controller
         $postulantes = Postulante::select( "dni",
                                      DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
                                      "user_id",
-                                    "postulantes.*",
+                                    "postulantes.*"
                                     )
                             ->join("users","users.id","=","postulantes.user_id")
                             ->where('proceso_id',$proceso_id)
                             ->where('cal_entrevista','1')
-                            ->orderBy('final','desc',)
+                            ->orderBy('final','desc')
                             ->orderBy('apellido_paterno','asc')
                             ->get();
         return [
@@ -142,6 +142,9 @@ class ReportesController extends Controller
 
         //2. DNI
         $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_dni);         
+        //2.1 COLEGIATURA
+        if($postulante->datos_postulante->archivo_colegiatura)
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_colegiatura);
         //3. bonificaciones
         if($postulante->datos_postulante->es_lic_ffaa)
             $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_ffaa);

@@ -471,7 +471,7 @@ class PostulantesController extends Controller
     ->where('postulante_id',$postulanteid)->get();
 
     //CApacitaciones
-    $qcapa= CapacitacionPostulante::select('id','validacion','es_curso_espec','es_ofimatica','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
+    $qcapa= CapacitacionPostulante::select('id','validacion','es_curso_espec','es_ofimatica','es_especializacion','es_diplomado','es_idioma','especialidad','centro_estudios','cantidad_horas','archivo')
     ->where('postulante_id',$postulanteid)->get();
     
     //Datospersonales

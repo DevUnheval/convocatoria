@@ -94,7 +94,7 @@
                                       
                                       
                                      <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md">
                                             <div class="form-group">
                                                 <label for="fecha_exp">Fecha Expedición: <span class="text-danger">**</span> </label>
                                                 <input type="date" class="form-control " id="fecha_exp" min="1950-01-01" max="{{date('Y-m-d')}}" name="fecha_exp" required >
@@ -103,7 +103,9 @@
                                                   </div> 
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_inicio">Fecha Inicio: <span class="text-danger">*</span> </label>
                                                 <input type="date" class="form-control " id="fecha_inicio" min="1950-01-01" name="fecha_inicio" max="{{date('Y-m-d')}}" required> 
@@ -112,7 +114,7 @@
                                             </div>
                                             </div>    
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="fecha_fin">Fecha Fin: <span class="text-danger">*</span> </label>
                                                 <input type="date" class="form-control " id="fecha_fin" name="fecha_fin" min="1950-01-01" max="{{date('Y-m-d')}}" required> 
@@ -121,7 +123,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                      </div>
+                                    </div>
                                        <div class="row">
                                          <div class="col-md-12">
                                              <div class="form-group">
