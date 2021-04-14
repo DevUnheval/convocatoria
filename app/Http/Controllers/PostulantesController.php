@@ -193,7 +193,7 @@ class PostulantesController extends Controller
             }
 
             $nombres=$p->user->apellido_paterno." ".$p->user->apellido_materno." ".$p->user->nombres;
-            $formacion ="";$img ="";
+            $formacion ="";$img ="";$bon_dep = 0;
             $edad = Carbon::createFromDate("2001-01-01")->age;  
             
             
@@ -203,7 +203,7 @@ class PostulantesController extends Controller
             }
             if($p->datos_postulante){
                 $edad =Carbon::createFromDate($p->datos_postulante->fecha_nacimiento)->age;
-                $img = Storage::url($p->datos_postulante->archivo_foto);
+                $img = Storage::url($p->datos_postulante->archivo_foto); 
                 if( ((boolean)$p->datos_postulante->es_deportista ) && $etapa==count($api['etapas'])){
                     $bon_dep = 1;
                 }
