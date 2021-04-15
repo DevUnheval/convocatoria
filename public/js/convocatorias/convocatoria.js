@@ -7,7 +7,7 @@ $(document).ready(function() {
          aLengthMenu: [15, 25,50, 100],
          bAutoWidth: true,
           order: []
-    }) 
+    })
     var form = $(".tab-wizard").show();
     $(".tab-wizard").steps({
         headerTag: "h6",

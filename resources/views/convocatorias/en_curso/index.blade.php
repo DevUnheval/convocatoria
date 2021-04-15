@@ -39,6 +39,7 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
+                                <th>Bases</th>  
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
@@ -57,6 +58,7 @@
                                 @endif
                                 <th>Código</th>
                                 <th>Convocatoria</th>
+                                <th>Bases</th>  
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>

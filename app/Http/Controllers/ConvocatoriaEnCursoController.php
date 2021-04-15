@@ -63,7 +63,18 @@ class ConvocatoriaEnCursoController extends Controller
                            
             $config.=  " </div>
                             </div>";//no existe esa funcion
-            
+            //$bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
+            $bases = "";
+            if($dato->archivo_bases != ""){ 
+                $href="#";
+                if($dato->archivo_bases_tipo =="local"){
+                    $href=Storage::url($dato->archivo_bases);
+                }
+                else if($dato->archivo_bases_tipo =="web"){
+                    $href=$dato->archivo_bases;
+                }
+                $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info btn-rounded btn-sm'><i class='fa fa-file'></i> Bases</a>";
+            }
             $comunicados = ""; 
             if($dato->comunicados->count() > 0 ){
                 $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
@@ -97,10 +108,10 @@ class ConvocatoriaEnCursoController extends Controller
             }                   
          
             if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
-                $data['aaData'][] = [$config,$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados,$postular];
+                $data['aaData'][] = [$config,$dato->cod,$convocatoria_all,$bases,$comunicados,$evaluaciones,$resultados,$postular];
             }
             else{
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];    
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$bases,$comunicados,$evaluaciones,$resultados];    
             }
 
         }
