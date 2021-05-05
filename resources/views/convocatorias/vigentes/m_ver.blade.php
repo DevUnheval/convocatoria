@@ -125,19 +125,19 @@
                            </div>
                            <hr>
                            <div class="row">  
-                              <div class="col-md-4 ocultar_elemento" id="div_ver_capacitaciones">
+                              <div class="col-md-12 ocultar_elemento" id="div_ver_capacitaciones">
                                  <div class="form-group">
                                        <small class="text-info">Capacitaciones </small>
                                        <h5 id="ver_capacitaciones"></h5>
                                  </div>
                               </div>
-                              <div class="col-md-4 ocultar_elemento" id="div_ver_habilidades">
+                              <div class="col-md-12 ocultar_elemento" id="div_ver_habilidades">
                                  <div class="form-group">
                                        <small class="text-info">Habilidades </small>
                                        <h5 id="ver_habilidades"></h5>
                                  </div>
                               </div>
-                              <div class="col-md-4 ocultar_elemento" id="div_ver_descripcion">
+                              <div class="col-md-12 ocultar_elemento" id="div_ver_descripcion">
                                  <div class="form-group">
                                        <small class="text-info">Otros datos: </small>
                                        <h5 id="ver_descripcion"></h5>

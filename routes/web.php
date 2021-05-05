@@ -85,7 +85,7 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado')->middleware(['auth','Administrador']); 
 
     //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
-    Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados')->middleware(['auth']);   
+    Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');//->middleware(['auth']);   
     Route::get('show_evaluacion/{proceso_id}', 'ConvocatoriaEnCursoController@show_evaluacion')->name('convocatoria.en:curso.comunicados')->middleware(['auth']);     
     Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar')->middleware(['auth','Administrador']);  
     Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion')->middleware(['auth','Administrador']);     
@@ -180,6 +180,7 @@ Route::group(['prefix' => 'reportes'], function(){
     Route::get('/{id}/{etapa}/excel', 'ReportesController@excel')->where(['id'=>'[0-9]+'])->where(['etapa'=>'[0-9]+'])->name('reportes.excel');   
     Route::get('cv/{id_postulante}', 'ReportesController@cv')->where(['id_postulante'=>'[0-9]+'])->middleware(['auth','Comisionado']);
     Route::get('postulantes/{id_proceso}', 'ReportesController@descargar_postulantes')->name('reporte.postulantes')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
+    Route::get('postulantes/{id_proceso}/view', 'ReportesController@descargar_postulantes_view')->name('reporte.postulantes.view')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
 });
 Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->name('reportes.preliminar');
 

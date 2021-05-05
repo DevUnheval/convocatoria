@@ -60,7 +60,7 @@ class ConvocatoriaController extends Controller
                                     <a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar</a>
                                 </div>
                             </div>";
-                $bases = "<button type='button' class='btn btn-outline-warning btn-rounded btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> </button> ";
+                $bases = "<button type='button' class='btn btn-outline-warning  btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> Detalles</button> ";
                 if($dato->archivo_bases != ""){ 
                     $href="#";
                     if($dato->archivo_bases_tipo =="local"){
@@ -69,7 +69,7 @@ class ConvocatoriaController extends Controller
                     else if($dato->archivo_bases_tipo =="web"){
                         $href=$dato->archivo_bases;
                     }
-                    $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info btn-rounded btn-sm'><i class='fa fa-file'></i> Bases</a>";
+                    $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info  btn-sm'><i class='fa fa-file'></i> Bases</a>";
                 }
                 $comunicados = ""; 
                 if($dato->comunicados->count() > 0 ){

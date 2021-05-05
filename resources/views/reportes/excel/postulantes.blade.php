@@ -95,7 +95,7 @@
                         @endif
                         <td align="center">{{ (float) $p->final}}</td> 
                         <td align="center">{{  $p->condicion}}</td>    
-                        <td align="center"><a href="{{asset('/reportes/cv/'.$p->id)}}">Descargar</a></td>                
+                        <td align="center"><a href="{{asset('/reportes/cv/'.$p->id)}}" target="_blank">Descargar</a></td>                
                     </tr> 
                     @endforeach     
                     @if(count($data) < 1 )

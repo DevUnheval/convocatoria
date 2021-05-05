@@ -338,11 +338,11 @@
                                                 <div class="row p-2">
                                                     <div class="col-md-6 form-group">                                                
                                                         <b><small>Horas de Capacitación- Total: <span class="text-danger">(mínimo)</span> </small></b>
-                                                        <input type="number" class="form-control required"   name="horas_cap_total" value="300">
+                                                        <input type="number" class="form-control required"   name="horas_cap_total" id="horas_cap_total">
                                                     </div>
                                                     <div class="col-md-6 form-group">                                                
                                                         <b><small>Horas de Capacitación- Individual: <span class="text-danger">(mínimo)</span> </small></b>
-                                                        <input type="number" class="form-control required" name="horas_cap_ind" value="24">
+                                                        <input type="number" class="form-control required" name="horas_cap_ind" id="horas_cap_ind">
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,7 +372,9 @@
                                             </div>
                                         </div>                                      
                                     <!-- Bonificaciones-->     
-                                        <br>  
+                                    
+                                    <!-- 
+                                    <br>  
                                     <div class="border border-primary p-3">        
                                         <h4 class="card-title">Bonificaciones: </h4>                   
                                         <div class="row ">
@@ -419,7 +421,9 @@
                                                 </fieldset>
                                             </div>
                                         </div> 
-                                    </div> <br><br>                                     
+                                    </div> <br><br>  
+                                    -->
+
                                     </section>                                   
                                 </form>
                             </div>

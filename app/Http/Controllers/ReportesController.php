@@ -200,4 +200,17 @@ class ReportesController extends Controller
         //return (new ProcesosExport ($data))->view();
         return (new ProcesosExport($data))->download("postulantes_".$data['proceso']->cod.'.xlsx');
     }
+
+    public function descargar_postulantes_view($id_proceso){
+        $data["proceso"] = Proceso::find($id_proceso);
+        $data["postulantes"] = Postulante::select( "dni",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),'postulantes.*')
+                                        ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id_proceso)
+                                        ->orderBy("final","desc")
+                                        ->orderBy("apellido_paterno")->get();
+        $data["ruta"] = "reportes.excel.postulantes";
+        return (new ProcesosExport ($data))->view();
+        //return (new ProcesosExport($data))->download("postulantes_".$data['proceso']->cod.'.xlsx');
+    }
+
+
 }

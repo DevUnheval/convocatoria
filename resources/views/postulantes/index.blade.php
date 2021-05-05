@@ -25,8 +25,21 @@
 
 @section('title','Evaluar postulantes')
 
-@section('menu_title_1','Evaluar potulantes: '.$proceso->nombre.' ('.$proceso->n_plazas.' plazas)' )
-@section('menu_title_2','Evaluar postulantes > '.$proceso->nombre)
+@section('menu_title_1')
+    @php
+    if($proceso->n_plazas=='1')
+        $_n_plazas = '(1 plaza)';
+    else
+        $_n_plazas = '('.$proceso->n_plazas.' plazas)';
+    @endphp
+    Evaluar potulantes a la plaza: <br>
+    {{$proceso->cod.' '.$_n_plazas}} 
+@endsection
+
+@section('menu_title_2')
+    <b>Evaluar </b> <br>
+    {{$proceso->nombre}}
+@endsection
 
 @section('content')
 

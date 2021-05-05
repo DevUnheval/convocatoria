@@ -265,7 +265,7 @@ function editar(id){
 
             $("#e_consid_prac_preprof_"+response.consid_prac_preprof).prop("checked", true);
             $("#e_consid_prac_prof_"+response.consid_prac_prof).prop("checked", true);
-
+            
 
             
             if(response.archivo_resolucion_tipo == "web"){
