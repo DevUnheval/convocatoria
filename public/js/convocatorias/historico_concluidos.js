@@ -23,7 +23,6 @@ function ver_comunicados(id){
             if ( $("#proceso_id_comunicado").length ) {
                 $("#proceso_id_comunicado").val(id);
             }
-           
            $('#tabla_comunicados tbody').html(response)
         },
         error: function (response){

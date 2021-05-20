@@ -372,7 +372,8 @@
                                             </div>
                                         </div>                                      
                                     <!-- Bonificaciones-->     
-                                        <br>   <br>      
+                                        <br>   <br>
+                                        <!--                                               
                                         <div class="border border-primary p-3">   
                                             <h4 class="card-title">Bonificaciones: </h4>                   
                                             <div class="row ">
@@ -419,7 +420,8 @@
                                                     </fieldset>
                                                 </div>
                                             </div>   
-                                        </div> <br><br>                              
+                                        </div> <br><br>                               
+                                        -->
                                     </section>                                  
                                 </form>
                             </div>

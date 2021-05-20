@@ -36,7 +36,10 @@
                 ?>
                 <thead>
                     <tr>
-                        <td  align="center" colspan="{{$colums}}"><h1>Proceso de concurso {{$data["proceso"]->cod}} </h1></td>
+                        <td  align="center" colspan="{{$colums}}">
+                            <h1>Proceso de concurso {{$data["proceso"]->cod}} 
+                            </h1>
+                        </td>
                     </tr>
                     <tr>
                         <td  align="center" colspan="{{$colums}}" ><h2>NOMBRE DE LA CONVOCATORIA: {{$data["proceso"]->nombre}}  -  Nº DE PLAZAS: {{$data['proceso']->n_plazas}}</h2></td>

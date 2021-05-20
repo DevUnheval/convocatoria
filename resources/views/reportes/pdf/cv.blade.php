@@ -213,8 +213,8 @@
         
         </td>
         <td class="cv-tabla-td-dj">{{$experiencia->cargo_funcion}}</td>
-        <td class="cv-tabla-td-dj"> {{date_format(date_create($formacion->fecha_inicio),"d/m/Y")}} </td>
-        <td class="cv-tabla-td-dj"> {{date_format(date_create($formacion->fecha_fin),"d/m/Y")}}</td>
+        <td class="cv-tabla-td-dj"> {{date_format(date_create($experiencia->fecha_inicio),"d/m/Y")}} </td>
+        <td class="cv-tabla-td-dj"> {{date_format(date_create($experiencia->fecha_fin),"d/m/Y")}}</td>
         <td class="cv-tabla-td-dj"> {{$experiencia->calcular_expericia()}}</td>
     </tr>
     @endforeach

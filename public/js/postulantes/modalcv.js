@@ -154,7 +154,8 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
       var esdisc = "";
       var esffaa = "";
       var esdep = "";
-      $("#ruta_cv_postulante").attr("href","/reportes/cv/"+idpostulante)
+      $("#ruta_cv_postulante").attr("href","/reportes/cv/"+idpostulante);
+      $("#ruta_cv_postulante2").attr("href","/reportes/cv2/"+idpostulante);
       if(data.quser!=null){
       $('#postulante').html(data.quser.apellido_paterno+" "+data.quser.apellido_materno+", "+data.quser.nombres);
         $('#apellidosynombres').html(data.quser.apellido_paterno+" "+data.quser.apellido_materno+", "+data.quser.nombres);

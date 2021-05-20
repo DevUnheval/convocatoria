@@ -40,7 +40,7 @@ class ConvocatoriaHistoricoController extends Controller{
        
         foreach ($query as $dato) {
         
-            $postulantes = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("reporte.postulantes",[$dato->id]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';        
+            $postulantes = '<a class="btn btn-info waves-effect waves-light btn-xs" target="_black" href="'.route("reporte.postulantes.view",[$dato->id]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';        
             $comunicados = ""; 
             if($dato->comunicados->count() > 0 ){
                 $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 

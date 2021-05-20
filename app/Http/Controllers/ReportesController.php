@@ -123,6 +123,42 @@ class ReportesController extends Controller
         }
 
     }
+    public function cv2($id_postulante){
+        $postulante = Postulante::find($id_postulante);   
+        if(!$postulante->datos_postulante){
+            return "Los datos del postulante no se guardaron correctamente. No se encontraron datos de postulante";
+        }         
+        $pdf = PDF::loadView('reportes.pdf.cv',compact('postulante'));
+        
+        $path_pdf0 = 'public/pdf/'.rand(1, 99999).'.pdf';
+        Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
+        
+        $this->archivos_temporales[]=$path_pdf0;
+        $pdfMerger = PDFMerger::init(); 
+        //agregamos los documentos PDF
+        //1. CV
+        $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
+        //return Storage::get($path_pdf0);
+
+        //2. DNI
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_dni);         
+        //2.1 COLEGIATURA
+        if($postulante->datos_postulante->archivo_colegiatura)
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_colegiatura);
+           
+        $pdfMerger->merge(); //For a normal merge (No blank page added)
+        // borramos los archivos temporales
+        foreach($this->archivos_temporales as $temp){
+           Storage::delete($temp);
+        }
+
+        //$guesser = new RegexGuesser();
+        //echo $guesser->guess('/path/to/my/file.pdf'); // will print something like '1.4'
+
+        return $pdfMerger->save("CV_".$postulante->dni.".pdf", "browser");
+        
+    }
+    //-----------------------
     public function cv($id_postulante){
         $postulante = Postulante::find($id_postulante);   
         if(!$postulante->datos_postulante){
@@ -200,4 +236,17 @@ class ReportesController extends Controller
         //return (new ProcesosExport ($data))->view();
         return (new ProcesosExport($data))->download("postulantes_".$data['proceso']->cod.'.xlsx');
     }
+
+    public function descargar_postulantes_view($id_proceso){
+        $data["proceso"] = Proceso::find($id_proceso);
+        $data["postulantes"] = Postulante::select( "dni",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),'postulantes.*')
+                                        ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id_proceso)
+                                        ->orderBy("final","desc")
+                                        ->orderBy("apellido_paterno")->get();
+        $data["ruta"] = "reportes.excel.postulantes";
+        return (new ProcesosExport ($data))->view();
+        //return (new ProcesosExport($data))->download("postulantes_".$data['proceso']->cod.'.xlsx');
+    }
+
+
 }

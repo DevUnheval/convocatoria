@@ -65,7 +65,7 @@ function ver_detalles(id){
            $("#ver_dias_exp_lab_gen").html(anios_meses_dias(response.dias_exp_lab_gen));
            
            $("#ver_dias_exp_lab_esp").html(anios_meses_dias(response.dias_exp_lab_esp));
-           $("#ver_postulacion").html("Desde: "+response.fecha_inscripcion_inicio+" <br> Hasta: "+response.fecha_inscripcion_fin);
+           $("#ver_postulacion").html("Desde: "+formatear_fecha(response.fecha_inscripcion_inicio)+" <br> Hasta: "+formatear_fecha_hora(response.fecha_inscripcion_fin));
            $("#ver_fecha_firma_contrato").html(response.fecha_firma_contrato);
            $("#ver_duracion_contrato").html(response.duracion_contrato);
            
@@ -118,6 +118,13 @@ function ver_detalles(id){
           })
         }
     });
+}
+
+function formatear_fecha(_fecha){
+    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
+}
+function formatear_fecha_hora(_fecha){
+    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric', hour:'numeric', minute:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
 }
 
 function eliminar_convocatoria(proceso_id){
