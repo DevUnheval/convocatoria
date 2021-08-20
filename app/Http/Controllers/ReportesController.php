@@ -160,6 +160,7 @@ class ReportesController extends Controller
     }
     //-----------------------
     public function cv($id_postulante){
+       
         $postulante = Postulante::find($id_postulante);   
         if(!$postulante->datos_postulante){
             return "Los datos del postulante no se guardaron correctamente. No se encontraron datos de postulante";
@@ -175,7 +176,7 @@ class ReportesController extends Controller
         //1. CV
         $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
         //return Storage::get($path_pdf0);
-
+        
         //2. DNI
         $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_dni);         
         //2.1 COLEGIATURA
@@ -217,13 +218,33 @@ class ReportesController extends Controller
     }
 
     private function fusionar_pdf($pdfMerger,$rutaArchivoPDF){
-        if(Storage::exists($rutaArchivoPDF)){
-            $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
-            Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
-            $this->archivos_temporales[]=$ruta_archivo_temporal;
-            $pdfMerger->addPDF( storage_path("app/".$ruta_archivo_temporal) , 'all');
-            unset($ruta_archivo_temporal);
-        }
+        try {
+            $_ext = substr($rutaArchivoPDF, -4);
+            if(Storage::exists($rutaArchivoPDF) && $_ext == '.pdf'){
+                $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
+                Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
+                $this->archivos_temporales[]=$ruta_archivo_temporal;
+                $pdfMerger->addPDF( storage_path("app/".$ruta_archivo_temporal) , 'all');
+                unset($ruta_archivo_temporal);
+            }else{
+                $this->agregar_hoja_en_blanco($pdfMerger,$rutaArchivoPDF);
+            }
+        } catch (\Throwable $th) {
+            $this->agregar_hoja_en_blanco($pdfMerger,$rutaArchivoPDF);
+
+        } 
+    }
+
+    private function agregar_hoja_en_blanco($pdfMerger,$rutaArchivoPDF){
+            $texto = "<h4>¡Error! La infomación contenida en esta hoja está corrupta o dañada.<br> </h4>";
+            $ruta = asset(Storage::url($rutaArchivoPDF));
+            $texto.="<p>Clic al siguiente enlace para ver el archivo original</p>";
+            $texto.= "<a href=$ruta target='_blank'><small> $ruta </small><a>" ;
+            $pdf = PDF::loadHTML($texto);
+            $path_pdf0 = 'public/pdf/error_'.rand(1, 99999).'.pdf';
+            Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
+            $this->archivos_temporales[]=$path_pdf0;
+            $this->fusionar_pdf($pdfMerger, $path_pdf0);
     }
 
     public function descargar_postulantes($id_proceso){
