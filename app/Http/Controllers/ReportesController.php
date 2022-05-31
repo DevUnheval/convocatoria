@@ -29,7 +29,8 @@ class ReportesController extends Controller
             return $pdf->stream("Resultado_".$data['proceso']->cod.'.pdf'); //download
         }
         $data = $this->data_etapa($id,$etapa);
-        $pdf = PDF::loadView('reportes.pdf.procesos',compact('data'));
+        //$pdf = PDF::loadView('reportes.pdf.procesos',compact('data'));
+        $pdf = PDF::loadView('reportes.pdf.procesos',compact('data'))->setPaper('a4', 'landscape');
         return $pdf->stream("etapa_".$etapa."_".$data['proceso']->cod.'.pdf'); //download
     }
 
@@ -51,6 +52,21 @@ class ReportesController extends Controller
         $etapa_id = (int) $etapa;
         $proceso =  Proceso::find($proceso_id);      
         
+        $proceso_enca = \DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id");
+
+        $codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
+
+        foreach($codpro as $key=>$cod){
+            $postu[$key] = Postulante::select( "telefono_celular",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"))
+               /* ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id)*/
+            ->join("users","users.id","=","postulantes.user_id")
+            ->join("procesos","procesos.id","=","postulantes.proceso_id")
+            ->join("datos_postulantes","datos_postulantes.postulante_id","=","postulantes.id")
+            //->where("estado","=","1")
+            ->where('proceso_id',$cod->id)
+            ->orderBy("apellido_paterno")->get();
+        }
+        
         $etapas = $this->api->etapas_evaluacion($proceso->evaluar_conocimientos);
        
         if( $etapa_id > count($etapas) ){
@@ -67,7 +83,8 @@ class ReportesController extends Controller
                                      DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
                                      "user_id",
                                      $calificacion_etapa_actual." as calificacion",
-                                     $evaluacion_etapa_actual." as evaluacion"
+                                     $evaluacion_etapa_actual." as evaluacion",
+                                     "obs_curricular","obs_entrevista"
                                     )
                             ->join("users","users.id","=","postulantes.user_id")
                             ->where('proceso_id',$proceso_id); //hasta aquí estamos de acuerdo, que muestre el proceso seleccionado 
@@ -79,7 +96,9 @@ class ReportesController extends Controller
         $etapa_actual = $etapas[$etapa_a_buscar];
         return [
                     'proceso'       => $proceso,
+                    'proceso_enca'  => $proceso_enca,
                     'postulantes'   => $postulantes,
+                    'postu'         => $postu,
                     'etapa_actual'  => $etapa_actual,
                     'etapas'        => $etapas,
                 ];
@@ -94,7 +113,8 @@ class ReportesController extends Controller
                                     )
                             ->join("users","users.id","=","postulantes.user_id")
                             ->where('proceso_id',$proceso_id)
-                            ->where('cal_entrevista','1')
+                            //->where('cal_entrevista','1')
+                            ->where('cal_entrevista','>=','0')
                             ->orderBy('final','desc')
                             ->orderBy('apellido_paterno','asc')
                             ->get();
@@ -104,11 +124,27 @@ class ReportesController extends Controller
                 ];
     }
     public function preliminar($id,$tipo){
-        $data = Postulante::select( "dni",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"))
-            ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id)
-            ->orderBy("apellido_paterno")->get();
-            $proceso = Proceso::find($id);
 
+        $codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
+
+        foreach($codpro as $key=>$cod){
+            $data[$key] = Postulante::select( "telefono_celular",DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"))
+               /* ->join("users","users.id","=","postulantes.user_id")->where('proceso_id',$id)*/
+            ->join("users","users.id","=","postulantes.user_id")
+            ->join("procesos","procesos.id","=","postulantes.proceso_id")
+            ->join("datos_postulantes","datos_postulantes.postulante_id","=","postulantes.id")
+            //->where("estado","=","1")
+            ->where('proceso_id',$cod->id)
+            ->orderBy("apellido_paterno")->get();
+        }
+        
+            //$proceso = Proceso::find($id);
+           //$proceso = Proceso::select("*")->where('id','=','133')->get();
+             $proceso = \DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id");
+             // $proceso = Proceso::select("*")->where('id','=','133')->get();
+
+
+            //dd($proceso);   
         if($tipo=="pdf"){
             $pdf = PDF::loadView('reportes.pdf.preliminar',compact('data','proceso'));
             return $pdf->stream("PRELIMINAR".'.pdf'); //download
@@ -202,6 +238,65 @@ class ReportesController extends Controller
         //6. Experiencia laboral       
         foreach($postulante->experieciapostulantes as $key => $experiencia){
             if(!$experiencia->validacion) continue;
+            $this->fusionar_pdf($pdfMerger,  $experiencia->archivo);            
+        }   
+        $pdfMerger->merge(); //For a normal merge (No blank page added)
+        // borramos los archivos temporales
+        foreach($this->archivos_temporales as $temp){
+           Storage::delete($temp);
+        }
+
+        //$guesser = new RegexGuesser();
+        //echo $guesser->guess('/path/to/my/file.pdf'); // will print something like '1.4'
+
+        return $pdfMerger->save("CV_".$postulante->dni.".pdf", "browser");
+        
+    }
+
+
+    public function cv1($id_postulante){
+       
+        $postulante = Postulante::find($id_postulante);   
+        if(!$postulante->datos_postulante){
+            return "Los datos del postulante no se guardaron correctamente. No se encontraron datos de postulante";
+        }         
+        $pdf = PDF::loadView('reportes.pdf.cv',compact('postulante'));
+        
+        $path_pdf0 = 'public/pdf/'.rand(1, 99999).'.pdf';
+        Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
+        
+        $this->archivos_temporales[]=$path_pdf0;
+        $pdfMerger = PDFMerger::init(); 
+        //agregamos los documentos PDF
+        //1. CV
+        $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
+        //return Storage::get($path_pdf0);
+        
+        //2. DNI
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_dni);         
+        //2.1 COLEGIATURA
+        if($postulante->datos_postulante->archivo_colegiatura)
+        $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_colegiatura);
+        //3. bonificaciones
+        if($postulante->datos_postulante->es_lic_ffaa)
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_ffaa);
+        if($postulante->datos_postulante->es_deportista)         
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_deport);
+        if($postulante->datos_postulante->es_pers_disc)
+            $this->fusionar_pdf($pdfMerger, $postulante->datos_postulante->archivo_disc);
+        //4. Formación       
+        foreach($postulante->formacion_postulante as $key => $formacion){
+            //if(!$formacion->validacion) continue;
+            $this->fusionar_pdf($pdfMerger,  $formacion->archivo);            
+        }
+        //5. Capacitación       
+        foreach($postulante->capacitacionpostulantes as $key => $capacitacion){
+            //if(!$capacitacion->validacion) continue;
+            $this->fusionar_pdf($pdfMerger,  $capacitacion->archivo);            
+        }
+        //6. Experiencia laboral       
+        foreach($postulante->experieciapostulantes as $key => $experiencia){
+            //if(!$experiencia->validacion) continue;
             $this->fusionar_pdf($pdfMerger,  $experiencia->archivo);            
         }   
         $pdfMerger->merge(); //For a normal merge (No blank page added)

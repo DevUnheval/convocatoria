@@ -13,6 +13,7 @@
                 <th rowspan="2">Apellidos y Nombres</th>                                                    
                 <th rowspan="2">Puntaje</th>
                 <th colspan="2">Resultado</th>
+                <th rowspan="2">Observación</th>
                                                            
             </tr>
             <tr>
@@ -37,10 +38,15 @@
                     @endif
                 </td>  
                 <td align="center">
-                    @if($p->calificacion=="0")
+                    @if($p->calificacion=="0" || is_null($p->calificacion))
                         x
                     @endif
-                </td>                                                
+                </td>
+                @if($data["etapa_actual"]["etapa"] == "1")
+                    <td>{{ $p->obs_curricular }}</td>
+                 @else
+                    <td>{{ $p->obs_entrevista }}</td>
+                 @endif                                                  
             </tr> 
             @endforeach     
             @if(count($data["postulantes"]) < 1 )

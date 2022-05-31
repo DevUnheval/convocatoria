@@ -1040,6 +1040,8 @@ function cumple_exp_genyesp(){
         }
     });
 
+    var tipo_proceso =parseInt(res.tipo_proc);
+
     var Exp_gen_min =parseInt(res.min_expgen);
     var Exp_esp_min =parseInt(res.min_expesp);
 
@@ -1063,7 +1065,8 @@ function cumple_exp_genyesp(){
     var Mi_exp_gen =parseInt(verificar_interseccion(Fechas_expGen).dias_exper);
     var Mi_exp_esp =parseInt(verificar_interseccion(Fechas_expEsp).dias_exper);
        
-     
+    if(tipo_proceso<4) {
+
     if(Mi_exp_gen==0 || Mi_exp_esp==0){
         arrayExp.estado=false;
         arrayExp.msjerror="Debe de registrar experiencia general y específica";
@@ -1082,7 +1085,11 @@ function cumple_exp_genyesp(){
         
         return arrayExp;
     }
- 
+   }else{
+        arrayExp.estado=true;
+                
+        return arrayExp;
+   }
 }
 
 function cumple_formacion(idproceso){

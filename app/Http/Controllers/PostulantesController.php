@@ -329,7 +329,8 @@ class PostulantesController extends Controller
             //cargar puntaje
             $q = Postulante::find($key);
             $q->$campo_evaluacion =  $valor;
-            if( (int) $valor > 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
+            //Error corregido cuando la puntuación era igual a 0, no cambiaba el estado (>=0).
+            if( (int) $valor >= 0 && (int) $valor < (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 0;
             }else if( $valor >= (int) $proceso->$campo_pje_min ){
                 $q->$campo_calificacion = 1;
@@ -383,7 +384,8 @@ class PostulantesController extends Controller
     }
 
     private function calcular_puntaje_final($proceso,$r){
-        $postulantes = Postulante::where("proceso_id",$proceso->id)->where("cal_entrevista","1")->get();
+        //$postulantes = Postulante::where("proceso_id",$proceso->id)->where("cal_entrevista","1")->get();
+        $postulantes = Postulante::where("proceso_id",$proceso->id)->where("cal_entrevista",">=","0")->get();
         //Calcular Final 
         $array_id=[];
         foreach($postulantes as $key => $p){
@@ -399,10 +401,18 @@ class PostulantesController extends Controller
         unset($array_id);
         $temp_p=1;
         foreach($query as $key => $p){
-            if( $temp_p <= $proceso->n_plazas){
+            /*if( $temp_p <= $proceso->n_plazas){
                 $p->condicion = "GANADOR";
             }else{
                 $p->condicion = "ACCESITARIO";
+            }*/
+
+            if( $temp_p <= $proceso->n_plazas && $p->cal_entrevista == '1' ){
+                $p->condicion = "GANADOR";
+            }elseif($p->cal_entrevista == '1'){
+                $p->condicion = "ACCESITARIO";
+            }else{
+                $p->condicion = "NO CALIFICA";
             }
             $temp_p++;
             $p->save();

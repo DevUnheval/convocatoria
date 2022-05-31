@@ -23,20 +23,21 @@
     }
 </style>
     <body>
+        @foreach($data["proceso_enca"] as $key2=>$p)
         <table class="tabla-reporte">
                 <thead>
                     <tr>
-                        <td  align="center" colspan="5">Proceso de concurso {{$data["proceso"]->cod}} </td>
+                        <td  align="center" colspan="5">Proceso de concurso {{$p->cod}} </td>
                     </tr>
                     <tr>
-                        <td  align="center" colspan="5" >NOMBRE DE LA CONVOCATORIA {{$data["proceso"]->nombre}} </td>
+                        <td  align="center" colspan="5" >NOMBRE DE LA CONVOCATORIA {{$p->nombre}} </td>
                     </tr>
                     <tr>
                         <td  align="center" colspan="5">LISTA DE POSTULANTES</td>
                     </tr>
                     <tr>
                         <th rowspan="2"  border="1">Orden de Mérito</th>
-                        <th rowspan="2"  border="1">DNI</th>
+                        <th rowspan="2"  border="1">Celular</th>
                         <th rowspan="2" style="width:50px;">Apellidos y Nombres</th>            
                         <th colspan="2">Resultado</th>
                                                                 
@@ -47,12 +48,12 @@
                     </tr>
                 </thead>
                 <tbody>   
-                    @foreach($data["postulantes"] as $key => $p)    
+                    @foreach($data["postu"][$key2] as $key => $p)    
                     <tr>
                         <td align="center">
                                 {{($key+1)}}
                         </td>
-                        <td align="center">{{($p->dni)}} </td>
+                        <td align="center">{{($p->telefono_celular)}} </td>
                         <td>{{$p->nombres}}</td>  
                         <td align="center">
                                 x
@@ -68,7 +69,7 @@
                     @endif                           
                 </tbody>                                       
         </table>  
-
+        @endforeach 
 
     </body>
 </html>

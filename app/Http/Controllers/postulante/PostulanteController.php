@@ -627,6 +627,10 @@ class PostulanteController extends Controller
 
         
       $proceso_simple = Proceso::where('id',$data->idproceso)->get();
+      //codigo agregado
+      $tipo = Proceso::select('tipo_id')
+                   ->where('id',$data->idproceso)->get();
+      $tipo_proc = $tipo[0]->tipo_id;   
         
         //____________________inicio interseccion fechas_______________
         
@@ -651,7 +655,8 @@ class PostulanteController extends Controller
          //____________________fin interseccion fechas_______________
 
 
-       return compact('min_expgen','min_expesp','query_inter');
+       //return compact('min_expgen','min_expesp','query_inter');
+       return compact('min_expgen','min_expesp','query_inter','tipo_proc');
        
     }
 

@@ -7,7 +7,7 @@
 <h5 align="center" style="margin:0;padding:0;color:blue;text-transform: uppercase;">PUBLICACIÓN DEL RESULTADO FINAL</h5><br>
 
 
-<table class="tabla-reporte">
+<table class="tabla-reporte" {{sizeof($data['postulantes']) == 7 ? 'small' : ''}}">
                 <?php 
                     $colums = 12;
                     $colum = 3;
@@ -25,15 +25,21 @@
                         <th colspan="{{$colum}}">EVALUACION</th>
                         <th rowspan="2"  border="1">PT = PUNTAJE TOTAL ({{$formula}})</th>
                         
-                        <th rowspan="2"  border="1">BONIFICACIÓN LIC. FFAA ({{$data['proceso']->bon_ffaa}}*C) </th>
+                        <!-- <th rowspan="2"  border="1">BONIFICACIÓN LIC. FFAA ({{$data['proceso']->bon_ffaa}}*C) </th> -->
+
+                        <th rowspan="2"  border="1">BONIFICACIÓN LIC. FFAA ({{$data['proceso']->bon_ffaa}}*PT) </th> 
                        
-                        <th rowspan="2"  border="1">BONIFICACIÓN PERS. DISCAPACIDAD ({{$data['proceso']->bon_pers_disc}}*C)</th>
+                        <!-- <th rowspan="2"  border="1">BONIFICACIÓN PERS. DISCAPACIDAD ({{$data['proceso']->bon_pers_disc}}*C)</th> -->
                         
+                        <th rowspan="2"  border="1">BONIFICACIÓN PERS. DISCAPACIDAD ({{$data['proceso']->bon_pers_disc}}*PT)</th>
                         
-                        <th rowspan="2"  border="1">BONIFICACIÓN DEPORTISTA CALIFICADO (n*C)</th>
+                        <!-- <th rowspan="2"  border="1">BONIFICACIÓN DEPORTISTA CALIFICADO (n*C)</th> -->
+
+                        <th rowspan="2"  border="1">BONIFICACIÓN DEPORTISTA CALIFICADO (n*PT)</th>
                        
                         <th rowspan="2"  border="1">PF = PUNTAJE FINAL (PT + Bonificaciones)</th>
                         <th rowspan="2"  border="1">CONDICION</th>
+                        <th rowspan="2"  border="1">OBSERVACIÓN</th>
                     </tr>
                     <tr>
                         <th>A = CURICULAR</th>
@@ -66,7 +72,8 @@
                         <td align="center">{{ (float) $p->bonific_deportista}}</td>
                         
                         <td align="center">{{ (float) $p->final}}</td> 
-                        <td align="center">{{  $p->condicion}}</td>                
+                        <td align="center">{{  $p->condicion}}</td>
+                        <td align="center">{{  $p->obs_entrevista}}</td>                   
                     </tr> 
                     @endforeach     
                     @if(count($data["postulantes"]) < 1 )

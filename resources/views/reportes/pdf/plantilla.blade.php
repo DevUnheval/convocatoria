@@ -74,6 +74,11 @@
         border: 1px solid black;
         font-size: 12px;
     }
+
+    .small td, .small th{
+        font-size: 10px;
+    }
+
     .tabla-reporte  th {
         font-weight: bold;
         text-align: center;
@@ -85,10 +90,16 @@
         border-collapse: collapse;
         border:  rgba(234, 237, 237, .6 ) 1px solid;
     }
+
+    .page-break {
+    page-break-before: always;
+  }
+
   </style>
       @yield("css")  
 <body>
   <header>
+   
     <table width="100%">
       <tr>
         <td rowspan="3" width="10%">
@@ -114,7 +125,7 @@
         </td>
       </tr>
     </table>
-        
+      
   </header>
   <footer>
     <table>
@@ -132,12 +143,16 @@
       </tr>
     </table>
   </footer>
+  
   <div id="content">
+    
     @yield("contenido")   
 
-    <!-- <p style="page-break-before: always;">
+     <!--<p style="page-break-before: always;">
     Podemos romper la página en cualquier momento...</p>
-    </p> -->
+    </p>--> 
+    
   </div>
+
 </body>
 </html>
