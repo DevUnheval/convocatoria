@@ -316,11 +316,15 @@ class ReportesController extends Controller
         try {
             $_ext = substr($rutaArchivoPDF, -4);
             if(Storage::exists($rutaArchivoPDF) && $_ext == '.pdf'){
-                $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
-                Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
-                $this->archivos_temporales[]=$ruta_archivo_temporal;
-                $pdfMerger->addPDF( storage_path("app/".$ruta_archivo_temporal) , 'all');
-                unset($ruta_archivo_temporal);
+                if($this->isEncrypted($rutaArchivoPDF)){
+                    $ruta_archivo_temporal = 'public/pdf/temp_'.rand(1,10000).'.pdf';
+                    Storage::copy($rutaArchivoPDF,$ruta_archivo_temporal);
+                    $this->archivos_temporales[]=$ruta_archivo_temporal;
+                    $pdfMerger->addPDF( storage_path("app/".$rutaArchivoPDF) , 'all');
+                    unset($ruta_archivo_temporal);
+                }else{
+                    $this->agregar_hoja_en_blanco($pdfMerger,$rutaArchivoPDF);
+                }
             }else{
                 $this->agregar_hoja_en_blanco($pdfMerger,$rutaArchivoPDF);
             }
@@ -340,6 +344,13 @@ class ReportesController extends Controller
             Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
             $this->archivos_temporales[]=$path_pdf0;
             $this->fusionar_pdf($pdfMerger, $path_pdf0);
+    }
+
+    public function isEncrypted($rutaArchivoPDF){
+        $handle = fopen(storage_path("app/".$rutaArchivoPDF), "r");
+        $contents = fread($handle, filesize(storage_path("app/".$rutaArchivoPDF)));
+        fclose($handle);
+        return stristr($contents, "/Encrypt") === FALSE;
     }
 
     public function descargar_postulantes($id_proceso){
