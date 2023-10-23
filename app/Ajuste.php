@@ -10,7 +10,7 @@ class Ajuste extends Model
 	protected $primaryKey = 'id';
 	protected $fillable = ['nombre','valor','descripcion','tipo'];
 	public $timestamps = False;
-
+	//abc
 	public function elemento($nombre){
       return Ajuste::where('nombre',$nombre)->first()->valor;
    }
