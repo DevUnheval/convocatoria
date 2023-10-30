@@ -45,7 +45,8 @@ Route::group(['prefix' => 'maestro'], function(){
     Route::group(['prefix' => 'usuarios'], function(){
         Route::get('/', 'maestro\UsuarioController@index')->name('maestro.usuarios.index')->middleware(['auth','Administrador']);  
         Route::post('update/{id}', 'maestro\UsuarioController@update')->where(['id' => '[0-9]+'])->name('maestro.usuarios.update')->middleware(['auth','Administrador']);  
-        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit')->middleware(['auth','Administrador']);  
+        Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit')->middleware(['auth','Administrador']); 
+        Route::get('zip/{id}', 'maestro\UsuarioController@zipCreateAndDownload')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zip')->middleware(['auth','Administrador']);  
         Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 
     Route::group(['prefix' => 'procesos'], function(){
@@ -198,6 +199,5 @@ Route::get("redirect",function(Request $r){
     if(!$r->mensaje) $r->mensaje = 'Algo salió mal';
     return redirect()->route($r->ruta)->with($r->color, $r->mensaje);
 });
-
 
 

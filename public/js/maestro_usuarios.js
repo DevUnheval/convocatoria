@@ -42,6 +42,7 @@ function editar(id){
     $("#modal_editar").modal("show");
 }
 
+
 function guardar_cambio(){
     var datos=$("#editar_usuario").serialize();
     var route = '/maestro/usuarios/update/'+$("#id").val();
