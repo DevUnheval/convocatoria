@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Rol;
 use App\User;
+use App\DatosPostulante;
 use ZipArchive;
 use File;
 
@@ -71,6 +72,8 @@ class UsuarioController extends Controller
     public function zipCreateAndDownload($id)
     {
         
+        $datopostulante = DatosPostulante::where('postulante_id','=',$id);
+
         //dd($request->nombre_carpeta);    
         //$name_archivo = $request->nombre_carpeta;
         $zip_file = 'cv_postulante.zip'; 
@@ -82,7 +85,7 @@ class UsuarioController extends Controller
             
             //$files = File::files(storage_path('app\public\procesos\postulantes'));
             //$origen = storage_path('app/public/procesos/postulantes/10');
-            $origen = storage_path('app/public/procesos/postulantes/'.$id);
+            $origen = storage_path('app/public/procesos/postulantes/'.$datopostulante->id);
            
             $files = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($origen),
