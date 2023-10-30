@@ -9,6 +9,7 @@ use App\User;
 use App\DatosPostulante;
 use ZipArchive;
 use File;
+use DB;
 
 class UsuarioController extends Controller
 {
@@ -48,7 +49,7 @@ class UsuarioController extends Controller
                             $dni=$dato->dni;
                             $ruta_foto=asset(str_replace('public/','storage/',$dato->img));
                             $foto="<img src='$ruta_foto' height='45px'/>";
-                            $cvdownload="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zip/$dato->id' download ><i class='fas fa-download' style='color:green'></i></button>";
+                            $cvdownload="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zip/$dato->id' download><i class='fas fa-download' style='color:green'></i></button>";
                             $roles=$dato->roles->pluck('nombre');
         
 
@@ -72,45 +73,54 @@ class UsuarioController extends Controller
     public function zipCreateAndDownload($id)
     {
         
-        $datopostulante = DatosPostulante::where('postulante_id','=',$id)->first();
+        //$datopostulante = Postulante::where('user_id','=',$id)->first();
+        $datopostulante = DB::select("SELECT max(dp.id) as id FROM postulantes p 
+        inner join datos_postulantes dp
+        on p.id = dp.postulante_id
+        where p.user_id = '$id'");
         //dd($datopostulante);    
         //$name_archivo = $request->nombre_carpeta;
         $zip_file = 'cv_postulante.zip'; 
         //$zip_file = $id.'.zip';   
         $zip = new ZipArchive;
-
-        if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
+        if($datopostulante[0]->id >= 1)
         {
-            
-            //$files = File::files(storage_path('app\public\procesos\postulantes'));
-            //$origen = storage_path('app/public/procesos/postulantes/10');
-            $origen = storage_path('app/public/procesos/postulantes/'.$datopostulante->id);
-           
-            $files = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($origen),
-                \RecursiveIteratorIterator::LEAVES_ONLY
-            );
-        
-            //$rutafinal = str_replace("public","storage",$files);
-           
 
-            /*foreach($files as $key => $value){
-                $relativeName = basename($value);
-                $zip->addFile($value,$relativeName);
-            }*/
-            foreach ($files as $name => $file)
+            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
             {
-                if (!$file->isDir())
-                {
-                    $filePath = $file->getRealPath();
-                    $relativePath = substr($filePath, strlen($origen) + 1);
-
-                    $zip->addFile($filePath, $relativePath);
-                }
-            }
-            $zip->close();
-            //dd($files);
+                
+                //$files = File::files(storage_path('app\public\procesos\postulantes'));
+                //$origen = storage_path('app/public/procesos/postulantes/10');
+                $origen = storage_path('app/public/procesos/postulantes/'.$datopostulante[0]->id);
             
+                $files = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($origen),
+                    \RecursiveIteratorIterator::LEAVES_ONLY
+                );
+            
+                //$rutafinal = str_replace("public","storage",$files);
+            
+
+                /*foreach($files as $key => $value){
+                    $relativeName = basename($value);
+                    $zip->addFile($value,$relativeName);
+                }*/
+                foreach ($files as $name => $file)
+                {
+                    if (!$file->isDir())
+                    {
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, strlen($origen) + 1);
+
+                        $zip->addFile($filePath, $relativePath);
+                    }
+                }
+                $zip->close();
+                //dd($files);
+                
+            }
+        }else{
+
         }
 
         if($files==TRUE){
