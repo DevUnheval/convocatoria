@@ -74,7 +74,7 @@ class UsuarioController extends Controller
     {
         
         //$datopostulante = Postulante::where('user_id','=',$id)->first();
-        $datopostulante = DB::select("SELECT max(dp.id) as id FROM postulantes p 
+        $datopostulante = DB::select("SELECT max(p.id) as id FROM postulantes p 
         inner join datos_postulantes dp
         on p.id = dp.postulante_id
         where p.user_id = '$id'");
