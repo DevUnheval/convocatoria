@@ -73,7 +73,7 @@ class UsuarioController extends Controller
     {
         
         $datopostulante = DatosPostulante::where('postulante_id','=',$id);
-
+        dd($datopostulante);    
         //dd($request->nombre_carpeta);    
         //$name_archivo = $request->nombre_carpeta;
         $zip_file = 'cv_postulante.zip'; 
