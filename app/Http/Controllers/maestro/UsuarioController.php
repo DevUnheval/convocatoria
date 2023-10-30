@@ -72,9 +72,8 @@ class UsuarioController extends Controller
     public function zipCreateAndDownload($id)
     {
         
-        $datopostulante = DatosPostulante::where('postulante_id','=',$id);
-        dd($datopostulante);    
-        //dd($request->nombre_carpeta);    
+        $datopostulante = DatosPostulante::where('postulante_id','=',$id)->first();
+        //dd($datopostulante);    
         //$name_archivo = $request->nombre_carpeta;
         $zip_file = 'cv_postulante.zip'; 
         //$zip_file = $id.'.zip';   
