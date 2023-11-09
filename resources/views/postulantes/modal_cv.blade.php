@@ -7,7 +7,7 @@
                 <h4 class="modal-title" id="myLargeModalLabel">
                     <a href="#" title="clic para descargar" id="ruta_cv_postulante" target="_blank"> 
                         <span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3">
-                            <i class="fa fa-download"></i> CURRICULUM VITAE
+                            <i class="fa fa-download"></i> C. VITAE
                         </span>
                     </a>
                     <a href="#" title="clic para descargar" id="ruta_cv_postulante2" target="_blank"> 
@@ -15,6 +15,11 @@
                             <i class="fa fa-download"></i> CV2
                         </span>
                     </a>
+                    <a href='#' download>
+                        <span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3">
+                            <i class='fa fa-download'></i> CV .RAR
+                        </span>
+                    </a>    
                     <span id="postulante" class="ml-2 mr-2"></span>
                     <span id="dnicab" ></span>
                 </h4>
