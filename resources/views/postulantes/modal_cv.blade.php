@@ -15,7 +15,7 @@
                             <i class="fa fa-download"></i> CV2
                         </span>
                     </a>
-                    <a href='#' download>
+                    <a href='#' id="ruta_cv_comprimido" download>
                         <span class="text-white bg-info pl-3 pr-3 pt-2 pb-2 mr-3">
                             <i class='fa fa-download'></i> CV .RAR
                         </span>
