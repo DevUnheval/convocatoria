@@ -121,10 +121,12 @@ function ver_detalles(id){
 }
 
 function formatear_fecha(_fecha){
-    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
+    //return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
+    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate()) );
 }
 function formatear_fecha_hora(_fecha){
-    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric', hour:'numeric', minute:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
+    //return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric', hour:'numeric', minute:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate() +1) );
+    return new Intl.DateTimeFormat('es-PE', { month: 'long', day: 'numeric',year:'numeric', hour:'numeric', minute:'numeric'}).format(new Date(_fecha).setDate(new Date(_fecha).getDate()) );
 }
 
 function eliminar_convocatoria(proceso_id){
