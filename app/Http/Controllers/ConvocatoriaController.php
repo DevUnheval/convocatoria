@@ -96,13 +96,16 @@ class ConvocatoriaController extends Controller
             }
 
             if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
-                $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                //$data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
             }
             else{
-                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                //$data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
             }
             
         }
+        //dd($dato->fecha_inscripcion_inicio);
         return json_encode($data, true);        
 
     }
