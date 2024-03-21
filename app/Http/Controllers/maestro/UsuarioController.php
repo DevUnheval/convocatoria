@@ -50,10 +50,11 @@ class UsuarioController extends Controller
                             $ruta_foto=asset(str_replace('public/','storage/',$dato->img));
                             $foto="<img src='$ruta_foto' height='45px'/>";
                             $cvdownload="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zip/$dato->id' download><i class='fas fa-download' style='color:green'></i></button>";
+                            $cvuser="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zipuser/$dato->id' download><i class='fas fa-download' style='color:green'></i></button>";
                             $roles=$dato->roles->pluck('nombre');
         
 
-                            $data['aaData'][] = [$config,$dato->id,$cvdownload,$dni,$usuarios_all,$foto, $roles];
+                            $data['aaData'][] = [$config,$dato->id,$cvdownload,$cvuser,$dni,$usuarios_all,$foto, $roles];
         }
         return json_encode($data, true);      
     }
@@ -92,6 +93,67 @@ class UsuarioController extends Controller
                 //$files = File::files(storage_path('app\public\procesos\postulantes'));
                 //$origen = storage_path('app/public/procesos/postulantes/10');
                 $origen = storage_path('app/public/procesos/postulantes/'.$datopostulante[0]->id);
+            
+                $files = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($origen),
+                    \RecursiveIteratorIterator::LEAVES_ONLY
+                );
+            
+                //$rutafinal = str_replace("public","storage",$files);
+            
+
+                /*foreach($files as $key => $value){
+                    $relativeName = basename($value);
+                    $zip->addFile($value,$relativeName);
+                }*/
+                foreach ($files as $name => $file)
+                {
+                    if (!$file->isDir())
+                    {
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, strlen($origen) + 1);
+
+                        $zip->addFile($filePath, $relativePath);
+                    }
+                }
+                $zip->close();
+                //dd($files);
+                
+            }
+        }else{
+
+        }
+
+        if($files==TRUE){
+            return response()->download(public_path($zip_file));
+        }
+       
+    }
+
+    public function zipCreateAndDownloadUser($id)
+    {
+        
+        /*$datouser = DB::select("SELECT max(p.id) as id FROM postulantes p 
+        inner join datos_postulantes dp
+        on p.id = dp.postulante_id
+        where p.user_id = '$id'");*/
+
+        $datouser = DB::select("SELECT dni FROM users where id = '$id' ");
+
+        //dd($datopostulante);    
+        //$name_archivo = $request->nombre_carpeta;
+        $zip_file = 'cv_user.zip'; 
+        //$zip_file = $id.'.zip';   
+        $zip = new ZipArchive;
+        if($datouser[0]->dni >= 1)
+        {
+
+            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
+            {
+                
+                //$files = File::files(storage_path('app\public\procesos\postulantes'));
+                //$origen = storage_path('app/public/procesos/postulantes/10');
+                $origen = storage_path('app/public/procesos/users/'.$datouser[0]->dni);
             
                 $files = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($origen),

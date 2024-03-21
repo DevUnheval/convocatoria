@@ -9,6 +9,7 @@ use App\TipoProceso;
 use App\GradoFormacion;
 use App\Comunicado;
 use App\Postulante;
+use Carbon\Carbon;
 
 class ConvocatoriaController extends Controller
 {
@@ -79,12 +80,15 @@ class ConvocatoriaController extends Controller
                 $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
                 $inscripcion= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y").' <br> '. date_format(date_create($dato->fecha_inscripcion_fin),"d/m/Y H:m");
                 $idproceso=$dato->id;
-                $fecha_hoy = date("d/m/Y");
+                //$fecha_hoy = date("d/m/Y");
+                $fecha_hoy = Carbon::now();
+                $fecha_inicio = Carbon::parse($dato->fecha_inscripcion_inicio);
+                $a = $fecha_hoy >= $fecha_inicio;
                 if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
-                }else if(auth()->check() && auth()->user()->hasRoles(['Postulante']) && $fecha_hoy >= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y") ){
+                }else if(auth()->check() && auth()->user()->hasRoles(['Postulante']) && $fecha_hoy >= $fecha_inicio){
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
-                }else if($fecha_hoy >= date_format(date_create($dato->fecha_inscripcion_inicio),"d/m/Y")){
+                }else if($fecha_hoy >= $fecha_inicio){
                     $postular = "<button class='btn btn-info waves-effect waves-light' type='button' onclick='iniciar_sesion($idproceso)'><span class='btn-label'><i class='icon-login'></i></span> Postular</button>";
                 }else{
                     $postular = "";
@@ -92,10 +96,12 @@ class ConvocatoriaController extends Controller
             }
 
             if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
-                $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                //$data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
             }
             else{
-                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                //$data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
+                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
             }
             
         }
