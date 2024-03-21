@@ -23,6 +23,7 @@
                                             <tr>
                                                 <th>Conf.</th>
                                                 <th>Id</th>
+                                                <th>CV-VITAE</th>
                                                 <th>CV-POST</th>
                                                 <th>CV-USER</th>
                                                 <th>DNI</th>
@@ -39,6 +40,7 @@
                                             <tr>
                                                 <th>Conf.</th>
                                                 <th>Id</th>
+                                                <th>CV-VITAE</th>
                                                 <th>CV-POST</th>
                                                 <th>CV-USER</th>
                                                 <th>DNI</th>
@@ -63,6 +65,9 @@
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-steps/build/jquery.steps.min.js')}}"></script>
     <script src="{{ asset('/material-pro/src/assets/libs/jquery-validation/dist/jquery.validate.min.js')}}"></script>
     <script src="{{ asset('/js/maestro_usuarios.js')}}"></script>
+
+
+    <script src="{{ asset('/js/postulantes/modalcv.js')}}"></script>
 
 
    

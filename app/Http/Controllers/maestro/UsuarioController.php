@@ -35,6 +35,14 @@ class UsuarioController extends Controller
         // return $query;
         foreach ($query as $dato) {
             //return $dato->tipoproceso;
+                $datopostulante = DB::select("SELECT max(p.id) as id FROM postulantes p 
+                    inner join datos_postulantes dp
+                    on p.id = dp.postulante_id
+                    where p.user_id = '$dato->id'");
+
+                $id_postulante=$datopostulante[0]->id;
+
+
                 $config = ' <div class="btn-group">';
                 $config.= ' <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
@@ -49,12 +57,13 @@ class UsuarioController extends Controller
                             $dni=$dato->dni;
                             $ruta_foto=asset(str_replace('public/','storage/',$dato->img));
                             $foto="<img src='$ruta_foto' height='45px'/>";
+                            $cvvitae="<td align='center'><a href='/reportes/cv/$id_postulante' target='_blank'><i class='fas fa-download' style='color:green'></i></button>";
                             $cvdownload="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zip/$dato->id' download><i class='fas fa-download' style='color:green'></i></button>";
                             $cvuser="<td align='center'><a class='btn btn-round btnDescargar' href='/maestro/usuarios/zipuser/$dato->id' download><i class='fas fa-download' style='color:green'></i></button>";
                             $roles=$dato->roles->pluck('nombre');
         
 
-                            $data['aaData'][] = [$config,$dato->id,$cvdownload,$cvuser,$dni,$usuarios_all,$foto, $roles];
+                            $data['aaData'][] = [$config,$dato->id,$cvvitae,$cvdownload,$cvuser,$dni,$usuarios_all,$foto, $roles];
         }
         return json_encode($data, true);      
     }
