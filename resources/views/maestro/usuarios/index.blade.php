@@ -23,7 +23,8 @@
                                             <tr>
                                                 <th>Conf.</th>
                                                 <th>Id</th>
-                                                <th>CV</th>
+                                                <th>CV-POST</th>
+                                                <th>CV-USER</th>
                                                 <th>DNI</th>
                                                 <th>Nombres y Apellidos</th>
                                                 <th>Foto</th>
@@ -38,7 +39,8 @@
                                             <tr>
                                                 <th>Conf.</th>
                                                 <th>Id</th>
-                                                <th>CV</th>
+                                                <th>CV-POST</th>
+                                                <th>CV-USER</th>
                                                 <th>DNI</th>
                                                 <th>Nombres y Apellidos</th>
                                                 <th>Foto</th>
