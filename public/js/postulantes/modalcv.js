@@ -318,6 +318,12 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
              if(data.qcapa[i].es_idioma==1){
                  tipoestudio = "Idioma";
              }
+             if(data.qcapa[i].es_certificado==1){
+                 tipoestudio = "Certificado OSCE";
+             }
+             if(data.qcapa[i].es_licencia==1){
+                 tipoestudio = "Licencia de conducir";
+             }
              
              var href_form_ca="#";
              if(data.qcapa[i].archivo != null){
@@ -335,7 +341,7 @@ function mostrar_modalcv(idpostulante,iduser,$etapa, $proceso_id,$ev_con,$vista)
              "<td>"+tipoestudio+"</td>"+
              "<td>"+data.qcapa[i].especialidad+"</td>"+
              "<td>"+data.qcapa[i].centro_estudios+"</td>"+
-             "<td>"+data.qcapa[i].cantidad_horas+"</td>"+
+             "<td>"+(data.qcapa[i].cantidad_horas==0 ? '' : data.qcapa[i].cantidad_horas)+"</td>"+
              "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
              "</td>"+
              "<td class='alert-info border-black'><div  >"+

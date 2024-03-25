@@ -365,7 +365,7 @@
                     </div>
                  </div> 
                  <br><br>
-                
+                    
                     <div class="row p-2" >          
                         <div id="cont_colegiatura" class="col-md-4 shadow p-2 mb-2 mt-1 bg-light">
                             <div class="row" >  
@@ -376,7 +376,7 @@
 
                         <div class="col-md-11" >
                             <label>
-                                Estoy colegiado y habilitado (OPCIONAL)
+                                Estoy colegiado y habilitado (Adjuntar según lo solicitado en las bases)
                             </label>
                                 <div id="div_colegiatura" style="display:none">
                                 <input id="codigo_colegiatura" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de colegiatura"/>
@@ -385,6 +385,7 @@
                                 <span id="btn_doc_colegiatura" class=""></span> <input type="hidden" id="input_hide_licenciatura" value="0">
                             </div>
                         </div>  
+
                         <div class="col-md-4" >
                             
                             
@@ -394,7 +395,37 @@
                         </div>                           
                     </div>
                   
-                 <br>                 
+                 <br>
+                 <!-- 
+                 <div class="row p-2" >          
+                        <div id="cont_licencia" class="col-md-4 shadow p-2 mb-2 mt-1 bg-light">
+                            <div class="row" >  
+                            <div class="col-md-1 float-right" >
+                            <input style="width: 20px; height: 20px" id="check_licencia" type="checkbox" />
+                            
+                            </div>    
+
+                        <div class="col-md-11" >
+                            <label>
+                                Tengo licencia de conducir (Adjuntar según lo solicitado en las bases)
+                            </label>
+                                <div id="div_licencia" style="display:none">
+                                <input id="codigo_licencia" class="form-control" name="codigo_coleg" type="text" disabled placeholder="N° de Li"/>
+                                <label><strong>Licencia de conducir </strong><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label>
+                                <input id="file_licencia" class="form-control" type="file" disabled accept="application/pdf" onchange="validar_peso_archivo(this)" />
+                                <span id="btn_doc_licencia" class=""></span> <input type="hidden" id="input_hide_licenciaconducir" value="0">
+                            </div>
+                        </div>  
+                        
+                        <div class="col-md-4" >
+                            
+                            
+                            
+                        </div>  
+                        </div> 
+                        </div>                           
+                    </div> -->
+                <br>                     
                 </section>
                 
                 <!-- Step 3 -->
@@ -415,6 +446,7 @@
                             <div class="alert alert-warning text-center text-dark" role="alert">
                                 <strong>Mínimo de horas por curso/capacitación: </strong><input type="hidden" class=" border-0 bg-light-danger text-dark-danger" value="{{$proceso->horas_cap_ind}}" disabled id="horas_cap_ind">
                                 <label class=" border-0 bg-light-danger text-dark-danger">{{$proceso->horas_cap_ind}} Hrs.</label>
+                                <label class=" border-0 bg-light-danger text-dark-danger">(*)La capacitación debe cumplir el mínimo de horas establecido para que pase a revisión</label>
                             </div>
                             
                           </div>

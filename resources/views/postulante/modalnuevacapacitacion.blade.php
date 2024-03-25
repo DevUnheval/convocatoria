@@ -32,6 +32,8 @@
                                                     <option value="3">Diplomado</option>
                                                     <option value="4">Offimática</option>
                                                     <option value="5">Idioma</option>
+                                                    <option value="6">Certificado OSCE</option>
+                                                    <option value="7">Licencia de Conducir</option>
                                                   </select>
                                               </div>
                                           </div>

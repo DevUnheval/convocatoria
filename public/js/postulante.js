@@ -86,6 +86,33 @@ $(document).ready(function() {
                 
             }
 
+            /*
+            if(data[0].licencia != null){
+                $('#check_licencia').prop('checked',true);
+                $('#codigo_licencia').prop('disabled',false);
+                $('#file_licencia').prop('disabled',false);
+                $('#cont_licencia').addClass('border border-cyan');
+                $('#codigo_licencia').val(data[0].licencia);
+                var href_lic;
+                
+                if(data[0].archivo_licencia != null){
+                    
+                    href_lic = data[0].archivo_licencia.replace('public/', '/storage/');
+                    var html_lic = "<a href='"+href_lic+"' target=\"_blank\" class='btn btn-info'>ver documento<i class=\"fas fa-download\"></i></a>";
+                        $('#btn_doc_licencia').html(html_lic);
+                        $('#input_hide_licenciaconducir').val('1');
+                        
+                    }
+
+            }else{
+                $('#codigo_licencia').prop('disabled',true);
+                $('#file_licencia').prop('disabled',true);
+                $('#check_licencia').prop('checked',false);
+                $('#codigo_licencia').val(null);
+                
+            }
+            */
+
             $('#cargar_dni').prop('required',true);
             if(data[0].archivo_dni != null){
              href_dni=data[0].archivo_dni.replace("public/", '/storage/');
@@ -159,11 +186,11 @@ $(document).ready(function() {
     var tabla2="";
     var tipoestudio="";
     var totalhoras=0;
-    $.get('/postulante/capacitaciones/data1',function (data2){
+    /*$.get('/postulante/capacitaciones/data1',function (data2){
        
         for (var i = 0; i < data2.length; i++) {
 
-           if(data2[i].cantidad_horas >= parseInt($('#horas_cap_ind').val())){
+           if((data2[i].cantidad_horas >= parseInt($('#horas_cap_ind').val())) || (data2[i].es_certificado = 1) || (data2[i].es_licencia = 1)){
             var href_form_ca="#";
             if(data2[i].archivo != null){
                 href_form_ca = data2[i].archivo.replace('public/','/storage/');
@@ -187,6 +214,12 @@ $(document).ready(function() {
             if(data2[i].es_idioma==1){
                 tipoestudio = "Idioma";
             }
+            if(data2[i].es_certificado==1){
+                tipoestudio = "Certificado OSCE";
+            }
+            if(data2[i].es_licencia==1){
+                tipoestudio = "Licencia de conducir";
+            }
             tabla2 += "<tr id='tblcapac"+data2[i].id+"'>"+
             "<td>"+tipoestudio+"</td>"+
             "<td>"+data2[i].especialidad+"</td>"+
@@ -203,10 +236,67 @@ $(document).ready(function() {
     
     $('#zeroconfig2_body').append(tabla2);
     //$('#total_horas').val(totalhoras);
-        
     
+    });*/
+    $.ajax({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+        url: "/postulante/capacitaciones/data1",
+        type: "GET" ,
+        datatype: "json",
+        data: {hora_requerido: $('#horas_cap_ind').val()},
+        success:function(data2){
+            for (var i = 0; i < data2.length; i++) {
+
+           if((data2[i].cantidad_horas >= parseInt($('#horas_cap_ind').val())) || (data2[i].es_certificado = 1) || (data2[i].es_licencia = 1)){
+            var href_form_ca="#";
+            if(data2[i].archivo != null){
+                href_form_ca = data2[i].archivo.replace('public/','/storage/');
+            }
+
+            tipoestudio = "";
+           // totalhoras = totalhoras + parseFloat(data2[i].cantidad_horas);
+
+            if(data2[i].es_curso_espec==1){
+                tipoestudio = "Curso/Especialización";
+            }
+            if(data2[i].es_especializacion==1){
+                tipoestudio = "Especialización";
+            }
+            if(data2[i].es_diplomado==1){
+                tipoestudio = "Diplomado";
+            }
+            if(data2[i].es_ofimatica==1){
+                tipoestudio = "Ofimática";
+            }
+            if(data2[i].es_idioma==1){
+                tipoestudio = "Idioma";
+            }
+            if(data2[i].es_certificado==1){
+                tipoestudio = "Certificado OSCE";
+            }
+            if(data2[i].es_licencia==1){
+                tipoestudio = "Licencia de conducir";
+            }
+            tabla2 += "<tr id='tblcapac"+data2[i].id+"'>"+
+            "<td>"+tipoestudio+"</td>"+
+            "<td>"+data2[i].especialidad+"</td>"+
+            "<td>"+data2[i].centro_estudios+"</td>"+
+            "<td>"+(data2[i].cantidad_horas==0 ? '' : data2[i].cantidad_horas)+"</td>"+
+            "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
+            "    <button type='button' onclick=\"editar_capac('tblcapac"+data2[i].id+"');\" class='btn btn-warning'><i class=\"fas fas fa-edit\"></i></button>"+ 
+             "   <button type='button' onclick=\"eliminarcapac('tblcapac"+data2[i].id+"');\" class='btn btn-danger'><i class=\"fas fa-trash-alt\"></i></button>"+
+            "</td>"+
+            "</tr>";
+            }
+
+        }
     
-    });
+    $('#zeroconfig2_body').append(tabla2);
+    //$('#total_horas').val(totalhoras);
+
+        }
+
+    });    
 
     //_______________________________llenar tabla EXPERIENCIAS______________________
     var tabla3="";
@@ -662,6 +752,32 @@ $.ajax({
             $('#nivel_capa').prop('required',true);
             $('#nivel_capa').val(data[0].nivel);
         }
+        if(data[0].es_certificado==1){
+             tipocap_sel = 6;
+             $('#nivel_capa').prop('disabled',false);
+             $('#nivel_capa').prop('required',true);
+             $('#nivel_capa').val(data[0].nivel);
+
+             $('#fechainicio_capac').prop('disabled',true);
+             $('#fechainicio_capac').prop('required',false);
+
+             $('#fechafin_capac').prop('disabled',true);
+             $('#fechafin_capac').prop('required',false);
+
+             $('#horaslectivas').prop('disabled',true);
+             $('#horaslectivas').prop('required',false);
+             $('#horaslectivas').val('-');
+         }
+         if(data[0].es_licencia==1){
+             tipocap_sel = 7;
+             $('#nivel_capa').prop('disabled',false);
+             $('#nivel_capa').prop('required',true);
+             $('#nivel_capa').val(data[0].nivel);
+
+             $('#horaslectivas').prop('disabled',true);
+             $('#horaslectivas').prop('required',false);
+             $('#horaslectivas').val('-');
+         }
 
         $("#tipo_capacitacion option[value='"+tipocap_sel+"']").prop('selected',true);
         $("#descripcion").val(data[0].especialidad);
@@ -1102,12 +1218,26 @@ function cumple_formacion(idproceso){
         if($('#file_colegiatura').val() == "" && $('#input_hide_licenciatura').val() == 0){
             return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el documento que fundamente su colegiatura."}; 
         } 
-    }    
+    } 
+
+    /****************************************************************/
+    if($('#check_licencia').prop('checked')){
+        if($('#codigo_licencia').val() == ""){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el número de su colegiatura."}; 
+        }
+        if($('#file_licencia').val() == "" && $('#input_hide_licenciatura').val() == 0){
+            return arrayExp={estado:false,msjok:"",msjerror:"Debe de ingresar el documento que fundamente su colegiatura."}; 
+        } 
+    } 
+    /****************************************************************/   
         
     var formData = new FormData();
     formData.append('idproceso',idproceso);
     formData.append('colegiatura',$('#codigo_colegiatura').val());
     formData.append('archivo_colegiatura',$('#file_colegiatura').prop('files')[0]);
+
+    //formData.append('licencia',$('#codigo_licencia').val());
+    //formData.append('archivo_licencia',$('#file_licencia').prop('files')[0]);
    
      var respu;
     $.ajax({
@@ -1387,6 +1517,12 @@ function cumple_formacion(idproceso){
                  if(data.qcapa[i].es_idioma==1){
                      tipoestudio = "Idioma";
                  }
+                 if(data.qcapa[i].es_certificado==1){
+                     tipoestudio = "Certificado OSCE";
+                 }
+                 if(data.qcapa[i].es_licencia==1){
+                     tipoestudio = "Licencia de conducir";
+                 }
                  
                  var href_form_ca="#";
                  if(data.qcapa[i].archivo != null){
@@ -1396,7 +1532,7 @@ function cumple_formacion(idproceso){
                  "<td>"+tipoestudio+"</td>"+
                  "<td>"+data.qcapa[i].especialidad+"</td>"+
                  "<td>"+data.qcapa[i].centro_estudios+"</td>"+
-                 "<td>"+data.qcapa[i].cantidad_horas+"</td>"+
+                 "<td>"+(data.qcapa[i].cantidad_horas==0 ? '' : data.qcapa[i].cantidad_horas)+"</td>"+
                  "<td><a href='"+href_form_ca+"' target=\"_blank\" class='btn btn-info' type='button'><i class=\"fas fa-download\"></i></a>"+
                  "</td>"+
                  "</tr>";

@@ -289,11 +289,27 @@ class PostulanteController extends Controller
         return $query;
     }
     
-    public function capacitaciones_data1(){
+    /*public function capacitaciones_data1(){
         $query = CapacitacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
-        
+
+            return $query;
+        }*/
+    public function capacitaciones_data1(Request $data){
+        //$query = CapacitacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
+            if($data->hora_requerido){
+        $a= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$data->hora_requerido);
+        $b= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_certificado','=','1');
+        $query= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_licencia','=','1')->union($a)->union($b)->get();
+
+            return $query;
+        }else {
+            $query = CapacitacionUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
             return $query;
         }
+    }
+
+
+
     public function experiencias_data1(Request $data){
         //$proceso = Proceso::select('consid_prac_preprof','consid_prac_prof','dias_exp_lab_gen','dias_exp_lab_esp')->where('id',$data->idproceso)->get();
         //$query = ExperienciaLabUser::where('user_id',auth()->user()->id)->orderBy('id','DESC')->get();
@@ -362,9 +378,9 @@ class PostulanteController extends Controller
     public function guardarcapacitacion(Request $data){
         
         //$datap =$data->nacionalidad;
-        //return response()->json(['dataaa'=>$data->ruc]);
+        //return response()->json(['data'=>$data->fechainicio_capac]);
         
-       $cu = new CapacitacionUser();
+        $cu = new CapacitacionUser();
         
         $cu->user_id = auth()->user()->id;
         $cu->es_curso_espec = $data->es_curso_espec;
@@ -372,6 +388,8 @@ class PostulanteController extends Controller
         $cu->es_diplomado = $data->es_diplomado;
         $cu->es_ofimatica = $data->es_ofimatica;
         $cu->es_idioma = $data->es_idioma;
+        $cu->es_certificado = $data->es_certificado;
+        $cu->es_licencia = $data->es_licencia;
         
         $cu->centro_estudios = $data->centro_estudios;
         $cu->especialidad = $data->especialidad;
@@ -384,7 +402,15 @@ class PostulanteController extends Controller
         $cu->cantidad_horas = $data->cantidad_horas;
         $cu->nivel = $data->nivel_capa;
         $cu->save();
-    
+
+        try{
+            $cu->save(); // returns false
+            }
+        catch(\Exception $e){
+           // do task when error
+           echo $e->getMessage();   // insert query
+        }
+        
         $query = CapacitacionUser::where('user_id',auth()->user()->id)->get()->last();
         return $query;
 
@@ -547,6 +573,8 @@ class PostulanteController extends Controller
         $cu->es_diplomado = $data->es_diplomado;
         $cu->es_ofimatica = $data->es_ofimatica;
         $cu->es_idioma = $data->es_idioma;
+        $cu->es_certificado = $data->es_certificado;
+        $cu->es_licencia = $data->es_licencia;
                 
         $cu->centro_estudios = $data->centro_estudios;
         $cu->especialidad = $data->especialidad;
@@ -558,6 +586,13 @@ class PostulanteController extends Controller
         $cu->nivel = $data->nivel_capa;
 
         $cu->save();
+        try{
+            $cu->save(); // returns false
+            }
+        catch(\Exception $e){
+           // do task when error
+           echo $e->getMessage();   // insert query
+        }
     
         $query = CapacitacionUser::where('id',$data->id)->get();
         return $query;
@@ -733,7 +768,12 @@ class PostulanteController extends Controller
         $hrs_min_cap_ind = Proceso::select('horas_cap_ind')->where('id',$data->idproceso)->first();
         $hrs_ind = intval($hrs_min_cap_ind['horas_cap_ind']);
 
-        $qcapa= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$hrs_ind)->get();
+        //$qcapa= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$hrs_ind)->orWhere('es_certificado','=','1')->orWhere('es_licencia','=','1')->get();
+        $a= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$hrs_ind);
+        $b= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_certificado','=','1');
+        $qcapa= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_licencia','=','1')->union($a)->union($b)->get();
+
+        //$qcapa->union($b,$c)->get();
         
         //Datospersonales
         $qdatos = DatosUser::where('user_id', auth()->user()->id)->first();
@@ -859,12 +899,16 @@ class PostulanteController extends Controller
          $hrs_min_cap_ind = Proceso::select('horas_cap_ind')->where('id',$data->idproceso)->first();
          $hrs_ind = intval($hrs_min_cap_ind['horas_cap_ind']);
 
-         $cant2 = CapacitacionUser::where("user_id",auth()->user()->id)->get()->count();
-         $datos_capacitacion = CapacitacionUser::where("user_id",auth()->user()->id)->get();
+         //$cant2 = CapacitacionUser::where("user_id",auth()->user()->id)->get()->count();
+         //$datos_capacitacion = CapacitacionUser::where("user_id",auth()->user()->id)->get();
+         $a= CapacitacionUser::where("user_id",auth()->user()->id)->where('cantidad_horas','>=',$hrs_ind);
+         $b= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_certificado','=','1');
+         $cant2 = CapacitacionUser::where("user_id",auth()->user()->id)->where('es_licencia','=','1')->union($a)->union($b)->get()->count();
+         $datos_capacitacion= CapacitacionUser::where("user_id",auth()->user()->id)->where('es_licencia','=','1')->union($a)->union($b)->get();
          
          for($i=0 ; $i<$cant2 ; $i++){
             $url_archivo="";
-            if(intval($datos_capacitacion[$i]->cantidad_horas) >= $hrs_ind){
+            //if(intval($datos_capacitacion[$i]->cantidad_horas) >= $hrs_ind){
              unset($datos_capacitacion[$i]->id); 
              unset($datos_capacitacion[$i]->user_id);
              $url_archivo = str_replace('users/','postulantes/'.$pos->id.'/',$datos_capacitacion[$i]->archivo);
@@ -872,7 +916,7 @@ class PostulanteController extends Controller
              $datos_capacitacion[$i]->archivo = $url_archivo;
              $datos_capacitacion[$i]->postulante_id = $pos->id;
              CapacitacionPostulante::create($datos_capacitacion[$i]->toArray());
-            }
+            //}
          }
      
          //Almacenar experiencias de usuario a postulante CORREGIDO CON FILTRO DE PRACTICAS PRE Y PRO FESIONALES

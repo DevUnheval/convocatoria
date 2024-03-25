@@ -117,12 +117,69 @@ $("#tipo_capacitacion").on('change',function(){
         $('#nivel_capa').prop('disabled',false);
         $('#nivel_capa').prop('required',true);
         $('#nivel_capa').val('');
+
+        $('#fechainicio_capac').prop('disabled',false);
+        $('#fechainicio_capac').prop('required',true);
+        $('#fechainicio_capac').val('');
+
+        $('#fechafin_capac').prop('disabled',false);
+        $('#fechafin_capac').prop('required',true);
+        $('#fechafin_capac').val('');
+
+        $('#horaslectivas').prop('disabled',false);
+        $('#horaslectivas').prop('required',true);
+        $('#horaslectivas').val('');
         
+    }else if($("#tipo_capacitacion").val()==6 ){
+        $('#fechainicio_capac').prop('disabled',true);
+        $('#fechainicio_capac').prop('required',true);
+        $('#fechainicio_capac').val('');
+
+        $('#fechafin_capac').prop('disabled',true);
+        $('#fechafin_capac').prop('required',true);
+        $('#fechafin_capac').val('');
+
+        $('#horaslectivas').prop('disabled',true);
+        $('#horaslectivas').prop('required',true);
+        $('#horaslectivas').val('');
+
+        $('#nivel_capa').prop('disabled',false);
+        $('#nivel_capa').prop('required',true);
+        $('#nivel_capa').val('');
+
+    }else if($("#tipo_capacitacion").val()==7 ){
+        $('#fechainicio_capac').prop('disabled',false);
+        $('#fechainicio_capac').prop('required',true);
+        $('#fechainicio_capac').val('');
+
+        $('#fechafin_capac').prop('disabled',false);
+        $('#fechafin_capac').prop('required',true);
+        $('#fechafin_capac').val('');
+
+        $('#horaslectivas').prop('disabled',true);
+        $('#horaslectivas').prop('required',true);
+        $('#horaslectivas').val('');
+
+        $('#nivel_capa').prop('disabled',false);
+        $('#nivel_capa').prop('required',true);
+        $('#nivel_capa').val('');    
+
     }else{
         $('#nivel_capa').prop('disabled',true);
         $('#nivel_capa').prop('required',false);
         $('#nivel_capa').val('');
-        
+
+        $('#fechainicio_capac').prop('disabled',false);
+        $('#fechainicio_capac').prop('required',true);
+        $('#fechainicio_capac').val('');
+
+        $('#fechafin_capac').prop('disabled',false);
+        $('#fechafin_capac').prop('required',true);
+        $('#fechafin_capac').val('');
+
+        $('#horaslectivas').prop('disabled',false);
+        $('#horaslectivas').prop('required',true);
+        $('#horaslectivas').val('');
     }
 })
 
@@ -290,6 +347,12 @@ $("#tipo_capacitacion").on('change',function(){
              }
              if(data2[i].es_idioma==1){
                  tipoestudio = "Idioma";
+             }
+             if(data2[i].es_certificado==1){
+                 tipoestudio = "Certificado OSCE";
+             }
+             if(data2[i].es_licencia==1){
+                 tipoestudio = "Licencia de conducir";
              }
              tabla2 += "<tr id='tblcapac"+data2[i].id+"'>"+
              "<td>"+tipoestudio+"</td>"+
@@ -802,35 +865,113 @@ $("#tipo_capacitacion").on('change',function(){
      data: { id:id },
      success:function(data){
        var tipocap_sel=0;
+
          if(data[0].es_curso_espec==1){
              tipocap_sel = 1;
              $('#nivel_capa').prop('disabled',true);
              $('#nivel_capa').prop('required',false);
              $('#nivel_capa').val('');
+
+             $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+             $('#horaslectivas').prop('disabled',false);
+             $('#horaslectivas').prop('required',true);
          }
          if(data[0].es_especializacion==1){
             tipocap_sel = 2;
             $('#nivel_capa').prop('disabled',true);
             $('#nivel_capa').prop('required',false);
             $('#nivel_capa').val('');
+
+            $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+              $('#horaslectivas').prop('disabled',false);
+             $('#horaslectivas').prop('required',true);
         }
         if(data[0].es_diplomado==1){
             tipocap_sel = 3;
             $('#nivel_capa').prop('disabled',true);
             $('#nivel_capa').prop('required',false);
             $('#nivel_capa').val('');
+
+            $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+              $('#horaslectivas').prop('disabled',false);
+             $('#horaslectivas').prop('required',true);
         }
          if(data[0].es_ofimatica==1){
              tipocap_sel = 4;
              $('#nivel_capa').prop('disabled',false);
              $('#nivel_capa').prop('required',true);
              $('#nivel_capa').val(data[0].nivel);
+
+             $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+              $('#horaslectivas').prop('disabled',false);
+             $('#horaslectivas').prop('required',true);
          }
          if(data[0].es_idioma==1){
              tipocap_sel = 5;
              $('#nivel_capa').prop('disabled',false);
              $('#nivel_capa').prop('required',true);
              $('#nivel_capa').val(data[0].nivel);
+
+             $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+              $('#horaslectivas').prop('disabled',false);
+             $('#horaslectivas').prop('required',true);
+         }
+         if(data[0].es_certificado==1){
+             tipocap_sel = 6;
+             $('#nivel_capa').prop('disabled',false);
+             $('#nivel_capa').prop('required',true);
+             $('#nivel_capa').val(data[0].nivel);
+
+             $('#fechainicio_capac').prop('disabled',true);
+             $('#fechainicio_capac').prop('required',false);
+
+             $('#fechafin_capac').prop('disabled',true);
+             $('#fechafin_capac').prop('required',false);
+
+             $('#horaslectivas').prop('disabled',true);
+             $('#horaslectivas').prop('required',false);
+             $('#horaslectivas').val('-');
+         }
+         if(data[0].es_licencia==1){
+             tipocap_sel = 7;
+             $('#nivel_capa').prop('disabled',false);
+             $('#nivel_capa').prop('required',true);
+             $('#nivel_capa').val(data[0].nivel);
+
+             $('#fechainicio_capac').prop('disabled',false);
+             $('#fechainicio_capac').prop('required',true);
+
+             $('#fechafin_capac').prop('disabled',false);
+             $('#fechafin_capac').prop('required',true);
+
+             $('#horaslectivas').prop('disabled',true);
+             $('#horaslectivas').prop('required',false);
+             $('#horaslectivas').val('-');
          }
  
          $("#tipo_capacitacion option[value='"+tipocap_sel+"']").prop('selected',true);
@@ -1487,6 +1628,8 @@ function actualizar_capacitacion_data(transid){
     var es_diplomado=0;
     var  es_ofimatica=0;
      var es_idioma=0;   
+     var es_certificado=0;
+     var es_licencia=0;      
      var nivel_tratada="";
      
     /* if(!cumplehoras_porcapa(parseInt($("#horas_cap_ind").val()),parseInt($("#horaslectivas").val()))){
@@ -1507,6 +1650,8 @@ function actualizar_capacitacion_data(transid){
         es_diplomado = 0;
         es_ofimatica=0;
         es_idioma=0;
+        es_certificado=0;
+        es_licencia=0;
         nivel_tratada = "-";
     }
     if($("#tipo_capacitacion").val()==2){
@@ -1515,6 +1660,8 @@ function actualizar_capacitacion_data(transid){
         es_diplomado = 0;
         es_ofimatica=0;
         es_idioma=0;
+        es_certificado=0;
+        es_licencia=0;
         nivel_tratada = "-";
     }
     if($("#tipo_capacitacion").val()==3){
@@ -1523,6 +1670,8 @@ function actualizar_capacitacion_data(transid){
         es_diplomado = 1;
         es_ofimatica=0;
         es_idioma=0;
+        es_certificado=0;
+        es_licencia=0;
         nivel_tratada =  "-";
     }
     if($("#tipo_capacitacion").val()==4){
@@ -1531,6 +1680,8 @@ function actualizar_capacitacion_data(transid){
        es_diplomado = 0;
        es_ofimatica=1;
        es_idioma=0;
+       es_certificado=0;
+       es_licencia=0;
        nivel_tratada = $("#nivel_capa").val();
    }
    if($("#tipo_capacitacion").val()==5){
@@ -1539,6 +1690,28 @@ function actualizar_capacitacion_data(transid){
        es_diplomado = 0;
        es_ofimatica=0;
        es_idioma=1;
+       es_certificado=0;
+       es_licencia=0;
+       nivel_tratada = $("#nivel_capa").val();
+   }
+   if($("#tipo_capacitacion").val()==6){
+       es_curso_espec=0;
+       es_especializacion = 0;
+       es_diplomado = 0;
+       es_ofimatica=0;
+       es_idioma=0;
+       es_certificado=1;
+       es_licencia=0;
+       nivel_tratada = $("#nivel_capa").val();
+   }
+   if($("#tipo_capacitacion").val()==7){
+       es_curso_espec=0;
+       es_especializacion = 0;
+       es_diplomado = 0;
+       es_ofimatica=0;
+       es_idioma=0;
+       es_certificado=0;
+       es_licencia=1;
        nivel_tratada = $("#nivel_capa").val();
    }
      
@@ -1549,14 +1722,16 @@ function actualizar_capacitacion_data(transid){
      formData.append('es_diplomado', es_diplomado);
     formData.append('es_ofimatica', es_ofimatica);
     formData.append('es_idioma', es_idioma);
+    formData.append('es_certificado', es_certificado);
+    formData.append('es_licencia', es_licencia);
     formData.append('especialidad', $("#descripcion").val());
     formData.append('centro_estudios', $("#institucion").val());
     formData.append('pais', $("#pais_capacit").val());
     formData.append('ciudad', $("#ciudad_capacit").val());
-    formData.append('fechainicio_capac', $("#fechainicio_capac").val());
-    formData.append('fechafin_capac', $("#fechafin_capac").val());
+    formData.append('fechainicio_capac', $("#fechainicio_capac").val()=='' ? '1990-01-01' : $("#fechainicio_capac").val());
+    formData.append('fechafin_capac', $("#fechafin_capac").val()=='' ? '1990-01-01' : $("#fechafin_capac").val());
     formData.append('nivel_capa', nivel_tratada);
-    formData.append('cantidad_horas', $("#horaslectivas").val());
+    formData.append('cantidad_horas', $("#horaslectivas").val()=='' ? '0' : $("#horaslectivas").val());
     formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
     
     $('#loading-screen').fadeIn(); //PRELOADER INICIO
@@ -1589,7 +1764,13 @@ function actualizar_capacitacion_data(transid){
              if(data[0].es_idioma==1){
                  tipoestudio = "Idioma";
              } 
-             
+             if(data[0].es_certificado==1){
+                 tipoestudio = "Certificado OSCE";
+             }
+             if(data[0].es_licencia==1){
+                 tipoestudio = "Licencia de conducir";
+             }  
+
              var href_cap="#";
              if(data[0].archivo != ""){
                 href_cap=data[0].archivo.replace("public/", '/storage/');
@@ -2077,6 +2258,7 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
     var es_diplomado=0;
     var  es_ofimatica=0;
      var es_idioma=0;   
+     var es_certificado=0;  
      var nivel_tratada="";
      
    /*  if(!cumplehoras_porcapa(parseInt($("#horas_cap_ind").val()),parseInt($("#horaslectivas").val()))){
@@ -2097,6 +2279,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
          es_diplomado = 0;
          es_ofimatica=0;
          es_idioma=0;
+         es_certificado=0;
+         es_licencia=0;
          nivel_tratada = "-";
      }
      if($("#tipo_capacitacion").val()==2){
@@ -2105,6 +2289,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
          es_diplomado = 0;
          es_ofimatica=0;
          es_idioma=0;
+         es_certificado=0;
+         es_licencia=0;
          nivel_tratada = "-";
      }
      if($("#tipo_capacitacion").val()==3){
@@ -2113,6 +2299,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
          es_diplomado = 1;
          es_ofimatica=0;
          es_idioma=0;
+         es_certificado=0;
+         es_licencia=0;
          nivel_tratada =  "-";
      }
      if($("#tipo_capacitacion").val()==4){
@@ -2121,6 +2309,8 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
         es_diplomado = 0;
         es_ofimatica=1;
         es_idioma=0;
+        es_certificado=0;
+        es_licencia=0;
         nivel_tratada = $("#nivel_capa").val();
     }
     if($("#tipo_capacitacion").val()==5){
@@ -2129,6 +2319,28 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
         es_diplomado = 0;
         es_ofimatica=0;
         es_idioma=1;
+        es_certificado=0;
+        es_licencia=0;
+        nivel_tratada = $("#nivel_capa").val();
+    }
+    if($("#tipo_capacitacion").val()==6){
+        es_curso_espec=0;
+        es_especializacion = 0;
+        es_diplomado = 0;
+        es_ofimatica=0;
+        es_idioma=0;
+        es_certificado=1;
+        es_licencia=0;
+        nivel_tratada = $("#nivel_capa").val();
+    }
+    if($("#tipo_capacitacion").val()==7){
+        es_curso_espec=0;
+        es_especializacion = 0;
+        es_diplomado = 0;
+        es_ofimatica=0;
+        es_idioma=0;
+        es_certificado=0;
+        es_licencia=1;
         nivel_tratada = $("#nivel_capa").val();
     }
  
@@ -2138,14 +2350,16 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
      formData.append('es_diplomado', es_diplomado);
      formData.append('es_ofimatica', es_ofimatica);
     formData.append('es_idioma', es_idioma);
+    formData.append('es_certificado', es_certificado);
+    formData.append('es_licencia', es_licencia);
     formData.append('especialidad', $("#descripcion").val());
     formData.append('centro_estudios', $("#institucion").val());
     formData.append('pais', $("#pais_capacit").val());
     formData.append('ciudad', $("#ciudad_capacit").val());
-    formData.append('fechainicio_capac', $("#fechainicio_capac").val());
-    formData.append('fechafin_capac', $("#fechafin_capac").val());
+    formData.append('fechainicio_capac', $("#fechainicio_capac").val()=='' ? '1990-01-01' : $("#fechainicio_capac").val());
+    formData.append('fechafin_capac', $("#fechafin_capac").val()=='' ? '1990-01-01' : $("#fechafin_capac").val());
     formData.append('nivel_capa', nivel_tratada);
-    formData.append('cantidad_horas', $("#horaslectivas").val());
+    formData.append('cantidad_horas', $("#horaslectivas").val()=='' ? '0' : $("#horaslectivas").val());
     formData.append('archivo_capacitacion',$("#documento_capa").prop('files')[0]);
     
     $('#loading-screen').fadeIn(); //PRELOADER INICIO
@@ -2176,7 +2390,13 @@ function cumplehoras_porcapa(hrsminima,hrsdecapa){
              }
              if(data.es_idioma==1){
                  tipoestudio = "Idioma";
-             } 
+             }
+             if(data.es_certificado==1){
+                 tipoestudio = "Certificado OSCE";
+             }
+             if(data.es_licencia==1){
+                 tipoestudio = "Licencia de conducir";
+             }   
              
              var href_form="#";
              if(data.archivo != ""){
