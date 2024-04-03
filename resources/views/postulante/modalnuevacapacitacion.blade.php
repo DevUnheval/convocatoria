@@ -78,7 +78,7 @@
                                           <div class="col-md-6">
                                               <div class="form-group">
                                                   <label for="fechafin_capac">Fecha de fin :<span class="text-danger"> *</span> </label>
-                                                  <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" min="1950-01-01" max="{{date('Y-m-d')}}"  required>
+                                                  <input type="date" class="form-control " id="fechafin_capac" name="fechafin_capac" min="1950-01-01" required>
                                               </div>
                                           </div>
                                       </div>
