@@ -24,6 +24,7 @@ function editar(id){
             $("#nombres").val(response.usuario.nombres);
             $("#apellido_paterno").val(response.usuario.apellido_paterno);
             $("#apellido_materno").val(response.usuario.apellido_materno);
+            $("#email").val(response.usuario.email);
             $("#id").val(response.usuario.id);
             $(".check_rol").prop("checked",false);
             response.roles.forEach(rol => $("#rol_checkbox_"+rol).prop("checked",true) );

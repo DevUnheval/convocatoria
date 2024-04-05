@@ -38,6 +38,12 @@
                             </div>
                             <div class="col-md-6">
                             <div class="form-group">
+                                <small>E-mail:<span class="text-danger"> *</span> </small>
+                                <input type="email" class="form-control" id="email" name="email"> 
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-group">
                                 <small>Contraseña:<span class="text-danger"> *</span> </small>
                                 <input type="password" class="form-control" name="password" placeholder="(opcional)"> 
                             </div>

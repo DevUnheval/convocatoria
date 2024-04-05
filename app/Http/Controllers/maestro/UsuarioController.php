@@ -208,6 +208,7 @@ class UsuarioController extends Controller
         $q->nombres=$r->nombres;
         $q->apellido_paterno=$r->apellido_paterno;
         $q->apellido_materno=$r->apellido_materno;
+        $q->email=$r->email;
         if($q->password!=""){
             $q->password=bcrypt($r->password);
         }
