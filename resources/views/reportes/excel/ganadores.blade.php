@@ -27,7 +27,7 @@
                 <thead>
                     <tr> 
                     	
-                        <td  align="center" colspan="11"><h3>LISTA DE GANADORES DEL {{ $data["codigos"]->primero }} HASTA {{ $data["codigos"]->ultimo }} </h3></td>
+                        <td  align="center" colspan="12"><h3>LISTA DE GANADORES DEL {{ $data["codigos"]->primero }} HASTA {{ $data["codigos"]->ultimo }} </h3></td>
                           
                     </tr>
                     <tr>
@@ -39,6 +39,7 @@
                         <th align="center" style="width:15px;" border="1">CELULAR</th>
                         <th align="center" style="width:15px;" border="1">FECH. NACIMIENTO</th>
                         <th align="center" style="width:15px;" border="1">CODIGO</th>
+                        <th align="center" style="width:30px;" border="1">CARGO</th>
                         <th align="center" style="width:45px;" border="1">OFICINA</th>
                         <th align="center" border="1">REMUNERACION</th>
                         <th align="center" style="width:30px;" border="1">DOMICILIO</th>
@@ -56,6 +57,7 @@
                         <td align="center">{{ $g->telefono_celular}}</td>
                         <td align="center">{{ $g->fecha_nacimiento}}</td>
                         <td align="center">{{ $g->cod}}</td>
+                        <td align="left">{{ $g->nombre}}</td>
                         <td align="left">{{ $g->oficina}}</td>
                         <td align="center">{{ $g->remuneracion}}</td>
                         <td align="left">{{ $g->domicilio}}</td>
@@ -63,7 +65,7 @@
                     @endforeach     
                     @if(count($data["ganadores"]) < 1 )
                     <tr>
-                        <td align="center" colspan="11"><i> No hay información en la fecha seleccionada </i></td>
+                        <td align="center" colspan="12"><i> No hay información en la fecha seleccionada </i></td>
                     </tr>
                     @endif                           
                 </tbody>                                       

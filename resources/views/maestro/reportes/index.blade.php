@@ -20,7 +20,7 @@
      	<div class="row">
      			
 	     		<div class="col-md-4">
-	        		<h4>Lista de ganadores por fecha de publicación de la convocatoria: </h4>
+	        		<h4>Lista de ganadores por fecha de aprobación de convocatoria: </h4>
 	        	</div>
 	        	<div class="col-md-3">
 	        		<input type="date" value="" class="form-control required" id="fecha_publicacion" onchange="crearUrl(event)" required>

@@ -32,12 +32,12 @@ class ReportesController extends Controller
 
         $data["codigos"] = collect(\DB::select("SELECT MIN(pr.cod) primero, MAX(pr.cod) ultimo FROM postulantes p inner join procesos pr on pr.id = p.proceso_id where condicion = 'GANADOR' and pr.fecha_aprobacion = '$fecha'"))->first(); 
 
-        $data["ganadores"] = \DB::select("SELECT p.condicion,p.email,u.dni,concat(u.apellido_paterno,' ',u.apellido_materno,' ',u.nombres) as nombres,pr.cod,pr.oficina,pr.remuneracion,d.telefono_celular,d.domicilio,d.fecha_nacimiento,d.ruc 
+        $data["ganadores"] = \DB::select("SELECT p.condicion,p.email,u.dni,concat(u.apellido_paterno,' ',u.apellido_materno,' ',u.nombres) as nombres,pr.cod,pr.oficina,pr.remuneracion,d.telefono_celular,d.domicilio,d.fecha_nacimiento,d.ruc,pr.nombre 
             FROM postulantes p 
             inner join users u on p.user_id = u.id 
             inner join procesos pr on pr.id = p.proceso_id 
             inner join datos_users d on d.user_id = u.id 
-            where condicion = 'GANADOR' and pr.fecha_aprobacion = '$fecha' ");                                
+            where condicion = 'GANADOR' and pr.tipo_id = '1' and pr.fecha_aprobacion = '$fecha' ");                                
 
         $data["ruta"] = "reportes.excel.ganadores";
         //return (new ProcesosExport ($data))->view();
