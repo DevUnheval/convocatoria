@@ -240,6 +240,7 @@ $enCurso=\App\Proceso::where("estado","2")->count();
                                 <li class="sidebar-item"><a href="{{route('maestro.usuarios.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Usuarios</span></a></li>
                                 <li class="sidebar-item"><a href="{{route('maestro.proceso.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Tipo de Procesos</span></a></li>
                                 <li class="sidebar-item"><a href="{{route('maestro.formacion.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Formacion Académica</span></a></li>
+                                <li class="sidebar-item"><a href="{{route('maestro.reportes.index')}}" class="sidebar-link"><i class="mdi mdi-octagram"></i><span class="hide-menu"> Reportes</span></a></li>
                             </ul>
                         </li>
                         @endif   

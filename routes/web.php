@@ -66,6 +66,10 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','Comisionado']);  
         Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
         Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar')->middleware(['auth','Administrador']); 
+    });
+    Route::group(['prefix' => 'reportes'], function(){
+        Route::get('/', 'maestro\ReportesController@index')->name('maestro.reportes.index')->middleware(['auth']); 
+        Route::get('reporteganadores/{fecha}', 'maestro\ReportesController@descargaGanadores')->where(['id' => '[0-9]+'])->name('maestro.reportes.reporteganadores')->middleware(['auth','Administrador']);  
     }); 
 });
 
