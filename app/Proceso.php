@@ -22,7 +22,7 @@ class Proceso extends Model
                            'hay_bon_pers_disc','hay_bon_ffaa','hay_bon_deport',
                            'duracion_contrato','archivo_preliminar',
                            'nivel_acad_convocar','nivel_acad_evaluar','especialiad',
-                           'archivo_preliminar_tipo','archivo_resultado','archivo_resultado_tipo'];
+                           'archivo_preliminar_tipo','archivo_resultado','archivo_resultado_tipo','etapa','anio'];
     // public $timestamps = False;
     
     public function postulantes() {

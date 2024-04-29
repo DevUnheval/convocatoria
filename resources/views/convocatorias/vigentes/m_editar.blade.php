@@ -23,7 +23,19 @@
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
-                                        <div class="row form-group mb-0 py-2 bg-light">                                            
+                                        <div class="row form-group mb-0 py-2 bg-light">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <b><small>Año:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control required" name="anio" min="2010" id="anio">
+                                                </div>
+                                            </div>  
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <b><small>Etapa:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control required" name="etapa" min="1" max="24" id="etapa">
+                                                </div>
+                                            </div>                                              
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <b><small>Cód. convocatoria:<span class="text-danger"> *</span> </small></b>

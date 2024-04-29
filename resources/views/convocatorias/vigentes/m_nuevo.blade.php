@@ -23,7 +23,19 @@
                                     <!-- Step 1 -->
                                     <h6><strong>Datos generales</strong></h6>
                                     <section>
-                                        <div class="row form-group mb-0 py-2 bg-light">                                            
+                                        <div class="row form-group mb-0 py-2 bg-light">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <b><small>Año:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control required" name="anio" min="2010">
+                                                </div>
+                                            </div>  
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <b><small>Etapa:<span class="text-danger"> *</span> </small></b>
+                                                    <input type="number" class="form-control required" name="etapa" min="1" max="24">
+                                                </div>
+                                            </div>                                           
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <b><small>Cód. convocatoria:<span class="text-danger"> *</span> </small></b>
@@ -43,7 +55,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <small>Cantidad de plazas:<span class="text-danger"> *</span> </small>
+                                                    <small>N° de plazas:<span class="text-danger"> *</span> </small>
                                                     <input type="number" class="form-control required" name="n_plazas" value="1" min="1">
                                                 </div>
                                             </div>

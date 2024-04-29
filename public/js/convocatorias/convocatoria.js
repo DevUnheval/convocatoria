@@ -193,6 +193,8 @@ function editar(id){
         },
         success:  function (response){
             $("#id").val(response.id);
+            $("#anio").val(response.anio);
+            $("#etapa").val(response.etapa);
             $("#cod").val(response.cod);
             $("#tipo_id").val(response.tipo_id);
             $("#n_plazas").val(response.n_plazas);
