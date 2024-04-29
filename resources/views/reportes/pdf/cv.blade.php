@@ -233,35 +233,43 @@
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >1. Me encuentro inhabilitado administrativa o judicialmente para contratar con el Estado. </td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj1) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >2. Me encuentro inmerso en algún Proceso Administrativo Disciplinario, o he sido destituido de la Administración Pública.  </td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj2) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >3. Tengo antecedentes penales, judiciales y/o policiales. </td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj3) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >4. Tengo impedimento para ser postor o contratista, conforme a lo establecido en el marco normativo que regula las contrataciones y adquisiciones del Estado.</td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj4) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >5. Me une algún vínculo familiar y/o matrimonial hasta el cuarto grado de consanguinidad, segundo de afinidad con los funcionarios, directivos de la Universidad Nacional “Hermilio Valdizán” de Huánuco y con los miembros del Comisión de Concurso Público para Contrato Administrativo de Servicios - </td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj5) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >6. Percibo otro ingreso tipo de remuneración por parte del Estado o de alguna naturaleza.</td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj6) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >7. Percibo alguna pensión a cargo del Estado.</td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj7) SI
+          @else   NO @endif</td>
     </tr>
     <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >8. Soy deudor Alimentario Moroso y/o me encuentro inscrito en el Registro de Deudores Alimentarios de Morosos (REDAM), conforme a lo dispuesto por la Ley Nº28970.</td>
-        <td align="center">NO</td>
+        <td align="center">@if($postulante->datos_postulante->dj7) SI
+          @else   NO @endif</td>
     </tr>
      <tr>
         <td class="cv-tabla-td-dj" colspan="3"  >9. Manifiesto que la información registrada responde al principio de veracidad normado en el 
