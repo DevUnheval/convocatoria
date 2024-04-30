@@ -1332,7 +1332,7 @@ function cumple_formacion(idproceso){
     var arrayExp={estado:"",msjok:"",msjerror:""};
     var algun_campo_vacio=false;
     
-    if(!$("#si_p1").is(':checked') && !$("#no_p1").is(':checked')){
+    if($(!"#si_p1").is(':checked') && !$("#no_p1").is(':checked')){
         algun_campo_vacio=true;    
     }else if(!$("#si_p2").is(':checked') && !$("#no_p2").is(':checked')){
         algun_campo_vacio=true;   
@@ -1357,21 +1357,21 @@ function cumple_formacion(idproceso){
     }
 
     var dj = "";
-    if($('input:radio[name=g1]:checked').val()=="1"){
+    if(!$('input:radio[name=g1]:checked').val()=="1"){
         dj = "'SI' en el inciso 1";
-    } else if( $('input:radio[name=g2]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g2]:checked').val()=="1"){
         dj = "'SI' en el inciso 2";
-    } else if( $('input:radio[name=g3]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g3]:checked').val()=="1"){
         dj = "'SI' en el inciso 3";
-    } else if( $('input:radio[name=g4]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g4]:checked').val()=="1"){
         dj = "'SI' en el inciso 4";
-    } else if( $('input:radio[name=g5]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g5]:checked').val()=="1"){
         dj = "'SI' en el inciso 5";
-    } else if( $('input:radio[name=g6]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g6]:checked').val()=="1"){
         dj = "'SI' en el inciso 6";
-    } else if( $('input:radio[name=g7]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g7]:checked').val()=="1"){
         dj = "'SI' en el inciso 7";
-    } else if( $('input:radio[name=g8]:checked').val()=="1"){
+    } else if( !$('input:radio[name=g8]:checked').val()=="1"){
         dj = "'SI' en el inciso 8";
     }/* else if( $('input:radio[name=g9]:checked').val()=="0"){
         dj = "'NO' en el inciso 9";
