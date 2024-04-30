@@ -32,7 +32,7 @@
                                             </div>  
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <b><small>Etapa:<span class="text-danger"> *</span> </small></b>
+                                                    <b><small>N° de concurso:<span class="text-danger"> *</span> </small></b>
                                                     <input type="number" class="form-control required" name="etapa" min="1" max="24">
                                                 </div>
                                             </div>                                           
