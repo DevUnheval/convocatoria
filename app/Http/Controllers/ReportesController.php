@@ -39,8 +39,8 @@ class ReportesController extends Controller
             $data = $this->data_resultado($id);
             $data["ruta"] = "reportes.excel.resultado";
             //return (new ProcesosExport($data))->view();
-            //return (new ProcesosExport($data))->download("Resultado_".$etapa."_".$data['proceso']->cod.'.xlsx');
-            return (new ProcesosExport($data))->download("Resultado_".$etapa.'.xlsx');
+            return (new ProcesosExport($data))->download("Resultado_".$etapa."_".$data['proceso']->cod.'.xlsx');
+            //return (new ProcesosExport($data))->download("Resultado_".$etapa.'.xlsx');
         }
             $data = $this->data_etapa($id,$etapa);
             $data["ruta"] = "reportes.excel.etapa";
@@ -106,9 +106,9 @@ class ReportesController extends Controller
     }
     private function data_resultado($proceso_id){
 
-        $codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
+        //$codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
 
-        /*$proceso =  Proceso::find($proceso_id);      
+        $proceso =  Proceso::find($proceso_id);      
         $etapas = $this->api->etapas_evaluacion($proceso->evaluar_conocimientos);
         $postulantes = Postulante::select( "dni",
                                      DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
@@ -121,8 +121,8 @@ class ReportesController extends Controller
                             ->where('cal_entrevista','>=','0')
                             ->orderBy('final','desc')
                             ->orderBy('apellido_paterno','asc')
-                            ->get();*/
-        $proceso = collect(\DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id"));                    
+                            ->get();
+        /*$proceso = collect(\DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id"));                    
 
 
         foreach($codpro as $key=>$cod){
@@ -139,7 +139,7 @@ class ReportesController extends Controller
                             ->orderBy('apellido_paterno','asc')
                             ->get();
 
-        }                    
+        }                    */
 
         return [
                     'proceso'       => $proceso,
