@@ -33,6 +33,10 @@
                                               <input type="file" class="form-control required" id="file_evaluacion"  name="archivo">
                                           </div>
                                       </div>
+                                      <div class="col-md-4" >
+                                        <small class="font-weight-bold">Fecha de Publicación:<span class="text-danger"> *</span></small>
+                                        <input type="datetime-local" class="form-control required" name="fecha_publicacion" id="fecha_publicacion" aria-invalid="false" required> 
+                                      </div> 
                                       <div class="col-md-2">
                                           <div class="form-group"><br>
                                               <button type="button" class="btn btn-outline-success btn-rounded btn-sm" onclick="guardar_evaluacion()"><i class="fa fa-save"></i> Guardar</button>

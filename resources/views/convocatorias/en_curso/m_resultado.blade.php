@@ -19,8 +19,13 @@
 
                                 <input name="tipo" id="archivo_tipo_web" value="web"  type="radio"  class="radio-col-indigo material-inputs resultado-check" />
                                 <label for="archivo_tipo_web" class="mb-0 mt-2">Link</label>
-                            </fieldset> 
-                            <br><br><br>
+                            </fieldset>
+                            <br><br>
+                            <div class="col-sm-12" >
+                                <small class="font-weight-bold">Fecha de Publicación:<span class="text-danger"> *</span></small>
+                                <input type="datetime-local" class="form-control required" name="fecha_publicacion" id="fecha_publicacion" aria-invalid="false" required> 
+                            </div> 
+                            <br><br><br><br>
                             <div class="col-sm-12" id="div_resultado_file">                                                  
                                 <input type="file" class="form-control-file archivo_tipo" id="archivo_resultado" name="archivo_resultado">
                             </div>                                              

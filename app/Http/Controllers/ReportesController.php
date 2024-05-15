@@ -27,6 +27,7 @@ class ReportesController extends Controller
             $data = $this->data_resultado($id,$etapa);
             $pdf = PDF::loadView('reportes.pdf.resultado',compact('data'))->setPaper('a4', 'landscape');
             return $pdf->stream("Resultado_".$data['proceso']->cod.'.pdf'); //download
+            //return $pdf->stream("Resultado_".'.pdf'); 
         }
         $data = $this->data_etapa($id,$etapa);
         //$pdf = PDF::loadView('reportes.pdf.procesos',compact('data'));
@@ -95,6 +96,7 @@ class ReportesController extends Controller
         }
         $postulantes = $query->orderBy($evaluacion_etapa_actual,"desc")->get();
         $etapa_actual = $etapas[$etapa_a_buscar];
+        //dd($postu);
         return [
                     'proceso'       => $proceso,
                     'proceso_enca'  => $proceso_enca,
@@ -106,10 +108,14 @@ class ReportesController extends Controller
     }
     private function data_resultado($proceso_id){
 
-        $codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
+        $proceso_enca = \DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id");
 
         $proceso =  Proceso::find($proceso_id);      
         $etapas = $this->api->etapas_evaluacion($proceso->evaluar_conocimientos);
+
+        $codpro = \DB::select("SELECT id from procesos where estado = '1' or estado = '2' order by id");
+
+        
         $postulantes = Postulante::select( "dni",
                                      DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
                                      "user_id",
@@ -121,10 +127,10 @@ class ReportesController extends Controller
                             ->where('cal_entrevista','>=','0')
                             ->orderBy('final','desc')
                             ->orderBy('apellido_paterno','asc')
-                            ->get();             
+                            ->get();        
 
-        /*foreach($codpro as $key=>$cod){
-            $postulantes[$key] = Postulante::select( "dni",
+        foreach($codpro as $key=>$cod){
+            $postu[$key] = Postulante::select( "dni",
                                      DB::raw("concat(apellido_paterno,' ',apellido_materno,' ',nombres) as nombres"),
                                      "user_id",
                                     "postulantes.*"
@@ -136,13 +142,15 @@ class ReportesController extends Controller
                             ->orderBy('final','desc')
                             ->orderBy('apellido_paterno','asc')
                             ->get();
-        }*/
+        }
 
-        //$proceso = \DB::select("SELECT * from procesos where estado = '1' or estado = '2' order by id");
+        
         //dd($postulantes);
         return [
                     'proceso'       => $proceso,
                     'postulantes'   => $postulantes,
+                    'proceso_enca'   => $proceso_enca,
+                    'postu'   => $postu,
                 ];
     }
     public function preliminar($id,$tipo){
@@ -166,7 +174,7 @@ class ReportesController extends Controller
              // $proceso = Proceso::select("*")->where('id','=','133')->get();
 
 
-            //dd($proceso);   
+           
         if($tipo=="pdf"){
             $pdf = PDF::loadView('reportes.pdf.preliminar',compact('data','proceso'));
             return $pdf->stream("PRELIMINAR".'.pdf'); //download

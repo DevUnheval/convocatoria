@@ -2,6 +2,7 @@ $(document).ready(function() {
     $("#btn_guardar_resultado").click(function(){
         var formData = new FormData();
         formData.append('id', $("#id_proceso_r").val() );
+        formData.append('fecha_publicacion', $("#fecha_publicacion").val() );
         if( $("#archivo_resultado").attr("type") =="file" ){
             var file=document.getElementById('archivo_resultado').files[0];
             if(!file){ alert("Archivo vacio, no se puede guardar"); return false; }
@@ -12,9 +13,12 @@ $(document).ready(function() {
                 return false;
             }else{
                 var archivo_resultado = $("#archivo_resultado").val();
-                var resultado_archivo_tipo = "web"; 
+                var resultado_archivo_tipo = "web";
+                var fecha_publicacion = $("#fecha_publicacion").val(); 
+
                 formData.append('archivo_resultado', archivo_resultado);
                 formData.append('resultado_archivo_tipo', resultado_archivo_tipo);
+                formData.append('fecha_publicacion', fecha_publicacion);
             }
         }
     $.ajax({
@@ -40,6 +44,7 @@ $(document).ready(function() {
             $('#zero_config').DataTable().ajax.reload();
             $("#modal_resultado").modal("hide");
             $("#id_proceso_r").val(id);
+            $("#fecha_publicacion").val(fecha_publicacion);
         },
         error: function (response){
             console.log("Error",response.data);
@@ -97,6 +102,17 @@ function guardar_evaluacion(){
         }) 
         return false;
     }
+    if( $("#fecha_publicacion").val()=="" ){
+        $("#fecha_publicacion").focus();
+        Swal.fire({
+            //position: 'top-end',
+            type: 'warning',
+            title: 'Seleccionar fecha para publicación',
+            showConfirmButton: false,
+            timer: 1500
+        }) 
+        return false;
+    }
     var file=document.getElementById('file_evaluacion').files[0];
     if(!file){
         Swal.fire({
@@ -114,6 +130,7 @@ function guardar_evaluacion(){
         formData.append('archivo', file);
         formData.append('nombre', $("#nombre_nuevo_evaluacion").val());
         formData.append('proceso_id', $("#proceso_id_evaluacion").val());
+        formData.append('fecha_publicacion', $("#fecha_publicacion").val());
         formData.append('_token', $('input[name=_token]').val());
 
     $.ajax({

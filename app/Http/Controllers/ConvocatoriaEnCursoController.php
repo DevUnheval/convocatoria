@@ -11,6 +11,7 @@ use App\GradoFormacion;
 use App\Comunicado;
 use App\EvaluacionProceso;
 use App\Postulante;
+use Carbon\Carbon;
 
 class ConvocatoriaEnCursoController extends Controller
 {
@@ -82,14 +83,21 @@ class ConvocatoriaEnCursoController extends Controller
             }                
             $convocatoria_all = '<b><i class="fa fa-address-book"></i></b> '.$dato->tipoproceso->nombre.'<br><b><i class="fa fa-briefcase"></i></b> '.$dato->nombre.'<br><b><i class="fa fa-home"></i> </b><small> '.$dato->oficina.'<small>';
             $evaluaciones="";//$dato->evaluaciones; 
-            if($dato->evaluacionprocesos->count() > 0 ){
-                foreach($dato->evaluacionprocesos as $ev){
+            $fecha_hoy1 = Carbon::now();
+            //$fecha_inicio1 = Carbon::parse($dato->evaluacionprocesos->fecha_publicacion);
+            if($dato->evaluacionprocesos->count() > 0){
+                foreach($dato->evaluacionprocesos as $ev){ 
+                    $fecha_inicio1 = Carbon::parse($ev->fecha_publicacion); 
+                    if($fecha_hoy1 >= $fecha_inicio1) {
                     $evaluaciones .= '<a href="'.Storage::url($ev->archivo).'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs my-1"><span class"btn-label"><i class="fa fa-file"></i></span> '.$ev->nombre.'</a>';
+                    }
                 }
                
             } 
-            $resultados="";  
-            if($dato->archivo_resultado != '' ){
+            $resultados="";
+            $fecha_hoy = Carbon::now();
+            $fecha_inicio = Carbon::parse($dato->fecha_resultados);  
+            if($dato->archivo_resultado != '' && $fecha_hoy >= $fecha_inicio){
                 if($dato->archivo_resultado_tipo=="web"){
                     $href = $dato->archivo_resultado;
                 }
@@ -121,12 +129,13 @@ class ConvocatoriaEnCursoController extends Controller
                 
     }
 
-    
+     
  
     public function guardar_evaluacion(Request $r){
         $query = new EvaluacionProceso;
         $query->proceso_id=$r->proceso_id;
         $query->nombre=$r->nombre;
+        $query->fecha_publicacion=$r->fecha_publicacion;
         //$query->archivo="rarchivo";
         if($r->file('archivo')){
             $name= $r->file('archivo')->store('public/procesos/evaluaciones');
@@ -172,11 +181,12 @@ class ConvocatoriaEnCursoController extends Controller
     public function update_resultado(Request $r)
     {   
         $p= Proceso::find($r->id);
-
+        //dd($r->fecha_publicacion);
         if($r->resultado_archivo_tipo=="web"){
             Storage::delete($p->archivo_resultado);
             $p->archivo_resultado = $r->archivo_resultado;
             $p->archivo_resultado_tipo = $r->resultado_archivo_tipo;
+            $p->fecha_resultados = $r->fecha_publicacion;
             $p->save();
         }
         else{
@@ -184,6 +194,7 @@ class ConvocatoriaEnCursoController extends Controller
                 Storage::delete($p->archivo_resultado);//primero eliminamos el archivo anterior
                 $name= $r->file('archivo_resultado')->store('public/procesos/resultado');
                 $p->archivo_resultado=$name;
+                $p->fecha_resultados=$r->fecha_publicacion;
                 $p->save(); 
             }
         }
