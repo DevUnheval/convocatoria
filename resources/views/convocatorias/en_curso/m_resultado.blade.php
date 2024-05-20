@@ -23,7 +23,7 @@
                             <br><br>
                             <div class="col-sm-12" >
                                 <small class="font-weight-bold">Fecha de Publicación:<span class="text-danger"> *</span></small>
-                                <input type="datetime-local" class="form-control required" name="fecha_publicacion" id="fecha_publicacion" aria-invalid="false" required> 
+                                <input type="datetime-local" class="form-control required" name="fecha_publicacion_resultado" id="fecha_publicacion_resultado" aria-invalid="false" required> 
                             </div> 
                             <br><br><br><br>
                             <div class="col-sm-12" id="div_resultado_file">                                                  

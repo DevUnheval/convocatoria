@@ -181,12 +181,12 @@ class ConvocatoriaEnCursoController extends Controller
     public function update_resultado(Request $r)
     {   
         $p= Proceso::find($r->id);
-        //dd($r->fecha_publicacion);
+        //dd($r->fecha_publicacion_resultado);
         if($r->resultado_archivo_tipo=="web"){
             Storage::delete($p->archivo_resultado);
             $p->archivo_resultado = $r->archivo_resultado;
             $p->archivo_resultado_tipo = $r->resultado_archivo_tipo;
-            $p->fecha_resultados = $r->fecha_publicacion;
+            $p->fecha_resultados = $r->fecha_publicacion_resultado;
             $p->save();
         }
         else{
@@ -194,7 +194,7 @@ class ConvocatoriaEnCursoController extends Controller
                 Storage::delete($p->archivo_resultado);//primero eliminamos el archivo anterior
                 $name= $r->file('archivo_resultado')->store('public/procesos/resultado');
                 $p->archivo_resultado=$name;
-                $p->fecha_resultados=$r->fecha_publicacion;
+                $p->fecha_resultados=$r->fecha_publicacion_resultado;
                 $p->save(); 
             }
         }

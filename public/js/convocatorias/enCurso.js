@@ -2,7 +2,7 @@ $(document).ready(function() {
     $("#btn_guardar_resultado").click(function(){
         var formData = new FormData();
         formData.append('id', $("#id_proceso_r").val() );
-        formData.append('fecha_publicacion', $("#fecha_publicacion").val() );
+        formData.append('fecha_publicacion_resultado', $("#fecha_publicacion_resultado").val() );
         if( $("#archivo_resultado").attr("type") =="file" ){
             var file=document.getElementById('archivo_resultado').files[0];
             if(!file){ alert("Archivo vacio, no se puede guardar"); return false; }
@@ -14,11 +14,11 @@ $(document).ready(function() {
             }else{
                 var archivo_resultado = $("#archivo_resultado").val();
                 var resultado_archivo_tipo = "web";
-                var fecha_publicacion = $("#fecha_publicacion").val(); 
+                var fecha_publicacion_resultado = $("#fecha_publicacion_resultado").val(); 
 
                 formData.append('archivo_resultado', archivo_resultado);
                 formData.append('resultado_archivo_tipo', resultado_archivo_tipo);
-                formData.append('fecha_publicacion', fecha_publicacion);
+                formData.append('fecha_publicacion_resultado', fecha_publicacion_resultado);
             }
         }
     $.ajax({
@@ -44,7 +44,7 @@ $(document).ready(function() {
             $('#zero_config').DataTable().ajax.reload();
             $("#modal_resultado").modal("hide");
             $("#id_proceso_r").val(id);
-            $("#fecha_publicacion").val(fecha_publicacion);
+            $("#fecha_publicacion_resultado").val(fecha_publicacion_resultado);
         },
         error: function (response){
             console.log("Error",response.data);
