@@ -3,9 +3,15 @@ $(document).ready(function() {
         var formData = new FormData();
         formData.append('id', $("#id_proceso_r").val() );
         formData.append('fecha_publicacion_resultado', $("#fecha_publicacion_resultado").val() );
-        if( $("#archivo_resultado").attr("type") =="file" ){
+
+        if( $("#archivo_resultado").attr("type") =="file"){
             var file=document.getElementById('archivo_resultado').files[0];
-            if(!file){ alert("Archivo vacio, no se puede guardar"); return false; }
+            var fecha_publicacion_resultado = $("#fecha_publicacion_resultado").val(); 
+            if(!file){ 
+                alert("Archivo vacio, no se puede guardar"); return false; }
+            else if ($("#fecha_publicacion_resultado").val()==""){
+                alert("Debe seleccionar fecha"); return false;
+            }    
             else{formData.append('archivo_resultado', file);}
         }else{
             if($("#archivo_resultado").val()==""){
