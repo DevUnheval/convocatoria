@@ -40,7 +40,18 @@ class ConvocatoriaHistoricoController extends Controller{
        
         foreach ($query as $dato) {
         
-            $postulantes = '<a class="btn btn-info waves-effect waves-light btn-xs" target="_black" href="'.route("reporte.postulantes.view",[$dato->id]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';        
+            $postulantes = '<a class="btn btn-info waves-effect waves-light btn-xs" target="_black" href="'.route("reporte.postulantes.view",[$dato->id]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
+            $bases = "<button type='button' class='btn btn-outline-warning  btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> Detalles</button> ";
+                if($dato->archivo_bases != ""){ 
+                    $href="#";
+                    if($dato->archivo_bases_tipo =="local"){
+                        $href=Storage::url($dato->archivo_bases);
+                    }
+                    else if($dato->archivo_bases_tipo =="web"){
+                        $href=$dato->archivo_bases;
+                    }
+                    $bases.= "<a href='$href' target='_blank' class='btn btn-outline-info  btn-sm'><i class='fa fa-file'></i> Bases</a>";
+                }        
             $comunicados = ""; 
             if($dato->comunicados->count() > 0 ){
                 $texto = date_format(date_create($dato->ultimo_comunicado()->created_at),"d/m/Y"); 
@@ -68,7 +79,7 @@ class ConvocatoriaHistoricoController extends Controller{
             }                      
          
             if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])) {
-                $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$postulantes,$evaluaciones,$resultados];
+                $data['aaData'][] = [$dato->cod,$convocatoria_all,$bases,$comunicados,$postulantes,$evaluaciones,$resultados];
             }
             else{
                 $data['aaData'][] = [$dato->cod,$convocatoria_all,$comunicados,$evaluaciones,$resultados];    
