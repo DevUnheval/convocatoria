@@ -48,7 +48,8 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('edit/{id}', 'maestro\UsuarioController@edit')->where(['id' => '[0-9]+'])->name('maestro.usuarios.edit')->middleware(['auth','Administrador']); 
 
         Route::get('zip/{id}', 'maestro\UsuarioController@zipCreateAndDownload')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zip')->middleware(['auth','Administrador']);  
-        Route::get('zipuser/{id}', 'maestro\UsuarioController@zipCreateAndDownloadUser')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zipuser')->middleware(['auth','Administrador']); 
+        Route::get('zipuser/{id}', 'maestro\UsuarioController@zipCreateAndDownloadUser')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zipuser')->middleware(['auth','Administrador']);
+        Route::get('zippostu/{id}', 'maestro\UsuarioController@zipCreateAndDownloadPostu')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zippostu')->middleware(['auth','Administrador']);  
 
         Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
     }); 

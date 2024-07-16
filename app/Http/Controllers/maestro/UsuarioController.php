@@ -141,6 +141,65 @@ class UsuarioController extends Controller
        
     }
 
+    public function zipCreateAndDownloadPostu($id)
+    {
+        
+        //$datopostulante = Postulante::where('user_id','=',$id)->first();
+        /*$datopostulante = DB::select("SELECT max(p.id) as id FROM postulantes p 
+        inner join datos_postulantes dp
+        on p.id = dp.postulante_id
+        where p.user_id = '$id'");*/
+        //dd($datopostulante);    
+        //$name_archivo = $request->nombre_carpeta;
+        $zip_file = 'cv_postulante.zip'; 
+        //$zip_file = $id.'.zip';   
+        $zip = new ZipArchive;
+        if($id >= 1)
+        {
+
+            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
+            {
+                
+                //$files = File::files(storage_path('app\public\procesos\postulantes'));
+                //$origen = storage_path('app/public/procesos/postulantes/10');
+                $origen = storage_path('app/public/procesos/postulantes/'.$id);
+            
+                $files = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($origen),
+                    \RecursiveIteratorIterator::LEAVES_ONLY
+                );
+            
+                //$rutafinal = str_replace("public","storage",$files);
+            
+
+                /*foreach($files as $key => $value){
+                    $relativeName = basename($value);
+                    $zip->addFile($value,$relativeName);
+                }*/
+                foreach ($files as $name => $file)
+                {
+                    if (!$file->isDir())
+                    {
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, strlen($origen) + 1);
+
+                        $zip->addFile($filePath, $relativePath);
+                    }
+                }
+                $zip->close();
+                //dd($files);
+                
+            }
+        }else{
+
+        }
+
+        if($files==TRUE){
+            return response()->download(public_path($zip_file));
+        }
+       
+    }
+
     public function zipCreateAndDownloadUser($id)
     {
         

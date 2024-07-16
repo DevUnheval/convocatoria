@@ -61,6 +61,7 @@
                         <th rowspan="2"  border="1">PF = PUNTAJE FINAL (PT + Bonificaciones)</th>
                         <th rowspan="2"  border="1">CONDICION</th>
                         <th rowspan="2"  border="1">CV</th>
+                        <th rowspan="2"  border="1">CV ZIP</t
                     </tr>
                     <tr>
                         <th>A = CURICULAR</th>
@@ -95,7 +96,8 @@
                         @endif
                         <td align="center">{{ (float) $p->final}}</td> 
                         <td align="center">{{  $p->condicion}}</td>    
-                        <td align="center"><a href="{{asset('/reportes/cv1/'.$p->id)}}" target="_blank">Descargar</a></td>                
+                        <td align="center"><a href="{{asset('/reportes/cv1/'.$p->id)}}" target="_blank">Descargar</a></td>
+                        <td align="center"><a class='btn btn-round btnDescargar' href="{{asset('/maestro/usuarios/zippostu/'.$p->id)}}" download>zip</td>                 
                     </tr> 
                     @endforeach     
                     @if(count($data) < 1 )
