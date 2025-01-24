@@ -37,7 +37,7 @@ class ReportesController extends Controller
             inner join users u on p.user_id = u.id 
             inner join procesos pr on pr.id = p.proceso_id 
             inner join datos_users d on d.user_id = u.id 
-            where condicion = 'GANADOR' and pr.tipo_id in ('1','4','5') and pr.fecha_aprobacion = '$fecha' ");                                
+            where condicion = 'GANADOR' and pr.tipo_id in ('1','4','5','6') and pr.fecha_aprobacion = '$fecha' ");                                
 
         $data["ruta"] = "reportes.excel.ganadores";
         //return (new ProcesosExport ($data))->view();
