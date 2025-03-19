@@ -185,51 +185,66 @@ class PostulanteController extends Controller
         $datosuser->es_deportista = $data->deportista;
         $datosuser->nacionalidad = $data->nacionalidad;
         $datosuser->fecha_nacimiento = $data->fechanac;
-       
-       //archivo DNI
-        if($data->file('archivo_dni')){
-            $s= DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($s->archivo_dni); //eliminar archivo ya cargado
-            $datosuser->archivo_dni = $data->file('archivo_dni')->store('public/procesos/users/'.auth()->user()->dni.'/dni');
-            $datosuser->archivo_dni_tipo = "local";
-            }//else{$datosuser->archivo_dni = NULL; $datosuser->archivo_dni_tipo = NULL; }
-    
-        //archivo discapacidad
-        if($data->file('archivo_discapacidad')){
-            $p= DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($p->archivo_disc); //eliminar archivo ya cargado
-            $datosuser->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/users/'.auth()->user()->dni.'/arch_discapacidad');
-            $datosuser->archivo_disc_tipo = "local";
-            }else if($data->dicapacidad == 0){
-                $pp= DatosUser::find($idDatosUser[0]->id);
-                Storage::delete($pp->archivo_disc); //eliminar archivo ya cargado
-                $datosuser->archivo_disc = NULL;
-                $datosuser->archivo_disc_tipo = NULL;
-            }
-          
-            if($data->file('archivo_ffaa')){
-                $q= DatosUser::find($idDatosUser[0]->id);
-                Storage::delete($q->archivo_ffaa); //eliminar archivo ya cargado
-                $datosuser->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/users/'.auth()->user()->dni.'/arch_ffaa');
-                $datosuser->archivo_ffaa_tipo = "local";
-                }else if($data->ffaa == 0){
-                    $qq= DatosUser::find($idDatosUser[0]->id);
-                    Storage::delete($qq->archivo_ffaa); //eliminar archivo ya cargado
-                    $datosuser->archivo_ffaa = NULL;
-                    $datosuser->archivo_ffaa_tipo = NULL;
-                }
 
-            if($data->file('archivo_deport')){
-                $r= DatosUser::find($idDatosUser[0]->id);
-                Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
-                $datosuser->archivo_deport = $data->file('archivo_deport')->store('public/procesos/users/'.auth()->user()->dni.'/arch_deportista');
-                $datosuser->archivo_deport_tipo = "local";
-                }else if($data->deportista == 0){
-                    $r= DatosUser::find($idDatosUser[0]->id);
-                Storage::delete($r->archivo_deport); //eliminar archivo ya cargado
-                $datosuser->archivo_deport = NULL;
-                $datosuser->archivo_deport_tipo = NULL;
-                }
+        //archivo DNI
+        if ($data->file('archivo_dni')) {
+            $file = $data->file('archivo_dni');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+                return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $s = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($s->archivo_dni); // eliminar archivo ya cargado
+            $datosuser->archivo_dni = $file->store('public/procesos/users/' . auth()->user()->dni . '/dni');
+            $datosuser->archivo_dni_tipo = "local";
+        }
+        //archivo discapacidad
+        if ($data->file('archivo_discapacidad')) {
+            $file = $data->file('archivo_discapacidad');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo de discapacidad debe ser un PDF válido.'], 400);
+            }
+            $p = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($p->archivo_disc); // eliminar archivo ya cargado
+            $datosuser->archivo_disc = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_discapacidad');
+            $datosuser->archivo_disc_tipo = "local";
+        } else if ($data->dicapacidad == 0) {
+            $pp = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($pp->archivo_disc); // eliminar archivo ya cargado
+            $datosuser->archivo_disc = NULL;
+            $datosuser->archivo_disc_tipo = NULL;
+        }
+
+        if ($data->file('archivo_ffaa')) {
+            $file = $data->file('archivo_ffaa');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo de FFAA debe ser un PDF válido.'], 400);
+            }
+            $q = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($q->archivo_ffaa); // eliminar archivo ya cargado
+            $datosuser->archivo_ffaa = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_ffaa');
+            $datosuser->archivo_ffaa_tipo = "local";
+        } else if ($data->ffaa == 0) {
+            $qq = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($qq->archivo_ffaa); // eliminar archivo ya cargado
+            $datosuser->archivo_ffaa = NULL;
+            $datosuser->archivo_ffaa_tipo = NULL;
+        }
+
+        if ($data->file('archivo_deport')) {
+            $file = $data->file('archivo_deport');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo de deportista debe ser un PDF válido.'], 400);
+            }
+            $r = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($r->archivo_deport); // eliminar archivo ya cargado
+            $datosuser->archivo_deport = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_deportista');
+            $datosuser->archivo_deport_tipo = "local";
+        } else if ($data->deportista == 0) {
+            $r = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($r->archivo_deport); // eliminar archivo ya cargado
+            $datosuser->archivo_deport = NULL;
+            $datosuser->archivo_deport_tipo = NULL;
+        }
         
         $datosuser->save();
             
@@ -350,10 +365,16 @@ class PostulanteController extends Controller
         $fu->especialidad = $data->especialidad;
         $fu->ciudad = $data->ciudad;
         $fu->pais = $data->pais;
-        
-        $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_formacion');
-        $fu->archivo_tipo = "local"; 
-        
+
+        if ($data->file('archivo_formacion')) {
+            $file = $data->file('archivo_formacion');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $fu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_formacion');
+            $fu->archivo_tipo = "local";
+        }
+
         $fu->save();
     
         $query = FormacionUser::join("grado_formacions", "grado_formacions.id", "=", "formacion_users.grado_id")
@@ -397,8 +418,16 @@ class PostulanteController extends Controller
         $cu->pais = $data->pais;
         $cu->fecha_inicio = $data->fechainicio_capac;
         $cu->fecha_fin = $data->fechafin_capac;
-        $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_capacitacion');
-        $cu->archivo_tipo = "local";
+
+        if ($data->file('archivo_capacitacion')) {
+            $file = $data->file('archivo_capacitacion');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+                return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $cu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_capacitacion');
+            $cu->archivo_tipo = "local";
+        }
+
         $cu->cantidad_horas = $data->cantidad_horas;
         $cu->nivel = $data->nivel_capa;
         $cu->save();
@@ -443,11 +472,17 @@ class PostulanteController extends Controller
         $el->fecha_inicio = $data->fecha_inicio;
         $el->fecha_fin = $data->fecha_fin;
         //$el->num_pag = $data->num_pag;
-        $el->dias_exp_gen =$data->dias_exp_gen;
+        $el->dias_exp_gen = $data->dias_exp_gen;
         $el->dias_exp_esp = $data->dias_exp_esp;
 
-        $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
-        $el->archivo_tipo = "local";
+        if ($data->file('archivo_experiencia')) {
+            $file = $data->file('archivo_experiencia');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $el->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_exper');
+            $el->archivo_tipo = "local";
+        }
         
         $el->save();
     
@@ -528,10 +563,14 @@ class PostulanteController extends Controller
 
         $fu = FormacionUser::find($data->id); 
            
-        if($data->file('archivo_formacion')){
-            $q= FormacionUser::find($data->id);
-            Storage::delete($q->archivo); 
-            $fu->archivo = $data->file('archivo_formacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_formacion');
+        if($data->file('archivo_formacion')) {
+            $file = $data->file('archivo_formacion');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $q = FormacionUser::find($data->id);
+            Storage::delete($q->archivo);
+            $fu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_formacion');
             $fu->archivo_tipo = "local";
         }
 
@@ -560,10 +599,14 @@ class PostulanteController extends Controller
         
         $cu = CapacitacionUser::find($data->id); 
 
-        if($data->file('archivo_capacitacion')){
-            $q= CapacitacionUser::find($data->id);
-            Storage::delete($q->archivo); //eliminar archivo ya cargado
-            $cu->archivo = $data->file('archivo_capacitacion')->store('public/procesos/users/'.auth()->user()->dni.'/arch_capacitacion');
+        if ($data->file('archivo_capacitacion')) {
+            $file = $data->file('archivo_capacitacion');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $q = CapacitacionUser::find($data->id);
+            Storage::delete($q->archivo); // eliminar archivo ya cargado
+            $cu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_capacitacion');
             $cu->archivo_tipo = "local";
         }
                         
@@ -609,10 +652,14 @@ class PostulanteController extends Controller
         
         $Exper = ExperienciaLabUser::find($data->id);
         
-        if($data->file('archivo_experiencia')){
-            $q= ExperienciaLabUser::find($data->id);
-            Storage::delete($q->archivo); //eliminar archivo ya cargado
-            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
+        if ($data->file('archivo_experiencia')) {
+            $file = $data->file('archivo_experiencia');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+            return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
+            }
+            $q = ExperienciaLabUser::find($data->id);
+            Storage::delete($q->archivo); // eliminar archivo ya cargado
+            $Exper->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_exper');
             $Exper->archivo_tipo = "local";
         }
 
@@ -701,19 +748,23 @@ class PostulanteController extends Controller
         $idDatosUser = DatosUser::where('user_id',auth()->user()->id)->select('id')->first();
         $du = DatosUser::find($idDatosUser->id);
         $src_colegiatura=null;
-        if($data->colegiatura != ""){
+        if ($data->colegiatura != "") {
             $du->colegiatura = $data->colegiatura;
-            if($data->file('archivo_colegiatura')){
-               $r= DatosUser::find($idDatosUser->id,'archivo_colegiatura');
-                Storage::delete($r->archivo_colegiatura); //eliminar archivo ya cargado
-                $du->archivo_colegiatura = $data->file('archivo_colegiatura')->store('public/procesos/users/'.auth()->user()->dni.'/colegiatura');
-                $src_colegiatura = $du->archivo_colegiatura;     
+            if ($data->file('archivo_colegiatura')) {
+            $file = $data->file('archivo_colegiatura');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+                return response()->json(['error' => 'El archivo de colegiatura debe ser un PDF válido.'], 400);
             }
-        }else{
+            $r = DatosUser::find($idDatosUser->id, 'archivo_colegiatura');
+            Storage::delete($r->archivo_colegiatura); // eliminar archivo ya cargado
+            $du->archivo_colegiatura = $file->store('public/procesos/users/' . auth()->user()->dni . '/colegiatura');
+            $src_colegiatura = $du->archivo_colegiatura;
+            }
+        } else {
             $du->colegiatura = NULL;
             $du->archivo_colegiatura = NULL;
-            $r = DatosUser::find($idDatosUser->id,'archivo_colegiatura');
-                Storage::delete($r->archivo_colegiatura);
+            $r = DatosUser::find($idDatosUser->id, 'archivo_colegiatura');
+            Storage::delete($r->archivo_colegiatura);
         }
         $du->save();
         

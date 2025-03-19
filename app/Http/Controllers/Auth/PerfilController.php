@@ -82,15 +82,27 @@ class PerfilController extends Controller
         $user = User::find(auth()->user()->id);
                
        //archivo DNI
-       if($user->img == '/imagenes/users/user.png'){
-        $user->img = $data->file('foto')->store('public/procesos/foto_users');
-        $user->save();
-        
-       }else{
-        Storage::delete($user->img); //eliminar archivo ya cargado
-        $user->img = $data->file('foto')->store('public/procesos/foto_users');
-        $user->save();
-        
+       if ($data->hasFile('foto') && $data->file('foto')->isValid()) {
+           $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+           $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+           $extension = $data->file('foto')->getClientOriginalExtension();
+           $mimeType = $data->file('foto')->getMimeType();
+
+           if (in_array(strtolower($extension), $allowedExtensions) && in_array($mimeType, $allowedMimeTypes)) {
+               if ($user->img == '/imagenes/users/user.png') {
+                   $user->img = $data->file('foto')->store('public/procesos/foto_users');
+                   $user->save();
+               } else {
+                   Storage::delete($user->img); // eliminar archivo ya cargado
+                   $user->img = $data->file('foto')->store('public/procesos/foto_users');
+                   $user->save();
+               }
+           } else {
+               return response()->json(['error' => 'El archivo debe ser una imagen válida (jpg, jpeg, png, gif).'], 400);
+           }
+       } else {
+           return response()->json(['error' => 'No se ha proporcionado un archivo válido.'], 400);
        }
         
        return $user->img;

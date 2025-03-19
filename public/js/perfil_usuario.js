@@ -1183,7 +1183,50 @@ $("#tipo_capacitacion").on('change',function(){
         });
 
       //  return arrayExp;
-}    
+    /*  var msj_error = "";
+
+    // Obtener el archivo cargado en el input #cargar_dni
+    var archivoDNI = document.querySelector('#cargar_dni').files[0];
+    if ($('#input_hide_dni').val() == "0" && (!archivoDNI || archivoDNI.name == "")) {
+        msj_error = "Debe de cargar su documento de Identidad";
+    } else if (archivoDNI) {
+        // Validar que el archivo sea un PDF real
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var arr = new Uint8Array(e.target.result);
+            var header = String.fromCharCode(...arr);
+
+            if (!header.startsWith("%PDF-")) {
+                msj_error = "El archivo cargado no es un PDF válido.";
+                mostrarError(msj_error); // Mostrar el error
+                return;
+            } else {
+                // Si es un PDF válido, continuar con el guardado
+                guardarDatos(); // Llamar a la función que guarda los datos
+            }
+        };
+        reader.readAsArrayBuffer(archivoDNI.slice(0, 5)); // Leer los primeros 5 bytes
+        return; // Detener la ejecución hasta que se valide el archivo
+    }
+
+    if (msj_error !== "") {
+        mostrarError(msj_error); // Mostrar el error si existe
+        return;
+    }
+
+    // Continuar con el guardado si no hay errores
+    guardarDatos();*/
+}  
+
+function mostrarError(mensaje) {
+    Swal.fire({
+        type: 'error',
+        title: "¡Error!",
+        text: mensaje,
+        timer: null
+    });
+}
+
  
  function guardardatos(){
     
@@ -1198,6 +1241,9 @@ $("#tipo_capacitacion").on('change',function(){
          msj_error = "Debe de cargar su documento de Identidad";
          
      }else 
+
+     
+
 
      if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
      $("#nacionalidad").val()=="" || $("#telefono_celular").val()=="" || 
