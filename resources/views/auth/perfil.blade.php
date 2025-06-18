@@ -244,6 +244,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card border-info border">
+                                                            <div class="bg-success">
+                                                                <label for="cargar_dni" class="mb-0 text-white"> <i class="fa fa-upload"></i> Cargar Certificado Único Laboral, lo puede descargar en el siguiente enlace:</label>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <a href="https://www.empleosperu.gob.pe/portal-mtpe/#/login" target="_blank" class="text-primary">
+                                                                    <p>https://www.empleosperu.gob.pe/portal-mtpe/#/login</p>
+                                                                </a>
+                                                                <br>
+                                                                <small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> <input type="file" class="material-inputs form-control required" id="cargar_certi_laboral" name="cargar_certi_laboral" accept="application/pdf" onchange="validar_peso_archivo(this)" required> 
+                                                                <input type="hidden" id="input_hide_certi_laboral" value="0" >
+                                                                <span id="btn_doc_certi_laboral" class=""></span>                                                 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <br>
                                                 <br>
                                                 <div class="row">

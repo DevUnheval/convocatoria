@@ -57,6 +57,7 @@ $(document).ready(function() {
            
             
             var href_dni="#";
+            var href_certi_laboral="#";
             var href_deport="#";
             var href_disc="#";
             var href_ffaa="#";
@@ -120,6 +121,14 @@ $(document).ready(function() {
                 $('#btn_doc_dni').html(htmldni);
                 $('#input_hide_dni').val('1');
                 $('#cargar_dni').prop('required',false);
+            }
+            $('#cargar_cert_laboral').prop('required',true);
+            if(data[0].archivo_certi_laboral != null){
+                href_certi_laboral=data[0].archivo_certi_laboral.replace("public/", '/storage/');
+                var htmlcerti = "<a href='"+href_certi_laboral+"' target=\"_blank\" class='btn btn-info' type='button'>ver certificado<i class=\"fas fa-download\"></i></a>";
+                    $('#btn_doc_certi_laboral').html(htmlcerti);
+                    $('#input_hide_cert_laboral').val('1');
+                    $('#cargar_cert_laboral').prop('required',false);
             }
      
            
@@ -1001,9 +1010,12 @@ function guardardatos(){
             arrayExp.estado = false;
             return arrayExp;
             
-        }else 
-   
-        if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
+        }else if($('#input_hide_cert_laboral').val() == "0" && $('#cargar_cert_laboral').val() == ""){
+        arrayExp.msjerror = "Debe de cargar su Certificado Único Laboral";
+        arrayExp.estado = false;
+        return arrayExp;
+
+        }else if($("#fecha_nacimiento").val()=="" || $("#ubigeodni").val()=="" || 
         $("#nacionalidad").val()=="" || $("#telefono_celular").val()=="" || 
         $("#domicilio").val()=="" || $("#ubigeo_domicilio").val()==""){
             
@@ -1059,6 +1071,7 @@ function guardardatos(){
     var formData = new FormData();
 
     formData.append('archivo_dni',$('#cargar_dni').prop('files')[0]);
+    formData.append('archivo_certi_laboral',$('#cargar_cert_laboral').prop('files')[0]); 
     formData.append('archivo_discapacidad',$('#file_discapacidad').prop('files')[0]);
     formData.append('archivo_ffaa',$('#file_ffaa').prop('files')[0]);
     formData.append('archivo_deport',$('#file_deportista').prop('files')[0]);
@@ -1097,7 +1110,13 @@ function guardardatos(){
                     var htmldni = "<a href='"+href_dni+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
                         $('#btn_doc_dni').html(htmldni);
                         $('#input_hide_dni').val('1');
-                    }           
+                    }         
+                    if(data.archivo_certi_laboral != null){
+                        href_certi_laboral=data.archivo_certi_laboral.replace("public/", '/storage/');
+                        var htmlcerti = "<a href='"+href_certi_laboral+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";
+                            $('#btn_doc_certi_laboral').html(htmlcerti);
+                            $('#input_hide_cert_laboral').val('1');
+                    }  
                     if(data.archivo_deport != null && data.es_deportista == 1){
                         href_deport=data.archivo_deport.replace("public/", '/storage/');
                         var htmldeport = "<td><a href='"+href_deport+"' target=\"_blank\" class='btn btn-info' type='button'>ver documento<i class=\"fas fa-download\"></i></a>";

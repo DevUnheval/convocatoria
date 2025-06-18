@@ -197,6 +197,19 @@ class PostulanteController extends Controller
             $datosuser->archivo_dni = $file->store('public/procesos/users/' . auth()->user()->dni . '/dni');
             $datosuser->archivo_dni_tipo = "local";
         }
+
+        //archivo CERTIFICADO LABORAL
+        if ($data->file('archivo_certi_laboral')) {
+            $file = $data->file('archivo_certi_laboral');
+            if ($file->getClientOriginalExtension() !== 'pdf' || $file->getMimeType() !== 'application/pdf') {
+                return response()->json(['error' => 'El archivo del certificado laboral debe ser un PDF válido.'], 400);
+            }
+            $s = DatosUser::find($idDatosUser[0]->id);
+            Storage::delete($s->archivo_certi_laboral); // eliminar archivo ya cargado
+            $datosuser->archivo_certi_laboral = $file->store('public/procesos/users/' . auth()->user()->dni . '/certificado_laboral');
+            $datosuser->archivo_certi_laboral_tipo = "local";
+        }
+
         //archivo discapacidad
         if ($data->file('archivo_discapacidad')) {
             $file = $data->file('archivo_discapacidad');
@@ -269,6 +282,12 @@ class PostulanteController extends Controller
             $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/users/'.auth()->user()->dni.'/dni');
             $datosuserno->archivo_dni_tipo = "local";
             }//else{$datosuserno->archivo_dni = NULL; $datosuserno->archivo_dni_tipo = NULL; }
+        
+        //archivo CERTIFICADO LABORAL
+        if($data->file('archivo_certi_laboral')){
+            $datosuserno->archivo_certi_laboral = $data->file('archivo_certi_laboral')->store('public/procesos/users/'.auth()->user()->dni.'/certificado_laboral');
+            $datosuserno->archivo_certi_laboral_tipo = "local";
+            }   
         
         //archivo discapacidad
         if($data->file('archivo_discapacidad')){
@@ -896,6 +915,7 @@ class PostulanteController extends Controller
          
          $datos_usuario = DatosUser::where('user_id',auth()->user()->id)->get();
          $url_dni = "";
+         $url_certi_laboral = "";
          $url_discap = "";
          $url_ffaa = "";
          $url_depor = "";
@@ -906,6 +926,11 @@ class PostulanteController extends Controller
                 $url_dni = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_dni);
                 Storage::copy($datos_usuario[0]->archivo_dni,$url_dni);
                 $datos_usuario[0]->archivo_dni = $url_dni;
+            }
+            if($datos_usuario[0]->archivo_certi_laboral != NULL){
+                $url_certi_laboral = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_certi_laboral);
+                Storage::copy($datos_usuario[0]->archivo_certi_laboral,$url_certi_laboral);
+                $datos_usuario[0]->archivo_certi_laboral = $url_certi_laboral;
             }
             if($datos_usuario[0]->es_pers_disc == 1){
                 $url_discap = str_replace('users/','postulantes/'.$pos->id.'/',$datos_usuario[0]->archivo_disc);

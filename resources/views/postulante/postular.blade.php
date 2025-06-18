@@ -120,15 +120,24 @@
                                             
                                         </div>
                                      </div>
-                                     <div class="col-md-3 pt-4">
-                                        
-                                            
-                                            
-                                                    <span id="btn_doc_dni" class=""></span>
-                                               
-                                            
-                                        
+                                     
+                                     <div class="col-md-3 pt-4">   
+                                        <span id="btn_doc_dni" class=""></span>
                                      </div>
+                                     <br>
+                                     <hr>
+                                     <div class="col-md-9">
+                                        <div class="">
+                                            <hr>
+                                            <label for="email"> Cargar Certificado Único Laboral (Vigencia de 3 meses) <a href="https://www.empleosperu.gob.pe/portal-mtpe/#/login" target="_blank" class="text-primary">https://www.empleosperu.gob.pe/portal-mtpe/#/login</a> <label ><small>(solo archivos .pdf - Tamaño máximo de archivo {{$pesoMaxArchivo_c}} MB)</small> </label> <span class="text-danger">*</span> </label>
+                                            <input type="file" class=" form-control" id="cargar_cert_laboral" name="cargar_cert_laboral" accept="application/pdf" onchange="validar_peso_archivo(this)" required> 
+                                            <input type="hidden" id="input_hide_cert_laboral" value="0">                                              
+                                            
+                                        </div>
+                                     </div>  
+                                     <div class="col-md-3 pt-4">   
+                                        <span id="btn_doc_certi_laboral" class=""></span>
+                                     </div> 
                              </div>
                             </div>
                             
@@ -654,6 +663,7 @@
                         <div class="col-md-12 justify-content-center">
                             <h3 class="text-center"><strong> RESUMEN DE POSTULACIÓN</strong></h3>
                         </div>
+                        
                     </div>
                     <!-- Inicio  Acordion---------->
                     <div class="card col-md">                        
@@ -691,7 +701,13 @@
                                         en una declaración falsa, estoy sujeto a las sanciones previstas en el artículo 411º del Código 
                                         Penal vigente.
                                     </h5>  
-                                </div>                             
+                                </div>
+                                <div class="col-md-12 justify-content-center">
+                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                                        <small class="text-center mb-0 flex-grow-1"><strong>Antes de registrar tu postulación, verifica que la información ingresada y los archivos adjuntos estén correctos y completos.</strong></small>
+                                    </div>
+                                </div>
                             </div>
                         </div>                                       
                     </div>                      
