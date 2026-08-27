@@ -37,7 +37,7 @@
                     <!-- Column -->
                     <!-- Column -->
                     
-                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador','Editor']))
                        <div class="col-lg col-xlg col-md-6">
                         <div class="card">
                             <div class="card-body">

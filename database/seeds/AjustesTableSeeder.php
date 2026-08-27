@@ -58,8 +58,8 @@ class AjustesTableSeeder extends Seeder
                   'descripcion' => 'Puede postular a una plaza',
               ],
               [
-                  'nombre' => 'Visitante',
-                  'descripcion' => 'Usuario por defecto, puede solo ver los resultados',
+                  'nombre' => 'Operador',
+                  'descripcion' => 'Puede crear y editar convocatorias, y publicar comunicados, evaluación y resultados',
               ]
            ]);
   

@@ -21,7 +21,7 @@
                             @include('convocatorias.vigentes.m_comunicados')
                             @include('convocatorias.vigentes.modalinvidtado')
                             @include('convocatorias.vigentes.m_manual')
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador']))
                                     @include('convocatorias.vigentes.m_nuevo')
                                     @include('convocatorias.vigentes.m_editar')
                             {{--Fin modal --}}
@@ -35,7 +35,7 @@
                     <table id="zero_config" class="table table-striped table-bordered" data-url="/convocatorias/vigentes/data">
                         <thead class="text-white" style="background-color:#1e94c2;">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -45,7 +45,7 @@
                                 <th>Comunicados</th>
                                 <th>Bases</th>
                                 <th>
-                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                         Postulantes
                                     @else
                                         Postular
@@ -58,7 +58,7 @@
                         </tbody>
                         <tfoot class="text-white"style="background-color:#1e94c2;">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -68,7 +68,7 @@
                                 <th>Comunicados</th>
                                 <th>Bases</th>
                                 <th>
-                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                    @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                         Postulantes
                                     @else
                                         Postular

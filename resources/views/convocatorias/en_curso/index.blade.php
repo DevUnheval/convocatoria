@@ -21,7 +21,7 @@
                                 @include('convocatorias.en_curso.m_comunicados')
                                 @include('convocatorias.en_curso.m_evaluacion')
                                 @include('convocatorias.en_curso.m_resultado')
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador']))
                                 @include('convocatorias.vigentes.m_editar')
                             {{--Fin modal --}}
 
@@ -34,7 +34,7 @@
                     <table id="zero_config" class="table table-striped table-bordered" data-url="/convocatorias/en_curso/data">
                         <thead  class="text-white" style="background-color:#1e94c2;">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -43,7 +43,7 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Postulantes</th>
                                 @endif
                             </tr>
@@ -53,7 +53,7 @@
                         </tbody>
                         <tfoot  class="text-white" style="background-color:#1e94c2;">
                             <tr>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Conf.</th>
                                 @endif
                                 <th>Código</th>
@@ -62,7 +62,7 @@
                                 <th>Comunicados</th>                                
                                 <th>Evaluacion</th>
                                 <th>Resultados</th>
-                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                 @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Postulantes</th>  
                                 @endif                            
                             </tr>

@@ -17,7 +17,7 @@
                           <div class="card-body">
                               <!--<h4 class="card-title mb-3">CAS - 011-2021</h4>-->
                               
-                              @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                              @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                               <form id="form_evaluacion">
                                   <div class="row form-group mb-0 py-2 bg-light">                                            
                                       <div class="col-md-5">
@@ -50,10 +50,10 @@
                                   <table class="table table-hover table-bordered col-md-12" id="tabla_evaluacion_procesos">
                                       <thead class="">
                                       <tr>
-                                          <th>Fecha</th>
+                                          <th>Fecha de publicación</th>
                                           <th>Nombre</th>
                                           <th>Comunicado</th>
-                                          @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                          @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                           <th>Acciones</th>
                                           @endif
                                       </thead>

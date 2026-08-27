@@ -17,7 +17,22 @@
                         <div class="card">
                             <div class="card-body">
                             @include('maestro.usuarios.editar')
-                                <div class="table-responsive">
+
+                                <ul class="nav nav-tabs" id="usuariosTabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="tab-postulantes" data-tipo="postulantes" href="javascript:void(0)" role="tab">
+                                            Postulantes
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-otros" data-tipo="otros" href="javascript:void(0)" role="tab">
+                                            Otros roles
+                                            <small class="text-muted">(Comisionado, Operador)</small>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="table-responsive mt-3">
                                     <table id="zero_config" class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -30,7 +45,6 @@
                                                 <th>Nombres y Apellidos</th>
                                                 <th>Foto</th>
                                                 <th>Roles</th>
-                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -47,7 +61,6 @@
                                                 <th>Nombres y Apellidos</th>
                                                 <th>Foto</th>
                                                 <th>Roles</th>
-                                                
                                             </tr>
                                         </tfoot>
                                     </table>

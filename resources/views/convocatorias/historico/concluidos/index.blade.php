@@ -26,11 +26,11 @@
                                 
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Bases</th>
                                 @endif
                                 <th>Comunicados</th>  
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Postulantes</th>                              
                                 @endif
                                 <th>Evaluacion</th>
@@ -45,11 +45,11 @@
                                
                                 <th>Código</th>
                                 <th>Convocatoria</th>
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado']))
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador']))
                                 <th>Bases</th>
                                 @endif
                                 <th>Comunicados</th>  
-                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])) 
+                                @if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador'])) 
                                 <th>Postulantes</th>                             
                                 @endif
                                 <th>Evaluacion</th>

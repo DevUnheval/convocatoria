@@ -15,7 +15,7 @@ class Comisionado
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->hasRoles(['Administrador','Comisionado'])){
+        if(auth()->user()->hasRoles(['Administrador','Comisionado','Operador'])){
             return $next($request);
 
         }else{

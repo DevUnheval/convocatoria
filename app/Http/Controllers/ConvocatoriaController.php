@@ -38,7 +38,7 @@ class ConvocatoriaController extends Controller
     
     public function vigentes_data(){
         $this->actualizar_estados_vigentes_y_enCruso();
-        if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+        if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
             $query = Proceso::where("estado","1")->orderBy('id','desc')->get();
         }
         else{
@@ -49,6 +49,7 @@ class ConvocatoriaController extends Controller
     
         foreach ($query as $dato) {
             if(!$dato->file){
+                $esAdmin = auth()->check() && auth()->user()->hasRoles(['Administrador']);
                 $config = ' <div class="btn-group">';
                 $config.= ' <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
@@ -56,10 +57,12 @@ class ConvocatoriaController extends Controller
                             </button>';
                 $config.= "     <div class='dropdown-menu animated slideInUp' x-placement='bottom-start' style='position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 35px, 0px);'>
                                     <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
-                                    <a class='dropdown-item' href='javascript:void(0)' onclick='eliminar_convocatoria($dato->id)'><i class='fa fa-trash'></i> Eliminar</a><hr  class='my-0'>
-                                    <a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar</a>
-                                </div>
+                                    <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>";
+                if($esAdmin){
+                    $config.= "     <a class='dropdown-item' href='javascript:void(0)' onclick='eliminar_convocatoria($dato->id)'><i class='fa fa-trash'></i> Eliminar</a><hr  class='my-0'>
+                                    <a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar</a>";
+                }
+                $config.= "     </div>
                             </div>";
                 $bases = "<button type='button' class='btn btn-outline-warning  btn-xs' title='Ver detalles' onclick='ver_detalles($dato->id)'><i class='fa fa-info'></i> Detalles</button> ";
                 if($dato->archivo_bases != ""){ 
@@ -84,7 +87,7 @@ class ConvocatoriaController extends Controller
                 $fecha_hoy = Carbon::now();
                 $fecha_inicio = Carbon::parse($dato->fecha_inscripcion_inicio);
                 $a = $fecha_hoy >= $fecha_inicio;
-                if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+                if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
                     $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
                 }else if(auth()->check() && auth()->user()->hasRoles(['Postulante']) && $fecha_hoy >= $fecha_inicio){
                     $postular = '<a class="btn btn-info waves-effect waves-light" href="'.route("postulante_postular",["idproceso" => $idproceso]).'" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</a>';
@@ -95,9 +98,12 @@ class ConvocatoriaController extends Controller
                 }
             }
 
-            if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+            if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador'])){
                 //$data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
                 $data['aaData'][] = [$config,  $dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
+            }
+            else if(auth()->check() && auth()->user()->hasRoles(['Comisionado'])){
+                $data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular,$fecha_hoy,$fecha_inicio,$a];
             }
             else{
                 //$data['aaData'][] = [$dato->cod, $convocatoria_all, $dato->n_plazas,$inscripcion, $comunicados,$bases,$postular];
@@ -190,7 +196,7 @@ class ConvocatoriaController extends Controller
                                 <td >". date_format(date_create($c->created_at),"d/m/Y  h:i A")."</td>
                                 <td>".$c->nombre."</td>
                                 <td><a href='".Storage::url($c->archivo)."' target='_blank' class='btn btn-outline-danger btn-rounded btn-xs'><i class='fa fa-download'></i> Descargar</button></td>";
-                    if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+                    if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
                         $filas.="<td>
                                     <button type='button' class='btn btn-outline-danger btn-rounded btn-xs' onclick='eliminar_comunicado($c->id,$proceso_id)'><i class='fa fa-trash'></i> Eliminar</button>
                                 </td>";

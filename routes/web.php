@@ -87,19 +87,19 @@ Route::group(['prefix' => 'convocatorias'], function(){
     Route::get('en_curso/data', 'ConvocatoriaEnCursoController@data')->name('convocatoria.en_curso.data');   
     Route::get('historico/concluido/data', 'ConvocatoriaHistoricoController@data_concluidos')->name('convocatoria.historico.concluidos.data_concluidos');
     Route::get('historico/cancelado/data', 'ConvocatoriaHistoricoController@data_cancelados')->name('convocatoria.historico.cancelados.data_cancelados');  
-    Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','Comisionado']);  
+    Route::post('store', 'ConvocatoriaController@store')->name('convocatoria.store')->middleware(['auth','GestionConvocatoria']);  
     Route::get('edit/{id}', 'ConvocatoriaController@edit')->where(['id' => '[0-9]+'])->name('convocatoria.edit');//->middleware(['auth','Administrador']); 
-    Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update')->middleware(['auth','Administrador']);  
+    Route::post('update', 'ConvocatoriaController@update')->name('convocatoria.update')->middleware(['auth','GestionConvocatoria']);  
     Route::get('resultado/{id}', 'ConvocatoriaEnCursoController@resultado')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.resultado')->middleware(['auth']);  
-    Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado')->middleware(['auth','Administrador']); 
+    Route::post('update_resultado', 'ConvocatoriaEnCursoController@update_resultado')->name('convocatoria.en_curso.update_resultado')->middleware(['auth','GestionConvocatoria']); 
 
-    //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');    
+    //Route::get('listar/{estado?}/{etapa?}', 'AjustesController@restablecer')->name('convocatoria.listar');
     Route::get('show_comunicados/{proceso_id}', 'ConvocatoriaController@show_comunicados')->name('convocatoria.comunicados');//->middleware(['auth']);   
     Route::get('show_evaluacion/{proceso_id}', 'ConvocatoriaEnCursoController@show_evaluacion')->name('convocatoria.en:curso.comunicados')->middleware(['auth']);     
-    Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar')->middleware(['auth','Administrador']);  
-    Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion')->middleware(['auth','Administrador']);     
-    Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar')->middleware(['auth','Administrador']);    
-    Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar')->middleware(['auth','Administrador']);
+    Route::post('guardar_comunicados', 'ConvocatoriaController@guardar_comunicados')->name('convocatoria.comunicados.guardar')->middleware(['auth','GestionConvocatoria']);  
+    Route::post('guardar_evaluacion', 'ConvocatoriaEnCursoController@guardar_evaluacion')->name('convocatoria.en_curso.guardar_evaluacion')->middleware(['auth','GestionConvocatoria']);     
+    Route::post('eliminar_comunicado/{id}', 'ConvocatoriaController@eliminar_comunicado')->where(['id' => '[0-9]+'])->name('convocatoria.comunicados.eliminar')->middleware(['auth','GestionConvocatoria']);    
+    Route::post('eliminar_evaluacion/{id}', 'ConvocatoriaEnCursoController@eliminar_evaluacion')->where(['id' => '[0-9]+'])->name('convocatoria.en_curso.comunicados.eliminar')->middleware(['auth','GestionConvocatoria']);
     Route::post('eliminar_convocatoria/{id}', 'ConvocatoriaController@destroy')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.eliminar')->middleware(['auth','Administrador']);    
     Route::post('cancelar_convocatoria/{id}', 'ConvocatoriaController@cancelar_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.cancelar')->middleware(['auth','Administrador']);
     Route::post('concluir_convocatoria/{id}', 'ConvocatoriaEnCursoController@concluir_convocatoria')->where(['id' => '[0-9]+'])->name('convocatoria.procesos.concluir')->middleware(['auth','Administrador']);

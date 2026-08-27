@@ -49,12 +49,12 @@
                             </div>
                             </div>
                     </div>
-                    <h4 class="card-title mt-4">Roles</h4>
+                    <h4 class="card-title mt-4">Rol</h4>
                     <div class="row">
                         @foreach($roles as $key => $rol)
                         <div class="col-md-3">
-                            <input type="checkbox" id="rol_checkbox_{{$key}}" value="{{$key}}" class="material-inputs chk-col-amber check_rol" name="roles[]" />
-                            <label for="rol_checkbox_{{$key}}">{{$rol}}</label>
+                            <input type="radio" id="rol_radio_{{$key}}" value="{{$key}}" class="material-inputs radio-col-amber check_rol" name="rol" />
+                            <label for="rol_radio_{{$key}}">{{$rol}}</label>
                         </div>
                         @endforeach     
                         <input type="hidden" id="id" name="id"> 

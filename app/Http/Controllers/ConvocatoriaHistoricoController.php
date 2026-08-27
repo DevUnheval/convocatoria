@@ -78,7 +78,7 @@ class ConvocatoriaHistoricoController extends Controller{
                
             }                      
          
-            if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])) {
+            if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])) {
                 $data['aaData'][] = [$dato->cod,$convocatoria_all,$bases,$comunicados,$postulantes,$evaluaciones,$resultados];
             }
             else{

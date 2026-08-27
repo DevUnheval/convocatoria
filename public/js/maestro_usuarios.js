@@ -1,15 +1,45 @@
+var tipoUsuarios = 'postulantes';
+var myTable = null;
+
 $(document).ready(function() {
-    var myTable=$('#zero_config').DataTable( {
-        bProcessing: true,
-        sAjaxSource: '/maestro/usuarios/data',
-        "language" : {'url':'/js/table-latino.json'},
-        iDisplayLength: 15,
-         aLengthMenu: [15, 25,50, 100],
-         bAutoWidth: true,
-          order: []
+    myTable = $('#zero_config').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/maestro/usuarios/data',
+            data: function (d) {
+                d.tipo = tipoUsuarios;
+            }
+        },
+        language: {'url': '/js/table-latino.json'},
+        pageLength: 15,
+        lengthMenu: [15, 25, 50, 100],
+        autoWidth: true,
+        order: [[1, 'desc']],
+        columns: [
+            { orderable: false }, // Conf.
+            null,                 // Id
+            { orderable: false }, // CV-VITAE
+            { orderable: false }, // CV-POST
+            { orderable: false }, // CV-USER
+            null,                 // DNI
+            null,                 // Nombres
+            { orderable: false }, // Foto
+            { orderable: false }  // Roles
+        ]
     });
 
-})
+    $('#usuariosTabs .nav-link').on('click', function () {
+        var tipo = $(this).data('tipo');
+        if (tipo === tipoUsuarios) {
+            return;
+        }
+        tipoUsuarios = tipo;
+        $('#usuariosTabs .nav-link').removeClass('active');
+        $(this).addClass('active');
+        myTable.ajax.reload();
+    });
+});
 
 function editar(id){
     $.ajax({
@@ -19,7 +49,6 @@ function editar(id){
           console.log('enviando....');
         },
         success:  function (response){
-            //console.log("resultado",response.usuario.dni);
             $("#dni").val(response.usuario.dni);
             $("#nombres").val(response.usuario.nombres);
             $("#apellido_paterno").val(response.usuario.apellido_paterno);
@@ -27,7 +56,9 @@ function editar(id){
             $("#email").val(response.usuario.email);
             $("#id").val(response.usuario.id);
             $(".check_rol").prop("checked",false);
-            response.roles.forEach(rol => $("#rol_checkbox_"+rol).prop("checked",true) );
+            if (response.roles.length > 0) {
+                $("#rol_radio_"+response.roles[0]).prop("checked",true);
+            }
         },
         error: function (response){
             console.log("Error",response.data);
@@ -63,7 +94,7 @@ function guardar_cambio(){
                 showConfirmButton: false,
                 timer: 1500
             }) 
-            $('#zero_config').DataTable().ajax.reload();
+            myTable.ajax.reload(null, false);
             $('#modal_editar').modal('hide');                    
         },
         error: function (response){

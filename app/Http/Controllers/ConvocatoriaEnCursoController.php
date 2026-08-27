@@ -45,6 +45,7 @@ class ConvocatoriaEnCursoController extends Controller
         if($query->count()<1)
         return $this->data_null;
         foreach ($query as $dato) {
+            $esAdmin = auth()->check() && auth()->user()->hasRoles(['Administrador']);
         
             $config = ' <div class="btn-group">';
             $config.= ' <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -55,11 +56,14 @@ class ConvocatoriaEnCursoController extends Controller
                             <a class='dropdown-item' href='javascript:void(0)' onclick='ver_comunicados($dato->id)'><i class='ti-comment-alt'></i> Comunicar</a>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='editar($dato->id)'><i class='ti-pencil-alt'></i> Editar</a>
                             <a class='dropdown-item' href='javascript:void(0)' onclick='ver_evaluacion($dato->id)'><i class='fa fa-calculator'></i> Evaluacion</a>
-                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-trophy'></i> Resultados</a><hr  class='my-0'>";
-            if($dato->archivo_resultado){
-                $config.=   "<a class='dropdown-item text-success' href='javascript:void(0)' onclick='concluir_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-check'></i> Concluir</a>";   
-            }else{
-                $config.=   "<a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar </a>";
+                            <a class='dropdown-item' href='javascript:void(0)' onclick='resultado($dato->id)'><i class='icon-trophy'></i> Resultados</a>";
+            if($esAdmin){
+                $config.= "<hr  class='my-0'>";
+                if($dato->archivo_resultado){
+                    $config.=   "<a class='dropdown-item text-success' href='javascript:void(0)' onclick='concluir_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-check'></i> Concluir</a>";   
+                }else{
+                    $config.=   "<a class='dropdown-item text-danger' href='javascript:void(0)' onclick='cancelar_convocatoria(".$dato->id.",\"".$dato->cod."\")'><i class='icon-close'></i> Cancelar </a>";
+                }
             }
                            
             $config.=  " </div>
@@ -106,7 +110,7 @@ class ConvocatoriaEnCursoController extends Controller
                 }
                 $resultados .= '<a href="'.$href.'" target="_blank" class="btn btn-outline-info btn-block waves-effect waves-light btn-xs"><span class"btn-label"><i class="fa fa-file"></i></span> Resultado</a><br>';
             }   
-            if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado'])){
+            if(auth()->check() && auth()->user()->hasRoles(['Administrador','Comisionado','Operador'])){
                 $postular = '<a class="btn btn-info waves-effect waves-light btn-xs" href="'.route("postulantes.index",[$dato->id,0,1]).'"><span class="btn-label"><i class=" fas fa-users"></i></span> Postulantes</a>';
             }else if(auth()->check() && auth()->user()->hasRoles(['Postulante'])){
                 $idproceso=$dato->id;
@@ -115,7 +119,7 @@ class ConvocatoriaEnCursoController extends Controller
                 $postular = '<button class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_invitado" type="button"><span class="btn-label"><i class="icon-login"></i></span> Postular</button>';
             }                   
          
-            if(auth()->check() && auth()->user()->hasRoles(['Administrador'])){
+            if(auth()->check() && auth()->user()->hasRoles(['Administrador','Operador','Comisionado'])){
                 $data['aaData'][] = [$config,$dato->cod,$convocatoria_all,$bases,$comunicados,$evaluaciones,$resultados,$postular];
             }
             else{
@@ -152,10 +156,10 @@ class ConvocatoriaEnCursoController extends Controller
         if($evaluacion->count() > 0){
            foreach($evaluacion as $c){
                 $filas.="<tr>
-                                <td >". date_format(date_create($c->created_at),"d/m/Y  h:i A")."</td>
+                                <td >". date_format(date_create($c->fecha_publicacion),"d/m/Y  h:i A")."</td>
                                 <td>".$c->nombre."</td>
                                 <td><a href='".Storage::url($c->archivo)."' target='_blank' class='btn btn-outline-danger btn-rounded btn-xs'><i class='fa fa-download'></i> Descargar</button></td>";
-                    if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador'])){
+                    if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
                         $filas.="<td>
                                     <button type='button' class='btn btn-outline-danger btn-rounded btn-xs' onclick='eliminar_evaluacion($c->id,$proceso_id)'><i class='fa fa-trash'></i> Eliminar</button>
                                 </td>";
