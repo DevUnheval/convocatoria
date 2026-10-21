@@ -12,9 +12,12 @@ use App\Comunicado;
 use App\EvaluacionProceso;
 use App\Postulante;
 use Carbon\Carbon;
+use App\Support\SafeUpload;
 
 class ConvocatoriaEnCursoController extends Controller
 {
+    protected $data_null;
+    protected $actualizar;
     public function __construct()
     {
         $this->data_null='{
@@ -142,7 +145,7 @@ class ConvocatoriaEnCursoController extends Controller
         $query->fecha_publicacion=$r->fecha_publicacion;
         //$query->archivo="rarchivo";
         if($r->file('archivo')){
-            $name= $r->file('archivo')->store('public/procesos/evaluaciones');
+            $name= SafeUpload::storeDocument($r->file('archivo'), 'public/procesos/evaluaciones');
             $query->archivo=$name;
         }
         $query->save();
@@ -157,7 +160,7 @@ class ConvocatoriaEnCursoController extends Controller
            foreach($evaluacion as $c){
                 $filas.="<tr>
                                 <td >". date_format(date_create($c->fecha_publicacion),"d/m/Y  h:i A")."</td>
-                                <td>".$c->nombre."</td>
+                                <td>".e($c->nombre)."</td>
                                 <td><a href='".Storage::url($c->archivo)."' target='_blank' class='btn btn-outline-danger btn-rounded btn-xs'><i class='fa fa-download'></i> Descargar</button></td>";
                     if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
                         $filas.="<td>
@@ -174,7 +177,7 @@ class ConvocatoriaEnCursoController extends Controller
 
     public function eliminar_evaluacion($id){
         $c=EvaluacionProceso::find($id);
-        Storage::delete($c->archivo);
+        SafeUpload::delete($c->archivo);
         EvaluacionProceso::destroy($id);
     } 
      
@@ -187,7 +190,7 @@ class ConvocatoriaEnCursoController extends Controller
         $p= Proceso::find($r->id);
         //dd($r->fecha_publicacion_resultado);
         if($r->resultado_archivo_tipo=="web"){
-            Storage::delete($p->archivo_resultado);
+            SafeUpload::delete($p->archivo_resultado);
             $p->archivo_resultado = $r->archivo_resultado;
             $p->archivo_resultado_tipo = $r->resultado_archivo_tipo;
             $p->fecha_resultados = $r->fecha_publicacion_resultado;
@@ -195,8 +198,8 @@ class ConvocatoriaEnCursoController extends Controller
         }
         else{
             if($r->file('archivo_resultado')){
-                Storage::delete($p->archivo_resultado);//primero eliminamos el archivo anterior
-                $name= $r->file('archivo_resultado')->store('public/procesos/resultado');
+                SafeUpload::delete($p->archivo_resultado);//primero eliminamos el archivo anterior
+                $name= SafeUpload::storeDocument($r->file('archivo_resultado'), 'public/procesos/resultado');
                 $p->archivo_resultado=$name;
                 $p->fecha_resultados=$r->fecha_publicacion_resultado;
                 $p->save(); 
@@ -213,7 +216,7 @@ class ConvocatoriaEnCursoController extends Controller
          $query->nombre=$r->nombre;
          //$query->archivo="rarchivo";
          if($r->file('archivo')){
-            $name= $r->file('archivo')->store('public/procesos/resultados');
+            $name= SafeUpload::storeDocument($r->file('archivo'), 'public/procesos/resultados');
              $query->archivo=$name;
          }
          $query->save();

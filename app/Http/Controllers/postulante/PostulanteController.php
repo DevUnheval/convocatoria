@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Support\SafeUpload;
 
 
 class PostulanteController extends Controller
@@ -193,7 +194,7 @@ class PostulanteController extends Controller
                 return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
             }
             $s = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($s->archivo_dni); // eliminar archivo ya cargado
+            SafeUpload::delete($s->archivo_dni); // eliminar archivo ya cargado
             $datosuser->archivo_dni = $file->store('public/procesos/users/' . auth()->user()->dni . '/dni');
             $datosuser->archivo_dni_tipo = "local";
         }
@@ -205,7 +206,7 @@ class PostulanteController extends Controller
                 return response()->json(['error' => 'El archivo del certificado laboral debe ser un PDF válido.'], 400);
             }
             $s = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($s->archivo_certi_laboral); // eliminar archivo ya cargado
+            SafeUpload::delete($s->archivo_certi_laboral); // eliminar archivo ya cargado
             $datosuser->archivo_certi_laboral = $file->store('public/procesos/users/' . auth()->user()->dni . '/certificado_laboral');
             $datosuser->archivo_certi_laboral_tipo = "local";
         }
@@ -217,12 +218,12 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo de discapacidad debe ser un PDF válido.'], 400);
             }
             $p = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($p->archivo_disc); // eliminar archivo ya cargado
+            SafeUpload::delete($p->archivo_disc); // eliminar archivo ya cargado
             $datosuser->archivo_disc = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_discapacidad');
             $datosuser->archivo_disc_tipo = "local";
         } else if ($data->dicapacidad == 0) {
             $pp = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($pp->archivo_disc); // eliminar archivo ya cargado
+            SafeUpload::delete($pp->archivo_disc); // eliminar archivo ya cargado
             $datosuser->archivo_disc = NULL;
             $datosuser->archivo_disc_tipo = NULL;
         }
@@ -233,12 +234,12 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo de FFAA debe ser un PDF válido.'], 400);
             }
             $q = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($q->archivo_ffaa); // eliminar archivo ya cargado
+            SafeUpload::delete($q->archivo_ffaa); // eliminar archivo ya cargado
             $datosuser->archivo_ffaa = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_ffaa');
             $datosuser->archivo_ffaa_tipo = "local";
         } else if ($data->ffaa == 0) {
             $qq = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($qq->archivo_ffaa); // eliminar archivo ya cargado
+            SafeUpload::delete($qq->archivo_ffaa); // eliminar archivo ya cargado
             $datosuser->archivo_ffaa = NULL;
             $datosuser->archivo_ffaa_tipo = NULL;
         }
@@ -249,12 +250,12 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo de deportista debe ser un PDF válido.'], 400);
             }
             $r = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($r->archivo_deport); // eliminar archivo ya cargado
+            SafeUpload::delete($r->archivo_deport); // eliminar archivo ya cargado
             $datosuser->archivo_deport = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_deportista');
             $datosuser->archivo_deport_tipo = "local";
         } else if ($data->deportista == 0) {
             $r = DatosUser::find($idDatosUser[0]->id);
-            Storage::delete($r->archivo_deport); // eliminar archivo ya cargado
+            SafeUpload::delete($r->archivo_deport); // eliminar archivo ya cargado
             $datosuser->archivo_deport = NULL;
             $datosuser->archivo_deport_tipo = NULL;
         }
@@ -279,31 +280,47 @@ class PostulanteController extends Controller
         
         //archivo DNI
         if($data->file('archivo_dni')){
-            $datosuserno->archivo_dni = $data->file('archivo_dni')->store('public/procesos/users/'.auth()->user()->dni.'/dni');
+            $file = $data->file('archivo_dni');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+            $datosuserno->archivo_dni = $file->store('public/procesos/users/'.auth()->user()->dni.'/dni');
             $datosuserno->archivo_dni_tipo = "local";
-            }//else{$datosuserno->archivo_dni = NULL; $datosuserno->archivo_dni_tipo = NULL; }
+            }
         
-        //archivo CERTIFICADO LABORAL
         if($data->file('archivo_certi_laboral')){
-            $datosuserno->archivo_certi_laboral = $data->file('archivo_certi_laboral')->store('public/procesos/users/'.auth()->user()->dni.'/certificado_laboral');
+            $file = $data->file('archivo_certi_laboral');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+            $datosuserno->archivo_certi_laboral = $file->store('public/procesos/users/'.auth()->user()->dni.'/certificado_laboral');
             $datosuserno->archivo_certi_laboral_tipo = "local";
             }   
         
-        //archivo discapacidad
         if($data->file('archivo_discapacidad')){
-        $datosuserno->archivo_disc = $data->file('archivo_discapacidad')->store('public/procesos/users/'.auth()->user()->dni.'/arch_discapacidad');
+            $file = $data->file('archivo_discapacidad');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+        $datosuserno->archivo_disc = $file->store('public/procesos/users/'.auth()->user()->dni.'/arch_discapacidad');
         $datosuserno->archivo_disc_tipo = "local";
-        }//else{$datosuserno->archivo_disc = NULL; $datosuserno->archivo_disc_tipo = NULL; }
-        //archivo discapacidad
+        }
         if($data->file('archivo_ffaa')){
-            $datosuserno->archivo_ffaa = $data->file('archivo_ffaa')->store('public/procesos/users/'.auth()->user()->dni.'/arch_ffaa');
+            $file = $data->file('archivo_ffaa');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+            $datosuserno->archivo_ffaa = $file->store('public/procesos/users/'.auth()->user()->dni.'/arch_ffaa');
             $datosuserno->archivo_ffaa_tipo = "local";
-            }//else{$datosuserno->archivo_ffaa = NULL; $datosuserno->archivo_ffaa_tipo = NULL; }
-        //archivo discapacidad
+            }
         if($data->file('archivo_deport')){
-            $datosuserno->archivo_deport = $data->file('archivo_deport')->store('public/procesos/users/'.auth()->user()->dni.'/arch_deportista');
+            $file = $data->file('archivo_deport');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+            $datosuserno->archivo_deport = $file->store('public/procesos/users/'.auth()->user()->dni.'/arch_deportista');
             $datosuserno->archivo_deport_tipo = "local";
-            }//else{$datosuserno->archivo_deport = NULL; $datosuserno->archivo_deport_tipo = NULL; }
+            }
                 
 
         $datosuserno->save();
@@ -407,7 +424,7 @@ class PostulanteController extends Controller
     public function eliminarformacion(Request $data){
        
         $q= FormacionUser::find($data->id);
-        Storage::delete($q->archivo); 
+        SafeUpload::delete($q->archivo); 
 
         $form = FormacionUser::find($data->id);
         $form->delete();
@@ -466,7 +483,7 @@ class PostulanteController extends Controller
 
     public function eliminarcapacitacion(Request $data){
         $q= CapacitacionUser::find($data->id);
-        Storage::delete($q->archivo); 
+        SafeUpload::delete($q->archivo); 
         
         $query = CapacitacionUser::where('id',$data->id)->get();
         $Capac = CapacitacionUser::find($data->id);
@@ -535,7 +552,7 @@ class PostulanteController extends Controller
     public function eliminarexperiencia(Request $data){
         
         $q= ExperienciaLabUser::find($data->id);
-        Storage::delete($q->archivo);   
+        SafeUpload::delete($q->archivo);   
         
         $Exper = ExperienciaLabUser::find($data->id);
         $Exper->delete();
@@ -588,7 +605,7 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
             }
             $q = FormacionUser::find($data->id);
-            Storage::delete($q->archivo);
+            SafeUpload::delete($q->archivo);
             $fu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_formacion');
             $fu->archivo_tipo = "local";
         }
@@ -624,7 +641,7 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
             }
             $q = CapacitacionUser::find($data->id);
-            Storage::delete($q->archivo); // eliminar archivo ya cargado
+            SafeUpload::delete($q->archivo); // eliminar archivo ya cargado
             $cu->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_capacitacion');
             $cu->archivo_tipo = "local";
         }
@@ -677,7 +694,7 @@ class PostulanteController extends Controller
             return response()->json(['error' => 'El archivo debe ser un PDF válido.'], 400);
             }
             $q = ExperienciaLabUser::find($data->id);
-            Storage::delete($q->archivo); // eliminar archivo ya cargado
+            SafeUpload::delete($q->archivo); // eliminar archivo ya cargado
             $Exper->archivo = $file->store('public/procesos/users/' . auth()->user()->dni . '/arch_exper');
             $Exper->archivo_tipo = "local";
         }
@@ -775,7 +792,7 @@ class PostulanteController extends Controller
                 return response()->json(['error' => 'El archivo de colegiatura debe ser un PDF válido.'], 400);
             }
             $r = DatosUser::find($idDatosUser->id, 'archivo_colegiatura');
-            Storage::delete($r->archivo_colegiatura); // eliminar archivo ya cargado
+            SafeUpload::delete($r->archivo_colegiatura); // eliminar archivo ya cargado
             $du->archivo_colegiatura = $file->store('public/procesos/users/' . auth()->user()->dni . '/colegiatura');
             $src_colegiatura = $du->archivo_colegiatura;
             }
@@ -783,7 +800,7 @@ class PostulanteController extends Controller
             $du->colegiatura = NULL;
             $du->archivo_colegiatura = NULL;
             $r = DatosUser::find($idDatosUser->id, 'archivo_colegiatura');
-            Storage::delete($r->archivo_colegiatura);
+            SafeUpload::delete($r->archivo_colegiatura);
         }
         $du->save();
         

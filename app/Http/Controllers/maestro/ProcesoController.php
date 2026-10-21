@@ -10,6 +10,7 @@ use App\TipoProceso;
 
 class ProcesoController extends Controller
 {
+    protected $data_null;
     public function __construct()
     {
         $this->data_null='{

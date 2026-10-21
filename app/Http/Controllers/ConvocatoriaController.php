@@ -10,9 +10,11 @@ use App\GradoFormacion;
 use App\Comunicado;
 use App\Postulante;
 use Carbon\Carbon;
+use App\Support\SafeUpload;
 
 class ConvocatoriaController extends Controller
 {
+    protected $data_null;
     public function __construct()
     {
         $this->data_null='{
@@ -131,14 +133,14 @@ class ConvocatoriaController extends Controller
     public function store(Request $r)
     {
         
-        $q = Proceso::create($r->all());
+        $q = Proceso::create($r->except(['_token', '_method', 'archivo_bases', 'archivo_resolucion']));
         if($r->file('archivo_bases')){
-            $name= $r->file('archivo_bases')->store('public/procesos/bases');
+            $name= SafeUpload::storeDocument($r->file('archivo_bases'), 'public/procesos/bases');
             $q->archivo_bases=$name;
             $q->save(); 
         }   
         if($r->file('archivo_resolucion')){
-            $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
+            $name= SafeUpload::storeDocument($r->file('archivo_resolucion'), 'public/procesos/resolucion');
             $q->archivo_resolucion=$name;
             $q->save(); 
         }   
@@ -153,14 +155,35 @@ class ConvocatoriaController extends Controller
   
     public function edit($id)
     {
-        return Proceso::find($id);
+        $proceso = Proceso::find($id);
+        if (! $proceso) {
+            return response()->json(['message' => 'No encontrado'], 404);
+        }
+
+        $staff = auth()->check() && auth()->user()->hasRoles(['Administrador', 'Comisionado', 'Operador']);
+        if ($staff) {
+            return $proceso;
+        }
+
+        $publicado = $proceso->fecha_publicacion;
+        if (empty($publicado) || $publicado > date('Y-m-d')) {
+            return response()->json(['message' => 'No encontrado'], 404);
+        }
+
+        return $proceso->only([
+            'id', 'cod', 'n_plazas', 'tipo_id', 'remuneracion', 'nombre', 'oficina',
+            'nivel_acad_convocar', 'dias_exp_lab_gen', 'dias_exp_lab_esp',
+            'fecha_inscripcion_inicio', 'fecha_inscripcion_fin', 'fecha_firma_contrato',
+            'duracion_contrato', 'capacitaciones', 'especialidad', 'habilidades',
+            'descripcion', 'archivo_bases', 'archivo_resolucion',
+        ]);
     }
 
   
     public function update(Request $r)
     {   $p= Proceso::find($r->id);
         $q=Proceso::where('id', $r->id)    
-                ->update($r->all());
+                ->update($r->except(['_token', '_method', 'archivo_bases', 'archivo_resolucion']));
         if($r->hay_bon_pers_disc) $p->bon_pers_disc="0.15";
         else  $p->bon_pers_disc=0;
 
@@ -173,14 +196,14 @@ class ConvocatoriaController extends Controller
         $p->save();
                 
         if($r->file('archivo_bases')){
-            Storage::delete($p->archivo_bases);//primero eliminamos el archivo anterior
-            $name= $r->file('archivo_bases')->store('public/procesos/bases');
+            SafeUpload::delete($p->archivo_bases);//primero eliminamos el archivo anterior
+            $name= SafeUpload::storeDocument($r->file('archivo_bases'), 'public/procesos/bases');
             $p->archivo_bases=$name;
             $p->save(); 
         }  
         if($r->file('archivo_resolucion')){
-            Storage::delete($p->archivo_resolucion);//primero eliminamos el archivo anterior
-            $name= $r->file('archivo_resolucion')->store('public/procesos/resolucion');
+            SafeUpload::delete($p->archivo_resolucion);//primero eliminamos el archivo anterior
+            $name= SafeUpload::storeDocument($r->file('archivo_resolucion'), 'public/procesos/resolucion');
             $p->archivo_resolucion=$name;
             $p->save(); 
         }
@@ -194,7 +217,7 @@ class ConvocatoriaController extends Controller
            foreach($comunicados as $c){
                 $filas.="<tr>
                                 <td >". date_format(date_create($c->created_at),"d/m/Y  h:i A")."</td>
-                                <td>".$c->nombre."</td>
+                                <td>".e($c->nombre)."</td>
                                 <td><a href='".Storage::url($c->archivo)."' target='_blank' class='btn btn-outline-danger btn-rounded btn-xs'><i class='fa fa-download'></i> Descargar</button></td>";
                     if(auth()->check() && auth()->user()->hasRoles(['Comisionado','Administrador','Operador'])){
                         $filas.="<td>
@@ -214,7 +237,7 @@ class ConvocatoriaController extends Controller
         $query->nombre=$r->nombre;
         //$query->archivo="rarchivo";
         if($r->file('archivo')){
-            $name= $r->file('archivo')->store('public/procesos/comunicados');
+            $name= SafeUpload::storeDocument($r->file('archivo'), 'public/procesos/comunicados');
             $query->archivo=$name;
         }
         $query->save();
@@ -222,7 +245,7 @@ class ConvocatoriaController extends Controller
     } 
     public function eliminar_comunicado($id){
         $c=Comunicado::find($id);
-        Storage::delete($c->archivo);
+        SafeUpload::delete($c->archivo);
         Comunicado::destroy($id);
     }   
     
@@ -232,8 +255,8 @@ class ConvocatoriaController extends Controller
 
         if(!$postulante){//verificamos si hay postulante
             $query = Proceso::find($id);
-            Storage::delete($query->archivo_bases);
-            Storage::delete($query->archivo_resolucion);
+            SafeUpload::delete($query->archivo_bases);
+            SafeUpload::delete($query->archivo_resolucion);
             Proceso::destroy($id);
             return "exito";
         }

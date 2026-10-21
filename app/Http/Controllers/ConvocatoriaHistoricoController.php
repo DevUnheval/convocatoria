@@ -10,7 +10,9 @@ use App\GradoFormacion;
 use App\EvaluacionProceso;
 use Illuminate\Support\Facades\Storage;
 
-class ConvocatoriaHistoricoController extends Controller{
+class ConvocatoriaHistoricoController extends Controller
+{
+    protected $data_null;
 
     public function __construct()
     {

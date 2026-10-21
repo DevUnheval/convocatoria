@@ -15,7 +15,7 @@ class Administrador
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->hasRoles(['Administrador'])){
+        if(auth()->user()?->hasRoles(['Administrador'])){
             return $next($request);
 
         }else{

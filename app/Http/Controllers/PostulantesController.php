@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PostulantesController extends Controller
 {
+    protected $data_null;
     public function __construct()
     {
         $this->data_null='{

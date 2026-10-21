@@ -15,7 +15,7 @@ class Postulante
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->hasRoles(['Postulante'])){
+        if(auth()->user()?->hasRoles(['Postulante'])){
             return $next($request);
 
         }else{

@@ -17,7 +17,7 @@ class GestionConvocatoria
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->hasRoles(['Administrador', 'Comisionado', 'Operador'])) {
+        if (auth()->user()?->hasRoles(['Administrador', 'Comisionado', 'Operador'])) {
             return $next($request);
         }
 

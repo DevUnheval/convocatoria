@@ -12,6 +12,8 @@ use App\Postulante;
 
 class ProcesosExport implements FromView {
     use Exportable;
+
+    protected $data;
     
     public function __construct(array $data){
         $this->data = $data;

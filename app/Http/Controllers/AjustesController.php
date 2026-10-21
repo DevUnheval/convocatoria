@@ -3,7 +3,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Ajuste;
+use App\Support\SafeUpload;
 use DB;
+use Illuminate\Validation\ValidationException;
 class AjustesController extends Controller
 {	public function __construct()
     {
@@ -23,9 +25,12 @@ class AjustesController extends Controller
 			if($value['tipo']=='imagen'){
 				if($r->file($valor)){
 					$archivo_actual=Ajuste::find($i);
-					//Eliminamos el imagen que existía
-					Storage::delete($archivo_actual->valor);
-					$name= $r->file($valor)->store('public/ajustes/img');
+					try {
+						$name= SafeUpload::storeImage($r->file($valor), 'public/ajustes/img');
+					} catch (ValidationException $e) {
+						return redirect()->route('maestro.ajustes.index')->with('rojo', 'La imagen no es válida. Use jpg, png, gif, webp o ico.');
+					}
+					SafeUpload::delete($archivo_actual->valor);
 					$query[$i] = DB::table('ajustes')->where('id', $i)->update(['valor' => $name]);
 				}
 

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Support\SafeUpload;
 
 class PerfilController extends Controller
 {
@@ -61,8 +62,13 @@ class PerfilController extends Controller
     }
 
     public function update_password(Request $request){
+            if (! is_string($request->password) || ! preg_match('/^(?=.*[A-Za-z])(?=.*\d).{8,}$/', $request->password)) {
+                return response()->json(['message' => 'La contraseña debe tener al menos 8 caracteres, una letra y un número.']);
+            }
+            if ($request->password !== $request->password_confirmation) {
+                return response()->json(['message' => 'La confirmación de la contraseña no coincide.']);
+            }
 
-        
             if (Hash::check($request->mypassword, Auth::user()->password)){
                 $user = new User;
                 $user->where('id', '=', Auth::user()->id)
@@ -94,7 +100,7 @@ class PerfilController extends Controller
                    $user->img = $data->file('foto')->store('public/procesos/foto_users');
                    $user->save();
                } else {
-                   Storage::delete($user->img); // eliminar archivo ya cargado
+                   SafeUpload::delete($user->img); // eliminar archivo ya cargado
                    $user->img = $data->file('foto')->store('public/procesos/foto_users');
                    $user->save();
                }
@@ -127,12 +133,18 @@ class PerfilController extends Controller
 
     public function actualizarexperiencia(Request $data){
         
-        $Exper = ExperienciaLabUser::find($data->id);
+        $Exper = ExperienciaLabUser::where('id', $data->id)->where('user_id', auth()->id())->first();
+        if (! $Exper) {
+            return response()->json(['error' => 'No encontrado'], 404);
+        }
         
         if($data->file('archivo_experiencia')){
-            $q= ExperienciaLabUser::find($data->id);
-            Storage::delete($q->archivo); //eliminar archivo ya cargado
-            $Exper->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
+            $file = $data->file('archivo_experiencia');
+            if ($error = \App\Support\SafeUpload::pdfError($file)) {
+                return response()->json(['error' => $error], 400);
+            }
+            SafeUpload::delete($Exper->archivo);
+            $Exper->archivo = $file->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
             $Exper->archivo_tipo = "local";
         }
 
@@ -188,7 +200,14 @@ class PerfilController extends Controller
          $el->dias_exp_gen =$data->dias_exp_gen;
          $el->dias_exp_esp = $data->dias_exp_esp;
  
-         $el->archivo = $data->file('archivo_experiencia')->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
+         $archivoExperiencia = $data->file('archivo_experiencia');
+         if (! $archivoExperiencia) {
+            return response()->json(['error' => 'Debe adjuntar el archivo PDF de la experiencia.'], 400);
+         }
+         if ($error = \App\Support\SafeUpload::pdfError($archivoExperiencia)) {
+            return response()->json(['error' => $error], 400);
+         }
+         $el->archivo = $archivoExperiencia->store('public/procesos/users/'.auth()->user()->dni.'/arch_exper');
          $el->archivo_tipo = "local";
          
          $el->save();
@@ -214,7 +233,7 @@ class PerfilController extends Controller
      public function eliminarexperiencia(Request $data){
         
         $q= ExperienciaLabUser::find($data->id);
-        Storage::delete($q->archivo);   
+        SafeUpload::delete($q->archivo);   
         
         $Exper = ExperienciaLabUser::find($data->id);
         $Exper->delete();

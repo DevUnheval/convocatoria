@@ -23,11 +23,11 @@ Route::get('/', 'ConvocatoriaController@vigentes')->name('index');
 Auth::routes(['verify' => true]);
 Route::get('postulante', 'postulante\PostulanteController@index')->middleware('verified')->name('postulante_inicio');
 Route::get('registro', 'UsuarioController@index')->name('registro_usuario');
-Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post');
-Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec');//camboar a post
+Route::post('registro_post', 'UsuarioController@registrar')->name('registro_usuario_post')->middleware('throttle:10,1');
+Route::get('/api_reniec/{dni}/dni','UsuarioController@api_reniec')->where('dni', '[0-9]{8}')->middleware('throttle:20,1');
 
 Route::get('login', function(){return Auth::check() ? redirect()->route('index') : view('auth.login');})->name('login');
-Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso');
+Route::post('validaracceso', 'Auth\LoginController@login')->name('validaracceso')->middleware('throttle:5,1');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout')->middleware(['auth']);
 Route::get('perfil', 'Auth\PerfilController@index')->name('perfil')->middleware(['auth','verified']);
  //JOSE AQUI TUS RUTAS
@@ -51,13 +51,13 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('zipuser/{id}', 'maestro\UsuarioController@zipCreateAndDownloadUser')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zipuser')->middleware(['auth','Administrador']);
         Route::get('zippostu/{id}', 'maestro\UsuarioController@zipCreateAndDownloadPostu')->where(['id' => '[0-9]+'])->name('maestro.usuarios.zippostu')->middleware(['auth','Administrador']);  
 
-        Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data');  
+        Route::get('data', 'maestro\UsuarioController@data')->name('maestro.usuarios.data')->middleware(['auth','Administrador']);  
     }); 
     Route::group(['prefix' => 'procesos'], function(){
         Route::get('/', 'maestro\ProcesoController@index')->name('maestro.proceso.index')->middleware(['auth']);
         Route::post('update/{id}', 'maestro\ProcesoController@update')->where(['id' => '[0-9]+'])->name('maestro.proceso.update')->middleware(['auth','Administrador']);  
         Route::post('store', 'maestro\ProcesoController@store')->name('maestro.proceso.store')->middleware(['auth','Comisionado']);  
-        Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data');  
+        Route::get('data', 'maestro\ProcesoController@data')->name('maestro.proceso.data')->middleware(['auth']);  
         Route::get('editar/{id}', 'maestro\ProcesoController@edit')->where(['id' => '[0-9]+'])->name('maestro.proceso.editar')->middleware(['auth','Administrador']);  
         
     }); 
@@ -65,12 +65,12 @@ Route::group(['prefix' => 'maestro'], function(){
         Route::get('/', 'maestro\FormacionController@index')->name('maestro.formacion.index')->middleware(['auth']); 
         Route::post('update/{id}', 'maestro\FormacionController@update')->where(['id' => '[0-9]+'])->name('maestro.formacion.update')->middleware(['auth','Administrador']); 
         Route::post('store', 'maestro\FormacionController@store')->name('maestro.formacion.store')->middleware(['auth','Comisionado']);  
-        Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data');  
+        Route::get('data', 'maestro\FormacionController@data')->name('maestro.formacion.data')->middleware(['auth']);  
         Route::get('editar/{id}', 'maestro\FormacionController@edit')->where(['id' => '[0-9]+'])->name('maestro.formacion.editar')->middleware(['auth','Administrador']); 
     });
     Route::group(['prefix' => 'reportes'], function(){
         Route::get('/', 'maestro\ReportesController@index')->name('maestro.reportes.index')->middleware(['auth']); 
-        Route::get('reporteganadores/{fecha}', 'maestro\ReportesController@descargaGanadores')->where(['id' => '[0-9]+'])->name('maestro.reportes.reporteganadores')->middleware(['auth','Administrador']);  
+        Route::get('reporteganadores/{fecha}', 'maestro\ReportesController@descargaGanadores')->where('fecha', '[0-9]{4}-[0-9]{2}-[0-9]{2}')->name('maestro.reportes.reporteganadores')->middleware(['auth','Administrador']);  
     }); 
 });
 
@@ -193,19 +193,26 @@ Route::group(['prefix' => 'reportes'], function(){
     Route::get('postulantes/{id_proceso}', 'ReportesController@descargar_postulantes')->name('reporte.postulantes')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
     Route::get('postulantes/{id_proceso}/view', 'ReportesController@descargar_postulantes_view')->name('reporte.postulantes.view')->where(['id_proceso'=>'[0-9]+'])->middleware(['auth','Comisionado']);
 });
-Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+'])->name('reportes.preliminar');
+Route::get('preliminar/{id}/{tipo}', 'ReportesController@preliminar')->where(['id'=>'[0-9]+']);
 
 Route::post("ruta_temporal/{proceso_id}",function($proceso_id){
-    session()->put('ruta_temporal', route("postulante_postular",$proceso_id) );
-});
+    session()->put('ruta_temporal', route("postulante_postular", (int) $proceso_id));
+})->where('proceso_id', '[0-9]+')->middleware('throttle:30,1');
 
-//rutas px verificación
-Route::get("actualizar_estados","ConvocatoriaController@actualizar_estados_vigentes_y_enCruso");
+Route::get("actualizar_estados","ConvocatoriaController@actualizar_estados_vigentes_y_enCruso")->middleware(['auth','Administrador']);
 Route::get("redirect",function(Request $r){
-    if(!$r->ruta) $r->ruta = 'index';
-    if(!$r->color) $r->color = 'rojo';
-    if(!$r->mensaje) $r->mensaje = 'Algo salió mal';
-    return redirect()->route($r->ruta)->with($r->color, $r->mensaje);
-});
+    $ruta = (string) $r->input('ruta', 'index');
+    $color = (string) $r->input('color', 'rojo');
+    $mensaje = strip_tags((string) $r->input('mensaje', 'Algo salió mal'));
+
+    if (! preg_match('/^[A-Za-z0-9._-]{1,80}$/', $ruta) || ! Route::has($ruta)) {
+        $ruta = 'index';
+    }
+    if (! preg_match('/^[A-Za-z]{1,20}$/', $color)) {
+        $color = 'rojo';
+    }
+
+    return redirect()->route($ruta)->with($color, mb_substr($mensaje, 0, 500));
+})->middleware('throttle:30,1');
 
 

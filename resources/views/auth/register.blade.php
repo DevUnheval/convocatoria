@@ -140,7 +140,8 @@
                                             </div>
                                             <div class="form-group mb-3 ">
                                                 <div class="col-xs-12">
-                                                    <input class="form-control" type="password" required id="password" name="password" placeholder="Contraseña" >
+                                                    <input class="form-control" type="password" required id="password" name="password" placeholder="Contraseña" minlength="8">
+                                                    <small class="text-muted">Mínimo 8 caracteres, con al menos una letra y un número.</small>
                                                     <div class="invalid-feedback">
                                                         Complete este campo
                                                     </div>

@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 class TestTask extends Command
 {
+    private $api;
     /**
      * The name and signature of the console command.
      *

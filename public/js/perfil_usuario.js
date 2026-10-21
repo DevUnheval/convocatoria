@@ -687,6 +687,14 @@ $("#tipo_capacitacion").on('change',function(){
         },
         success:function(data){
             
+            if(data && data.message){
+                Swal.fire({
+                    type: 'warning',
+                    title: data.message,
+                    timer: null
+                })
+                return;
+            }
             if(data){
                 Swal.fire({
                     position: 'top-end',

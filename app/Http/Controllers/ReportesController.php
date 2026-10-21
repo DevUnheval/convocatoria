@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Support\SafeUpload;
 use App\Exports\ProcesosExport;
 use App\Proceso;
 
@@ -15,6 +16,7 @@ use LynX39\LaraPdfMerger\Facades\PdfMerger;
 
 class ReportesController extends Controller
 {
+    protected $api;
     public function __construct()
     {
         $this->api= app(\App\Http\Controllers\PostulantesController::class);
@@ -215,7 +217,7 @@ class ReportesController extends Controller
         $pdfMerger->merge(); //For a normal merge (No blank page added)
         // borramos los archivos temporales
         foreach($this->archivos_temporales as $temp){
-           Storage::delete($temp);
+           SafeUpload::delete($temp);
         }
 
         //$guesser = new RegexGuesser();
@@ -273,7 +275,7 @@ class ReportesController extends Controller
         $pdfMerger->merge(); //For a normal merge (No blank page added)
         // borramos los archivos temporales
         foreach($this->archivos_temporales as $temp){
-           Storage::delete($temp);
+           SafeUpload::delete($temp);
         }
 
         //$guesser = new RegexGuesser();
@@ -332,7 +334,7 @@ class ReportesController extends Controller
         $pdfMerger->merge(); //For a normal merge (No blank page added)
         // borramos los archivos temporales
         foreach($this->archivos_temporales as $temp){
-           Storage::delete($temp);
+           SafeUpload::delete($temp);
         }
 
         //$guesser = new RegexGuesser();

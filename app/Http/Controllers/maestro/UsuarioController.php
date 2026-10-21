@@ -15,6 +15,8 @@ use DB;
 
 class UsuarioController extends Controller
 {
+    protected $data_null;
+
     public function __construct()
     {
         $this->data_null='{
@@ -197,183 +199,102 @@ class UsuarioController extends Controller
 
     public function zipCreateAndDownload($id)
     {
-        
-        //$datopostulante = Postulante::where('user_id','=',$id)->first();
-        $datopostulante = DB::select("SELECT max(p.id) as id FROM postulantes p 
-        inner join datos_postulantes dp
-        on p.id = dp.postulante_id
-        where p.user_id = '$id'");
-        //dd($datopostulante);    
-        //$name_archivo = $request->nombre_carpeta;
-        $zip_file = 'cv_postulante.zip'; 
-        //$zip_file = $id.'.zip';   
-        $zip = new ZipArchive;
-        if($datopostulante[0]->id >= 1)
-        {
+        $datopostulante = DB::selectOne(
+            'SELECT max(p.id) as id FROM postulantes p INNER JOIN datos_postulantes dp ON p.id = dp.postulante_id WHERE p.user_id = ?',
+            [(int) $id]
+        );
 
-            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
-            {
-                
-                //$files = File::files(storage_path('app\public\procesos\postulantes'));
-                //$origen = storage_path('app/public/procesos/postulantes/10');
-                $origen = storage_path('app/public/procesos/postulantes/'.$datopostulante[0]->id);
-            
-                $files = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($origen),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                );
-            
-                //$rutafinal = str_replace("public","storage",$files);
-            
-
-                /*foreach($files as $key => $value){
-                    $relativeName = basename($value);
-                    $zip->addFile($value,$relativeName);
-                }*/
-                foreach ($files as $name => $file)
-                {
-                    if (!$file->isDir())
-                    {
-                        $filePath = $file->getRealPath();
-                        $relativePath = substr($filePath, strlen($origen) + 1);
-
-                        $zip->addFile($filePath, $relativePath);
-                    }
-                }
-                $zip->close();
-                //dd($files);
-                
-            }
-        }else{
-
+        if (! $datopostulante || (int) $datopostulante->id < 1) {
+            abort(404);
         }
 
-        if($files==TRUE){
-            return response()->download(public_path($zip_file));
-        }
-       
+        return $this->downloadDirectoryZip(
+            storage_path('app/public/procesos/postulantes/'.(int) $datopostulante->id),
+            'cv_postulante.zip'
+        );
     }
 
     public function zipCreateAndDownloadPostu($id)
     {
-        
-        //$datopostulante = Postulante::where('user_id','=',$id)->first();
-        /*$datopostulante = DB::select("SELECT max(p.id) as id FROM postulantes p 
-        inner join datos_postulantes dp
-        on p.id = dp.postulante_id
-        where p.user_id = '$id'");*/
-        //dd($datopostulante);    
-        //$name_archivo = $request->nombre_carpeta;
-        $zip_file = 'cv_postulante.zip'; 
-        //$zip_file = $id.'.zip';   
-        $zip = new ZipArchive;
-        if($id >= 1)
-        {
-
-            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
-            {
-                
-                //$files = File::files(storage_path('app\public\procesos\postulantes'));
-                //$origen = storage_path('app/public/procesos/postulantes/10');
-                $origen = storage_path('app/public/procesos/postulantes/'.$id);
-            
-                $files = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($origen),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                );
-            
-                //$rutafinal = str_replace("public","storage",$files);
-            
-
-                /*foreach($files as $key => $value){
-                    $relativeName = basename($value);
-                    $zip->addFile($value,$relativeName);
-                }*/
-                foreach ($files as $name => $file)
-                {
-                    if (!$file->isDir())
-                    {
-                        $filePath = $file->getRealPath();
-                        $relativePath = substr($filePath, strlen($origen) + 1);
-
-                        $zip->addFile($filePath, $relativePath);
-                    }
-                }
-                $zip->close();
-                //dd($files);
-                
-            }
-        }else{
-
+        $id = (int) $id;
+        if ($id < 1) {
+            abort(404);
         }
 
-        if($files==TRUE){
-            return response()->download(public_path($zip_file));
-        }
-       
+        return $this->downloadDirectoryZip(
+            storage_path('app/public/procesos/postulantes/'.$id),
+            'cv_postulante.zip'
+        );
     }
 
     public function zipCreateAndDownloadUser($id)
     {
-        
-        /*$datouser = DB::select("SELECT max(p.id) as id FROM postulantes p 
-        inner join datos_postulantes dp
-        on p.id = dp.postulante_id
-        where p.user_id = '$id'");*/
+        $datouser = DB::selectOne('SELECT dni FROM users WHERE id = ?', [(int) $id]);
+        $dni = (string) ($datouser->dni ?? '');
 
-        $datouser = DB::select("SELECT dni FROM users where id = '$id' ");
-
-        //dd($datopostulante);    
-        //$name_archivo = $request->nombre_carpeta;
-        $zip_file = 'cv_user.zip'; 
-        //$zip_file = $id.'.zip';   
-        $zip = new ZipArchive;
-        if($datouser[0]->dni >= 1)
-        {
-
-            if($zip->open(public_path($zip_file),ZipArchive::CREATE | ZipArchive::OVERWRITE)==TRUE)
-            {
-                
-                //$files = File::files(storage_path('app\public\procesos\postulantes'));
-                //$origen = storage_path('app/public/procesos/postulantes/10');
-                $origen = storage_path('app/public/procesos/users/'.$datouser[0]->dni);
-            
-                $files = new \RecursiveIteratorIterator(
-                    new \RecursiveDirectoryIterator($origen),
-                    \RecursiveIteratorIterator::LEAVES_ONLY
-                );
-            
-                //$rutafinal = str_replace("public","storage",$files);
-            
-
-                /*foreach($files as $key => $value){
-                    $relativeName = basename($value);
-                    $zip->addFile($value,$relativeName);
-                }*/
-                foreach ($files as $name => $file)
-                {
-                    if (!$file->isDir())
-                    {
-                        $filePath = $file->getRealPath();
-                        $relativePath = substr($filePath, strlen($origen) + 1);
-
-                        $zip->addFile($filePath, $relativePath);
-                    }
-                }
-                $zip->close();
-                //dd($files);
-                
-            }
-        }else{
-
+        if (! preg_match('/^\d{6,12}$/', $dni)) {
+            abort(404);
         }
 
-        if($files==TRUE){
-            return response()->download(public_path($zip_file));
-        }
-       
+        return $this->downloadDirectoryZip(
+            storage_path('app/public/procesos/users/'.$dni),
+            'cv_user.zip'
+        );
     }
-    
+
+    private function downloadDirectoryZip(string $directory, string $downloadName)
+    {
+        $absoluteDir = realpath($directory);
+        $base = realpath(storage_path('app/public/procesos'));
+        $basePrefix = $base ? rtrim($base, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR : null;
+
+        if ($absoluteDir === false || $basePrefix === null || ! str_starts_with($absoluteDir.DIRECTORY_SEPARATOR, $basePrefix) || ! is_dir($absoluteDir)) {
+            abort(404);
+        }
+
+        if (! class_exists(\ZipArchive::class)) {
+            abort(500, 'La extensión ZIP de PHP no está habilitada.');
+        }
+
+        $tmp = storage_path('app/tmp');
+        if (! is_dir($tmp)) {
+            mkdir($tmp, 0750, true);
+        }
+
+        $zipPath = $tmp.DIRECTORY_SEPARATOR.uniqid('cv_', true).'.zip';
+        $zip = new ZipArchive;
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+            abort(500, 'No se pudo generar el archivo.');
+        }
+
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($absoluteDir, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::LEAVES_ONLY
+        );
+        $added = false;
+
+        foreach ($files as $file) {
+            if ($file->isDir()) {
+                continue;
+            }
+            $filePath = $file->getRealPath();
+            if ($filePath === false || ! str_starts_with($filePath, $absoluteDir)) {
+                continue;
+            }
+            $zip->addFile($filePath, substr($filePath, strlen($absoluteDir) + 1));
+            $added = true;
+        }
+
+        $zip->close();
+
+        if (! $added) {
+            @unlink($zipPath);
+            abort(404);
+        }
+
+        return response()->download($zipPath, $downloadName)->deleteFileAfterSend(true);
+    }
+
     public function update(Request $r, $id)
     {
         $r->validate([
@@ -413,7 +334,12 @@ class UsuarioController extends Controller
             }
         }
 
-        if ($r->password != "") {
+        if ($r->filled('password')) {
+            $r->validate([
+                'password' => ['string', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'],
+            ], [
+                'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una letra y un número.',
+            ]);
             LogCambioUsuario::create([
                 'admin_id' => $adminId,
                 'user_id' => $q->id,

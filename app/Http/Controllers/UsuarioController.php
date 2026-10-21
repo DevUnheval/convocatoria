@@ -31,12 +31,19 @@ class UsuarioController extends Controller
     {
           $v = Validator::make($request->all(), [
             'dni' =>'required|unique:users',
-            'email' =>'required|unique:users',
-            'password' =>'required|confirmed|min:8',
+            'email' =>'required|unique:users|email',
+            'password' => ['required', 'confirmed', 'min:8', 'regex:/^(?=.*[A-Za-z])(?=.*\d).+$/'],
+        ], [
+            'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una letra y un número.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ]);
 
         if ($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
+        if (! preg_match('/^\d{8}$/', (string) $request->dni)) {
+            return redirect()->back()->withInput()->withErrors(['dni' => 'El DNI debe tener 8 dígitos.']);
         }  
                 
         $Usuario = new User();
@@ -71,8 +78,11 @@ class UsuarioController extends Controller
     
     public function api_reniec($dni)
     {
-        //var_dump (openssl_get_cert_locations ());
-         $respuesta = Http::get('https://api.reniec.cloud/dni/'.$dni);
+        if (! preg_match('/^\d{8}$/', (string) $dni)) {
+            return response()->json(['error' => 'DNI inválido'], 422);
+        }
+
+         $respuesta = Http::timeout(8)->get('https://api.reniec.cloud/dni/'.$dni);
          //$respuesta->throw();
          if (array_key_exists('dni',  $respuesta->json() )) {
             return [
