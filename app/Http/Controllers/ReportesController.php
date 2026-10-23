@@ -11,7 +11,7 @@ use App\Proceso;
 use PDF; 
 use App\Postulante;
 use DB;
-use LynX39\LaraPdfMerger\Facades\PdfMerger;
+use LynX39\LaraPdfMerger\PdfManage;
 // use Xthiago\PDFVersionConverter\Guesser\RegexGuesser;
 
 class ReportesController extends Controller
@@ -202,7 +202,7 @@ class ReportesController extends Controller
         Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
         
         $this->archivos_temporales[]=$path_pdf0;
-        $pdfMerger = PDFMerger::init(); 
+        $pdfMerger = new PdfManage(); 
         //agregamos los documentos PDF
         //1. CV
         $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
@@ -239,7 +239,7 @@ class ReportesController extends Controller
         Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
         
         $this->archivos_temporales[]=$path_pdf0;
-        $pdfMerger = PDFMerger::init(); 
+        $pdfMerger = new PdfManage(); 
         //agregamos los documentos PDF
         //1. CV
         $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
@@ -298,7 +298,7 @@ class ReportesController extends Controller
         Storage::put($path_pdf0, $pdf->output()); //almacenamos temporalemte el archivo
         
         $this->archivos_temporales[]=$path_pdf0;
-        $pdfMerger = PDFMerger::init(); 
+        $pdfMerger = new PdfManage(); 
         //agregamos los documentos PDF
         //1. CV
         $pdfMerger->addPDF(storage_path("app/".$path_pdf0) , 'all');
